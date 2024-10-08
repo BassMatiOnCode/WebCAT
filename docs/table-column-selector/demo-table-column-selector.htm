@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-09-15" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-09-15" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-09-15" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="../code/table-styles/flat-borders-1.css" />
+<link rel="stylesheet" href="../code/page-structure/demo-page-1.css" />
+<script type="module" src="../code/page-structure/demo-page-1.js" ></script>
+<link rel="stylesheet" href="../code/table-column-selector/table-column-selector-1.css" />
+<script type="module" src="../code/table-column-selector/table-column-selector-1.js" ></script>
+<link rel="stylesheet" href="/inc/web-cat/context-dialog/context-dialog.css" />
+<script type="module" src="/inc/web-cat/context-dialog/context-dialog.js" ></script>
+
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
+<meta name="tags" content="web, content, autoring, toolbox, HTML, JavaScript, CSS, component, demo, collapsible, table" />
+<title>Web > Content Authoring Toolbox > Collapsible Table Columns</title>
+<meta name="description" content="" />
+
+<style>
+thead td, thead th { text-align : left }
+tbody td { text-align : center }
+tr :first-child { text-align : left }
+</style>
+
+</head><body>
+
+<h1 class="remove-if-hosted">Collapsible Table Columns</h1>
+
+<table class="flat-borders"><thead><tr class="selectable-column-headers" data-context-dialog-id="columnSelectorContextDialog">
+	<td>Feature</td>
+	<th>Phone 1</th>
+	<th>Phone 2</th>
+	<td>Unit</td>
+</tr></thead><tbody><tr>
+	<th colspan="4">Communication</th>
+</tr></tbody><tbody><tr>
+	<th>Bluetooth</th>
+	<td>4.5</td>
+	<td>5.1</td>
+	<td></td>
+</tr><tr>
+	<th>WiFi frequencies</th>
+	<td>2.4, 5</td>
+	<td>2.4, 5, 6.....</td>
+	<td>GHz</td>
+</tr></tbody><tbody><tr>
+	<th colspan="4">Display</th>
+</tr></tbody><tbody><tr>
+	<th>Diagonal</th>
+	<td>6.5</td>
+	<td>6.2</td>
+	<td>inch</td>
+</tr><tr>
+	<th>Pixels</th>
+	<td>10920&times;1080</td>
+	<td>10920&times;1080</td>
+	<td></td>
+</tr><tr>
+	<th>Screen aspect ratio</th>
+	<td>16:9</td>
+	<td>16:9</td>
+	<td></td>
+</tr></tbody></table>
+
+<div class="context-dialog table-column-selector" id="columnSelectorContextDialog"></div>
+
+</body></html>

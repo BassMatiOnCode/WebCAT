@@ -1,0 +1,15 @@
+/* Documentation: /web-cat/css-counter/css-counter.htm */
+
+body { counter-reset : listing-counter figure-counter table-counter caption-counter example-counter definition-counter }
+figure.listing figcaption:before { counter-increment : listing-counter; content : "Listing " counter(listing-counter) ": " ; }
+figure.figure figcaption:before { counter-increment : figure-counter; content : "Figure " counter(figure-counter) ": " ; }
+figure.syntax figcaption:before { counter-increment : syntax-counter; content : "Syntax " counter(syntax-counter) ": " ; }
+figure.table figcaption:before { counter-increment : table-counter; content : "Table " counter(table-counter) ": " ; }
+figure.example figcaption:before { counter-increment : example-counter; content : "Example " counter(example-counter) ": " ; }
+table > caption.autonum:before { counter-increment : caption-counter ; content : "Table " counter(caption-counter) ": " ; }
+div.definition figcaption:before { counter-increment : definition-counter; content : "Definition " counter(definition-counter) ; }
+
+ol.instructions, ol.instructions ol { list-style-type : none ; counter-reset : instruction-counter ; padding-left : 20px }
+ol.continue { counter-reset : none }
+ol.instructions > li:before, ol.instructions ol > li:before{  counter-increment : instruction-counter; content : counters(instruction-counter, ".")  ". " ; }
+ol.instructions { padding-left : 0px }

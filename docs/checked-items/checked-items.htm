@@ -1,0 +1,195 @@
+﻿<!DOCTYPE html>
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-08-07" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-08-14" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-08-14" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="/inc/web-cat/page-structure/tutorial-page-1.css" />
+<script type="module" src="/inc/web-cat/page-structure/tutorial-page-1.js" ></script>
+ <link rel="stylesheet" href="/inc/web-cat/unicode-characters/unicode-characters-1.css" />
+<link rel="stylesheet" href="/inc/web-cat/content-height-observer/content-height-observer-1.css" />
+<script type="module" src="/inc/web-cat/content-height-observer/content-height-observer-1.js" ></script>
+
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
+<meta name="tags" content="project, programming, web, JavaScript, CSS, HTML, toolbox, checkbox, checked, list, OL, UL, LI" />
+<title>Web Content Authoring Toolbox > Checked List Items</title>
+<meta name="description" content="When humans work through some kind of printed instruction list, they often record progress with tickmarks, in order not to skip steps unintentionally. The <tt>checked-items</tt> component decorates items of ordered and unordered lists with checkboxes to provide such a feature in HTML documents." />
+
+</head><body>
+
+<h1>Checked List Items</h1>
+
+<p id="pageAbstract"></p>
+
+<p>The progress can easily be saved between sessions in the browser's local storage with the help of the WebCAT <a href="../pate-persistence/page-persistence.htm">page-persistence</a> component.</p>
+
+
+<figure class="demo">
+<figcaption>An unordered list with checked items</figcaption>
+<iframe class="content-height-observed" src="test-1.htm"></iframe>
+</figure>
+
+<figure class="demo">
+<figcaption>An ordered list with checked items</figcaption>
+<iframe class="content-height-observed" src="test-4.htm"></iframe>
+</figure>
+
+<h2 cbc>Usage</h2><div>
+
+<p>To use this component in an HTML document, add a LINK and a SCRIPT element:</p>
+
+<figure class="listing">
+<figcaption>Preprocessing Tree Structures</figcaption>
+<pre>
+&lt;<hi>link</hi> rel="stylesheet" href="path/to/<hi>checked-items-1.css</hi>" /&gt;
+&lt;<hi>script</hi> type="module" src="path/to/<hi>checked-items-1.js</hi>" &gt;&lt;/script&gt;
+</pre>
+</figure>
+
+<p>If the WebCAT <a href="../fragment-loader/fragment-loader.htm">fragment loader</a> is used to integrate external HTML documents into the page, it might be useful to schedule the <tt>init()</tt> call on the <tt>fragment-loading-complete</tt> event, which is dispatched to the <tt>document</tt> element:</p>
+
+<figure class="listing">
+<figcaption>Preprocessing Tree Structures</figcaption>
+<pre>
+&lt;script type="module" src="path/to/checked-items-1.js?<hi>init-event-name=fragment-loading-complete</hi>" &gt;&lt;/script&gt;
+</pre>
+</figure>
+
+<p>Then decorate the UL or OL elements with the classname <tt>checked-items</tt>:</p>
+
+<figure class="listing">
+<figcaption>Preprocessing Tree Structures</figcaption>
+<pre>
+&lt;ul class="<hi>checked-items</hi>"&gt; ... &lt;/ul&gt;
+&lt;ol class="<hi>checked-items</hi>"&gt; ... &lt;/ol&gt;
+</pre>
+</figure>
+
+<p>If you have tree structures built with nested lists, decorate the root element with the classname <tt>checked-items-inherit</tt>:</p>
+
+<figure class="listing">
+<figcaption>Preprocessing Tree Structures</figcaption>
+<pre>
+&lt;ul class="<hi>checked-items-inherit</hi>"&gt; ... &lt;/ul&gt;
+&lt;ol class="<hi>checked-items-inherit</hi>"&gt; ... &lt;/ol&gt;
+</pre>
+</figure>
+
+<p>The preprocessor will walk through the tree structures and decorate all nested list elements with the <tt>checked-items</tt> classname. This saves a lot of typing.</p>
+
+<p>Nested list that should <em>not</em> get checkboxes must be decorated with the classname "no-checked-items".</p>
+
+<p>Note that you can mix UL and OL elements in tree structures.</p>
+
+<!--h2--Usage--></div>
+
+<h2 cbc>More Examples</h2><div>
+
+
+<figure class="demo">
+<figcaption>A top-level checked items list</figcaption>
+<iframe class="content-height-observed" src="test-2.htm"></iframe>
+</figure>
+
+<figure class="demo">
+<figcaption>A tree structure with checked items</figcaption>
+<iframe class="content-height-observed" src="test-3.htm"></iframe>
+</figure>
+
+<figure class="demo">
+<figcaption>Top-level checked and numbered items</figcaption>
+<iframe class="content-height-observed" src="test-5.htm"></iframe>
+</figure>
+
+<figure class="demo">
+<figcaption>Tree structure with checked and numbered items</figcaption>
+<iframe class="content-height-observed" src="test-6.htm"></iframe>
+</figure>
+
+<figure class="demo">
+<figcaption>Tree structure with mixed OLs and ULs</figcaption>
+<iframe class="content-height-observed" src="test-7.htm"></iframe>
+</figure>
+
+<figure class="demo">
+<figcaption>Tree structure with mixed ULs and OLs</figcaption>
+<iframe class="content-height-observed" src="test-8.htm"></iframe>
+</figure>
+
+<!--h2--More Examples--></div>
+
+<h2 cbc>Implementation</h2><div>
+
+
+<h3 cbc>Script Code</h3><div>
+
+<p>The <tt>root</tt> setting in the module URL query string determines which container element will be processed:</p>
+
+<figure class="listing">
+<figcaption></figcaption>
+<pre>
+export function init( searchparams = new URLSearchParams( )) {
+	const root = searchparams.get( "root" ) || document.body ;
+	...
+	}
+</pre>
+</figure>
+
+<p>The first step preprocesses the root element of tree structures decorated with the classname "checked-items-inherit". The classname is replaced with the classname "checked-items". The script decorates the root element and the nested list elements (OL, UL) with the classname "checked-items".</p>
+
+<p>List elements that are decorated with the classname "no-checked-items" are skipped. Their list items will not get a checkbox.</p>
+
+<figure class="listing">
+<figcaption>Preprocessing Tree Structures</figcaption>
+<pre>
+<cc>// Step 1 - Preprocess elements decorated with "checked-items-inherit"</cc>
+for ( const element of document.querySelectorAll ( "<hi>.checked-items-inherit</hi>" )) {
+	element.classList.replace( "checked-items-inherit", "checked-items" );
+	for ( const nestedList of element.querySelectorAll ( "UL, OL" )) {
+		if ( nestedList.classList.contains( "<hi>no-checked-items</hi>" )) continue ;
+		nestedList.classList.add( "<hi>checked-items</hi>" );
+	}	}
+</pre>
+</figure>
+
+<p>The second step collects all list element decorated with  "checked-items" and injects a checkbox in front of the text of their list items.</p>
+
+<figure class="listing">
+<figcaption>Processing decorated list elements</figcaption>
+<pre>
+<cc>// Step 2 - Process the items of decorated list elements</cc>
+for ( const element of document.querySelectorAll( ".checked-items > li" )) {
+	const checkbox = document.createElement( "INPUT" );
+	checkbox.type = "checkbox" ;
+	element.insertBefore( checkbox, element.firstChild );
+	}
+</pre>
+</figure>
+
+<!--h3--Script Code--></div>
+
+<h3 cbc>CSS Code</h3><div>
+
+<p>The component needs some CSS to control indentation, list style type and spacing.</p>
+
+<figure class="listing">
+<figcaption>Indentation, list style type and spacing</figcaption>
+<pre>
+ul.checked-items, ol.checked-items > li > ol { padding-left : 20px }
+ul.checked-items > li { list-style-type : none }
+li > input[type="checkbox"]:first-child { margin-right : 10px }
+</pre>
+</figure>
+
+<!--h3--CSS Code--></div>
+ 
+<!--h2--Implementation--></div>
+
+</body></html>

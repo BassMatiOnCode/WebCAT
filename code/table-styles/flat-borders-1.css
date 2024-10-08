@@ -1,0 +1,14 @@
+table.flat-borders { 
+	border : 1px solid silver ;
+	border-collapse : collapse ;
+	}
+
+table.flat-borders  td, th { 
+	border : 1px solid silver ;
+	padding : 0 5px 0 5px ;
+	font-weight : normal ;
+	}
+
+table.flat-borders > tbody.centered-headers th {
+	text-align : center ;
+	}

@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-08-07" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-08-07" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-08-07" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="/inc/web-cat/page-structure/tutorial-page-1.css" />
+<script type="module" src="/inc/web-cat/page-structure/tutorial-page-1.js" ></script>
+ 
+<meta name="categories" content="" />
+<meta name="tags" content="" />
+<title>Web Authoring Toolbox > Publishing Changes</title>
+<meta name="description" content="" />
+
+</head><body>
+
+<h1>Publishing Changes</h1>
+
+<p id="pageAbstract"></p>
+
+<h2 cbc>Method 1: XCopy</h2><div>
+
+<pre>
+cd ...\inc\docs\web-cat
+xcopy /d /s ..\..\..\web-toolbox\code\folder-name folder-name\
+</pre>
+
+<p>The <tt>/u</tt> option copies only files that already exist in the target directory.</p>
+<p>The <tt>/d</tt> option causes only newer files to be copied.</p>
+
+<!--h2-XCopy--></div>
+
+<h2 cbc>Directory Hardlinks (Junctions)</h2><div>
+
+<p>To publish a WTX2 component, create a directory hardlink (junction):</p>
+
+<pre>
+cd ...\inc\docs\web-cat
+mklink /j folder-name ..\..\..\web-toolbox\code\folder-name
+</pre>
+
+<p>Changes in the web-toolbox\code\folder-name are automatically reflected in the corresponding global include folder.</p>
+
+<div class="warning">
+<p>Using hardlinks can lead to unexpected loss of data, especially if you work with multiple junctions to the same folder! If the last junction to a folder is removed, the files and subfolders become inaccessible. Windows Explorer does not issue a warning.</p>
+<p>Using the DOS <tt>del folder-name</tt> command always deletes the files in that folder, regardless how many junctions exist that point to that folder.</p>
+<p>The DOS <tt>rmdir</tt> command deletes a junction without warning, except it it was the last junction. In this case, you get the error message "folder not empty". So the <tt>rmdir</tt> command is considered to be safe.</p>
+</div>
+
+<!--h2--Directory Hardlinks (Junctions)--></div>
+
+<h2 cbc>File Copy</h2><div>
+
+<p>Changes are usually made in the toolbox code folder, then the files are copied to the public include folder. Forgetting to copy the file is easily noticed because changes don't appear in the documents.</p>
+
+<p>Editing files in the global include folder is also possible. Changes immediately appear in the HTML documents. But the developer must remember to copy modified files to the development code folders. This can easily be forgotten&hellip;</p>
+
+<!--h2--File Copy--></div>
+
+<h2 cbc>Merge</h2><div>
+
+<p>A GUI merge tool (WinMerge for example) is perfect for a quick visual check for differences between the global include and the development code folder(s). They can compare entire folder trees and move the changes back an forth.</p>
+
+<!--h2--Merge--></div>
+
+<h2 cbc>Directory Change Watcher</h2><div>
+
+<p>A directory change watcher can automate copying modified files from development code folders to the global include folder. There is a C/C++ project in the pipeline.</p>
+
+<!--h2--Directory Change Watcher--></div>
+
+</body></html>

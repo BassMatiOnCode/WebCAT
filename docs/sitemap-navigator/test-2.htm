@@ -1,0 +1,21 @@
+<html><head>
+
+<meta name="description" content="Demonstrates sitemap path highlighting." />
+
+<script type="module">
+import * as sitemapNavigator from "../code/sitemap-navigator/sitemap-navigator-1.js" ;
+// Define the address of the "current document"
+const address = new URL( "part-3/section-3/chapter-3/document-3.htm", document.location.href );
+for ( const anchor of document.querySelectorAll( "a[data-load-ondemand]" )) anchor.setAttribute( "href" , anchor.href );
+
+// Load missing fragments
+sitemapNavigator.loadSitemapFragments( address.href );
+</script>
+</head><body>
+
+<h1>Test</h1>
+
+<!-- First sitemap fragment link -->
+<a data-load-ondemand href="part-3\toc.htm" ></a>
+
+</body></html>

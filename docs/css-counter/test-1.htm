@@ -1,0 +1,15 @@
+<htm><head>
+<style>
+body { counter-reset : listing-counter figure-counter table-counter ; }
+figcaption.figure:before { 
+	counter-increment : figure-counter ; 
+	content : "Figure " counter( figure-counter ) ": " ; 
+	}</style>
+</head><body>
+<figcaption class="figure">Plus</figcaption>
+<img src="/inc/web-cat/collapsible-structures/orange-plus.svg"/>
+<figcaption class="figure">Minus</figcaption>
+<img src="/inc/web-cat/collapsible-structures/orange-minus.svg"/>
+<figcaption class="figure">Dot</figcaption>
+<img src="/inc/web-cat/collapsible-structures/orange-dot.svg"/>
+</body></htm>

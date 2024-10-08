@@ -1,0 +1,5 @@
+/* Documentation: .../web-cat/checked-items/checked-items.htm */
+
+ul.checked-items, ol.checked-items > li > ol { padding-left : 20px } /* indentation of nested lists */
+ul.checked-items > li { list-style-type : none }  /* no bullets for list items */
+li > input[type="checkbox"]:first-child { margin-right : 10px }  /* space between checkbox and text */

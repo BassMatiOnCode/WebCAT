@@ -1,0 +1,242 @@
+﻿<!DOCTYPE html>
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-08-07" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-10-04" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-10-04" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="/inc/web-cat/page-structure/tutorial-page-1.css" />
+<script type="module" src="/inc/web-cat/page-structure/tutorial-page-1.js" ></script>
+ 
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
+<meta name="tags" content="web, content, autoring, toolbox, HTML, JavaScript, CSS, WebCAT, component" />
+<meta name="description" content="The collapse chapters toolbar button expands or collapses <em>all</em> chapters on the page. This allows to get a quick overview and navigate to the desired part of the document." />
+
+<title>Collapse Chapters Button (Web > Content Authoring Toolbox)</title>
+
+</head><body>
+
+<h1>Collapse Chapters Button</h1>
+
+<p id="pageAbstract"></p>
+
+<p>The demo below shows the button in an improvised toolbar at the top. A click on it expands or collapses all collapsible chapters on the page:</p>
+
+<figure class="demo"><figcaption>Collapse chapters toolbar button demo</figcaption>
+<iframe class="content-height-observed" src="collapse-chapters-button-demo.htm"></iframe>
+</figure>
+
+<p>To get an overview over the document, collapse all chapters. Then you can expand the chapter(s) of interest and quickly navigate to the content you are looking for. The <tt>auto-scroll</tt> feature keeps the topmost visible element in view if you expand all chapters again.</p>
+
+<h2 cbc>Usage</h2><div>
+
+<p>The component comprises of a JavaScript module and a CSS file.</p>
+
+<p>Step 1: Import the component files into the document:</p>
+
+<figure class="listing"><figcaption>Importing the component files</figcaption>
+<pre>
+&lt;<hi>link</hi> rel="stylesheet" href="path/to/<hi>collapse-chapters-button.css</hi>" /&gt;
+&lt;<hi>script</hi> type="module" src="path/to/<hi>collapse-chapters-button.js</hi>" &gt;&lt;/script&gt;
+</pre></figure>
+
+<p>Make sure that you put that after the <a href="../page-toolbar/page-toolbar.htm">page-toolbar</a> component imports, and after the tool button imports that precede this one.</p>
+
+<p>Essentially that's it.</p>
+
+<p>Similarly, in an aggregation script, make sure that the <tt>page-toolbar</tt> script precedes the button modules:</p>
+
+<figure class="listing"><figcaption>Importing toolbar and toolbutton modules</figcaption>
+<pre>
+import "path/to/page-toolbar.js" ;
+import "path/to/button-1.js" ;
+import "path/to/button-2.js" ;
+import "path/to/button-3.js" ;
+import "path/to/<hi>collapse-chapters-button-1.js</hi>" ;
+</pre></figure>
+
+<p>Essentially that's it.</p>
+
+<p>You can add parameters in the query string of the module URL:</p>
+
+<dl>
+<dt>initial-state</dt><dd>
+	<p>Defines the initial state of the button. Possible values are "expanded" and "collapsed". The default value is "expanded".</p></dd>
+</dl>
+
+<!--h2----></div>
+
+<h2 cbc>Implementation</h2><div>
+
+<p>The script module imports the <tt>component-initializer</tt> module and the <tt>appendAnchorButton</tt> function from the <tt>base-anchor-button</tt> module.</p>
+
+<figure class="listing"><figcaption>Importing toolbar and toolbutton modules</figcaption>
+<pre>
+import * as initializer from "../component-initializer/component-initializer-1.js" ;
+import { appendAnchorButton } from "../tool-buttons/base-anchor-button-1.js" ;
+</pre></figure>
+
+<p>The <tt>init()</tt> function appends a new anchor button without URL, so it serves as an "ordinary" button. A postprocessing function is supplied to the <tt>appendAnchorButton()</tt> function call, which sets the initial state of the button:</p>
+
+<figure class="listing"><figcaption>Creating the button element</figcaption>
+<pre>
+export function init ( searchparams = new URLSearchParams( ) ) {
+	const anchor = appendAnchorButton( "collapse-chapters-button.svg" , { 
+		postprocess : ( anchor ) => {
+			console.debug( "postprocessing collapse chapters button." );
+			toggleButtonState ( anchor, searchparams.get( "initial-state" ) || "expanded" );
+		}	} ) ;
+	anchor.setAttribute( "name" , "collapse-chapters" );
+</pre></figure>
+
+<p>The next instruction sets the <tt>name</tt> attribute, which is required to make the CSS work.</p>
+
+<p>Then a click event handler is registered with the button:</p>
+
+<figure class="listing"><figcaption>The click event handler</figcaption>
+<pre>
+	anchor.addEventListener( "click" , evt => {
+		evt.preventDefault( );
+		evt.stopPropagation( );
+		<cc>// Compile a selector for chapter controllers in the current state</cc>
+		const currentState = evt.currentTarget.getAttribute( "data-state" );
+		toggleButtonState( anchor );
+		let selectors = [ ] ;
+		for ( let i = 1 ; i <= 5 ; i += 1 ) selectors.push( `H${i}[data-collapsible-state="${currentState}"]` );
+		<cc>// Dispatch a click event to matching chapter controllers</cc>
+		const event = new Event( "click" , { bubbles : true } );
+		event.offsetX = -10 ; 
+		for ( const controller of (document.querySelector( "MAIN" ) || document.body ).querySelectorAll( selectors.toString( ))) {
+			controller.dispatchEvent( event );
+	}	} ) }
+</pre></figure>
+
+<p>The first step compiles an array with selectors for the chapter controllers, heading elements H1...H5. Then the content container element is determined, it is usually the <tt>MAIN</tt> element or the document body. Then <tt>querySelectorAll()</tt> is called on that element to collect the chapter controllers that are in the specified state. A <tt>for...of</tt> loop then dispatches a click event to them, which changes their state to either "expanded" or "collapsed".</p>
+
+<p>The button state is changed with the following function:</p>
+
+<figure class="listing"><figcaption>Toggling the button state</figcaption>
+<pre>
+function toggleButtonState ( anchor, state=undefined ) {
+	state = state || ( anchor.getAttribute( "data-state" ) === "expanded" ? "collapsed" : "expanded" ) ;
+	anchor.setAttribute( "data-state" , state );
+	return state ;
+</pre></figure>
+
+<p>The optional state argument can be set to "collapsed" or "expanded" to force a specific button state (similar to the <tt>htmlElement.setAttribute()</tt> function). If undefined, the new state is derived from the current state of the anchor.</p>
+
+
+<p>A CSS rule changes the stroke color of the vertical bar of the plus sign, thereby changing it visually to a minus sign:</p>
+
+<figure class="listing"><figcaption>Switching between plus and minus</figcaption>
+<pre>
+a[name="collapse-chapters"][data-state="expanded"] > svg #vertical-bar { 
+	stroke : white 
+	}
+</pre></figure>
+
+<p>The <tt>{name]</tt> and <tt>[data-state]</tt> attribute specifiers ensure that only the <tt>collapse-chapters</tt> button in the <tt>expanded</tt> state is affected by the rule.</p>
+
+<p>To clarify this, here's the SVG code for the button:</p>
+
+
+<figure class="listing"><figcaption>Toggling the button state</figcaption>
+<pre>
+&lt;svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="-50 -50 100 100" width="30" height="30"&gt;
+	&lt;g stroke="darkorange" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="white"&gt;
+	&lt;circle cx="0" cy="0" r="45"&gt;&lt;/circle&gt;
+	&lt;line id="<hi>vertical-bar</hi>" y1="-25" y2="25"&gt;&lt;/line&gt;
+	&lt;line x1="-25" x2="25"&gt;&lt;/line&gt;
+	&lt;/g&gt;
+	&lt;/svg&gt;
+</pre></figure>
+
+<h3 cbc>Auto-Scroll Feature</h3><div>
+
+<p>If you expand all chapters, the currently visible text will very likely slide out view. This is caused by expanding elements above the topmost visible element, pushing the content down. The <tt>auto-scroll</tt> feature corrects that.</p>
+
+<p>The first step is to determine the value for <tt>scrollMarginTop</tt>:</p>
+
+<figure class="listing"><figcaption>Scroll margin top setting</figcaption>
+<pre>
+const settings = {
+	<hi>autoscrollMarginTop</hi> : undefined  // bottom edge of main toolbar, used for auto-scrolling
+	} ;
+</pre></figure>
+
+<p>It is the vertical distance of the bottom border of the main toolbar from the window top:</p>
+
+<figure class="listing"><figcaption>Finding the scroll margin top</figcaption>
+<pre>
+	settings.autoscrollMarginTop = settings.autoscrollMarginTop || parseInt(searchparams.get( "<hi>autoscroll-margin-top</hi>" )) ;
+	if ( ! settings.autoscrollMarginTop ) {
+		const element = document.querySelector( "<hi>MAIN</hi>" )?.previousElementSibling || <hi>mainToolbar</hi> ;
+		if ( element ) settings.autoscrollMarginTop = element.scrollTop + element.offsetHeight ;
+		else settings.autoscrollMarginTop = 0 ;
+		}
+</pre></figure>
+
+<p>A design-time fixed value can be supplied via module URL query string parameters. Alternatively, the value is determined from the element that precedes the MAIN content container, which is usually the <tt>#mainToolbar</tt>.</p>
+
+<p>Before click events are dispatched to the expandable chapter controllers, the topmost visible element must be determined. For this purpose, the elements on the page are inspected for their distance from the top of the window. The inspection is done in reverse order, from bottom to top, because elements further up in the document might intersect the visible viewport, but actually are hidden by an overflow style setting of a parent element. These false positives can be avoided if the search starts from the bottom:</p>
+
+<figure class="listing"><figcaption>Searching for the first visible element in the viewport</figcaption>
+<pre>
+		<cc>// If expanding, store a reference to the first visible element</cc>
+		let <hi>firstVisibleElement</hi> ;
+		if ( currentState === "collapsed" ) {
+			<cc>// Loop through elements (important: from the bottom to top!)</cc>
+			for ( const element of Array.from(( mainContent || document.body).querySelectorAll( "*" )).<hi>reverse</hi>( )) {
+				if ( element.getBoundingClientRect().top < settings.offsetTop ) { 
+					<cc>// Element is at least partially hidden by the toolbar</cc>
+					<hi>firstVisibleElement</hi> = element ; 
+					firstVisibleElement.style.scrollMarginTop = `${firstVisibleElement.getBoundingClientRect().top}px` ;
+					<hi>break</hi> ;
+			}	}	}
+</pre></figure>
+
+<p>The first element with a <tt>getBoundingClientRect().top</tt> smaller than <tt>settings.offsetTop</tt> is stored. Additionally, the <tt>style.scrollMarginTop</tt> is set to that value. This should keep or move the element in its current position.</p>
+
+<p>Then, click events are dispatched to the collapsed chapter controllers, which will cause the chapter content containers to start expanding:</p>
+
+<figure class="listing"><figcaption>Expanding chapters</figcaption>
+<pre>
+		for ( const controller of controllers ) controller.dispatchEvent( event );
+</pre></figure>
+
+<p>A transition end event handler is attached to the last controller in the list:</p>
+
+<figure class="listing"><figcaption>Expanding chapters</figcaption>
+<pre>
+		if ( <hi>firstVisibleElement</hi> ) controllers[ controllers.length - 1 ].addEventListener( "transitionend" , <hi>transitionEndHandler</hi> );
+</pre></figure>
+
+<p>The event handler is called if the last chapter container finished its height transition:</p>
+
+<figure class="listing"><figcaption>Expanding chapters</figcaption>
+<pre>
+		function <hi>transitionEndHandler</hi> ( ) {
+			requestAnimationFrame ( ( ) => 
+			requestAnimationFrame ( ( ) => {
+			firstVisibleElement.<hi>scrollIntoView</hi>( { behavior : "smooth" } ) ;
+			firstVisibleElement.style.<hi>removeProperty</hi>( "scrollMarginTop" ) ;
+			controllers[ controllers.length - 1 ].<hi>removeEventListener</hi>( "transitionend" , scrollElement );
+			} ) ) }
+</pre></figure>
+
+<p>The two <tt>requestAnimationFrame()</tt> calls ensure that the document state has settled before the <tt>firstVisisbleElement</tt> is smoothly scrolled (back) into view. The <tt>style.scrollMarginTop</tt> prevents that the element is hidden by the <tt>mainToolbar</tt>, which usually sticks to the top of the window. After scrolling, this value is no longer needed and therefore is removed.</p>
+
+<p>Similarly, we don't need the event handler anymore, so we remove that, too.</p>
+
+
+<!--h3--Auto-Scroll Feature--></div>
+
+<!--h2--Implementation--></div>
+
+</body></html>

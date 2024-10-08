@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-08-07" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-09-02" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-09-02" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="../code/page-structure/tutorial-page-1.css" />
+<script type="module" src="../code/page-structure/tutorial-page-1.js" ></script>
+ 
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
+<meta name="tags" content="web, autoring, toolbox, HTML, JavaScript, CSS, toolbar, tool button" />
+<title>Web > Content Authoring Toolbox > Page Toolbar</title>
+<meta name="description" content="The <em>page toolbar component</em> creates the main toolbar element at the top of the page." />
+
+</head><body>
+
+<h1>Page Toolbar</h1>
+
+<p id="pageAbstract"></p>
+
+<p>The component is imported into a page like this:</p>
+
+<figure class="listing"><figcaption>Importing the toolbar into an HTML document</figcaption>
+<pre>
+&lt;link rel="stylesheet" href="path/to/page-toolbar-1.css" /&gt;
+&lt;script type="module" src="path/to/page-toolbar-1.js" &gt;&lt;/script&gt;
+</pre>
+</figure>
+
+<p>The <tt>WebCAT toolbar</tt> is a host container for <tt>WebCAT tool button</tt> components.</p>
+
+<p>The <tt>page-toolbar-1.css</tt> defines the general style of tool buttons.</p>
+
+<p>Buttons are added as separate modules, like so:</p>
+
+<figure class="listing"><figcaption>Adding tool buttons</figcaption>
+<pre>
+&lt;script type="module" src="path/to/home-button-1.js" &gt;&lt;/script&gt;
+&lt;script type="module" src="path/to/navigation-button-1.js" &gt;&lt;/script&gt;
+&lt;script type="module" src="path/to/navigate-previous-1.js" &gt;&lt;/script&gt;
+&lt;script type="module" src="path/to/navigate-next-1.js" &gt;&lt;/script&gt;
+</pre>
+</figure>
+
+<p><tt>WebCAT tool buttons</tt> may have their own stylesheet. Refer to their documentation and include the CSS link, if so.</p>
+
+<p>Tool button components expect to be added to the <tt>mainToolbar</tt> element. To specify a different toolbar, add a parameter in the query string and specify the toolbar element ID:</p>
+
+<figure class="listing"><figcaption>Specifying a different toolbar</figcaption>
+<pre>
+&lt;script type="module" src="path/to/some-other-button-1.js<hi>?toolbar=secondaryToolbar</hi>" &gt;&lt;/script&gt;
+</pre>
+</figure>
+
+
+</body></html>

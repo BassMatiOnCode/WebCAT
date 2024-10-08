@@ -1,0 +1,12 @@
+/* Documentation: .../web-toolbox/context-dialog/context-dialog.htm */
+
+.context-dialog {
+	visibility : hidden ;
+	position : absolute ;
+	background-color : white ;
+	border : 1px solid silver ;
+	margin : 0 ;
+	}
+ul.context-dialog {
+	padding-right : 20px ;
+	}

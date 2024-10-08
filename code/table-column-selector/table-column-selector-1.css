@@ -1,0 +1,16 @@
+/* Documentation: .../web-cat/table-column-selector/table-column-selector.htm */
+
+tr.selectable-column-headers > [data-context-dialog-id] {
+	user-select : none ;
+	}
+
+.table-column-selector > button {
+	width : 100% ;
+	border-style : none ;
+	background-color : #ddf ;
+	}
+
+.table-column-selector > div {
+	margin-left : 3px ;
+	margin-right : 3px ;
+	}

@@ -1,0 +1,3 @@
+/* Documentation: .../web-cat/tool-buttons/tool-buttons.htm */
+
+a[name="collapse-chapters"][data-state="expanded"] > svg #vertical-bar { stroke : white }

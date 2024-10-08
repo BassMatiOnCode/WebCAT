@@ -1,0 +1,6 @@
+span.unicode.return::before { 
+	content : "\2936" ;
+	color : green ;
+	position : relative ;
+	top : 2px ;
+	}

@@ -1,0 +1,202 @@
+﻿<!DOCTYPE html>
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-08-07" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-08-15" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-08-15" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="/inc/web-cat/page-structure/tutorial-page-1.css" />
+<script type="module" src="/inc/web-cat/page-structure/tutorial-page-1.js" ></script>
+ 
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
+<meta name="tags" content="web, autoring, toolbox, HTML, JavaScript, CSS, page structure" />
+<title>Web > Content Authoring Toolbox > Page Infrastructure</title>
+<meta name="description" content="This document describes the <em>page infrastructure concept</em>, and how an author can easily create HTML specific types of documents, add other HTML components to the document, and also maintain page infrastructure components." />
+
+</head><body>
+
+<h1>Page Infrastructure</h1>
+
+<p id="pageAbstract"></p>
+
+<h2 cbc>Introduction</h2><div>
+
+<p>An HTML page typically uses many HTML components which provide styles and functionality. We could add stylesheet links and script elements for each component to every single HTML document the author creates. If components have to be removed or added, all existing HTML documents have to be updated.</p>
+
+<p>A maintenance nightmare.</p>
+
+<p>A <em>page infrastructure component</em> is an ordinary HTML component and consists of a CSS file and a JavaScript module.
+It <em>aggregates</em> any number of HTML components, compiled for a specific type of document (tutorial, test, blog, article, product description, &hellip;).</p>
+
+<p>It is a level of indirection, which makes page infrastrucure maintenance easy. At least, in theory. If an author has to add or remove a component, the page infrastructure file is updated, and all dependent HTML documents will automatically "inherit" the changes.</p>
+
+<!--h2--Introduction--></div>
+
+<h2 cbc>Creating a Tutorial Document Template</h2><div>
+
+<p>Let's begin with the very basics, an empty HTML document:</p>
+
+<h3 cbc>Using <tt>empty.htm</tt></h3><div>
+
+<p>The author starts with a copy of <a href="empty.htm">empty.htm</a>:</p>
+
+<figure class="listing">
+<figcaption>An empty HTML document</figcaption>
+<pre>
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en-US"&gt;&lt;head&gt;
+&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+&lt;title&gt;&lt;/title&gt;
+&lt;meta name="description" content="" /&gt;
+&lt;/head&gt;&lt;body&gt;
+
+<cc>&lt;!-- your content here --&gt;</cc>
+
+&lt;/body&gt;&lt;/html&gt;
+</pre>
+</figure>
+
+<p>This document is blank, it has no HTML components included, no content. We will change that now.</p>
+
+<!--h3--Using empty.htm--></div>
+
+<h3 cbc>Adding the Page Infrastructure Component</h3><div>
+
+<p>Let's assume we want to build a tutorial page. Insert the following two HTML elements into your document, in the <tt>HEAD</tt> element, right above the <tt>TITLE</tt> element:</p>
+
+<figure class="listing">
+<figcaption>An empty HTML document</figcaption>
+<pre>
+&lt;<hi>link</hi> rel="stylesheet" href="/path/to/<hi>my-tutorial-page.css</hi>" /&gt;
+&lt;<hi>script</hi> type="module" src="/path/to/<hi>my-tutorial-page.js</hi>" &gt;&lt;/script&gt;
+</pre>
+</figure>
+
+<p>The <tt>LINK</tt> element imports a stylesheet, the <tt>SCRIPT</tt> element imports to a JavaScript module. These two files contain everything a tutorial page needs.</p>
+
+<p>That's all. We now have an empty template for tutorial pages.</p>
+
+<!--h3--Adding the Page Infrastructure Component--></div>
+
+<h3 cbc>Saving the Page Template</h3><div>
+
+<p>An empty template file should be saved for future use. For example, our empty document from above could be saved as <tt>my-tutorial-page.htm</tt> side-by-side to <tt>empty.htm</tt>.</p>
+
+<!--h3--Saving the Page Template--></div>
+
+<!--h2--Creating a Document Template--></div>
+
+<h2 cbc>Building a Page Infrastructure Component</h2><div>
+
+<p>Our tutorial page infrastructure component does not yet exist. We will change that now.</p>
+
+<h3 cbc>Creating the Component</h3><div>
+
+<p>Our (admittedly overly simple) tutorial pages need a header, a main content wrapper, and a footer. So lets create the file <tt>my-tutorial-page.css</tt>:</p>
+
+<figure class="listing">
+<figcaption>Importing stylesheets</figcaption>
+<pre>
+@import url( /path/to/my-page-header.css );
+@import url( /path/to/my-page-main-content.css );
+@import url( /path/to/my-page-footer.css );
+</pre>
+</figure>
+
+<p>Our tutorials need a nice font for code listings:</p>
+
+<figure class="listing">
+<figcaption>Importing fonts</figcaption>
+<pre>
+@font-face { 
+	font-family: "droid sans mono"; 
+	font-style: normal; 
+	font-weight: 400;
+	src: 	local("droid sans mono"), 
+		url(/path/to/DroidSansMono.ttf) format("truetype");
+	}
+</pre>
+</figure>
+
+<p>Then we need some style rules for the content:</p>
+
+<figure class="listing">
+<figcaption>Style rules for my tutorials</figcaption>
+<pre>
+a { text-decoration : none }
+a:hover { text-decoration : underline }
+body { 
+	font-family : "Segoe UI" ;
+	margin : 120px 20px 50px 20px ;
+	color : #666 ;
+	}
+</pre>
+</figure>
+
+<p>Next comes the <tt>my-tutorial-page.js</tt>:</p>
+
+<figure class="listing">
+<figcaption>Importing component scripts</figcaption>
+<pre>
+import "/path/to/my-page-main-content.js" ;
+import "/path/to/my-page-header.js" ;
+import "/path/to/my-page-footer.js" ;
+</pre>
+</figure>
+
+<p>These modules don't export functions, they are based on side effects, which makes them especially easy to use. The first module moves the entire document content (the child elements of <tt>BODY</tt>) into a wrapper (<tt>MAIN</tt>), so the author doesn't have to deal with it.</p>
+
+<p>The next component creates and configures a <tt>HEAD</tt> element and inserts it at the top of the page, before the <tt>MAIN</tt> content wrapper. Again, the author doesn't have to do that manually.</p>
+
+<p>The footer component reads <tt>META</tt> elements from the document <tt>HEAD</tt> and compiles the footer content from that information about the editor, creation date and document version, among other stuff.</p>
+
+<p>Again, the author doesn't have to care about the repeating static stuff, and only supply the document specific information in the <tt>META</tt> elements.</p>
+
+<p>We now have a working page infrastructure component for our tutorial pages. Of course, WebCAT comes with a number of predefined page infrastructure components. See the <a href="#downloads">downloads section</a> for details.</p>
+
+<p>You can add and remove components at any time later. Every HTML document that uses the tutorial infrastructure component will be use the updated version automatically.</p>
+
+<p>We will stop at this point, and not go into the details of the HTML components mentioned above. Instead, you will find similar components in the WebCAT code library. Use them as-is, or tweak them to your needs.</p>
+
+<!--h3--Creating the Page Infrastructure Component--></div>
+
+<!--h2--Building a Page Infrastructure Component--></div>
+
+<h2 cbc>Adding an HTML Component</h2><div>
+
+<p>You may come across situations where you want to include a specific component into a single page. Exactly as we did above with the page infrastructure component, just add two HTML elements to the <tt>HEAD</tt> section:</p>
+
+<figure class="listing">
+<figcaption>An empty HTML document</figcaption>
+<pre>
+&lt;<hi>link</hi> rel="stylesheet" href="/path/to/<hi>some-component.css</hi>" /&gt;
+&lt;<hi>script</hi> type="module" src="/path/to/<hi>some-component.js</hi>" &gt;&lt;/script&gt;
+</pre>
+</figure>
+
+<p>Refer to the component documentation for specifig instructions on how the component is integrated into your document.</p>
+
+<!--h2--Adding an HTML Component--></div>
+
+<h2 id="downloads" cbc>Downloads</h2><div>
+
+<dl class="link-list">
+<dt><a href="empty.htm">empty.htm</a></dt>
+	<dd>An empty, standard HTML document.</dd>
+<dt><a href="tutorial-page.htm">tutorial-page.htm</a></dt>
+	<dd>The standard infrastructure for tutorial pages like this one.</dd>
+<dt><a href="test-page.htm">test-page.htm</a></dt>
+	<dd>The standard infrastructure for test pages.</dd>
+</dl>
+
+<p>More templates will be added soon.</p>
+
+<!--h2--Downloads--></div>
+
+</body></html>

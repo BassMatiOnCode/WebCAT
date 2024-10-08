@@ -1,0 +1,238 @@
+﻿<!DOCTYPE html>
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-08-07" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-08-15" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-09-14" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="../code/page-structure/tutorial-page-1.css" />
+<script type="module" src="../code/page-structure/tutorial-page-1.js" ></script>
+
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
+<meta name="tags" content="web, autoring, toolbox, HTML, JavaScript, CSS, WebCAT components" />
+<title>Web > Content Authoring Toolbox > WebCAT Components</title>
+<meta name="description" content="The initialization of a <em>WebCAT script module</em> is a common problem. The <tt>webcat component initializer</tt> support module simplifies that." l/>
+
+</head><body>
+
+<h1>WebCAT Component Initializer</h1>
+
+<p id="pageAbstract"></p>
+
+<p>In contrast to <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_components"><em>web components</em></a>, which are encapsulated and self-containing HTML elements, WebCAT components usually just <em>complement</em> standard HTML elements. Which not necessarily an inferior concept.</p>
+
+<p>If possible, WebCAT uses JavaScript <em>modules</em> in favour of classic JavaScript files. Modules have several advantages, such as the import statement for dependencies.</p>
+
+<p>Sometimes a specific import order has to be maintained by a web author. If this is the case, it is clearly pointed out in the component documentation.</p>
+
+<p>The first WebCAT component an author likely gets in contact with, is the <em>page infrastructure</em> component, a sort of a "page template", which defines the general structure of an HTML page. We will have a look at such a component soon, but first we will inspect the anatomic details of a typical WebCAT script module.</p>
+
+<h2 cbc>Using a WebCAT Component</h2><div>
+
+<p>To pull a WebCAT component into an HTML document, add two elements to the document's <tt>HEAD</tt>:</p>
+
+<figure class="listing">
+<figcaption>Using a WebCAT component </figcaption>
+<pre>
+&lt;head&gt;
+...
+&lt;<hi>link</hi> rel="stylesheet" href="<hi>/path/to/component.css</hi>" /&gt;
+&lt;<hi>script</hi> type="module" src="<hi>/path/to/component.js</hi>" &gt;&lt;/script&gt;
+...
+&lt;/head&gt;
+</pre>
+</figure>
+
+<p>Some WebCAT components only comprise a CSS file, some only a script file, most use both.</p>
+
+<p>The CSS file deals with UI presentation. There is nothing special about it, so we won't deal with the details here. The script file implements the behavior. Most WebCAT components rely on the side effects of a JavaScript module, so it is sufficient to import the module into the document as shown above, but it is also possible to obtain a module object to control every detail of component initialization. More details on <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import">MDN</a>.</p>
+
+<!--h2--Using a WebCAT Component--></div>
+
+<h2 cbc>Aggregating WebCAT Components</h2><div>
+
+<p>Most HTML documents need many WebCAT components. Some document types need one set of components, other document types need different sets. In my website, four common page types occur:</p>
+
+<ul>
+<li>general article pages</li>
+<li>tutorial pages</li>
+<li>demo pages</li>
+<li>test pages</li>
+</ul>
+
+<p>To avoid maintaining a large component set in many documents, you can use <em>aggregation</em> techniques in CSS and module scripts.</p>
+
+<figure class="listing"><figcaption>Aggregating CSS files</figcaption>
+<pre>
+<hi>@import</hi> url( path/to/webcat-component-a.css );
+<hi>@import</hi> url( path/to/webcat-component-b.css );
+<hi>@import</hi> url( path/to/webcat-component-c.css );
+</pre>
+</figure>
+
+<p>Similarly, module scripts can be aggregated:</p>
+
+<figure class="listing"><figcaption>Aggregating JavaScript modules</figcaption>
+<pre>
+<hi>import</hi> "path/to/webcat-component-a.js"  ;
+<hi>import</hi> "path/to/webcat-component-b.js"  ;
+<hi>import</hi> "path/to/webcat-component-c.js"  ;
+</pre>
+</figure>
+
+<p>Instead of importing the individual module into every HTML document, two aggregation files are imported.</p>
+
+<p>The combination of CSS and script aggregation files can be considered as another type of WebCAT component. For example, a tutorial page component comprises the <tt>/web-cat/page-structure/tutorial-page.css</tt> and <tt>/web-cat/page-structure/tutorial-page.js</tt> aggregation files.</p>
+
+<figure class="listing">
+<figcaption>Importing a WebCAT page type component</figcaption>
+<pre>
+&lt;head&gt;
+&lt;link rel="stylesheet" href="/web-cat/page-structure/<hi>type-of-page.css</hi>" /&gt;
+&lt;script type="module" src="/web-cat/page-structure/<hi>type-of-page.js</hi>" &gt;&lt;/script&gt;
+&lt;/head&gt;
+</pre>
+</figure>
+
+<p>Of course you can still import additional WebCAT components individually into an HTML document.</p>
+
+<!--h2--Aggregating WebCAT Components--></div>
+
+<h2 cbc>Passing Parameters to a WebCAT Component</h2><div>
+
+<p>Parameters can be passed to a JavaScript module via <a href="https://en.wikipedia.org/wiki/Query_string">query string</a> in the module URL:</p>
+
+<figure class="listing"><figcaption>Aggregating JavaScript modules</figcaption>
+<pre>
+import "/path/to/component-initializer.js<hi>?name-1=value-1&name-2=value-2</hi>"  ;
+</pre>
+</figure>
+
+<p>The part after the question mark is called "query string". The information is then extracted in the <tt>module init functions</tt>.</p>
+
+<!--h2--Passing Parameters to a WebCAT Component--></div>
+
+<h2 cbc>The Module Init Function</h2><div>
+
+<p>It is recommended that WebCAT modules implement a dedicated <tt>init()</tt> method. This makes it possible to control the point in time when a component init code is executed. Here is an example:</p>
+
+<figure class="listing">
+<figcaption>A typical WebCAT component structure</figcaption>
+<pre>
+import * as initializer from "../component-initializer/component-initializer-1.js" ;
+export function <hi>init</hi>( searchparams = new URLSearchParams( )) {
+	const root = searchparams.get( "root-element-id" ) || document ;
+	let i = 0;
+	for ( const element of root.querySelectorAll( "p" )) i += 1 ;
+	console.log( `${ i } paragraphs processed` );
+	}
+initializer.initComponent( init, import.meta.url );
+</pre>
+</figure>
+
+<p>A common pattern is that the function collects specific elements from the document and runs some algorithm on them. A simple nonsense example is outlined above.</p>
+
+<p>The module init function should have the exact signature as shown above.</p>
+
+<!--h2--Init()--></div>
+
+<h2 cbc>Calling init() at Load Time</h2><div>
+
+<p>The module-level code is executed automatically when a module is loaded. One purpose is to extract parameters passed via module URL and pass them to the <tt>init()</tt> function. For example, the following excerpt shows how to specify the root element to be processed by <tt>init()</tt>:</p>
+
+<figure class="listing">
+<figcaption>Passing parameters to a WebCAT component </figcaption>
+<pre>
+&lt;<hi>script</hi> type="module" src="/path/to/component.js<hi>?root=mainContent</hi>"&gt;&lt;/script&gt;
+</pre>
+</figure>
+
+<p>The module init code extracts these parameters via <tt>URL.searchParams</tt>. Here, the <tt>root</tt> parameter is retrieved:</p>
+
+<figure class="listing">
+<figcaption>Extracting parameters for init()</figcaption>
+<pre>
+const <hi>searchparams</hi> = new URL( import.meta.url ).searchParams ;
+const <hi>initEventName</hi> = searchparams.get( "<hi>init-event-name</hi>" );
+const root = searchparams.get( "<hi>root</hi>" ) || undefined ;
+if ( ! initEventName ) init( root );
+else if ( initEventName != "no-default-init" ) { ... }
+</pre>
+</figure>
+
+<p>If no <tt>init-event-name</tt> parameter has been specified, the <tt>init()</tt> method is called immediately.</p>
+
+<!--h2--Calling init() at Load Time--></div>
+
+<h2 cbc>Setting Up an Init Event Handler</h2><div>
+
+<p>There are situations where the <tt>init()</tt> method call must be delayed. A typical example is document which loads HTML fragments. Processing must be delayed until the fragment loader raises the <tt>fragment-loading-complete</tt> event.</p>
+
+<p>In such a case, supply an additional <tt>init-event-name</tt> parameter in the module URL:</p>
+
+<figure class="listing">
+<figcaption>Specifying the init event name</figcaption>
+<pre>
+&lt;<hi>script</hi> type="module" src="/path/to/component.js <span class="unicode return"></span>
+	?init-event-name=<hi>fragment-loading-complete</hi>"&gt;&lt;/script&gt;
+</pre>
+</figure>
+
+<p>If an <tt>initEventName</tt> was given, the module-level code does not call <tt>init()</tt> directly. Instead, an init event handler is set up:</p>
+
+<figure class="listing">
+<figcaption>Setting up an init event handler</figcaption>
+<pre>
+const eventTarget = document.getElementById( searchparams.get( "event-target-id" )) || document ;
+function callback ( ) {
+	initFunction( searchparams );
+	if ( ! searchparams.has( "keep-init-handler" )) 
+		eventTarget.removeEventListener( initEventName, callback );
+	} ;
+eventTarget.addEventListener( initEventName, callback );
+</pre>
+</figure>
+
+<p>This is done in three instructions. The first one determines the event target element from the given event target element ID. The second one defines a callback function, a wrapper for the actual init function call. The third instruction registers this callback function as event handler for the init event with the init target element.</p>
+
+<p>The callback function has two purposes:</p>
+
+<ol>
+<li>call the module init function</li>
+<li>prevent multiple init function calls for subsequent events</li>
+</ol>
+
+<p>Most modules need a one-time inititalization, but the init event (such as "fragment-loading-complete") may appear repeatedly. To prevent event handler removal, add the entry <tt>keep-init-handler</tt> to the module URL query string.</p>
+
+<p>The search parameters are still accessible when the callback function is called, because we have a closure configuration here.</p>
+
+
+<!--h2--Setting Up an Init Event Handler--></div>
+
+<h2 cbc>Preventing the Init() Call</h2><div>
+
+<p>To prevent the calling of <tt>init()</tt>, pass the event name "no-default-init" in the module URL query string:</p>
+
+<figure class="listing">
+<figcaption>Preventing the init() call</figcaption>
+<pre>
+&lt;<hi>script</hi> type="module" src="/path/to/component.js <span class="unicode return"></span>
+	?init-event-name=<hi>no-default-init</hi>"&gt;&lt;/script&gt;
+</pre>
+</figure>
+
+<!--h2--Preventing the Init() Call--></div>
+
+<h2 cbc>Downloads</h2><div>
+
+<p>A module template can be found <a href="module-template-1.js">here</a>.</p>
+
+<!--h2--Downloads--></div>
+
+</body></html>

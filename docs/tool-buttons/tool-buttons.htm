@@ -1,0 +1,229 @@
+﻿<!DOCTYPE html>
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-08-07" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-08-23" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-10-05" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="/inc/web-cat/page-structure/tutorial-page-1.css" />
+<script type="module" src="/inc/web-cat/page-structure/tutorial-page-1.js" ></script>
+ 
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
+<meta name="tags" content="web, autoring, toolbox, HTML, JavaScript, CSS" />
+<title>Toolbar Buttons (Web > Content Authoring Toolbox)</title>
+<meta name="description" content="When the main page&ndash;toolbar has been created, it must be populated with tool buttons. Defining a tool button set should be a simple as possible." />
+
+</head><body>
+
+<h1>Tool Buttons</h1>
+
+<p id="pageAbstract"></p>
+
+<p>Some buttons are link anchors, others are just buttons with an attached click event handler. Each button is self-contained and usually doesn't need programming or configuration.</p>
+
+<figure class="demo"><figcaption>Study with four buttons</figcaption>
+<iframe class="content-height-observed" src="demo-1.htm"></iframe>
+</figure>
+
+<p>A toolbar button is a WebCAT component, usually implemented in a single JavaScript module, sometimes accompanied by a CSS file.</p>
+
+<h2 cbc>Usage</h2><div>
+
+<p>Step 1: Import the module files in the proper order, <em>after</em> the toolbar component:</p>
+
+<figure class="listing"><figcaption>Importing toolbar buttons into a document</figcaption>
+<pre>
+&lt;link rel="stylesheet" href="path/to/page-toolbar.css" /&gt;
+&lt;<hi>script</hi> type="module" src="path/to/<hi>page-toolbar.js</hi>" &gt;&lt;/script&gt;
+&lt;<hi>script</hi> type="module" src="path/to/button-1.js" &gt;&lt;/script&gt;
+&lt;<hi>script</hi> type="module" src="path/to/button-2.js" &gt;&lt;/script&gt;
+&lt;<hi>script</hi> type="module" src="path/to/button-3.js" &gt;&lt;/script&gt;
+&lt;<hi>script</hi> type="module" src="path/to/button-google.js" &gt;&lt;/script&gt;
+</pre></figure>
+
+<p>In an page template aggregation file such as <tt>tutorial-page.js</tt>, this looks similar:</p>
+
+<figure class="listing"><figcaption>Importing toolbar buttons in a page tempage script:</figcaption>
+<pre>
+import "path/to/<hi>page-toolbar.js</hi>";
+import "path/to/button-1.js";
+import "path/to/button-2.js";
+import "path/to/button-3.js";
+import "path/to/button-google.js";
+</pre></figure>
+
+<p>By default, the buttons are added to the elment with the <tt>id="mainToolbar"</tt>, but you can specify a different toolbar ID in the query string of the module URL:</p>
+
+<figure class="listing"><figcaption>Specifying the toolbar</figcaption>
+<pre>
+import "path/to/button.js?toolbar=anotherToolbar";
+&lt;script type="module" src="path/to/button.js?toolbar=anotherToolbar"&gt;&lt;/script&gt;
+</pre></figure>
+
+<p>If you add an <tt>href</tt> parameter, a <em>link button</em> is created:</p>
+
+<figure class="listing"><figcaption>Specifying the link target</figcaption>
+<pre>
+import "path/to/button.js?href=path/to/resource.htm";
+&lt;script type="module" src="path/to/button.js?href=path/to/resource.htm"&gt;&lt;/script&gt;
+</pre></figure>
+
+<h3 cbc>Available Tool Buttons</h3><div>
+
+<style>
+#dl-001 svg { vertical-align : bottom }
+#dl-001 dd p { margin : 5px 0 }
+#dl-001 dt { margin : 10px 0 }
+</style>
+
+<dl id="dl-001">
+<dt> Navigate Home	&ensp; <a data-load-fragment href="/inc/web-cat/tool-buttons/navigate-home-button.svg"></a></dt><dd>
+	<p>Navigates to the site homepage, usually "/index.htm".</p>
+	<p><tt>path/to/tool-buttons/navigate-home-button.js</tt></p></dd>
+
+<dt>Navigate Site &ensp; <a data-load-fragment href="/inc/web-cat/tool-buttons/navigate-site-button.svg"></a></dt><dd>
+	<p>Opens the site navigation panel.</p>
+	<p><tt>path/to/tool-buttons/navigate-site-button.js</tt></p></dd>
+
+<dt>Navigate Up &ensp; <a data-load-fragment href="/inc/web-cat/tool-buttons/navigate-up-button.svg"></a></dt><dd>
+	<p>Navigates to the sitemap parent node.</p>
+	<p><tt>path/to/tool-buttons/navigate-up-button.js</tt></p></dd>
+
+<dt>Navigate Back &ensp; <a data-load-fragment href="/inc/web-cat/tool-buttons/navigate-back-button.svg"></a></dt><dd>
+	<p>Navigates to the previous document in sequential order.</p>
+	<p><tt>path/to/tool-buttons/navigate-back-button.js</tt></p></dd>
+
+<dt>Navigate Forward &ensp; <a data-load-fragment href="/inc/web-cat/tool-buttons/navigate-forward-button.svg"></a></dt><dd>
+	<p>Navigates to the next document in sequential order.</p>
+	<p><tt>path/to/tool-buttons/navigate-forward-button.js</tt></p></dd>
+
+<dt>Navigate to Previous Sibling &ensp; <a data-load-fragment href="/inc/web-cat/tool-buttons/navigate-previous-sibling-button.svg"></a></dt><dd>
+	<p>Navigates to the next sibling document.</p>
+	<p><tt>path/to/tool-buttons/navigate-previous-sibling-button.js</tt></p></dd>
+
+<dt>Navigate to Next Sibling &ensp; <a data-load-fragment href="/inc/web-cat/tool-buttons/navigate-next-sibling-button.svg"></a></dt><dd>
+	<p>Navigates to the next sibling document.</p>
+	<p><tt>path/to/tool-buttons/navigate-previous-sibling-button.js</tt></p></dd>
+
+<dt>Navigate to First Sibling &ensp; <a data-load-fragment href="/inc/web-cat/tool-buttons/navigate-first-button.svg"></a></dt><dd>
+	<p>Navigates to the first sibling document.</p>
+	<p><tt>path/to/tool-buttons/navigate-first-button.js</tt></p></dd>
+
+<dt>Navigate to Last Sibling &ensp; <a data-load-fragment href="/inc/web-cat/tool-buttons/navigate-last-button.svg"></a></dt><dd>
+	<p>Navigates to the last sibling document.</p>
+	<p><tt>path/to/tool-buttons/navigate-last-button.js</tt></p></dd>
+
+<dt>Collapse Chapters&ensp; <a data-load-fragment href="/inc/web-cat/tool-buttons/collapse-chapters-button.svg"></a></dt><dd>
+	<p>Expands and collapses chapters in the document. Replaces a traditional table-of-contents on the page.</p>
+	<p><tt>path/to/tool-buttons/collapse-chapters-button.js</tt>
+	<br/><tt>path/to/tool-buttons/collapse-chapters-button.css</tt></p></dd>
+
+<dt>Scroll to Previous Chapter&ensp; <a data-load-fragment href="/inc/web-cat/tool-buttons/previous-chapter-button.svg"></a></dt><dd>
+	<p>Scrolls the window to the previous chapter in the document.</p>
+	<p><tt>path/to/tool-buttons/previous-chapter-button.js</tt></p></dd>
+
+<dt>Scroll to Next Chapter&ensp; <a data-load-fragment href="/inc/web-cat/tool-buttons/next-chapter-button.svg"></a></dt><dd>
+	<p>Scrolls the window to the next chapter in the document.</p>
+	<p><tt>path/to/tool-buttons/previous-chapter-button.js</tt></p></dd>
+
+<dt>Scroll to Top of Page&ensp; <a data-load-fragment href="/inc/web-cat/tool-buttons/top-of-page-button.svg"></a></dt><dd>
+	<p>Scrolls the window to the top of the page.</p>
+	<p><tt>path/to/tool-buttons/top-of-page-button.js</tt></p></dd>
+
+<dt>Scroll to Bottom of Page&ensp; <a data-load-fragment href="/inc/web-cat/tool-buttons/bottom-of-page-button.svg"></a></dt><dd>
+	<p>Scrolls the window to the bottom of the page.</p>
+	<p><tt>path/to/tool-buttons/bottom-of-page-button.js</tt></p></dd>
+
+<dt>Explain&ensp; <a data-load-fragment href="/inc/web-cat/tool-buttons/explain-button.svg"></a></dt><dd>
+	<p>Explains the toolbar buttons. Useful for touch screens, because they have no :hover detection.</p>
+	<p><tt>path/to/tool-buttons/explain-button.js</tt></p></dd>
+
+
+</dl>
+
+<!--h3--Available Tool Buttons--></div>
+
+<!--h2--Usage--></div>
+
+<h2 cbc>Background</h2><div>
+
+<p>All toolbar buttons are HTML anchors. Non-link buttons just have no <tt>href</tt> attribute, which makes them dysfunctional as link anchors:</p>
+
+<figure class="listing"><figcaption>An action button</figcaption>
+<pre>
+&lt;a&gt;
+	&lt;svg&gt; ... &lt;/svg&gt;
+	&lt;/a&gt;
+</pre></figure>
+
+<p>These <em>action buttons</em> need a click event handler that implements the functionality.</p>
+
+<p>If you specified an href parameter in the button's module URL, a link button is created:</p>
+
+<figure class="listing"><figcaption>A link button</figcaption>
+<pre>
+&lt;a <hi>href</hi>="link/to/document.htm"&gt;
+	&lt;svg&gt; ... &lt;/svg&gt;
+	&lt;/a&gt;
+</pre></figure>
+
+<p>Such <em>link buttons</em> don't need a click event handler, they are fully functional as link anchors.</p>
+
+<p>Toolbar buttons have usually have image content, not text. If possible, this is an SVG element. SVG elements are vector grafic images, they are scalable without losing resolution and very small in size. Additionally, the  <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/svg">SVG element</a> can be <em>styled</em> with CSS rules, for example to define stroke and fill colors. The toolbar CSS files usually provides the necessary rules, which ensures that all toolbar buttons have a uniform "look and feel".</p>
+
+<p>The <a href="tool-button-base.htm">Tool Button Base</a> component provides the logic that is common to all tool buttons.</p>
+
+<!--h2--Background--></div>
+
+<h2 cbc>Creating Action Tool Buttons</h2><div>
+
+<p id="test">To build your own tool buttons, create a JavaScript module and import the <tt>tool-button-base.js</tt> module and <tt>base-anchor-button.js</tt> modules:</p>
+
+<figure class="listing"><figcaption>Importing the component initializer</figcaption>
+<pre>
+import * as initializer from "path/to/<hi>component-initializer.js</hi>" ;
+import * as buttonBase from "path/to/<hi>base-anchor-button.js</hi>" ;
+</pre></figure>
+
+<p>The call to <tt>initComponent()</tt> is provided with a reference to the module init function and the module URL, which may carry parameters.</p>
+
+<figure class="listing"><figcaption>Importing the component initializer</figcaption>
+<pre>
+initializer.initComponent( init, import.meta.url );
+</pre></figure>
+
+<p>The button component has to provide the module <tt>init()</tt> function. Inside, your tool button is created:</p>
+
+<figure class="listing"><figcaption>The module init() function</figcaption>
+<pre>
+export function init ( searchparams = new URLSearchParams( )) {
+	const <hi>anchor</hi> = buttonBase.<hi>appendAnchorButton</hi>( "path/to/your-button-image.svg" , { 
+		<hi>toolbar</hi> : searchparams.get( "toolbar" ) ,
+		<hi>postprocess</hi> : initializeButtonImage
+		}	} ) ;
+</pre></figure>
+
+<p>The function <tt>appendAnchorButton()</tt> creates an anchor element and appends it to the main toolbar, if no other toolbar ID was provided.</p>
+
+<p>Loading the toolbar image is an asynchronous procedure. When finished, the postprocessing function <tt>initializeButtonImage()</tt> is called from the code in <tt>appendAnchorButton()</tt>. The code in that postprocessing function depends on your application, but is typically used to prepare the image, which is not available before arrival.</p>
+
+<p>The anchor element is created synchronously and thus immediately available for synchronous processing:</p>
+
+<figure class="listing"><figcaption>The module init() function</figcaption>
+<pre>
+	anchor.setAttribute( "name" , "collapse-chapters" );
+	anchor.addEventListener( "click" , evt => { ... } );
+	}
+</pre></figure>
+
+<p>In the example above, a click event handler is added to the anchor element. This is where the actual work is done. Of course, the code in that event handler depends on you application.</p>
+
+<!--h2--Creating Action Tool Buttons--></div>
+
+</body></html>

@@ -1,0 +1,25 @@
+/*	page-toolbar-1.css   */
+/*	TODO: Toolbar must have a defined height */	
+
+#mainToolbar > a > svg { stroke : steelblue }
+#mainToolbar > a > svg:hover { stroke : darkorange }
+
+div.page-toolbar { 
+	border-bottom : 1px solid silver ;
+	margin : 0 -20px 0 -20px ;
+	padding : 4px 20px 4px 20px ;
+	top : 0px ;
+	position : sticky ;
+	background-color : white ;
+	height : 20px ;
+	}
+
+div.page-toolbar > a { text-decoration : none }
+
+div.page-toolbar > a:hover {
+	text-decoration : none ;
+	}
+
+div.page-toolbar > a > svg {
+	height : 20px ;
+	}

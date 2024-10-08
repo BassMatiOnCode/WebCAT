@@ -1,0 +1,77 @@
+/*		math-1.css    2023-05-27    usp										*/
+/*		Documentation @ .../web-toolbox/css/math.htm		*/
+
+[h-padded] { 
+	padding-left: 10px ; 
+	padding-right: 10px ; 
+	}
+
+[overline] {
+	text-decoration : overline from-font ;
+	}
+
+[overline2] { 
+	border-top : 1px solid ; 
+	padding-top : 2px ; 
+	}
+
+[padded] { 
+	padding: 8px 10px; 
+	}
+
+[symbol] {
+	font-family : "Cambria Math", "Times New Roman" ;
+	}
+
+[symbol][italic] {
+	font-style : italic ;
+	padding-right : 3px ;
+	}
+
+[underline] { 
+	border-bottom : 1px solid ; 
+	padding-bottom : 2px ; 
+	}
+
+[underline2] { 
+	border-bottom : 1px solid ; 
+	padding-bottom : 2px ; 
+	}
+
+[v-padded] { 
+	padding-top: 10px ; 
+	padding-bottom: 10px ; 
+	}
+
+div.math {
+	padding-left : 20px ;
+	margin-top : 30px ; 
+	margin-bottom : 20px ;
+	}
+
+div.math > div {
+	display : inline-block ;
+	}
+
+div.math + div.math {
+	margin-top : 30px ;
+	}
+
+mtable[linebreaker] mtd {
+	padding-top : 10px ;
+	padding-bottom : 10px ;
+	text-align : left ;
+	}
+
+mtable[rows-separated] mtd {
+	padding-top : 15px ;
+	padding-bottom : 15px ;
+	}
+
+mtable[left-aligned] mtd {
+	text-align : left ;
+	}
+
+mtext[eq-label] {
+	margin-right : 30px ;
+	}

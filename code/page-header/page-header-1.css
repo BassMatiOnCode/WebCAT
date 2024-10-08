@@ -1,0 +1,20 @@
+/*
+ *		page-header-1.css    2023-10-18    usp
+ */
+
+header {
+	position : relative ;
+	/* Compensation for body margins */
+	margin-left : -20px ;
+	margin-right : -20px ;
+	margin-top : 0px ;
+	/* Height is influenced by the logo image height */
+	height : 65px ;
+	/* Background image holds the site logo */
+	background-repeat : no-repeat ;
+	background-image : url( /logo.svg ) ;
+	background-position-y : center ;
+	/* Background image positions */
+	background-position-x: 10px, 160px ;
+	}
+

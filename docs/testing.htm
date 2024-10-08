@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-08-07" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-08-09" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-08-09" />
+<meta name="version" content="1" />
+<meta name="categories" content="" />
+<meta name="tags" content="" />
+<meta name="description" content="" />
+<meta name="sectionTitle" content="title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="/inc/web-cat/page-structure/tutorial-page-1.css" />
+<script type="module" src="/inc/web-cat/page-structure/tutorial-page-1.js" ></script>
+ 
+<title>Web Authoring Toolbox > Testing</title>
+
+</head><body>
+
+<h1>Web Authoring Toolbox > Testing</h1>
+
+<p id="pageAbstract"></p>
+
+<p>Development assumes that your your dev enviroment provides the same folder structure as the production environment.</p>
+
+<pre>
+.../www-root-folder/inc/project/component
+...
+</pre>
+
+<ul>
+<li>In a production environment, target files (scripts, stylesheets, image files,...) are served from the global include folder <br/><tt>localhost/inc/docs/some-script</tt></li>
+<li>During development, the target files are served from the project code folder <br/><tt>localhost/project/code/some-script</tt></li>
+<li>For testing, create a test file in the documentation folder:<br/><tt>localhost/project/docs/some-script/some-script-test.htm</tt></li>
+<li>Include local page structure files in the test file:<br/><tt>localhost/project/docs/some-script/test-page-1.js</tt><br/><tt>localhost/project/docs/some-script/test-page-1.css</tt></li>
+<li>Edit the test page structure files so that the target files are requested from the local code folder:<br/><tt>localhost/project/code/some-script</tt></li>
+</ul>
+
+<p>With these changes, local development will not affect production files and the existing codebase.</p>
+
+<p>When development has finished,</p>
+
+<ul>
+<li>Release (copy) the target files from the local code folder<br><tt>localhost/project/code/some-script</tt> to the global include folder:<br><tt>localhost/inc/project/some-script</tt></li>
+<li>Edit the test page infrastructure files to load the target files from the global include folder instead of the project code folder.</li>
+</ul>
+
+<p>Now the test document (some-script-test.htm) will also work when the documentation is published to Github or another code hoster.</p>
+
+<h2 cbc>Quick Testing 1</h2><div>
+
+<p>In a development environment with a file copy publication strategy, changes can be made to files in the global include folder. All HTML documents in the environment are affected immediately and thereby can be tested immediately, without further changes in the documents.</p>
+
+<p>When finished, call run <tt>download.bat</tt>, which updates the project work folder.</p>
+
+<!--h2--Quick Testing 1--></div>
+
+<h2 cbc>Quick Testing 2</h2><div>
+
+<p>In a development environment with a file copy publication strategy, changes can be made to files in the project code folder. The modified files must be copied to the global include folder first before changes can affect the HTML documents.</p>
+
+<p>After a change, call run <tt>upload.bat</tt>. This script updates the destination file(s) in the global include folder.</p>
+
+<!--h2--Quick Testing 2--></div>
+
+<h2 cbc>Quick Testing 3</h2><div>
+
+<p>References in the <tt>page-structure.css</tt> and <tt>page-structure.js</tt> files are <em>relative</em>. To test an existing page with changes made in the <tt>code</tt> folder, </p>
+
+<ol>
+<li>create a symbolic directory link in the project docs folder:
+<pre>
+cd path\to\web-cat\docs
+mklink /d code ..\code
+</pre></li>
+<li>Change the links to the page structure files in the document from
+<pre>
+&lt;link rel="stylesheet" href="<hi>/inc/web-cat/</hi>page-structure/tutorial-page-1.css" /&gt;
+&lt;script type="module" src="<hi>/inc/web-cat/</hi>page-structure/tutorial-page-1.js" &gt;&lt;/script&gt;
+</pre>
+to
+<pre>
+<pre>
+&lt;link rel="stylesheet" href="<hi>/web-cat/code/</hi>page-structure/tutorial-page-1.css" /&gt;
+&lt;script type="module" src="<hi>/web-cat/code/</hi>page-structure/tutorial-page-1.js" &gt;&lt;/script&gt;
+</pre></pre></li>
+</ol>
+
+<!--h2--Quick Testing 3--></div>
+
+</body></html>

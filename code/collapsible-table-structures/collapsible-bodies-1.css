@@ -1,0 +1,14 @@
+/* Documentation: .../web-cat/collapsible-table-structures/collapsible-table-structures.htm */
+
+tbody th[data-collapsible-state]:first-child {
+	padding-left : 20px ;
+	background-repeat : no-repeat ;
+	background-position : 3px center ;
+	background-size : auto 65% ;
+	}
+th[data-collapsible-state="collapsed"] {
+	background-image : url( ../collapsible-structures/orange-plus.svg );
+	}
+th[data-collapsible-state="expanded"] {
+	background-image : url( ../collapsible-structures/orange-minus.svg );
+	}

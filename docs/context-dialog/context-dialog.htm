@@ -1,0 +1,277 @@
+﻿<!DOCTYPE html>
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-08-07" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-09-16" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-09-18" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="../code/page-structure/tutorial-page-1.css" />
+<script type="module" src="../code/page-structure/tutorial-page-1.js" ></script>
+<link rel="stylesheet" href="/inc/web-cat/content-height-observer/content-height-observer-1.css" />
+<script type="module" src="/inc/web-cat/content-height-observer/content-height-observer-1.js" ></script>
+
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
+<meta name="tags" content="web, content, autoring, toolbox, HTML, JavaScript, CSS, WebCAT, component, context, dialog." />
+<title>Web > Content Authoring Toolbox > Context Dialog</title>
+<meta name="description" content="The <em>context-dialog component</em> supports context dialogs on web pages." />
+
+</head><body>
+
+<h1>Context Dialog</h1>
+<p id="pageAbstract"></p>
+
+<p>The bidirectional excation of information is based on element IDs and event handlers. The dialog opener element carries the dialog ID in the <tt>data-context-dialog-id</tt> attribute. The <tt>context-dialog</tt> component registers a standard <tt>contextmenu</tt> event handler on the dialog openers. The handler stores the opener's element ID in the dialog's <tt>data-opener-id</tt> attribute so that the dialog knows where to dispatch dialog-related events to.</p>
+
+<p>The document author registers <tt>dialog-opening</tt> and <tt>dialog-closing</tt> event handler with the dialog opener in order to prepare, read and validate the dialog state.</p>
+
+<h2 cbc>Features</h2><div>
+
+<dl>
+<dt>Autoclose</dt><dd>
+	<p>A click on a dialog element automatically closes the dialog.</p></dd>
+<dt>Events</dt><dd>
+	<p>The <tt>context-dialog-closing</tt> event anounces to the dialog target element that the dialog is about to be closed. The parent element can then check the dialog state and prevent closing, for example if an invalid dialog condition was detected.</p>
+	<p>The <tt>dialog-opening</tt> event can be used to set the initial dialog state.</p></dd>
+</dl>
+
+<!--h2--Features--></div>
+
+<h2 cbc>Usage</h2><div>
+
+<p>Step 1: Insert link elements to the CSS and JavaScript files into the HTML document:</p>
+
+<figure class="listing"><figcaption>A simple context dialog</figcaption>
+<pre>
+&lt;link rel="stylesheet" href="path/to/<hi>context-dialog.css</hi>" /&gt;
+&lt;script type="module" src="path/to/<hi>context-dialog.js</hi>" &gt;&lt;/script&gt;
+</pre>
+</figure>
+
+<p>Step 2: Create the context menu element. This can be a simple div element with arbitray elements inside.</p>
+
+<figure class="listing"><figcaption>A simple context dialog</figcaption>
+<pre>
+&lt;div class="<hi>context-dialog autoclose</hi>" id="<hi>contextDialog1</hi>"&gt;
+&lt;p id="option-1"&gt;menu entry A&lt;/p&gt;
+&lt;p id="option-2"&gt;menu entry B&lt;/p&gt;
+&lt;p id="option-3" &gt;menu entry C&lt;/p&gt;
+&lt;/div&gt;
+</pre>
+</figure>
+
+<p>Make sure to give the dialog element a unique ID.</p>
+
+<p>The <tt>context-dialog</tt> classname ensures that the dialog can be identified as context menu, and that the default styles from <tt>path/to/context-dialog.css</tt> are applied.</p>
+
+<p>Make sure that either the dialog root element has an <tt>autoclose</tt> class name, or at least one of the dialog elements. A click on these element(s) closes the dialog. If not, add your own click event listener to the dialog to determine the close condition.</p>
+
+<p>Step 3: Decorate the elements that can open a context menu with <tt>data-context-dialog-id"</tt> attributes. Provide the ID of the context dialog to be opened.</p>
+
+<figure class="listing"><figcaption>Decorating the openers</figcaption>
+<pre>
+&lt;p <hi>data-context-dialog-id="contextDialog1"</hi>&gt;Right-click on this element. 
+	&lt;span name="result"&gt;No option&lt;/span&gt; selected.&lt;/p&gt;
+</pre>
+</figure>
+
+<p>Step 4: Add a script to evaluate the selection. An example:</p>
+
+<figure class="listing"><figcaption>Getting the dialog result</figcaption>
+<pre>
+&lt;script&gt; "use strict" ;
+( function ( ) {
+	const opener = document.currentScript.<hi>previousElementSibling</hi>;
+	opener.addEventListener( "context-dialog-closing" , evt =&gt; {
+		if ( evt.detail.closer.id === "option-1" ) evt.preventDefault( );
+		else opener.getElementsByTagName( "span" )[ 0 ].textContent = evt.detail.closer.id;
+	} ) } ) ( ) ;
+&lt;/script&gt;
+</pre>
+</figure>
+
+<p>It is recommended to use a non-module script directly behind the opener element. Then you can access that element conveniently with <tt>document.currentScript</tt>.</p>
+
+<p>A reference to the dialog and the child element that caused the dialog to close is provided in the <tt>event.details</tt> object. In the example above, the ID of the <tt>closer</tt> is copied into the document.</p>
+
+<p>The example above demonstrates how to reject the option 1, simply by calling <tt>evt.preventDefault();</tt></p>
+
+<!--h2--Usage--></div>
+
+<h2 cbc>Demo</h2><div>
+
+<p>The following document (<a href="demo-1.htm" target="_blank">demo-1.htm</a>) defines two context dialog openers (paragraphs) and a context dialog, similar to the descriptions above.</p>
+
+<iframe class="content-height-observed" src="demo-1.htm"></iframe>
+
+<p>Right-click the paragraphs to open the dialog. Not every option is accepted by each paragraph. The accepted option is shown in a <tt>SPAN</tt> element.</p>
+
+<!--h2--Demo--></div>
+
+<h2 cbc>Implementation</h2><div>
+
+<dl>
+<dt>Only one context dialog open at any time.</dt><dd>
+	<p>Avoids confusion of users.</p></dd>
+<dt>Dialog sends "context-dialog-closing" event to opener.</dt><dd>
+	<p>The opener can then evaluates the dialog and prevent closing if required.</p></dd>
+<dt>Dialog closing event handler can prevent the dialog from closing.</dt><dd>
+	<p>The <tt>context-dialog-closing</tt> event handler calls <tt>event.preventDefault()</tt> to prevent the dialog from closing.</p></dd>
+<dt>The component makes no assumptions about the dialog and its HTML structure.</dt><dd>
+	<p>The dialog can be arbitrarily complex.</p></dd>
+<dt>Declarative closing behavior</dt><dd>
+	<p>The <tt>autoclose</tt> classname on the dialog or on dialog child element(s) causes the dialog to start closing.</p></dd>
+<dt>A click outside the open dialog causes the dialog to close without notice.</dt><dd>
+	<p>No <tt>context-dialog-closing</tt> event is dispatched.</p></dd>
+</dl>
+
+<h3 cbc>Document Initialization</h3><div>
+
+<p>Document initialization code has two loops. The first one processes the dialog openers, the second one processes the context menu dialogs:</p>
+
+<figure class="listing"><figcaption>Processing the document</figcaption>
+<pre>
+export function <hi>init</hi> ( searchparams = new URLSearchParams( )) {
+	for ( const opener of document.querySelectorAll( "[data-context-dialog-id]" )){
+		<hi>provideUniqueId</hi>( opener )	
+		opener.addEventListener( "<hi>contextmenu</hi>" , openerContextmenuHandler );
+		}
+	for ( const dialog of document.querySelectorAll( ".context-dialog" )) dialog.addEventListener( "click", dialogClickHandler );
+	}
+</pre>
+</figure>
+
+<p>Context dialog openers mut have a unique ID. If not given by the document author, the ID is generated: </p>
+
+<figure class="listing"><figcaption>Generating opener IDs</figcaption>
+<pre>
+function provideUniqueId( opener ) {
+	if ( opener.id ) return ;
+	while ( document.getElementById( `dialog-opener-${++ provideUniqueId.prototype.counter}` )) ;
+	opener.id = `dialog-opener-${provideUniqueId.prototype.counter}` ;
+	}
+provideUniqueId.prototype.counter = 0;
+</pre>
+</figure>
+
+<p>A counter incrementing loop looks for existing elements with a related ID. If none was found, the current counter value is used to create a new one.</p>
+
+<!--h3--Document Initialization--></div>
+
+<h3 cbc>Opener Contextmenu Event Handler</h3><div>
+
+<p>The first instruction prevents the browser to show the default context menu for the element. Then the <tt>documentClickHandler()</tt> is called to close a potentially open context dialog.</p>
+
+<figure class="listing"><figcaption>Closing open context dialogs</figcaption>
+<pre>
+function openerContextmenuHandler( evt ) {
+	evt.preventDefault( );
+	documentClickHandler( );
+</pre>
+</figure>
+
+<p>The next instructions obtain a reference to the specified context dialog and store the opener's ID in a dialog attribute. This will be used later to dispatch the "context-dialog-closing" event.</p>
+
+<figure class="listing"><figcaption>Perparing the dialog</figcaption>
+<pre>
+	const dialog = document.getElementById( evt.target.getAttribute( "data-context-dialog-id" ));
+	if ( ! dialog ) return ;
+	dialog.setAttribute( "data-opener-id" , evt.target.id );
+</pre>
+</figure>
+
+<p>Then the dialog is positioned and shown over the opener:</p>
+
+<figure class="listing"><figcaption>Perparing the dialog</figcaption>
+<pre>
+	dialog.style.left = `${evt.target.offsetLeft}px` ;
+	dialog.style.top = `${evt.target.offsetTop}px` ;
+	dialog.style.visibility = "visible" ;
+</pre>
+</figure>
+
+<p>Before opening, the opener is notified about the opening dialog:</p>
+
+<figure class="listing"><figcaption>Perparing the dialog</figcaption>
+<pre>
+	if ( opener.dispatchEvent( new CustomEvent( "<hi>context-dialog-opening</hi>", { cancelable : true , bubbles : false, detail : { dialog : dialog } } ))) 
+		return dialog.removeAttribute( "data-opener-id" );
+</pre>
+</figure>
+
+<p>Now the opener has a chance to prepare the dialog and its elements, or to abort the procedure by calling <tt>event.preventDefault()</tt>.</p>
+
+<p>The last instruction registers the <tt>documentClickHandler with the document object:</tt></p>
+
+<figure class="listing"><figcaption>Catch clicks outside the active dialog</figcaption>
+<pre>
+	document.addEventListener( "click" , documentClickHandler );
+	}
+</pre>
+</figure>
+
+<!--h3--Opener Contextmenu Event Handler--></div>
+
+<h3 cbc>Context Dialog Click Handler</h3><div>
+
+<p>The dialog is closed when the dialog click handler receives a click event. At this time, the <tt>documentClickHandler</tt> is active, but should not receive a click event. Therefore <tt>stopPropagation()</tt> is called.</p>
+
+<p>The <tt>autoclose</tt> class name on the target element and the dialog determine whether the dialog has to be closed.</p>
+
+<figure class="listing"><figcaption>The dialog click handler</figcaption>
+<pre>
+function dialogClickHandler( evt ) {
+	evt.stopPropagation( );
+	if ( ! evt.currentTarget.classList.contains( "autoclose" ) 
+		&& ! evt.target.classList.contains( "autoclose" ))
+		return ;
+</pre>
+</figure>
+
+<p>If so, a <tt>context-dialog-closing</tt> event is dispatched to the dialog opener:</p>
+
+<figure class="listing"><figcaption>Dispatching context-dialog-closing</figcaption>
+<pre>
+	const opener = document.getElementById( evt.currentTarget.getAttribute( "data-opener-id" ));
+	if ( ! opener.dispatchEvent( new CustomEvent( "context-dialog-closing", { cancelable : true , bubbles : false, detail : { dialog : evt.currentTarget , closer : evt.target } } ))) {
+		evt.currentTarget.style.visibility = "hidden" ;
+		evt.currentTarget.removeAttribute( "data-opener-id" );
+		document.removeEventListener( "click" , documentClickHandler );
+	}	}
+</pre>
+</figure>
+
+<p>If the function call returns true, the opener did not want to prevent the dialog from closing. The dialog is hidden, the opener id is removed and the <tt>documentClickHandler</tt> is deactivated.</p>
+
+<!--h3--Context Dialog Click Handler--></div>
+
+<h3 cbc>Document Click Handler</h3><div>
+
+<p>The purpose of the <tt>DocumentClickHandler</tt> is to ensure that only one context dialog is open at at any time.</p>
+
+<figure class="listing"><figcaption>Dispatching context-dialog-closing</figcaption>
+<pre>
+function documentClickHandler ( evt ) {
+	evt?.preventDefault( );
+	evt?.stopPropagation( );
+	for ( const dialog of document.querySelectorAll( ".context-dialog" )) {
+		dialog.style.visibility = "hidden" ;
+		dialog.removeAttribute( "data-opener-id" );
+		}
+	document.removeEventListener( documentClickHandler , documentClickHandler );
+	}</pre>
+</figure>
+
+<p>The event is not propagated, and the default action is prevented. The code collects all context dialog elements, removes their opener id attributes and  hides them.</p>
+
+<!--h3--Document Click Handler--></div>
+
+
+<!--h2--Implementation--></div>
+
+</body></html>

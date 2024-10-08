@@ -1,0 +1,9 @@
+/*
+ *		page-colors-1.css    2023-10-18    usp
+ */
+
+header { background-color : #4f6aa1 }
+a { color : #66B }
+body { color : #404040 }
+h1, h2, h3, h4, h5 { color : #4f6aa1 }
+span.keyword { color : #4f6aa1 }

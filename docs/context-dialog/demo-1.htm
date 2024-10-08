@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-09-15" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-09-15" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-09-15" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="../code/page-structure/demo-page-1.css" />
+<script type="module" src="../code/page-structure/demo-page-1.js" ></script>
+<link rel="stylesheet" href="../code/context-dialog/context-dialog-1.css" />
+<script type="module" src="../code/context-dialog/context-dialog-1.js" ></script>
+ 
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
+<meta name="tags" content="web, content, autoring, toolbox, HTML, JavaScript, CSS, component" />
+<title>Web > Content Authoring Toolbox > Context Dialog Demo</title>
+<meta name="description" content="" />
+
+</head><body style="padding-bottom : 40px ; margin-top : 20px">
+
+<h1>Context Dialog Demo</h1>
+
+<p data-context-dialog-id="contextDialog1">Right-click on this element. <span name="result">No option</span> selected.</p>
+<script>
+( function ( ) {
+	const opener = document.currentScript.previousElementSibling;
+	opener.addEventListener( "context-dialog-closing" , evt => {
+		if ( evt.detail.closer.id === "option-1" ) evt.preventDefault( );
+		else opener.getElementsByTagName( "span" )[ 0 ].textContent = evt.detail.closer.id;
+	} ) } ) ( ) ;
+</script>
+
+<p data-context-dialog-id="contextDialog1">This is another paragraph. <span name="result">No option</span> selected.</p>
+<script>
+( function ( ) {
+	const opener = document.currentScript.previousElementSibling;
+	opener.addEventListener( "context-dialog-closing" , evt => {
+		if ( evt.detail.closer.id === "option-2" ) evt.preventDefault( );
+		else opener.getElementsByTagName( "span" )[ 0 ].textContent = evt.detail.closer.id;
+	} ) } ) ( ) ;
+</script>
+
+<div id="messages">
+
+</div>
+
+<div class="context-dialog autoclose" id="contextDialog1">
+<p id="option-1">menu entry A</p>
+<p id="option-2">menu entry B</p>
+<p id="option-3" class="autoclose">menu entry C</p>
+</div>
+
+</body></html>

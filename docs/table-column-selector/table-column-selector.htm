@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-08-07" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-09-17" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-09-17" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="../code/page-structure/tutorial-page-1.css" />
+<script type="module" src="../code/page-structure/tutorial-page-1.js" ></script>
+<link rel="stylesheet" href="/inc/web-cat/content-height-observer/content-height-observer-1.css" />
+<script type="module" src="/inc/web-cat/content-height-observer/content-height-observer-1.js" ></script>
+
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
+<meta name="tags" content="web, content, autoring, toolbox, HTML, JavaScript, CSS, WebCAT, component, collapsible, table, tbody, column, selector" />
+<meta name="description" content="The <em>table-column-selector</em> allows to hide and show table columns." />
+
+<title>Web > Content Authoring Toolbox > Table Column Selector</title>
+
+</head><body>
+
+<h1>Table Column Selector</h1>
+
+<p id="pageAbstract"></p>
+
+<p>Right-click on a header cell and click the checkboxes to show or hide data columns:</p>
+
+<figure class="demo"><figcaption>Column selector demo</figcaption>
+<iframe class="content-height-observed" src="demo-table-column-selector.htm"></iframe>
+</figure>
+
+<h2 cbc>Usage</h2><div>
+
+<p>Step 1: Add links to the component files in the document head:</p>
+
+<figure class="listing"><figcaption>Decorating the table elements</figcaption>
+<pre>
+&lt;link rel="stylesheet" href="path/to/<hi>context-dialog.css</hi>" /&gt;
+&lt;script type="module" src="path/to/<hi>context-dialog.js</hi>" &gt;&lt;/script&gt;
+&lt;link rel="stylesheet" href="path/to/<hi>table-column-selector.css</hi>" /&gt;
+&lt;script type="module" src="path/to/<hi>table-column-selector.js</hi>" &gt;&lt;/script&gt;
+</pre></figure>
+
+<p>Note that the <tt>table-column-selector</tt> complements the <tt>context-dialog</tt> component, so your must include both of them.</p>
+
+<p>Step 2: Decorate the table elements with attributes:</p>
+
+<figure class="listing"><figcaption>Decorating the table elements</figcaption>
+<pre>
+&lt;table class="flat-borders"&gt;&lt;thead&gt;
+&lt;tr class="<hi>selectable-column-headers</hi>"&gt;
+	&lt;td data-context-dialog-id="<hi>columnSelectorContextDialog</hi>"&gt;Feature&lt;/td&gt;
+	&lt;th&gt;Phone 1&lt;/th&gt;
+	&lt;th&gt;Phone 2&lt;/th&gt;
+	&lt;td&gt;Unit&lt;/td&gt;
+&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;
+</pre></figure>
+
+<p>The <tt>selectable-columns-headers</tt> class name identifies the row which carries the column header (TH) cells. TD cells are not selectable and will be ignored.</p>
+<p>The <tt>data-context-dialog-id</tt> attribute identifies the <em>context dialog opener</em>, its value determines the associated context dialog element, as described in the <a href="../context-dialog/context-dialog.htm">context-dialog</a> component documentation. In this configuration, a right-click on the "Feature" cell opens the context menu.</p>
+
+<p>It is also possible to apply the <tt>data-context-dialog-id</tt> attribute on the table row element:</p>
+<figure class="listing"><figcaption>Decorating the table elements</figcaption>
+<pre>
+&lt;table class="flat-borders"&gt;&lt;thead&gt;
+&lt;tr class="<hi>selectable-column-headers</hi>" data-context-dialog-id="<hi>columnSelectorContextDialog</hi>"&gt;
+	&lt;td&gt;Feature&lt;/td&gt;
+	...
+</pre></figure>
+
+<p>In this case, the TR element is the context dialog opener and receives the context dialog messages. In contrast to the previous configuration, a right-click on <em>any</em> cell of that row opens the columns selector context dialog.</p>
+
+<p>That's all.</p>
+
+<!--h2--Usage--></div>
+
+<h2 cbc>Background Information</h2><div>
+
+<p>The component <tt>init()</tt> function registers two event handlers with the dialog opener for these two events:</p>
+
+<ul class="no-bullets">
+<li><tt>context-dialog-opening</tt></li>
+<li><tt>context-dialog-closing</tt></li>
+</ul>
+
+<p>These events are dispatched to the dialog opener element by the WebCAT <tt>context-dialog</tt> component.</p>
+
+<p>The handler for the <tt>context-dialog-opening</tt> event compiles a list of checkboxes, one for each selectable column. The checkbox labels are created from the text in TH cells in the row that carries the <tt>selectable-column-headers</tt> class name. TD cells are ignored.</p>
+
+<p>The handler for the <tt>context-dialog-closing</tt> event runs through the checkboxes and sets the <tt>display</tt> attribute in the table cells in the related columns.</p>
+
+<!--h2--Background Information--></div>
+
+</body></html>

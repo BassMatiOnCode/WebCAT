@@ -1,0 +1,302 @@
+﻿<!DOCTYPE html>
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-08-07" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-09-03" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-09-03" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="/inc/web-cat/page-structure/tutorial-page-1.css" />
+<script type="module" src="/inc/web-cat/page-structure/tutorial-page-1.js" ></script>
+
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
+<meta name="tags" content="web, autoring, toolbox, HTML, JavaScript, CSS" />
+<title>Web > Content Authoring Toolbox > Sitemap Navigator</title>
+<meta name="description" content="The <em>sitemap navigator</em> manages a tree-structured sitemap with links to website pages. The component works in (traditional) multi-page, single-page and mixed website environments. A large sitemap can be broken into smaller <em>sitemap fragments</em>. <em>Partially loaded sitemaps</em> reduce the memory footprint in the browser and reduce load times. The sitemap navigator manages these fragments and loads them as required." />
+
+</head><body data-collapsible-default="expanded">
+
+<h1>Sitemap Navigator</h1>
+
+<p id="pageAbstract"></p>
+
+<p>The <tt>sitemap-navigator</tt> is often combined with the <tt>navigation-panel</tt>, <tt>docking-panel</tt> and <tt>collapsible-structure</tt> components to provide a rich user experience.</p>
+
+<h2 cbc>Introduction</h2><div>
+
+<p>A <em>sitemap</em> is a tree structure, built from nested UL elements with link anchors that point to website documents. A sitemap is usually stored in a separate file ("/toc.htm") to simplify maintenance. It can be easily integrated into an HTML document with an HTML fragment link anchor:</p>
+
+<figure class="listing"><figcaption>Integrating the sitemap into a document</figcaption>
+<pre>
+&lt;a <hi>data-load-fragment</hi> href="<hi>/toc.htm</hi>"&gt;&lt;/a&gt;
+</pre>
+</figure>
+
+<p>As already mentioned, the sitemap is a tree structure, built on <tt>UL</tt> elements. It contains link anchors that point to the pages in a website:</p>
+
+<figure class="listing"><figcaption>Example sitemap structure</figcaption>
+<pre>
+&lt;ul <hi>class="sitemap-tree"</hi>&gt;
+&lt;li&gt;&lt;a href="/index.htm"&gt;Home&lt;/a&gt;&lt/li&gt;
+&lt;li&gt;&lt;a href="/section-1/section-1.htm"&gt;Section 1&lt;/a&gt;
+	&lt;ul&gt;
+	&lt;li&gt;&lt;a href="/section-1/document-1.htm"&gt;Document 1&lt;/a&gt;&lt;/li&gt;
+	&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="/section-2/section-2.htm"&gt;Section 2&lt;/a&gt;
+	&lt;ul&gt;
+	&lt;li&gt;&lt;a href="/section-2/document-2.htm"&gt;Document 2&lt;/a&gt;&lt;/li&gt;
+	&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</pre>
+</figure>
+
+<p>A lage sitemap can be broken into several more manageable <em>sitemap fragments</em>:</p>
+
+<figure class="listing"><figcaption>Using sitemap fragments</figcaption>
+<pre>
+&lt;ul <hi>class="sitemap-tree"</hi>&gt;
+&lt;li&gt;&lt;a href="/index.htm"&gt;Home&lt;/a&gt;&lt/li&gt;
+&lt;li&gt;&lt;a href="/section-1/section-1.htm"&gt;Section 1&lt;/a&gt;
+	&lt;a <hi>data-load-fragment</hi> href="section-1/toc.htm"&gt;&lt;/a&gt;
+	&lt;/li&gt;
+&lt;li&gt;&lt;a href="/section-2/section-2.htm"&gt;Section 2&lt;/a&gt;
+	&lt;a <hi>data-load-fragment</hi> href="section-2/toc.htm"&gt;&lt;/a&gt;
+	&lt;/li&gt;
+&lt;/ul&gt;
+</pre>
+</figure>
+
+<p>The sitemap fragment also contains UL tree structures, and replaces the fragment link anchors:</p>
+
+<figure class="listing"><figcaption>Example sitemap fragment</figcaption>
+<pre>
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="/section-1/document-1.htm"&gt;Document 1&lt;/a&gt;&lt;/li&gt;
+...
+&lt;/ul&gt;
+</pre>
+</figure>
+
+<p>The example above is rather simple, but a sitemap fragment document can contain aribtrarily complex trees, and even nested sitemap fragment anchors.</p>
+
+<p>HTML fragments are loaded asynchronously. The browser fetches them from the client-side browser cache whenever possible, so the use of sitemap fragments effectively reduces server roundtrips and improves the website performance.</p>
+
+<!--h2--Introduction--></div>
+
+<h2 cbc>Features</h2><div>
+
+<dl>
+<dt>Path highlighting</dt><dd>
+	<p>The path between the root node and the current document is highlighted in the sitemap. </p>
+	</dd>
+<dt>Outdated path is automatically collapsed</dt><dd>
+	<p>When the user navigates to a different website page, the path to the outdated page can be automatically collapsed. To enable that feature, add the <tt>collapse-expired-path</tt> to the query string in the module URL, or add the <tt>data-collapse-expired-path</tt> attribute to the <tt>#sitemapRoot</tt> element.</p></dd>
+<dt>Fragmented Sitemaps</dt><dd>
+	<p>With sitemap fragments, a large sitemap can be broken up into several smaller, more manageable parts. By default, fragment link anchors are processed automatically and are completely transparent.</p>
+	</dd>
+<dt>Partially Loaded Sitemaps</dt><dd>
+	<p>A fragment link can be flagged as "interactively activated". Such a fragment link is not automatically loaded. Instead, some user interaction is required. This helps to reduce the memory footprint in the browser.</p>
+	</dd>
+<dt>Multiple Website Environments</dt><dd>
+	<p>The <tt>sitemap-navigator</tt> works in a (traditional) multi-page website environment, a single-page website, and also in a mixed website environment.</p>
+	<p>In a multi-page website, the entrire page content is loaded when a user navigates to a website page. In a single-page website, only the content of the <tt>MAIN</tt> content container is replaced. Head, toolbars, sitemap and footer are preserved (and updated if necessary).</p>
+	</dd>
+</dl>
+
+
+
+
+
+
+<!--h2--Features--></div>
+
+<h2 cbc>Scenarios</h2><div>
+
+<p>Sitemap fragments are integrated into a page with HTML anchor elements:</p>
+
+<figure class="listing"><figcaption>Integrating a sitemap fragment</figcaption>
+<pre>
+&lt;a class="fragment-link" href="/toc.htm"&gt;&lt;/a&gt;
+</pre>
+</figure>
+
+<p>Fragments are loaded asynchronously, an can contain other fragments, which are also loaded, recursively and asynchronously.</p>
+
+<h3 cbc>Standard (Multi-Page) Website</h3><div>
+
+<!--h3--Standard (Multi-Page) Website--></div>
+
+
+<!--h2--Scenarios--></div>
+
+<h2 cbc>Implementation Details</h2><div>
+
+<p>All Fragments in a document are loaded asynchronously. Fragments can contain other fragments, which are also loaded, recursively and asynchronously. When the loader has finished this recursive job, a "fragment-loading-complete" event is dipatched to the <tt>document</tt> object.</p>
+
+<p></p>
+
+<p>Sitemap fragments are loaded with anchor elements</p>
+<p>The sitemap fragment that contains the root node is loaded first. It is </p>
+
+<h3 cbc>Site Navigation Event</h3><div>
+
+<p>A <em>site navigation event</em> occurs if a user navigates to a page in the website, or loads a different content in a single-page website.</p>
+
+<!--h3--Site Navigation Event--></div>
+
+<h3 cbc>Sitemap Navigation Event</h3><div>
+
+<p>A <em>sitemap navigation event</em> occurs if a user clicks a link in a sitemap tree. In contrast, a click on an anchor in the main content is not considered a sitemap navigation event.</p>
+
+<!--h3--Sitemap Navigation Event--></div>
+
+<h3 cbc>Partially Loaded Sitemaps</h3><div>
+
+<p>If a a document was loaded (e. g. by following a link in the previously loaded document) that is not covered by a partially loaded sitemap, the path to the current document cannot be highlited. Instead, the missing sitemap fragments must be loaded first. Unfortunately, there is no information about where to find them, the only hint provides the path to the document: Each folder might contain one of the missing fragments.</p>
+
+<p>Example: A document has been loaded:</p>
+
+<figure class="listing">
+<pre>http://localhost/section-3/subsection-2/chapter-1/intro.htm</pre>
+</figure>
+
+<p>Currently, there is no anchor element in the sitemap tree that points to this document. That means that there must be one or more sitemap fragments still missing. We now need to find all potential fragment link anchors for that path. There are four candidates.</p>
+
+<figure class="listing">
+<pre>
+<span style="color:green">http://localhost/toc.htm
+http://localhost/section-3/toc.htm</span>
+http://localhost/section-3/subsection-2/toc.htm
+http://localhost/section-3/subsection-2/chapter-1/toc.htm
+</pre>
+</figure>
+
+<p>Let's consider that the first two have already been loaded and their fragment anchors have been removed. So a search for all these candidates will find the one that points to <tt>localhost/section-3/subsection-2/toc.htm</tt>.</p>
+
+<p>When this fragment has been loaded and injected, an anchor element for the next candidate (http://localhost/section-3/subsection-2/chapter-1/toc.htm) can be found. This fragment finally has been injected, the anchor that links to the document can be found. The path between root and document can now be highlighted.</p>
+
+<p>Not every folder in the path to the document might contain a sitemap fragment file. If the link to the document can be found, the remaining URLs for that path can be ignored, they are considered irrelevant.</p>
+
+<!--h3--Partially Loaded Sitemap--></div>
+
+<h3 cbc>Parallel Requests for Sitemap Fragments</h3><div>
+
+<p>Every folder in the path to the document might contain a sitemap fragment (toc.htm). The algorithm assumes that this is true an fetches all of them in parallel. Of course, some of these requests will fail. That's okay. At the end we have a list of requests and a corresponding list of text resources, and the first (topmost) sitemap fragment anchor. </p>
+
+<p>The first resource can replace the first fragment anchor. The next fragment anchor will have to be retrieved then.</p>
+
+<!--h3--Parallel Requests for Sitemap Fragments--></div>
+
+<h3 cbc>Multiple Paths to the Same Document</h3><div>
+
+<p>In an online shop website, a product may appear in several categories. But a site-map has a limitation: The same URL may not be referenced from several locations (paths), as this would lead to ambiguities while figuring out the path to the current document.</p> 
+
+<p>Solution: <em>Symbolic links</em> or <em>hardlinks</em> can be used on the server side to eliminate the ambiguities, while the same content is still delivered from a single origin.</p>
+
+<!--h3--Multiple Paths to the Same Document--></div>
+
+<h3 cbc>Highlighting the Path to the Current Document</h3><div>
+
+<p>In a multi-page website, the path to the current page is highlighted in the sitemap tree(s) when the fragment loader has finished its job. The anchor that links to the current document is searched in the sitemap tree(s), then the sitemap nodes between root and document nodes are decorated with an <tt>active</tt> attribute.</p>
+
+<p>In a <em>partially loaded sitemap</em>, the search for that anchor might fail. Then the missing fragments are loaded before the search is retried. It is considered an <em>error</em> if the anchor still cannot be found.</p>
+
+<p>In a single-page website, the sitemap state is always preserved. When a <tt>sitemap-navigation</tt> event occured, the path to the associated sitemap node can easily be highlighted. If a <tt>site-navigation</tt> event occurred, the path to the current content must be identified first. This is the same procedure as in a multi-page website environment.</p>
+
+<!--h3--Highlighting the Path to the Current Document--></div>
+
+<h3 cbc>Page Sequence and Partially Loaded Sitemap</h3><div>
+
+<p>Lets consider the following situation:</p>
+
+<pre>
+&lt;li&gt;<hi>&lt;a</hi> href="..."&gt;Page 1&lt;/<hi>a&gt;</hi>
+	&lt;ul&gt;
+	&lt;li&gt;&lt;a href="..."&gt;Page 1.1&lt;/a&gt;&lt;/li&gt;
+	&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="..."&gt;Page 2&lt;/a&gt;
+	&lt;a data-load-interactive href="..."&gt;&lt;/a&gt;&lt;/li&gt;
+</pre>
+
+<p>The next page in reading order after page 1 is page 1.1. The next page after page 2 cannot be determined easily, because it might be located in the fragment referenced by the interactive fragment anchor.</p>
+
+<p>Strategies:</p>
+<ul>
+<li>Load the fragment(s) when the user demands it.</li>
+<li>Load the fragments(s) when a </li>
+</ul>
+
+<!--h3--Page Sequence and Partially Loaded Sitemap--></div>
+
+<h3 cbc>Compiling the Navigation Info</h3><div>
+
+<p>The function parameter is a reference to the sitemap entry that is associated with the current sitemap node.</p>
+
+<dl>
+<dt>Next and Previous Sibling Nodes</dt><dd>
+	<p>Previous and next siblings are the neighbour nodes on the same tree level. If a node has no previous sibling, the node is the first child of its parent. If a node has no next sibling, the node is the last child of its parent.</p></dd>
+
+<dt>Next and Previous Nodes in Reading Order</dt><dd>
+	<p>The next node in reading order is the first childe node. If there is none, it is the next sibling node. If there is none, go to the parent. If there is none, there is no next node in reading order. Otherwise, return the next sibling node. If there is none, got to the parent node and repeat.</p>
+	<p>The previous node in reading order is the last child node. If there is none, it is the previous sibling node.
+	
+	If the current node is the first child of its parent node, the previous node in reading order is the previous node in reading order of its parent node. If the previous sibling node has a child node, it is the last child node of the previous sibling. Otherwise the previous node in reading order is the previous sibling node.</p></dd>
+</dl>
+
+<pre>
+
+</pre>
+
+<pre>
+navigationInfo.previousSibling = currentEntry.previousSibling;
+navigationInfo.nextSibling = currentEntry.nextSibling;
+</pre>
+
+<p>The first and last entries of the current section are found with</p>
+
+<pre>
+navigationInfo.firstSibling = currentEntry.parentElement.firstChild;
+navigationInfo.lastSibling = currentEntry.parentElement.lastChild;
+</pre>
+
+<p>The first entry of the subsection:</p>
+
+<pre>
+navigationInfo.firstSubsection = currentEntry.querySelector( ":scope > UL" ).firstChild;
+</pre>
+
+<p>Parent node:</p>
+
+<pre>
+navigationInfo.parentNode = currentEntry.parentElement.parentElement;
+</pre>
+
+<p>The next node in reading order is more difficult to find:</p>
+
+<pre>
+if ( navigationInfo.firstSubsection ) 
+	navigationInfo.nextInSequence = navigationInfo.firstSubsection ;
+else if ( navigationInfo.nextSibling ) 
+	navigationInfo.nextInSequence = navigationInfo.nextSibling;
+else
+	navigationinfo.nextInSequence = currentNode.parentNode.
+</pre>
+
+entry
+	entry
+		entry
+		entry
+		entry
+	entry
+entry
+
+<!--h3--Compiling the Navigation Info--></div>
+
+<!--h2--Implementation Details--></div>
+
+</body></html>

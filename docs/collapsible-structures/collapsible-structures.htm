@@ -1,0 +1,775 @@
+﻿<!DOCTYPE html>
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-08-05" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-08-10" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-08-10" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+
+<!--TODO: Examples, implementations, code changes (preprocessing)-->
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="/inc/web-cat/page-structure/tutorial-page-1.css" />
+<script type="module" src="/inc/web-cat/page-structure/tutorial-page-1.js" ></script>
+
+<meta name="categories" content="Programming > Web Toolbox" />
+<meta name="tags" content="programming, web, JavaScript, CSS, collapsible, list, tree" />
+<meta name="description" content="Collapsible structures are used to temporarily hide or show content. As a structural design element, they can be used to organize complex HTML document in a visually attractive manner with visual feedback icons and smooth transitions." />
+<title>Web Authoring Toolbox > Collapsible Structures</title>
+
+</head><body>
+
+<h1>Collapsible Structures</h1>
+
+<p id="pageAbstract"></p>
+
+<figure class="demo">
+<figcaption>A tree structure with collapsible elements</figcaption>
+<iframe class="content-height-observed" src="demo-1.htm"></iframe>
+</figure>
+
+<p>Some applications:</p>
+
+<ul>
+<li>collapsible sitemap navigation trees</li>
+<li>collapsible chapters</li>
+<li>collapsible instruction lists</li>
+</ul>
+
+<h2 cbc>Introduction</h2><div>
+
+<p>A <em>collapsible element</em> can expand vertically to full height, or collapse to zero height. It has an associated <em>controller</em> element that maintains its state. The <em>controller icon</em> provides visual state feedback.</p>
+
+<p>A controller is created by decorating it with the <tt>data-collapsible-state</tt> attribute:</p>
+
+<figure class="listing">
+<figcaption class="listing">Collapsible structure</figcaption>
+<pre>
+&lt;ul&gt;
+&lt;li <hi>data-collapsible-state</hi>="<hi>expanded</hi>"&gt;This is the controller
+	&lt;ul&gt; <cc>&lt;!-- this is the collapsible element --&gt;</cc>
+	&lt;li&gt;This item is in a collapsible list.&lt;/li&gt;
+	&lt;li&gt;The list is currently expanded.&lt;/li&gt;
+	&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</pre></figure>
+
+<p>The collapsible element depends on the type of the controller element. Here the controller is a list item. It controls the nested list with two items. Depending on the <tt>data-collapsible-state</tt> attribute, the collapsible element height is either zero (collapsed), or auto (expanded).</p>
+
+<p>Collapsible structures can be nested:</p>
+
+<figure class="demo">
+<figcaption>Collapsible tree structure</figcaption>
+<iframe class="content-height-observed" src="demo-1.htm"></iframe>
+</figure>
+
+<p>A click on the icon expands or collapses the nested child list element.</p>
+
+<h3 cbc>Collapsible Structure Types</h3><div>
+
+<p>Currently, the following collapsible structure types are implemented:</p>
+
+<ul class="spaced-items">
+<li>The nested ordered list (OL), controlled by the parent list item (LI)</li>
+<li>The nested unordered list (UL), controlled by the parent list item (LI)</li>
+<li>The collapsible description detail (DD) element, controlled by its left sibling, a description title (DT) element</li>
+<li>The collapsible chapter, a DIV element, controlled by its left sibling, a heading (H1...H5) element</li>
+</ul>
+
+<p>Collapsible elements can be mixed and nested as required. Examples can be found in the <a href="#demos">demo section.</a></p>
+
+<!--h3--Collapsible Structure Types--></div>
+
+<!--h2--Introduction--></div>
+
+<h2 cbc>Usage</h2><div>
+
+<p>Step 1: To use the collapsible structures component in an HTML document, add these element to the document <tt>HEAD</tt>:</p>
+
+<figure class="listing"><figcaption>Using the WebCAT component</figcaption>
+<pre>
+&lt;link rel="stylesheet" href="/path/to/<hi>collapsible-structures.css</hi>" /&gt:
+&lt;script type="module" src="/path/to/<hi>collapsible-structures.js</hi>" &gt:&lt;/script&gt:
+</pre>
+</figure>
+
+<p>If there are collapsible structures in HTML fragments which are loaded asynchronously, specify an init event in the script URL:</p>
+
+<figure class="listing"><figcaption>Delayed initialization</figcaption>
+<pre>
+&lt;script type="module" src="/path/to/collapsible-structures.js?<hi>init-event-name</hi>=<hi>fragment-loading-complete</hi>" &gt:&lt;/script&gt:
+</pre>
+</figure>
+
+<p>Step 2: Decorate collapsible element controllers with the attribute <tt>data-collapsible-state="&lt;value&gt;"</tt>, where "value" is either the empty string, "collapsed" or "expanded".</p>
+
+<p>If you supplied an empty string, the value is retrived from an arbitrary parent element which has been decorated with a <tt>data-collapsible-default="value"</tt> attribute, where "value" is one of "collapsed" or "expanded".</p>
+
+<figure class="listing"><figcaption>Decorating collapsible element controllers</figcaption>
+<pre>
+&lt;body <hi>data-collapsible-default</hi>="collapsed"&gt;
+&lt;ul&gt;
+&lt;li <hi>data-collapsible-state</hi>&gt;Controller
+	&lt;ul&gt;...&lt;/ul&gt;
+	&lt;/li&gt;
+&lt;li <hi>data-collapsible-state</hi>="collapsed"&lt;Controller
+	&lt;ul&gt;...&lt;/ul&gt;
+	&lt;/li&gt;
+&lt;li <hi>data-collapsible-state</hi>="expanded"&lt;Controller
+	&lt;ul&gt;...&lt;/ul&gt;
+	&lt;/li&gt;
+&lt;/ul&gt;
+</pre></figure>
+
+<p>Basically, that's it. The module init function completes the configuration, CSS rules define controller icons and smooth transitions.</p>
+
+<h3 cbc>Shortcuts and Keywords</h3><div>
+
+<p>A number of keywords make the life of a document author easier.</p>
+
+<h4 cbc>"collapsible-structure" Class Name</h4><div>
+
+<p>Configuring every single collapsible element controller can be tedious. Fortunately, the root element of a collapsible structure can be decorated with the <tt>collapsible-structure</tt> class name:</p>
+
+<figure class="listing"><figcaption>Decorating root elements of collapsible structures</figcaption>
+<pre>
+&lt;ul class="<hi>collapsible-structure</hi> <hi>data-collapsible-default</hi>="collapsed"&gt;
+&lt;li&gt;Controller
+	&lt;ul&gt;...&lt;/ul&gt;<cc>&lt;!-- collapsible element --&gt;</cc>
+	&lt;/li&gt;
+&lt;li&gt;Controller
+	&lt;ul&gt;...&lt;/ul&gt;<cc>&lt;!-- collapsible element --&gt;</cc>
+	&lt;/li&gt;
+&lt;li&gt;Controller
+	&lt;ul&gt;...&lt;/ul&gt;<cc>&lt;!-- collapsible element --&gt;</cc>
+	&lt;/li&gt;
+&lt;/ul&gt;
+</pre></figure>
+
+<p>A preprocessor in <tt>initContainer()</tt> searches the child nodes for potentially collapsible elements, such as nested UL or OL elements, finds their associated controllers and decorates them with an empty <tt>data-collapsible-state</tt> attribute. The default value is then retrieved from a default state provider, as described above.</p>
+
+<p>The <tt>collapsible-structure</tt> keyword can be applied to UL, OL and DL elements.</p>
+
+<!--h4--collapsible-structure--></div>
+
+<h4 cbc>"not-collaspible" Class Name</h4><div>
+
+<p>Collapsible elements and their controller elements are recognized automatically. To prevent individual elements from being processed, decorate them with the <tt>not-collapsible</tt> class name:</p>
+
+<figure class="listing"><figcaption>Decorating not collapsible elements</figcaption>
+<pre>
+&lt;ul class="<hi>collapsible-structure</hi>"&gt;
+&lt;li&gt;List item A
+	&lt;ul&gt;<cc>&lt;!-- collapsible element --&gt;</cc>
+	&lt;li&gt;sub-item-1&lt;/li&gt;
+	&lt;li&gt;sub-item-2&lt;/li&gt;
+	&lt;li&gt;sub-item-3&lt;/li&gt;
+	&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;List item B
+	&lt;ul class="<hi>not-collaplisble</hi>"&gt;
+	&lt;li&gt;sub-item-1&lt;/li&gt;
+	&lt;li&gt;sub-item-2&lt;/li&gt;
+	&lt;li&gt;sub-item-3&lt;/li&gt;
+	&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</pre>
+</figure>
+
+<p>In this example, the second nested list of item A is not collapsible.</p>
+
+<figure class="demo">
+<figcaption>A tree structure with collapsible elements</figcaption>
+<iframe class="content-height-observed" src="demo-5.htm"></iframe>
+</figure>
+
+<!--h4--not-collaspible Keyword--></div>
+
+<h4 cbc>"flat" Class Name</h4><div>
+
+<p>The <tt>collapsible-structure</tt> keyword causes the preprocessor to examine the entire tree of child elements below the collapsible structure root element. If you want to limit preprocessing to the first level, add the <tt>flat</tt> class name to the root element. Here is an example:</p>
+
+<figure class="listing"><figcaption>Excluding individual element from processing</figcaption>
+<pre>
+&lt;ul class="<hi>flat</hi> collapsible-structure"&gt;
+&lt;li&gt;List item A
+	&lt;ul&gt;<cc>&lt;!-- collapsible --&gt;</cc>
+	&lt;li&gt;sub-item-1&lt;/li&gt;
+	&lt;li&gt;sub-item-2
+		&lt;ul&gt;...&lt;/ul&gt;<cc>&lt;!-- not collapsible --&gt;</cc>
+		&lt;/li&gt;
+	&lt;li&gt;sub-item-3&lt;/li&gt;
+	&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;List item A
+	&lt;ul&gt;<cc>&lt;!-- collapsible --&gt;</cc>
+	&lt;li&gt;sub-item-1&lt;/li&gt;
+	&lt;li&gt;sub-item-2
+		&lt;ul&gt;...&lt;/ul&gt;<cc>&lt;!-- not collapsible --&gt;</cc>
+		&lt;/li&gt;
+	&lt;li&gt;sub-item-3&lt;/li&gt;
+	&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</pre></figure>
+
+<p>In this example, only the top level nodes are collapsible.</p>
+
+<figure class="demo">
+<figcaption>Excluding all nested elements from processing</figcaption>
+<iframe class="content-height-observed" src="demo-6.htm"></iframe>
+</figure>
+
+
+<!--h4-flat keyword--></div>
+
+<h4 cbc>"cbc" Attribute</h4><div>
+
+<p>The <tt>cbc</tt> attribute can be applied to collapsible chapter headings (H1...H5):</p>
+
+<figure class="listing"><figcaption>The cbc attribute creates collapsible chapters</figcaption>
+<pre>
+&lt;h2 <hi>cbc</hi>&gt;Heading&lt;/h2&gt;&lt;div&gt;
+&lt;p&gt;Paragraph&lt;/p&gt;...
+&lt;h3 <hi>cbc</hi>&gt;Subheading&lt;/h3&gt;&lt;div&gt;
+&lt;p&gt;Paragraph&lt;/p&gt;...
+&lt;h4 <hi>cbc</hi>&gt;Heading&lt;/h4&gt;&lt;div&gt;
+&lt;p&gt;Paragraph&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</pre></figure>
+
+<p>The preprocessor replaces the <tt>cbc</tt> class name with <tt>data-collapsible-state</tt> and thereby saves some typing effort. Attribute values can be supplied, "collapsed", "expanded" and the empty string are allowed.</p>
+
+<!--h4--cbc--></div>
+
+<h4 cbc>"data-collapsible-default" Attribute</h4><div>
+
+<p>You can define the initial state of each controller element individually</p>
+
+<figure class="listing"><figcaption>Defining the initial state</figcaption>
+<pre>
+&lt;li <hi>data-collapsible-state</hi>="collapsed"&gt;Controller
+	&lt;ul&gt;...&lt;/ul&gt;<cc>&lt;!-- collapsible element --&gt;</cc>
+	&lt;/li&gt;
+</pre></figure>
+
+<p>But you can also set up a parent element that provides a <em>default value</em> for the collapsible element controllers in the tree below:</p>
+
+<figure class="listing"><figcaption>Providing a default state value</figcaption>
+<pre>
+&lt;ul class="collapsible-structure" <hi>data-collapsible-default</hi>="collapsed"&gt;
+&lt;li data-collapsible-state&gt;Controller
+	&lt;ul&gt;...&lt;/ul&gt;&lt;/li&gt;
+&lt;li <hi>data-collapsible-state</hi>="expanded"&gt;Controller
+	&lt;ul&gt;...&lt;/ul&gt;<cc>&lt;!-- collapsible element --&gt;</cc>
+	&lt;/li&gt;
+&lt;/ul&gt;
+</pre></figure>
+
+<p>This attribute can be placed on any container element, including the <tt>BODY</tt>, to provide a default state value for the child elements. You can apply this attribut to multiple containers, the one nearest to the controller element overrides the others.</p>
+
+<p>A <tt>data-collapsible-state="value"</tt> attribute on a controller overrides the default value.</p>
+
+<!--h4--data-collapsible-default Attribute--></div>
+
+<!--h3--Shortcuts--></div>
+
+<!--h2--Usage--></div>
+
+<h2 cbc>Advanced Usage</h2><div>
+
+<p>The collapsible structures component supports interactively loaded fragment anchors:</p>
+
+<figure class="listing"><figcaption>Anchor links to collapsible content fragment</figcaption>
+<pre>
+&lt;li <hi>data-collapsible-state</hi>&gt;Controller
+	&lt;a data-load-interactive href="path-to-html-fragment.htm"&gt;&lt;/a&gt;
+	&lt;/li&gt;
+</pre></figure>
+
+<p>Here, the anchor element replaces the usual UL/OL list element. A click on the controller (LI) element causes the HTML fragment to be loaded and injected into the document, after which the HTML structure is processed as described above.</p>
+
+<p>The controller always starts out in the collapsed state, regardless of any explicitly defined value, because there is initially no content to be shown.</p>
+
+<p>This concept is used for example in <em>partially loaded sitemaps</em>. The following example has only the three top-level nodes of the collapsible tree loaded. Each list item carries an "interactive" html fragment link anchor. A click on a top-level controller causes the linked fragment to be loaded. A click on the controller icon also loads the content, and after injection and initialization, the element is expanded:</p>
+
+<figure class="demo">
+<figcaption>Combination with interactive HTML fragment anchors</figcaption>
+<iframe class="content-height-observed" src="demo-7.htm"></iframe>
+</figure>
+
+<p>A click on a link that points to a different host does neither load the content nor expand the element, because the current page content will be replaced anyway.</p>
+
+<p>Upon first content loading, a slight delay may be noticed, but thanks to browser caching, consecutive loading will hardly be noticed.</p>
+
+<!--h2--Advanced Usage--></div>
+
+<h2 cbc id="demos">Examples</h2><div>
+
+<figure class="demo">
+<figcaption>Collapsible ordered lists</figcaption>
+<iframe class="content-height-observed" src="demo-2.htm"></iframe>
+</figure>
+
+<figure class="demo">
+<figcaption>Collapsible description lists</figcaption>
+<iframe class="content-height-observed" src="demo-3.htm"></iframe>
+</figure>
+
+<figure class="demo">
+<figcaption>Collapsible chapters</figcaption>
+<iframe class="content-height-observed" src="demo-4.htm"></iframe>
+</figure>
+
+<p>Of course, arbitrary heterogeneous collapsible tree structures can be created.</p>
+
+<h3 cbc>Demo 7 &ndash; Interactive Fragment Anchors</h3><div>
+
+<p>Partially loaded sitemaps depend on fragment anchors that are not loaded by default. Instead, some user interaction or other event triggers loading them. Interactive fragment anchors in a collapsible structure such as UL or OL elements are considered to be replaced with another collapsible element. They are always collapsed by default.</p>
+
+<p>The following document contains interactive fragment anchors:</p>
+
+<figure class="listing"><figcaption>Interactive Fragment Anchors</figcaption>
+<pre>
+&lt;ul class="collapsible-structure"&gt;
+&lt;li&gt;item&lt;a <hi>data-load-interactive</hi> href="<hi>demo-7-fragment.htm</hi>"&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;<hi>a href="about:blank"</hi>&gt;item&lt;/a&gt;&lt;a data-load-interactive href="demo-7-fragment.htm"&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;item&lt;a data-load-interactive href="demo-7-fragment.htm"&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</pre>
+</figure>
+
+<p>When  such a first-level item is clicked and it is not an anchor element, the fragment is loaded first, and then expanded.</p>
+
+<p>A click on a link that navigates the window is an exception. Loading a fragment is rather useless because the window content will be replaced anyway &ndash; except if the document is a single-page environment and the target address is on the same host.</p>
+
+<figure class="demo">
+<figcaption>Collapsible elements and interactive fragment anchors</figcaption>
+<iframe class="content-height-observed" src="demo-7.htm"></iframe>
+</figure>
+
+<!--h3-Demo 7--></div>
+
+<!--h2--Examples--></div>
+
+<h2 cbc>Implementation</h2><div>
+
+<p>The component is fairly complex, so we divide the description into several sections.</p>
+
+<h3 cbc>Init()</h3><div>
+
+<p>The module <tt>init()</tt> function sets up event handlers and initiaizes the document:</p>
+
+<figure class="listing"><figcaption>Initializing the document</figcaption>
+<pre>
+export function init ( searchparams = new URLSearchParams( )) {
+	<cc>// Add event listeners</cc>
+	document.addEventListener( "click" , controllerClick );
+	document.addEventListener( "transitionend", finishTransition );
+	<cc>// initialize collapsible structures</cc>
+	initContainer( document.getElementById( searchparams.get( "root" )) || document.body ) ;
+	<cc>// Enable CSS height transition rules</cc>
+	window.requestAnimationFrame(( ) => document.body.classList.add( "collapsible-transitions-enabled" ));
+	}
+</pre></figure>
+
+<p>Event handlers are registered on the document element and depend on event bubbling. Other click and transitionend event handlers must validate their target object and prevent event processing approriately.</p>
+
+<p>After initializing the container element (document.body by default), the transition rules for collapsible elements are enabled after a short delay. This ensures that collapsed elements disappear as fast as possible when the document is loaded, so that flashing effects are avoided.</p>
+
+<!--h3--Init()--></div>
+
+<h3 cbc>initCollapsibleStructure()</h3><div>
+
+<p>The function <tt>initCollapsibleStructure()</tt> does the heavyweight lifting in three steps. The <tt>root</tt> parameter references the container element to be processed, usually the <tt>document.body</tt>, or the parent element of an interactively loaded html fragment, which also requires <tt>addRoot</tt> to be set true.</p>
+
+<figure class="listing"><figcaption>Initializing a container element</figcaption>
+<pre>
+export function initContainer ( root = document, addRoot = false ) {
+	<cc>// Step 1: Process elements declared as collapsible structures</cc>
+	<cc>// To initialize interactively loaded fragments, root has to be added to the list.</cc>
+	const collapsibleStructures = Array.from( root.querySelectorAll( ".collapsible-structure" ));
+	if ( addRoot ) collapsibleStructures.unshift( root );
+	for ( const collapsibleStructure of collapsibleStructures ) { <hi>...</hi> }
+	<cc>// Step 2: Process elements with cbc attributes</cc>
+	for ( const controller of root.querySelectorAll( "[cbc]" )) { <hi>...</hi> }
+	<cc>// Step 3: Configure controllers and collapsible elements</cc>
+	const controllers = Array.from( root.querySelectorAll( '[data-collapsible-state]' ));
+	if ( addRoot ) controllers.unshift( root );
+	for ( const controller of controllers ) {
+	}
+</pre></figure>
+
+<p>Now let's examine the individual steps of the procedure:</p>
+
+<h4 cbc>Step 1</h4><div>
+
+<p>The first part in step 1 compiles a selector for potentially collapsible elements in the subtree under a collapsible structure root element:</p>
+
+<figure class="listing"><figcaption>Find collapsible element in collapsible structures</figcaption>
+<pre>
+	for ( const collapsibleStructure of collapsibleStructures ) {
+		<cc>// Step 1.1 Compile a selector for potentially collapsible elements</cc>
+		let selector ;
+		switch ( collapsibleStructure.tagName ) {
+		case "LI" :
+		case "OL" :
+		case "UL" :
+			selector = collapsibleStructure.classList.contains( "flat" ) 
+				? ":scope > LI > UL , :scope > LI > OL , :scope > LI > [data-load-interactive]" 
+				: "UL , OL , [data-load-interactive]" ;
+			break;
+		case "DL" :
+			selector = collapsibleStructure.classList.contains( "flat" ) ? ":scope > DT+DD" : "DT+DD" ;
+			break;
+			}
+</pre></figure>
+
+<p>The <tt>flat</tt> classname causes only first-level elements to be collected, otherwise all potentially collapsible elements in the subtree are collected.</p>
+
+<p>The second part actually collects and processes them one by one:</p>
+
+<figure class="listing"><figcaption>Processing potentially collapsible elements</figcaption>
+<pre>
+		<cc>// Step 1.2 Decorate associated controllers with state attributes</cc>
+		for ( const collapsibleElement of collapsibleStructure.querySelectorAll( selector )) {
+			if ( collapsibleElement.classList.contains( "not-collapsible" )) continue ;
+			const controller = getController( collapsibleElement );
+			if ( ! controller.hasAttribute( "data-collapsible-state" )) controller.setAttribute( "data-collapsible-state", "" );
+		}	}
+</pre></figure>
+
+<p>If an element decorated with the <tt>.not-collapsible</tt> classname, it will be skipped.</p>
+
+<p>The associated controller element is determined and decorated with an empty <tt>data-collapsible-state</tt> attribute, if not alread present. Its value will be determined later.</p>
+
+<!--h4--Step 1--></div>
+
+<h4 cbc>Step 2</h4><div>
+
+<p>The second step pre-processes collapsible chapter controllers (<tt>H1...H5</tt>). Instead of the long "data-collapsible-state" attribute, a short but not standards-compliant string "cbc" can be used, which stands for "collapsible block controller". Which means less typing effort for a document author.</p>
+
+<p>The code effectively exchanges the attribute name:</p>
+
+<figure class="listing"><figcaption>Processing collapsible chapter controller</figcaption>
+<pre>
+	<cc>// Step 2: Find manually placed CBC attributes on H1...5 elements and 
+	// replace them with properly initialized controller attributes.</cc>
+	for ( const controller of root.querySelectorAll( "[cbc]" )) {
+		controller.setAttribute( "data-collapsible-state", controller.getAttribute( "cbc" ));
+		controller.removeAttribute( "cbc" );
+		}
+</pre></figure>
+
+<!--h4--Step 2--></div>
+
+<h4 cbc>Step 3</h4><div>
+
+<p>Collapsible element controllers have now been decorated with a <tt>data-collapsible-state</tt> attribute. Controllers and the associated collapsible elements are now finished in this step:</p>
+
+<figure class="listing"><figcaption>Special treatment for UL elements</figcaption>
+<pre>
+	<cc>// Step 3: Configure controllers and collapsible elements</cc>
+	const controllers = Array.from( root.querySelectorAll( '[data-collapsible-state]' ));
+	if ( addRoot ) controllers.unshift( root );
+	for ( const controller of controllers ) {
+		<cc>// Get rid of list style bullets on UL items </cc>
+		if ( controller.parentElement.tagName === "UL" ) controller.parentElement.style.listStyleType = "none" ;
+</pre></figure>
+
+<p>Note that we have to include the <tt>root</tt> element if an injected fragment is being processed.</p>
+
+<p>Now the intitial state of the controller is determined:</p>
+
+<figure class="listing"><figcaption>Determining the initial state</figcaption>
+<pre>
+		<cc>// Initialize controller state value</cc>
+		let state;
+		const collapsibleElement = getCollapsibleElement( controller );
+		if ( collapsibleElement.hasAttribute( "data-load-interactive" )) {
+			state = "collapsed" ;
+			controller.setAttribute( "data-collapsible-state", state );
+				<cc>// Initialize fragments later, when they have been loaded</cc>
+			collapsibleElement.addEventListener( "fragment-loaded" , evt => 
+				initContainer( evt.detail.content[ 0 ].parentElement, true )) ;
+			}
+</pre></figure>
+
+<p>If the collapsible element is an interactive fragment anchor, the controller state is always "collapsed" (because the isn't yet content to be displayed anyway). Additionally, the fragment must be initialized after it has been injected into the document.</p>
+
+<p>Otherwise, if the states is still undetermined at this point, a default state provider is used to supply the initial value. If there is none, the element starts in the collapsed state.</p>
+
+<figure class="listing"><figcaption>Decorating the collapsible elements</figcaption>
+<pre>
+		else {
+			let state = controller.getAttribute( "data-collapsible-state" );
+			if ( ! state ) {
+				const stateProvider = controller.closest( "[data-collapsible-default]" );
+				state = stateProvider && stateProvider.getAttribute( "data-collapsible-default" ) || "collapsed" ;
+				controller.setAttribute( "data-collapsible-state", state );
+				}
+			}
+</pre></figure>
+
+<p>The next step decorates the collapsible element with a classifier class name. This classifier is used in the <tt>transitionend</tt> event handler to determine whether action has to be taken, or not.</p>
+
+<figure class="listing"><figcaption>Decorating the collapsible elements</figcaption>
+<pre>
+		<cc>// Classify associated collapsible element</cc>
+		collapsibleElement.classList.add( "collapsible-element" );
+</pre></figure>
+
+<p>The final step is to make sure that collapsed elements are initilized with a height of zero:</p>
+
+<figure class="listing"><figcaption>Decorating the collapsible elements</figcaption>
+<pre>
+		<cc>// Make sure that collapsed elements start with zero height</cc>
+		if ( state === "collapsed" ) {
+			 collapsibleElement.style.height = "0px" ;
+			 collapsibleElement.style.overflow = "clip clip" ;
+			} 
+		}
+	}
+</pre></figure>
+
+<!--h4--Step 3--></div>
+
+<!--h3--initCollapsibleStructure()--></div>
+
+<h3 cbc>Click Event Handling</h3><div>
+
+<p>The click event handler controls expansion and contraction of collapsible elements.</p>
+
+<p>The event handler is applicable only if the target element is a collapsible element controller and if the click appeared over the controller icon. The style height property is then used to determine whether to collaspe or expand the related element:</p>
+
+<figure class="listing"><figcaption>Validating the event</figcaption>
+<pre>
+function controllerClick ( evt ) {
+	<cc>// Validate event target</cc>
+	if ( ! evt.target.hasAttribute( "data-collapsible-state" ) || evt.offsetX > 20 ) return;
+</pre></figure>
+
+<p>The next instructions retrieve references to the collapsible element and its associated controller:</p>
+
+<figure class="listing"><figcaption>Getting references to controller and collapsible element</figcaption>
+<pre>
+	evt.stopPropagation( );
+	const controller = evt.target;
+	const collapsibleElement = getCollapsibleElement( evt.target );
+	if ( ! collapsibleElement ) return ;
+</pre></figure>
+
+<p>In case the collapsible element is an interactive fragment anchor, expanding must be delayed until the html fragment has been injected and initialized correctly. The <tt>fragment-loaded</tt> event is used for this purpose:</p>
+
+<figure class="listing"><figcaption>Special treatment for fragment anchors</figcaption>
+<pre>
+	<cc>// expansion must be delayed until fragment has been loaded.</cc>
+	if ( collapsibleElement.hasAttribute( "data-load-interactive" )) collapsibleElement.addEventListener( "fragment-loaded" , ( ) => expand( controller ));
+</pre></figure>
+
+<p>The event handler body references the <tt>controller</tt> variable, which was defined above. This is a typical closure structure. The <tt>expand()</tt> function cannot be supplied with a reference to the collapsible element computed above, because that is still a reference to the outdated fragment anchor, which is not correct in this context. Therefore <tt>expand()</tt> must determine the collapsible element on behalf of its own.</p>
+
+<p>In case it is a "normal" collapsible element, we must decide between expansion and contraction, and call the appropriate function:</p>
+
+<figure class="listing"><figcaption>Excluding individual element</figcaption>
+<pre>
+	else	if ( collapsibleElement.style.height === "0px" ) expand( controller, collapsibleElement );
+	else collapse( controller, collapsibleElement  );
+</pre></figure>
+
+<p>Collabsible elements shall perform smooth transitions between "collapsed" and "expanded". This is achieved with a CSS rule:</p>
+
+<!--h3--Click Event Handling--></div>
+
+<h3 cbc>expand()</h3><div>
+
+<p>The following function expands the element. What seems like a simple task is more complicated at second sight: A smooth transition requires that the height style change starts from a numerical value (0px) and ends on a numerical value (npx), where n is a number. The setting "auto" doesn't work. The actual height of an element us usually determined by its content and the available space (width). Both can change dynamically.</p>
+
+<p>So we first need to determine the actual expanded height of the element. This is done by setting the <tt>style.height</tt> to "auto" and then reading the computed style height. To avoid the collapsible element from suddenly exploding to full height, we reset the height back to "0px".</p>
+
+<p>We have to wait for (at least) two animation frames before we can actually start the expansion. Failing to wait or using <tt>setTimeout</tt> sometimes results in sudden height changes and/or <tt>transitionend</tt> event not to be dispatched:</p>
+
+<figure class="listing"><figcaption>Excluding individual element from processing</figcaption>
+<pre>
+export function expand ( controller, collapsibleElement = getCollapsibleElement( controller )) {
+	<cc>// determine fully expanded height</cc>
+	collapsibleElement.style.height = "auto" ;
+	const targetHeight = window.getComputedStyle( collapsibleElement ).height ;
+	<cc>// prepare for expansion</cc>
+	collapsibleElement.style.height = "0px" ;
+	collapsibleElement.style.overflow = "visible clip" ;
+	window.requestAnimationFrame( ( ) => 
+	window.requestAnimationFrame( ( ) => {
+		<cc>// start expansion</cc>
+		controller.setAttribute( "data-collapsible-state", "expanded" );
+		collapsibleElement.style.height = targetHeight } ) ) ;
+	}
+</pre></figure>
+
+<p>The height transition is then started by setting the height of the collapsible element to the computed target height.</p>
+
+<!--h3--expand()--></div>
+
+<h3 cbc>collapse()</h3><div>
+
+<p>Similarly, the collapse() function is implemented. The collapsible element starts out with the <tt>style.height</tt> set the "auto", which allows dynamic size changes due to changes in the available (window) size. The first step is to replace that with a numeric value, which is required for CSS transitions. Then, after a double delay, <tt>style.height</tt> is set to "0px". The element starts to collapse.</p>
+
+<figure class="listing"><figcaption>Excluding individual element from processing</figcaption>
+<pre>
+export function collapse ( controller, collapsibleElement = getCollapsibleElement( controller )) {
+	collapsibleElement.style.height = window.getComputedStyle( collapsibleElement ).height ;
+	collapsibleElement.style.overflow = "visible clip" ;
+	window.requestAnimationFrame( ( ) => 
+	window.requestAnimationFrame( ( ) => {
+		controller.setAttribute( "data-collapsible-state", "collapsed" );
+		collapsibleElement.style.height = "0px" } ) ) ;
+	}
+</pre></figure>
+
+<p>Changing the <tt>style.overflow</tt> to "visible clip" during transitions ensures that the vertically overflowing content is hidden at the bottom, and a horizontal scroll bar does not suddenly kick in. </p>
+
+<p>The transition must be finished in the <tt>transitionend</tt> event handler:</p>
+
+<figure class="listing"><figcaption>Finishing the height transition</figcaption>
+<pre>
+function finishTransition( evt ) {
+	<cc>// validate event target</cc>
+	if ( ! evt.target.classList.contains( "collapsible-element" )) return ;
+	<cc>// update collapsible element styles</cc>
+	if ( evt.target.style.height === "0px" ) 
+		evt.target.style.overflow = "clip clip" ;
+	else {
+		evt.target.style.height = "auto" ;
+		evt.target.style.overflow = "visible visible";
+		}
+	evt.stopPropagation( );
+	}
+</pre></figure>
+
+<p>In the collapsed state, the overlow style must be changed to hide overflowing content, and also to avoid a confusing horizontal scrollbar caused by some horizontally overflowing content that is invisisible anyway. </p>
+
+<p>In the expanded state, the container is "neutralized" by setting its overflow style to "visible" both vertically and horizontally. Additionally, the height style is set to "auto" in order to let the content layout to be adapted to changes of the available space.</p>
+
+<!--h3--collapse()--></div>
+
+<h3 cbc>Helper Functions</h3><div>
+
+<p>The first helpfer function finds the associated controller for a collapsible element:</p>
+
+<figure class="listing"><figcaption>Finding the controller element</figcaption>
+<pre>
+export function getController ( collapsibleElement ) {
+	switch ( collapsibleElement.tagName ) {
+	case "UL" :
+	case "OL" :
+		return collapsibleElement.parentElement ;
+	case "A" :
+		<cc>// Interactively loaded fragment anchor</cc>
+		return collapsibleElement.closest( "LI" );
+	default :
+		return collapsibleElement.previousElementSibling;
+	}	}
+</pre></figure>
+
+<p>Note that an interactive fragment anchor element is also considered "collapsible element". At least, there should be a "real" collapsible element when the fragment has been injected into the host document.</p>
+
+<p>Similarly, there is a function to retrieve the collapsible element of an associated controller:</p>
+
+<figure class="listing"><figcaption></figcaption>
+<pre>
+export function getCollapsibleElement( controller ) {
+	switch ( controller.tagName ) {
+	case "LI" : 
+		return controller.querySelector( "UL,OL,A[data-load-interactive]" ); break;
+	case "A" : 
+		return undefined ;   <cc>// Anchors should not have collapsible elements</cc>
+	default :
+		return controller.nextElementSibling ;
+	}	}
+</pre></figure>
+
+<!--h3--Helper Functions--></div>
+
+<figure class="listing"><figcaption>Height transition rule</figcaption>
+<pre>
+[ data-collapsible-state ] + div {
+	transition : <hi>height</hi> 0.7s linear ;
+	}
+</pre></figure>
+
+<h3 cbc>Alternative Implementation Idea</h3><div>
+
+<p>The payload content can be placed in an intermediate container, which then is placed in a collapsible container, like so:</p>
+
+<figure class="listing"><figcaption>Alternative container structure</figcaption>
+<pre>
+&lt;div class="collapsible-container"&gt;
+	&lt;div class="content-container&gt;
+		&lt;!-- content goes here --&gt;
+	&lt;/div&gt;
+&lt;/div&gt;
+</pre></figure>
+
+<p>The benefit is that the height of the inner container is determined by its content, and never changes. To start a transition, the outer container height can easily be set to the height of the inner container, without the hassle of dealing with <tt>requestAnimationFrame()</tt> et cetera.</p>
+
+<!--h3--Alternative Implementation Idea--></div>
+
+<h3 cbc>CSS Code</h3><div>
+
+<p>The basic idea is to use a <tt>transition</tt> rule on the <tt>height</tt> property of the collapsible element:</p>
+
+<figure class="listing"><figcaption>Height transition rule</figcaption>
+<pre>
+:root { --transition-duration : 0.7s }
+[ data-collapsible-state ] + div {
+	<hi>transition</hi> : <hi>height</hi> var( --transition-duration) linear ;
+	<hi>border</hi> : 1px solid transparent ;
+	}
+</pre></figure>
+
+<p>The transparent border around the collapsible element is a trick that prevents top and bottom margins to suddenly combine and separate when the collapsible element height changes to and from 0px, which causes noticeable position jumps of elements further down on the page. More information on this topic can be found on <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_box_model/Mastering_margin_collapsing#no_content_separating_parent_and_descendants">MDN</a>.</p>
+
+<p>The collapsible element controller shows an icon that depends on the state:</p>
+
+<figure class="listing"><figcaption>Controller icon images</figcaption>
+<pre>
+	<cc>/* Icon image for collapsed state */</cc>
+[ data-collapsible-state = "collapsed" ]::before {
+	<hi>background-image</hi> : url( orange-plus.svg );
+	}
+
+	<cc>/* Icon image for expanded state */</cc>
+[ data-collapsible-state = "expanded" ]::before {
+	<hi>background-image</hi> : url( orange-minus.svg );
+	}
+</pre></figure>
+
+<p>That icon needs a place to go:</p>
+
+<figure class="listing"><figcaption>Container for the icons</figcaption>
+<pre>
+[data-collapsible-state]<hi>::before</hi> {
+	content : "\00A0" ; <cc>/* non-breaking space */</cc>
+	position : absolute ;  <cc>/* required for positioning ::before far to the left */</cc>
+	top : 2px ;
+	width : 20px ;   <cc>/* size determines the horizontal and vertical position of image */</cc>
+	height : auto ;
+	background-size : 15px 15px ;
+	background-repeat : no-repeat ;
+	background-position : left center ;
+	}
+
+	<cc>	/* Horizontal icon container position */</cc>
+[ data-collapsible-state ]::before { left : -25px }
+</pre></figure>
+
+<p>There are additional CSS rules that deal with variants of controllers and collapsible elements. They can be inspected in the source code, but basically, this is the core idea.</p>
+
+<!--h3--CSS Code--></div>
+
+<!--h2--Implementation--></div>
+
+</body></html>

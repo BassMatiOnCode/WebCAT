@@ -1,0 +1,26 @@
+/*   documentation: .../web-cat/navigation-panel/navigation-panel.htm   */
+
+#navigationPanel {
+	left : 0px ;
+	top : 0px ;
+	padding-left : 0px ;
+	padding-right : 0px ;
+	border-left : 1px solid silver ;
+	}
+
+#navigationPanel > * {
+	margin-left : 20px ;
+	margin-right : 20px ;
+	}
+
+#navigationPanel ul {
+	white-space : nowrap ;
+	}
+
+#navigationPanel a {
+	text-decoration : none ;
+	}
+
+#navigationPanel a:hover {
+	text-decoration : underline ;
+	}

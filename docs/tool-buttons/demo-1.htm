@@ -1,0 +1,26 @@
+<html style="height:50px"><head>
+<script type="module">
+fetch( "button-1.svg" )
+	.then( response => response.text( ))
+	.then( text => button1.innerHTML = text ) ;
+fetch( "button-2.svg" )
+	.then( response => response.text( ))
+	.then( text => button2.innerHTML = text ) ;
+fetch( "button-3.svg" )
+	.then( response => response.text( ))
+	.then( text => button3.innerHTML = text ) ;
+fetch( "button-google.svg" )
+	.then( response => response.text( ))
+	.then( text => googleButton.innerHTML = text ) ;
+for ( const anchor of toolBar.querySelectorAll( "A" )) {
+	if ( ! anchor.hasAttribute( "href" )) anchor.addEventListener( "click" , evt => { alert( `Button ${evt.currentTarget.id.substring(6)}` ); }) ;
+	}
+</script>
+</head><body>
+<div id="toolBar">
+<a id="button1"></a>
+<a id="button2"></a>
+<a id="button3"></a>
+<a id="googleButton" href="https://google.com" target="_blank"></a>
+</div>
+</body></html>
