@@ -1,0 +1,3 @@
+2024-10-07 Replace direct usage of element ID
+	because this might lead to "Element is not defined" exceptions. Instead, use document.getElementById(), which returns null or undefined and does not throw an exception.
+	2024-10-07 Done

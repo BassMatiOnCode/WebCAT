@@ -22,6 +22,7 @@ div.page-toolbar > a {
 div.page-toolbar > a:hover {
 	text-decoration : none ;
 	}
+
 div.page-toolbar > a > svg {
 	height : 20px ;
 	}

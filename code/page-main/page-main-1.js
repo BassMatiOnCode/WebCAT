@@ -12,6 +12,7 @@ import * as initializer from "../component-initializer/component-initializer-1.j
 //	main.style.marginTop = (searchparams.get( "margin-top" ) || 120) + "px" ;
 	// TODO: Is collapsible-structure still necessary?
 	main.classList.add( "collapsible-structure" );  // root element for collapsible chapters
+	const searchparams = new URLSearchParams( document.location.search );
 	main.setAttribute( "data-collapsible-default", searchparams.get("collapsible-default") || "expanded" );
 	main.append( ...document.body.childNodes );
 //	for ( const e of Array.from( document.body.children )) main.insertBefore( e, null );

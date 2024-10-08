@@ -1,0 +1,103 @@
+/*   collapsible structures   */
+
+:root {
+	--transition-duration : 0.7s ;
+}
+
+li[ data-collapsible-state ] > ul ,
+li[ data-collapsible-state ] > ol ,
+dt[ data-collapsible-state ] + dd ,
+[ data-collapsible-state ] + div {
+	/* Height transition of collapsible elements */
+	transition : height var( --transition-duration) linear ;
+	/* Permanent border prevents vertical content margins to disappear suddenly when display style is changed*/
+	border : 1px solid transparent ;
+	}
+
+	/* Controller preparation for hosting the icon container */
+dl > dt[ data-collapsible-state ] ,
+ol > li[ data-collapsible-state ] ,
+ul > li[ data-collapsible-state ] {
+	position : relative ;   /* required for a ::before with position absolute */
+	}
+
+	/* Icon container configuration */
+[data-collapsible-state]::before {
+	content : "\00A0" ;
+	position : absolute ;  /* required for positioning ::before far to the left */
+	top : 2px ;
+	width : 20px ;   /* size determines the horizontal and vertical position of image */
+	height : auto ;
+	background-size : 15px 15px ;
+	background-repeat : no-repeat ;
+	background-position : left center ;
+	}
+
+	/* Icon container configuration for heading elements */
+h1[data-collapsible-state]::before ,
+h2[data-collapsible-state]::before ,
+h3[data-collapsible-state]::before ,
+h4[data-collapsible-state]::before ,
+h5[data-collapsible-state]::before {
+	display : inline-block ;
+	position : static ;
+	}
+
+	/* Horizontal icon container position */
+[ data-collapsible-state ]::before { left : -25px }
+ol > li[ data-collapsible-state ]::before { left : -40px }
+
+	/* Icon image for collapsed state */
+[ data-collapsible-state = "collapsed" ]::before {
+	background-image : url( orange-plus.svg );
+	}
+
+	/* Icon image for expanded state */
+[ data-collapsible-state = "expanded" ]::before {
+	background-image : url( orange-minus.svg );
+	}
+
+	/* Indentation amout */
+ul.collapsible-structure,
+ul.collapsible-structure ul {
+	padding-left : 25px ;  /* matches the size of icon container */
+	list-style-type : none ;   /* no bullets by default */
+	}
+
+.collapsible-structure ol { margin-left : -20px }   /* reduced indentation for OL */
+
+dl.collapsible-structure { margin-left : 25px }  /* Additional space for icons of the top-level DL container */
+
+dt[ data-collapsible-state ] + dd {   /* Indentation and border for description details  */
+	margin-left : 20px ;
+	border : 1px solid transparent ;
+	}
+
+	/* Remove vertical spacing for nested description lists */
+dt[ data-collapsible-state ] + dd > dl {
+	margin-top : 0px ;
+	margin-bottom : 0px ;
+	}
+
+	/* bottom and top margins cannot collapse because of the border around DIV */
+[data-collapsible-state] + div :first-child {
+	margin-top : 0px ;
+	}
+
+	/* Collapse top margin of headers if the previous element is collapsed */
+[data-collapsible-state = "collapsed"] + div + h1,
+[data-collapsible-state = "collapsed"] + div + h2,
+[data-collapsible-state = "collapsed"] + div + h3,
+[data-collapsible-state = "collapsed"] + div + h4,
+[data-collapsible-state = "collapsed"] + div + h5 {
+	margin-top : -10px ;
+	}	
+
+	/* Collapse top margin of headers if the previous element is collapsed */
+body.collapsible-transitions-enabled [data-collapsible-state] + div + h1,
+body.collapsible-transitions-enabled [data-collapsible-state] + div + h2,
+body.collapsible-transitions-enabled [data-collapsible-state] + div + h3,
+body.collapsible-transitions-enabled [data-collapsible-state] + div + h4,
+body.collapsible-transitions-enabled [data-collapsible-state] + div + h5 {
+	transition : margin-top var(--transition-duration) linear ;
+	}	
