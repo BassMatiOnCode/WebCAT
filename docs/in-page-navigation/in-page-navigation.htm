@@ -99,6 +99,24 @@ export const settings = {
 
 <p>TODO</p>
 
+<h3 cbc>ScrollToPreviousTarget()</h3><div>
+
+<p>The function scrolls the document to the first scroll target element that is located above the toolbar bottom border. The elements are inspected in reverse order, from bottom to top.</p>
+
+<figure class="listing"><figcaption>Scrolling to the previous target</figcaption>
+<pre>
+export function scrollToPreviousTarget ( ) {
+	if ( ! settings.scrollTargets ) settings.scrollTargets = document.querySelectorAll( settings.selector );
+	for ( let i = settings.scrollTargets.length - 1 ; i >= 0 ; i -= 1 ) {
+		const heading = settings.scrollTargets[ i ];
+		if ( <hi>heading.getBoundingClientRect( ).top < 0</hi>  ) {
+			<hi>document.documentElement.scroll</hi>( { top : heading.offsetTop - settings.offsetTop , behavior : "smooth"  } ) ;
+			return;
+	}	}	}
+</pre></figure>
+
+<!--h3--ScrollToPreviousTarget()--></div>
+
 <h3 cbc>References</h3><div>
 
 <dl class="link-list">

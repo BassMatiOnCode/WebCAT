@@ -26,14 +26,12 @@ export const settings = {
  *
  */ export function scrollToPreviousTarget ( ) {
 	if ( ! settings.scrollTargets ) settings.scrollTargets = document.querySelectorAll( settings.selector );
-	let previousTarget ;
-	for ( const heading of settings.scrollTargets ) {
-		if ( heading.getBoundingClientRect( ).top > 0  ) {
-			previousTarget = previousTarget || heading;
-			document.documentElement.scroll( { top : previousTarget.offsetTop - settings.offsetTop , behavior : "smooth"  } ) ;
+	for ( let i = settings.scrollTargets.length - 1 ; i >= 0 ; i -= 1 ) {
+		const heading = settings.scrollTargets[ i ];
+		if ( heading.getBoundingClientRect( ).top < 0  ) {
+			document.documentElement.scroll( { top : heading.offsetTop - settings.offsetTop , behavior : "smooth"  } ) ;
 			return;
 			}
-		previousTarget = heading ;
 		}
 	}
 /**
