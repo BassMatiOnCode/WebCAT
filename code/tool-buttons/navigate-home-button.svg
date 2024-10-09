@@ -1,4 +1,5 @@
 ﻿<svg xmlns="http://www.w3.org/2000/svg" xwidth="30" xheight="30" viewBox="-50 -60 100 100" stroke-linecap="round" style="border : 1px none silver" stroke="darkorange" stroke-width="6" fill="none">
+	<title>Navigate home</title>
 	<path d="M 35 -29 v 59 h -70 v -75 h 10 v 9" name="outline" />
 	<path d="M -45 -25 l 45 -20 l 45 20" name="roof"/>
 	<path d="M 35 -10 h -25 v 20 h 25" name="window"/>

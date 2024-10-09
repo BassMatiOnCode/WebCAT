@@ -94,8 +94,12 @@
 <dt>Path highlighting</dt><dd>
 	<p>The path between the root node and the current document is highlighted in the sitemap. </p>
 	</dd>
+<dt>Navigation Info Update</dt><dd>
+	<p>When the user navigates to a document, a related navigation info structure is compiled and published via <tt>navigation-info-update</tt> event to the document object. Site navigation tool buttons and other components subscribe to this event and update their configuration accordingly.</p>
+	</dd>
 <dt>Outdated path is automatically collapsed</dt><dd>
-	<p>When the user navigates to a different website page, the path to the outdated page can be automatically collapsed. To enable that feature, add the <tt>collapse-expired-path</tt> to the query string in the module URL, or add the <tt>data-collapse-expired-path</tt> attribute to the <tt>#sitemapRoot</tt> element.</p></dd>
+	<p>When the user navigates to a different website page, the path to the outdated page can be automatically collapsed. To enable that feature, add the <tt>collapse-expired-path</tt> to the query string in the module URL, or add the <tt>data-collapse-expired-path</tt> attribute to the <tt>#sitemapRoot</tt> element.</p>
+	</dd>
 <dt>Fragmented Sitemaps</dt><dd>
 	<p>With sitemap fragments, a large sitemap can be broken up into several smaller, more manageable parts. By default, fragment link anchors are processed automatically and are completely transparent.</p>
 	</dd>
@@ -107,11 +111,6 @@
 	<p>In a multi-page website, the entrire page content is loaded when a user navigates to a website page. In a single-page website, only the content of the <tt>MAIN</tt> content container is replaced. Head, toolbars, sitemap and footer are preserved (and updated if necessary).</p>
 	</dd>
 </dl>
-
-
-
-
-
 
 <!--h2--Features--></div>
 
@@ -137,8 +136,6 @@
 <h2 cbc>Implementation Details</h2><div>
 
 <p>All Fragments in a document are loaded asynchronously. Fragments can contain other fragments, which are also loaded, recursively and asynchronously. When the loader has finished this recursive job, a "fragment-loading-complete" event is dipatched to the <tt>document</tt> object.</p>
-
-<p></p>
 
 <p>Sitemap fragments are loaded with anchor elements</p>
 <p>The sitemap fragment that contains the root node is loaded first. It is </p>
@@ -237,63 +234,71 @@ http://localhost/section-3/subsection-2/chapter-1/toc.htm
 
 <p>The function parameter is a reference to the sitemap entry that is associated with the current sitemap node.</p>
 
-<dl>
-<dt>Next and Previous Sibling Nodes</dt><dd>
-	<p>Previous and next siblings are the neighbour nodes on the same tree level. If a node has no previous sibling, the node is the first child of its parent. If a node has no next sibling, the node is the last child of its parent.</p></dd>
+<p>The sitemapInfo contains references to anchor elements.</p>
 
-<dt>Next and Previous Nodes in Reading Order</dt><dd>
-	<p>The next node in reading order is the first childe node. If there is none, it is the next sibling node. If there is none, go to the parent. If there is none, there is no next node in reading order. Otherwise, return the next sibling node. If there is none, got to the parent node and repeat.</p>
-	<p>The previous node in reading order is the last child node. If there is none, it is the previous sibling node.
-	
-	If the current node is the first child of its parent node, the previous node in reading order is the previous node in reading order of its parent node. If the previous sibling node has a child node, it is the last child node of the previous sibling. Otherwise the previous node in reading order is the previous sibling node.</p></dd>
+<dl>
+<dt>Home</dt><dd>
+	<p>The home entry points to the root node of the sitemap tree.</p></dd>
+<dt>SequencePrevious, SequenceNext</dt><dd>
+	<p>The previous and next pages in reading sequence. Can be null if there is no such anchor.</p>	
+<dt>SiblingFirst, SiblingPrevious, Sibling Next, SiblingLast</dt><dd>
+	<p>Siblings are nodes on the same tree level as the current node.</p>
+<dt>Parent</dt><dd>
+	<p>The parent node is node above in the tree hierarchy. The root node (home) has not parent.</p></dd>
 </dl>
 
+<p>Sitemap tree nodes are always <tt>LI</tt> elements. An node usually carries text and a content link anchor, which points to the associated document. A click on that link navigates the browser to the document. An empty node has no content link anchor, just text. Empty nodes can be used to structurize the sitemap, but are unusual, and may also confuse the user. For example, if a parent node has no associated content document, the uplink button is dysfunctional (there is no address to navigate to).</p>
+
+<p>Finding the content link anchor: </p>
+
+<figure class="listing"><figcaption>Finding the content link of a sitemap node</figcaption>
 <pre>
+const a = node.querySelector( ":scope > A" );
+</pre></figure>
 
-</pre>
+<p>Finding the node form a content link anchor</p>
 
+<figure class="listing"><figcaption>Finding the content link of a sitemap node</figcaption>
 <pre>
-navigationInfo.previousSibling = currentEntry.previousSibling;
-navigationInfo.nextSibling = currentEntry.nextSibling;
-</pre>
+const node = anchor.closest( "LI" );
+</pre></figure>
 
-<p>The first and last entries of the current section are found with</p>
+<p>The following listings describe how the navigation info is compiled:</p>
 
+<figure class="listing"><figcaption>compileNavigationInfo()</figcaption>
 <pre>
-navigationInfo.firstSibling = currentEntry.parentElement.firstChild;
-navigationInfo.lastSibling = currentEntry.parentElement.lastChild;
-</pre>
+function compileNavigationInfo( currentNode ) {
+	navigationInfo = { };
+	<cc>// previous and next siblings</cc>
+	navigationInfo.<hi>previousSibling</hi> = findContentAnchor( currentNode.previousElementSibling );
+	navigationInfo.<hi>nextSibling</hi> = findContentAnchor( currentNode.nextElementSibling );
+	<cc>// First and last siblings</cc>
+	let parent = currentNode.parentElement;  <cc>// UL</cc>
+	if ( parent.classList.contains( "sitemap-tree" )) parent = null ;
+	navigationInfo.<hi>firstSibling</hi> = findContentAnchor( parent?.firstElementChild );
+	navigationInfo.<hi>lastSibling</hi> = findContentAnchor( parent?.lastElementChild );
+	<cc>// Compile chain of parents nodes</cc>
+	navigationInfo.parentNodes = [ ];
+	while ( parent ) {
+		if ( parent.classList.contains( "sitemap-tree" )) break;  // sitemap root reached
+		parent = parent.parentElement ;  <cc>// LI</cc>
+		navigationInfo<hi>.parentNodes</hi>.unshift( findContentAnchor( parent ) || parent );  <cc>// A or LI</cc>
+		parent = parent.parentElement ;  <cc>// UL</cc>
+		}
+	<cc>// Previous andNext in sequence</cc>
+	const anchors = Array.from( document.getElementById( "sitemapRoot" ).querySelectorAll( "A" ));
+	const currentIndex = anchors.indexOf( findContentAnchor( currentNode ));
+	navigationInfo.<hi>previousSequential</hi> = anchors[ currentIndex - 1 ];
+	navigationInfo.<hi>nextSequential</hi> = anchors[ currentIndex + 1 ];
+	<cc>// Home</cc>
+	navigationInfo.<hi>home</hi> = anchors[ 0 ] ;
+	<cc>// Dispatch navigation-info-change event</cc>
+	const event = new CustomEvent( "navigation-info-change" , { detail : { navigationInfo : navigationInfo } } ) ;
+	<hi>document.dispatchEvent</hi>( event );
+	}
+</pre></figure>
 
-<p>The first entry of the subsection:</p>
-
-<pre>
-navigationInfo.firstSubsection = currentEntry.querySelector( ":scope > UL" ).firstChild;
-</pre>
-
-<p>Parent node:</p>
-
-<pre>
-navigationInfo.parentNode = currentEntry.parentElement.parentElement;
-</pre>
-
-<p>The next node in reading order is more difficult to find:</p>
-
-<pre>
-if ( navigationInfo.firstSubsection ) 
-	navigationInfo.nextInSequence = navigationInfo.firstSubsection ;
-else if ( navigationInfo.nextSibling ) 
-	navigationInfo.nextInSequence = navigationInfo.nextSibling;
-else
-	navigationinfo.nextInSequence = currentNode.parentNode.
-</pre>
-
-entry
-	entry
-		entry
-		entry
-		entry
-	entry
-entry
+<p>The last statement above dispatches the <tt>navigation-info-change</tt> event to the document. The event object carries a reference to the navigation info, so that clients that subscribe to the event can update their configuration.</p>
 
 <!--h3--Compiling the Navigation Info--></div>
 

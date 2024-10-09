@@ -8,8 +8,10 @@ import { appendAnchorButton } from "../tool-buttons/site-navigation-button-base-
  *		Appends a anchor element to the specified toolbar and loads the
  *		associated SVG image.
  */
+
 export function init ( searchparams = new URLSearchParams( ) ) {
-	appendAnchorButton ( "home" ) ;
+	if ( ! searchparams.has( "toolbar" )) searchparams.append( "toolbar" , "mainToolbar" );
+	const anchor = appendAnchorButton( "first-sibling" ) ;
 	}
 
 // Module Init Code

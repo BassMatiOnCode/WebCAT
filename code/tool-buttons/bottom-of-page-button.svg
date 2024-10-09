@@ -1,4 +1,5 @@
 ﻿<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="-50 -50 100 100" xwidth="30" xheight="30" stroke="darkorange" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="white">
+	<title>Bottom of page</title>
 	<circle cx="0" cy="0" r="45"></circle>
 	<path d="M -20 0 l 20 25 l 20 -25 M 0 15 v -40 M -20 25 h 40"></path>
 	</svg>

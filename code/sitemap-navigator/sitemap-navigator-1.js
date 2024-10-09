@@ -5,8 +5,15 @@ import * as initializer from "../component-initializer/component-initializer-1.j
 import * as fragmentLoader from "../fragment-loader/fragment-loader-1.js" ;
 import * as collapsibleStructures from "../collapsible-structures/collapsible-structures-1.js" ;
 
-let navigationInfo = { } ;
+let navigationInfo = { } ;  // carries link anchors related to the current document
 
+/**		
+ *		findCurrentEntry()
+ * 
+ */ function findCurrentEntry( contentAddress ) {
+	const anchor = document.getElementById( "sitemapRoot" ).querySelector( `a[href="${contentAddress}"]` );
+	if ( anchor ) return anchor.closest( "LI" );
+	}
 /**		highlightPath()
  * 
  */ function highlightPath( ) {
@@ -38,38 +45,56 @@ let navigationInfo = { } ;
 		}
 	}
 /**
- *		findAnchor()
- *		@param {HtmlListItemElement} currentNode
+ *		findContentAnchor()
+ *		@param {HtmlListItemElement} node
  *
- */ function findAnchor( refNode ) {
-	const anchor = refNode.querySelector( "A" )
+ */ export function findContentAnchor( node ) {
+	const anchor = node?.querySelector( ":scope > A" );
+	return anchor?.hasAttribute( "data-load-interactive" ) ? null : anchor ;
+	}
+/**
+ *		findNode()
+ *		@param {HtmlAnchorElement} anchor
+ *
+ */ export function findNode( anchor ) {
+	return anchor.closest( "LI" );
 	}
 /**
  *		compileNaviationInfo( )
- *		builds a map of page-related page links
- *		@param {HtmlListItemElement} currentNode 
+ *		Builds a map of page-related page links
+ *		@param {HtmlListItemElement} currentNode
+ *		References module.navigationInfo
  *
  */ function compileNavigationInfo( currentNode ) {
 	navigationInfo = { };
-	// Home, previous and next siblings
-	navigationInfo.home = document.getElementById( "sitemapRoot" ).firstElementChild ;
-	navigationInfo.previousSibling = currentNode.previousElementSibling ;
-	navigationInfo.nextSibling = currentNode.nextElementSibling;
-	// Find parent node
-	navigationInfo.parentNode = currentNode.parentElement.classList.contains( "sitemap-tree" ) ? null : currentNode.parentNode.parentNode ;
+	// previous and next siblings
+	navigationInfo.previousSibling = findContentAnchor( currentNode.previousElementSibling );
+	navigationInfo.nextSibling = findContentAnchor( currentNode.nextElementSibling );
 	// First and last siblings
-	navigationInfo.firstSibling = navigationInfo?.parentNode.firstElementChild;
-	navigationInfo.lastSibling = navigationInfo?.parentNode.lastElementChild;
-	// Previous andNext in reading order
-	let anchors = Array.from( document.getElementById( "sitemapRoot" ).querySelectorAll( "A" ));
-		
-	}
-/**		
- *		findCurrentEntry()
- * 
- */ function findCurrentEntry( contentAddress ) {
-	const anchor = document.getElementById( "sitemapRoot" ).querySelector( `a[href="${contentAddress}"]` );
-	if ( anchor ) return anchor.closest( "LI" );
+	let parent = currentNode.parentElement;  // UL
+	if ( parent.classList.contains( "sitemap-tree" )) parent = null ;
+	navigationInfo.firstSibling = findContentAnchor( parent?.firstElementChild );
+	navigationInfo.lastSibling = findContentAnchor( parent?.lastElementChild );
+	// Compile chain of parents nodes
+	navigationInfo.parentNodes = [ ];
+	while ( parent ) {
+		if ( parent.classList.contains( "sitemap-tree" )) break;  // sitemap root reached
+		parent = parent.parentElement ;  // LI
+		navigationInfo.parentNodes.unshift( findContentAnchor( parent ) || parent );  // A or LI
+		parent = parent.parentElement ;  // UL
+		}
+	// Next parent
+	navigationInfo.parent = navigationInfo.parentNodes[ navigationInfo.parentNodes.length - 1 ];
+	// Previous andNext in sequence
+	const anchors = Array.from( document.getElementById( "sitemapRoot" ).querySelectorAll( "A" ));
+	const currentIndex = anchors.indexOf( findContentAnchor( currentNode ));
+	navigationInfo.backSequential = anchors[ currentIndex - 1 ];
+	navigationInfo.forwardSequential = anchors[ currentIndex + 1 ];
+	// Home
+	navigationInfo.home = anchors[ 0 ] ;
+	// Dispatch navigation-info-change event
+	const event = new CustomEvent( "navigation-info-update" , { detail : { navigationInfo : navigationInfo } } ) ;
+	document.dispatchEvent( event );
 	}
 /**		loadMissingFragments()
  * 

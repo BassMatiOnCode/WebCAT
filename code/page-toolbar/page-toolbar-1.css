@@ -13,13 +13,22 @@ div.page-toolbar {
 	background-color : white ;
 	height : 20px ;
 	}
-
-div.page-toolbar > a { text-decoration : none }
-
+div.page-toolbar > a { 
+	text-decoration : none ;
+	display : inline-block ;
+	overflow : hidden ;
+	width : 25px ;
+	}
 div.page-toolbar > a:hover {
 	text-decoration : none ;
 	}
-
 div.page-toolbar > a > svg {
 	height : 20px ;
+	}
+.page-toolbar > a.site-navigation {
+	width : 0px ;
+	transition : width 1s linear ;
+	}
+.page-toolbar > a.site-navigation[href] {
+	width : 25px ;
 	}
