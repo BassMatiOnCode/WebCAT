@@ -1,5 +1,8 @@
 // Documentation: /web-cat/fragment-loader/fragment-loader.htm
-
+//	Ideas
+//	Drop the fragment loading complete? 
+//	Dispatch fragment-loading-complete to container element?
+//	Fragment loaded event dispatched to each root element in a fragment after injection into the document.
 import * as initializer from "../component-initializer/component-initializer.js" ;
 
 // TODO: Think about anchor element decoration. A classname beginning with "fragment" should be better than an a data-load-fragment attribute.
@@ -54,11 +57,12 @@ import * as initializer from "../component-initializer/component-initializer.js"
 		rebaseRelativeAddresses ( bufferContent, fragmentAddress );
 		//	Process the list of elements to be injected.
 		const fragment = new DocumentFragment( );
-		fragment.append (...( anchor.hasAttribute( "data-select" ) ? bufferContent.querySelectorAll( anchor.getAttribute( "data-select" )) : bufferContent.children )) ;
+		fragment.append (...( anchor.hasAttribute( "data-select" ) ? bufferContent.querySelectorAll( anchor.getAttribute( "data-select" )) : bufferContent.childNodes )) ;
 		// mainContent doesn't need recursion prevention.
 		const recordOrigin = anchor.getAttribute( "data-record-origin" ) !== "no" ;
 		for ( const element of fragment.children ) {
 			// Store fragment origin address for recursion prevention
+			// Note: Text nodes cannot have attributes...
 			if ( recordOrigin && element.setAttribute ) element.setAttribute( "data-load-origin", fragmentAddress );
 			}
 		// Load nested fragments recursively
@@ -66,8 +70,8 @@ import * as initializer from "../component-initializer/component-initializer.js"
 		//	Notify the fragment anchor that the content will be loaded.
 		anchor.dispatchEvent( new CustomEvent( "fragment-loading", { bubbles: true, detail: { success : true, content : fragment } } ) ) ;
 		//	Create an array of references to the elements to be injected before the fragment is injected (which will deplete its children list unless the clone flag was given.
-		const injectionList = Array.from ( fragment.children );
-		anchor.replaceWith( ...fragment.children );
+		const injectionList = Array.from ( fragment.childNodes );
+		anchor.replaceWith( ...fragment.childNodes );
 		console.info( "Content injected from: ", fragmentAddress );
 		// NOTE that the fragment anchor has been taken out of the DOM tree at this point!
 		//	Notify the fragment anchor that the content has been loaded. 
