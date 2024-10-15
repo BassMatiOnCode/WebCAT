@@ -7,7 +7,7 @@
  */ export function init ( container = document.body )	 {
 	for ( const documentHost of container.querySelectorAll( ".content-height-observed" )) {
 		documentHost.addEventListener( "load" , evt => {
-			const hostedDocument = evt.target.contentDocument.body.parentElement ;
+			const hostedDocument = evt.target.contentDocument.body?.parentElement || evt.target.contentDocument.rootElement ;
 			for ( const element of hostedDocument.querySelectorAll( ".hide-if-hosted" )) element.style.display = "none" ;
 			hostedDocument.style.overflowY = "hidden" ;  // prevents vertical scrollbar when a horizontal scrollbar is shown
 			const observer = new ResizeObserver(( entries ) => {
