@@ -1,0 +1,110 @@
+<html><head>
+<style>
+div.description:before {
+	content : "Description:"
+	}
+div.resolution:before {
+	content : "Resolution:"
+	}
+</style>
+
+</head><body>
+
+<dl class="todo-list">
+<dt class="closed fixed"><span class="date">2024-10-07-001</span> Replace direct usage of element ID</dt><dd>
+	<p class="affected items">All script modules</p>
+	<p class="close-info><span class="date">2024-10-07</span> closed fixed</p>
+	<p class="description">Direct use of element ID might lead to "Element is not defined" exceptions. Instead, use document.getElementById(), which returns null or undefined and does not throw an exception.</p>
+	</dd>
+
+<dt class="closed fixed"><span class="date">2024-10-07-002</span>In-Page navigation, scroll to previous heading fails at the bottom of page</dt><dd>
+	<p class="affected components">in-page-navigation</p>
+	<p class="close-info"><span class="date">2024-10-07</span> closed, fixed</p>
+	<p class="description">If scrolled to bottom of the page, no heading below window top is found when scrolling to previous chapter.
+	<br/>Solution: ScrollTargets must be searched in reverse order, from bottom to top.</p>
+	</dd>
+
+<dt class="open"><span class="date">2024-10-09-001</span> Page Toolbar</dt><dd>
+	<p class="affected components">main-toolbar</p>
+	<p class="close-info"><span class="date"></span></p>
+	<p class="description">Overflowing buttons flow to the next line, but the toolbar height does not change.</p>
+	</dd>
+
+<dt class="open"><span class="date">2024-10-11-001</span> Expanding all chapters not always scrolls to the desired paragraph</dt><dd>
+	<p class="affected components">tool-button/collapse-all-chapters</p>
+	<p class="close-info"><span class="date"></span></p>
+	<p class="description">The implementation is correct, however, the concept could be refined. If the user expands the desired chapter, this could be the element which should be scrolled into view. However, if the user then scrolls down, the chapter heading might go out of view if favor of a paragraph in that chapter. Then this paragraph is the element to be scrolled into view. </p>
+	<p class="proposal">Expanding a chapter makes the chapter "active". If that chapter heading visible, this heading will be scrolled into view. If the active chapter heading is out of view and the topmost visible element is a child of the active chapter content, this element will be scrolled into view. If the topmost visible element is not a child of the active chapter, this element will be scrolled into view.</p>
+	</dd>
+
+<dt class="closed fixed"><span class="date">2024-10-13-001</span> Fragment loader does not inject text nodes.</dt><dd>
+	<p class="affected components">fragment-loader</p>
+	<p class="close-info"><span class="date">2024-10-13</span> fixed, closed</p>
+	<p class="description">If text is enclosed in SPAN tags, it works.</p>
+	<p class="change-location">fragment-loader-1.js:60</p>
+	<pre class="change-content">
+	const fragment = new DocumentFragment( );
+	fragment.append (...( ... bufferContent.children )) ;
+	changed to
+	fragment.append (...( ... bufferContent.childNodes )) ;
+	</pre>
+	</dd>
+
+<dt class="open"><span class="date">2024-10-15-001</span> Content Height Observer has problems with SVG in OBJECT</dt><dd>
+	<p class="affected components">content-height-observer</p>
+	<p class="close-info"><span class="date"></span></p>
+	<p class="description">There are several problems: 
+	<ul>
+	<li>The SVG element has an offset height of zero, so the oberver handler cannot set the size of the document host element correctly.</li>
+	<li>A growing SVG element inflates the size of its parent element, but does not shrink it when it it shrinks. Therefore, the content height observer does not detect size changes.</li>
+	<li>Wrapping the SVG in an HTML file and importing it into the target document with an IFRAME element only works if both BODY and HTML elements have the style height property set to "fit-content".</li>
+	</ul></p>
+	</dd>
+
+<dt class="closed fixed"><span class="date">2024-10-15-002</span> Sitemap Navigator does not find a toc.htm fragment in the same folder as current document</dt><dd>
+	<p class="affected components">sitemap-navigator</p>
+	<p class="close-info"><span class="date"></span></p>
+	<div class=description">
+		<p>Two problems:
+		<ul>
+		<li>The document localhost/web-toc/sitemap-navigator/toc.htm was not found.</li>
+		<li>The link for localhost/web-toc/sitemap-navigator/partially-loaded-sitemap.htm was not found in the sitemap tree.</li>
+		</ul></p>
+		<p></p>
+		</div>
+	<div class="resolution-notes">
+		<p>Problem 1 was caused by a wrong attribute name (data-load-ondemand instead of data-load-interactive).</p>
+		<p>Problem 2 is a concurrency problem. In highlightPath(), the function findCurrentEntry() after the call to loadMissingFragments() fails because the fragments are loaded on a different thread and the function is aborted. After the fragments have been injected, highlightPath() must be executed again or continued.</p>
+		</div>
+	</dd>
+
+<dt class="closed fixed"><span class="date">2024-10-28-001</span> findCurrentEntry() doesn't find anchor with hash in URL</dt><dd>
+	<p class="affected components">sitemap-navigator</p>
+	<p class="close-info"><span class="date">2024-10-28</span> fixed, closed.</p>
+	<div class="resolution-info">
+		<p>The anchor in the sitemap has no hash in the URL.</p>
+		<p>The search must try URL with hash first. In case of failure, try URL without hash next. That should succeed.</p>
+		<p>findCurrentEntry(contentAddress) parameter type changed from string to URL object.</p>
+		</div>
+	</dd>
+
+<dt class="open"><span class="date"></span></dt><dd>
+	<p class="affected components"></p>
+	<p class="close-info"><span class="date"></span></p>
+	<div class="description">
+		<p></p>
+		</div>
+	<div class="resolution-info">
+		<p></p>
+		</div>
+	</dd>
+</dl>
+
+
+	
+
+
+
+
+
+</body></html>

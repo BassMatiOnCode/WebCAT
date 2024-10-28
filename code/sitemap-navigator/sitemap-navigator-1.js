@@ -11,10 +11,13 @@ let navigationInfo = { } ;  // carries link anchors related to the current docum
  *		findCurrentEntry()
  * 
  */ function findCurrentEntry( contentAddress ) {
-	const anchor = document.getElementById( "sitemapRoot" ).querySelector( `a[href="${contentAddress}"]` );
+	const root = document.getElementById( "sitemapRoot" );
+	// Try pathname without query string and with and without hash
+	const anchor = root.querySelector( `a[href="${contentAddress.origin}${contentAddress.pathname}${contentAddress.hash}"]` ) || root.querySelector( `a[href="${contentAddress.origin}${contentAddress.pathname}"]` );
 	if ( anchor ) return anchor.closest( "LI" );
 	}
-/**		highlightPath()
+/**		
+ *		highlightPath()
  * 
  */ function highlightPath( ) {
 	////	Highlight current path in primary sitemap
@@ -22,10 +25,10 @@ let navigationInfo = { } ;  // carries link anchors related to the current docum
 	// Compute the content address without url query string
 	const url = new URL( document.getElementById( "mainContent" ).getAttribute( "data-content-address" ) || document.location.href ) ;
 	url.search = "" ;
-	let entry = findCurrentEntry( url.href );
+	let entry = findCurrentEntry( url );
 	if ( ! entry ) {
 		loadMissingFragments( url.href );
-		entry = findCurrentEntry( url.href );
+		entry = findCurrentEntry( url );
 		if ( ! entry ) return console.error( "Cannot find entry for current document." );
 		}
 	compileNavigationInfo( entry );
