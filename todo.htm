@@ -1,11 +1,12 @@
 <html><head>
 <style>
-div.description:before {
-	content : "Description:"
-	}
-div.resolution:before {
-	content : "Resolution:"
-	}
+p { margin : 5px 5px }
+dt { margin-top: 30px }
+dt.open > span { color : indianred }
+dt.closed > span { color : darkgreen }
+div.description:before {	content : "Description:" }
+div.resolution:before { content : "Resolution:" }
+pre { tab-size : 20px ; margin : 5px 0 -20px -20px}
 </style>
 
 </head><body>
@@ -17,7 +18,7 @@ div.resolution:before {
 	<p class="description">Direct use of element ID might lead to "Element is not defined" exceptions. Instead, use document.getElementById(), which returns null or undefined and does not throw an exception.</p>
 	</dd>
 
-<dt class="closed fixed"><span class="date">2024-10-07-002</span>In-Page navigation, scroll to previous heading fails at the bottom of page</dt><dd>
+<dt class="closed fixed"><span class="date">2024-10-07-002</span> In-Page navigation, scroll to previous heading fails at the bottom of page</dt><dd>
 	<p class="affected components">in-page-navigation</p>
 	<p class="close-info"><span class="date">2024-10-07</span> closed, fixed</p>
 	<p class="description">If scrolled to bottom of the page, no heading below window top is found when scrolling to previous chapter.
@@ -40,31 +41,36 @@ div.resolution:before {
 <dt class="closed fixed"><span class="date">2024-10-13-001</span> Fragment loader does not inject text nodes.</dt><dd>
 	<p class="affected components">fragment-loader</p>
 	<p class="close-info"><span class="date">2024-10-13</span> fixed, closed</p>
-	<p class="description">If text is enclosed in SPAN tags, it works.</p>
-	<p class="change-location">fragment-loader-1.js:60</p>
-	<pre class="change-content">
-	const fragment = new DocumentFragment( );
-	fragment.append (...( ... bufferContent.children )) ;
-	changed to
-	fragment.append (...( ... bufferContent.childNodes )) ;
-	</pre>
+	<div class="description">
+		<p>If text is enclosed in SPAN tags, it works.</p></div>
+	<div class="resolution">
+		<p>Change in fragment-loader-1.js:60</p>
+		<pre class="changed from">
+		const fragment = new DocumentFragment( );
+		fragment.append (...( ... bufferContent.children )) ;
+		</pre>
+		<p>to</p>
+		<pre class="changed to">
+		fragment.append (...( ... bufferContent.childNodes )) ;
+		</pre>
+		</div>
 	</dd>
 
 <dt class="open"><span class="date">2024-10-15-001</span> Content Height Observer has problems with SVG in OBJECT</dt><dd>
 	<p class="affected components">content-height-observer</p>
 	<p class="close-info"><span class="date"></span></p>
-	<p class="description">There are several problems: 
-	<ul>
-	<li>The SVG element has an offset height of zero, so the oberver handler cannot set the size of the document host element correctly.</li>
-	<li>A growing SVG element inflates the size of its parent element, but does not shrink it when it it shrinks. Therefore, the content height observer does not detect size changes.</li>
-	<li>Wrapping the SVG in an HTML file and importing it into the target document with an IFRAME element only works if both BODY and HTML elements have the style height property set to "fit-content".</li>
-	</ul></p>
-	</dd>
+	<div class="description">
+		<p>There are several problems:</p>
+		<ul>
+		<li>The SVG element has an offset height of zero, so the oberver handler cannot set the size of the document host element correctly.</li>
+		<li>A growing SVG element inflates the size of its parent element, but does not shrink it when it it shrinks. Therefore, the content height observer does not detect size changes.</li>
+		<li>Wrapping the SVG in an HTML file and importing it into the target document with an IFRAME element only works if both BODY and HTML elements have the style height property set to "fit-content".</li>
+		</ul></div></dd>
 
 <dt class="closed fixed"><span class="date">2024-10-15-002</span> Sitemap Navigator does not find a toc.htm fragment in the same folder as current document</dt><dd>
 	<p class="affected components">sitemap-navigator</p>
 	<p class="close-info"><span class="date"></span></p>
-	<div class=description">
+	<div class="description">
 		<p>Two problems:
 		<ul>
 		<li>The document localhost/web-toc/sitemap-navigator/toc.htm was not found.</li>
@@ -81,23 +87,45 @@ div.resolution:before {
 <dt class="closed fixed"><span class="date">2024-10-28-001</span> findCurrentEntry() doesn't find anchor with hash in URL</dt><dd>
 	<p class="affected components">sitemap-navigator</p>
 	<p class="close-info"><span class="date">2024-10-28</span> fixed, closed.</p>
-	<div class="resolution-info">
+	<div class="resolution">
 		<p>The anchor in the sitemap has no hash in the URL.</p>
 		<p>The search must try URL with hash first. In case of failure, try URL without hash next. That should succeed.</p>
 		<p>findCurrentEntry(contentAddress) parameter type changed from string to URL object.</p>
 		</div>
 	</dd>
 
+<dt class="open"><span class="date">2024-10-28-002</span> Highlighted path in sitemap tree needs some CSS</dt><dd>
+	<p class="affected components">sitemap-navigator</p>
+	<div class="description">
+		<p>The node icon color must be changed to some blue, the icon color for active path elements remains dark orange. An additional document icon may have to be introduced.</p>
+		</div>
+	</dd>
+
+<dt class="fixed closed"><span class="date">2024-10-29-001</span> Content-height observed iframe does not shrink to original size if content is removed</dt><dd>
+	<p class="affected components">content-height-observer</p>
+	<p class="close-info"><span class="date">2024-10-29-001</span> fixed, closed.</p>
+	<div class="description">
+		<p>If content in a hosted document is deleted so that its height decreases, the size of the IFRAME host does not shrink.</p>
+		</div>
+	<div class="resolution">
+		<p>Manually adding the "height:fit-content" style to HTML and BODY elements made the IFRAME shrink to the required size. Therefore, these style properties are set in the load event handler.</p>
+		<p>Fixing this in the script is preferred over creating a stylesheet that would have to imported into the hosted document &ndash; which would violate one of the design goals (hosted document is agnostic about being hosted or not).</p>
+		</div>
+	</dd>
+
+<!--
 <dt class="open"><span class="date"></span></dt><dd>
 	<p class="affected components"></p>
 	<p class="close-info"><span class="date"></span></p>
 	<div class="description">
 		<p></p>
 		</div>
-	<div class="resolution-info">
+	<div class="resolution">
 		<p></p>
 		</div>
 	</dd>
+-->
+
 </dl>
 
 

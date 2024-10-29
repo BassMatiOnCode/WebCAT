@@ -7,11 +7,13 @@
  */ export function init ( container = document.body )	 {
 	for ( const documentHost of container.querySelectorAll( ".content-height-observed" )) {
 		documentHost.addEventListener( "load" , evt => {
-			const hostedDocument = evt.target.contentDocument.body?.parentElement || evt.target.contentDocument.rootElement ;
+			const hostedDocument = evt.target.contentDocument.documentElement ; // html element
+			hostedDocument.style.height = "fit-content" ;
+			if ( hostedDocument.tagName === "HTML" )evt.target.contentDocument.body.style.height = "fit-content" ;
 			for ( const element of hostedDocument.querySelectorAll( ".hide-if-hosted" )) element.style.display = "none" ;
 			hostedDocument.style.overflowY = "hidden" ;  // prevents vertical scrollbar when a horizontal scrollbar is shown
 			const observer = new ResizeObserver(( entries ) => {
-				console.info( entries[ 0 ].target.offsetHeight, documentHost.scrollHeight );
+//				console.debug( entries[ 0 ].target.offsetHeight, documentHost.scrollHeight );
 				documentHost.style.height = entries[ 0 ].target.offsetHeight + 0 +  "px" ;
 				} ) ;
 			observer.observe( hostedDocument );
