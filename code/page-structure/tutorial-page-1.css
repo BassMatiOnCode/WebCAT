@@ -71,7 +71,7 @@ figure.demo iframe { border : 1px solid silver }
 figure.demo figcaption { border-bottom-style : none ; margin-bottom : 5px }
 figure.listing > figcaption { font-style : italic ; padding-bottom : 5px }
 figure.listing > figcaption::before { content : "Listing: " }
-figure.listing > pre { background-color : #eee ; font-family: "constantia", "droid sans mono" ; font-size : 15px ; font-variant-numeric : lining-nums tabular-nums slashed-zero ; line-height: 25px ; tab-size : 15px ; overflow-x : auto ; padding : 5px ; scrollbar-color : #aaa #ddd ; margin-top : 0px }
+figure.listing > pre { background-color : #eee ; font-family: "inconsolata condensed", "constantia", "droid sans mono" ; font-size : 15px ; font-variant-numeric : lining-nums tabular-nums slashed-zero ; line-height: 20px ; tab-size : 15px ; overflow-x : auto ; padding : 5px ; scrollbar-color : #aaa #ddd ; margin-top : 0px }
 h1 { text-align : center }
 h1, h2, h3, h4, h5 { font-family : "Times New Roman", "Arial Narrow" ; font-weight : normal ; margin-left : -20px }
 main { margin-left : 20px }
@@ -79,6 +79,7 @@ html { scrollbar-color : #999 #eee }
 ol > li, ul > li { margin-top: 5px ; margin-bottom : 5px }
 ol.spaced-items li, ul.spaced-items li { margin-top: 20px ; margin-bottom : 20px }
 p { line-height : 25px }
+p.subtitle { text-align : center ; margin-top : -20px }
 pre { 
 	font-family : "inconsolata condensed" ; 
 	font-size : 10pt ;
@@ -99,3 +100,6 @@ tt {
 	color : SteelBlue ;
 	}
 ul.no-bullets { list-style-type : none }
+
+.note { border : 3px dotted steelblue ; padding : 10px }
+div.note { padding-bottom : 0 }
