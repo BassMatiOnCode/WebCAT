@@ -3,3 +3,5 @@
 body { 
 	margin : 20px 20px 20px 20px ;
 	}
+
+p.subtitle { font-size : 130% ; margin-top : -20px }
