@@ -1,0 +1,15 @@
+/* Documentation: .../web-cat/literature-reference-list/literature-reference-list.htm */
+
+a.literature-reference, a.lit-ref {
+	text-decoration : none ;
+	color : steelblue ;
+	}
+a.literature-reference:hover, a.lit-ref:hover {
+	text-decoration : underline ;
+	}
+dl.literature-reference-list > dd  p  {
+	margin : 3px 0 ;
+	}
+dl.literature-reference-list > dt > span {
+	color : steelblue ;
+	}
