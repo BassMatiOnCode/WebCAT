@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-08-07" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-10-30" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-10-30" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="/inc/web-cat/page-structure/tutorial-page-1.css" />
+<script type="module" src="/inc/web-cat/page-structure/tutorial-page-1.js" ></script>
+ 
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
+<meta name="tags" content="web, content, autoring, toolbox, HTML, JavaScript, CSS, WebCAT, component, list, literature, reference" />
+<meta name="description" content="Simplifies the creation of literature reference lists." />
+
+<title>Literature Reference List Component (Web > Content Authoring Toolbox)</title>
+
+</head><body>
+
+<h1>Literature Reference List</h1>
+
+<p id="pageAbstract"></p>
+
+<p>Note that the listerature reference list can be a separate document.</p>
+
+<p>The component consists of two files:</p>
+
+<ul>
+<li>literature-reference-list.css</li>
+<li>literature-reference-list.js</li>
+</ul>
+
+<p>For detailed notes on how to import these files into a document or aggregation files, refer to <a hef="../component-anatomy.htm#using">WebCAT Component Anatomy</a>.</p>
+
+<p>To successfully use the <tt>literature-reference-list</tt> component, some requirements must be met:</p>
+
+<ul>
+<li>The list must be decorated with the class name <tt>literature-reference-list</tt></li>
+<li>Each title entry in the list must have a unique numeric ID</li>
+</ul>
+
+<p>Here is an example list:</p>
+
+<figure class="listing"><figcaption>Literature reference list example</figcaption>
+<pre>
+&lt;dl class="<hi>literature-reference-list</hi>"&gt;
+&lt;dt id="<hi>ref-001</hi>"&gt;Author Name, Document Title&lt;/dt&gt;&lt;dd&gt;
+	&lt;p&gt;Document description&lt;/p&gt;
+	&lt;/dd&gt;
+&lt;dt id="<hi>ref-002</hi>"&gt;Author Name, Document Title&lt;/dt&gt;&lt;dd&gt;
+	&lt;p&gt;Document description&lt;/p&gt;
+	&lt;/dd&gt;
+&lt;dt id="<hi>ref-003</hi>"&gt;Author Name, Document Title&lt;/dt&gt;&lt;dd&gt;
+	&lt;p&gt;Document description&lt;/p&gt;
+	&lt;/dd&gt;
+&lt;/dl&gt;
+</pre></figure>
+
+<p>The title ID value is used to generate title prefix elements. After processing, the list looks like this:</p>
+
+<figure class="listing"><figcaption>Generated title prefix elements</figcaption>
+<pre>
+&lt;dl class="literature-reference-list"&gt;
+&lt;dt id="ref-001"&gt;<hi>&lt;span&gt;[1]&lt;span&gt;</hi> Author Name, Document Title&lt;/dt&gt;&lt;dd&gt;
+	&lt;p&gt;Document description&lt;/p&gt;
+	&lt;/dd&gt;
+&lt;dt id="ref-002"&gt;<hi>&lt;span&gt;[2]&lt;span&gt;</hi> Author Name, Document Title&lt;/dt&gt;&lt;dd&gt;
+	&lt;p&gt;Document description&lt;/p&gt;
+	&lt;/dd&gt;
+&lt;dt id="ref-003"&gt;<hi>&lt;span&gt;[3]&lt;span&gt;</hi> Author Name, Document Title&lt;/dt&gt;&lt;dd&gt;
+	&lt;p&gt;Document description&lt;/p&gt;
+	&lt;/dd&gt;
+&lt;/dl&gt;
+</pre></figure>
+
+<p>The module script checks the uniqueness of the ID values and sends an error message to the brower console window if a violation was detected.</p>
+
+<p>Whith this list in place, you can use the numeric title ID to reference entries in the list from the main text:</p>
+
+<figure class="listing"><figcaption>Writing literature reference anchors</figcaption>
+<pre>
+&lt;p&gt;This case has also been discussed 
+	in &lt;a class="<hi>literature-reference</hi>" href="references.htm#<hi>001</hi>"&gt;&lt;/a&gt;
+	and &lt;a class="<hi>literature-reference</hi>" href="references.htm#<hi>002</hi>"&gt;&lt;/a&gt;
+	&lt;/p&gt;
+</pre></figure>
+
+<p>Note that the anchors have not text content. The module script searches for literature reference anchors and completes them with text content and attributes:</p>
+
+<figure class="listing"><figcaption>Using literature references</figcaption>
+<pre>
+&lt;p&gt;This case has also been discussed 
+	in &lt;a class="literature-reference" href="references.htm#001" 
+		<hi>target</hi> = "_blank" 
+		<hi>title</hi> = "[1] Author 1 Name, Document 1 Title" 
+		&gt;<hi>[1]</hi>&lt;/a&gt;
+	and &lt;a class="literature-reference" href="references.htm#002" 
+		<hi>target</hi> ="_blank"
+		<hi>title</hi> = "[2] Author 2 Name, Document 2 Title" 
+		&gt;<hi>[2]</hi>&lt;/a&gt;
+	&lt;/p&gt;
+</pre></figure>
+
+
+</body></html>

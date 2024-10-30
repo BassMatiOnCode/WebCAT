@@ -14,10 +14,10 @@
 @import url( ../collapsible-structures/collapsible-structures-1.css );
 @import url( ../css-counter/css-counter-1.css );
 @import url( ../description-list/description-list-1.css );
+@import url( ../literature-reference-list/literature-reference-list-1.css );
 @import url( ../math/math-1.css );
 @import url( ../unicode-characters/unicode-characters-1.css );
 @import url( ../page-colors/page-colors-1.css );
-
 
 @font-face { 
 	font-family: "arial narrow"; 
@@ -28,7 +28,8 @@
 		url(/inc/fonts/arial-narrow.woff) format("woff"), 
 		url(/inc/fonts/arial-narrow.ttf) format("truetype");
 	}
-@font-face { 
+@font-face {  
+		/* unused */
 	font-family: "constantia"; 
 	font-style: normal; 
 	font-weight: 400;
@@ -37,6 +38,7 @@
 		url(/inc/fonts/constantia.ttf) format("truetype");
 	}
 @font-face { 
+		/* unused */
 	font-family: "droid sans mono"; 
 	font-style: normal; 
 	font-weight: 400;
@@ -44,22 +46,21 @@
 		url(/inc/fonts/DroidSansMono.ttf) format("truetype");
 	}
 @font-face { 
+		/* unused */
 	font-family: "encode sans condensed"; 
 	font-style: normal; 
 	font-weight: 400;
 	src: 	local("encode sans condensed"), 
 		url(/inc/fonts/EncodeSansCondensed-Regular.ttf) format("truetype");
 	}
-@font-face { 
+@font-face {
+		/* for code listing blocks */
 	font-family: "inconsolata condensed"; 
 	font-style: normal; 
 	font-weight: 400;
 	src: 	local("inconsolata condensed"), 
 		url(/inc/fonts/Inconsolata-variable-wdth-wght.ttf) format("truetype");
 	}
-
-main a { text-decoration : none }
-main a:hover { text-decoration : underline }
 body { 
 	font-family : "Segoe UI" ;
 	margin : 120px 20px 50px 20px ;
