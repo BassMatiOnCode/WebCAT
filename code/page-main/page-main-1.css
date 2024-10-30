@@ -1,0 +1,4 @@
+/* Documentation: .../web-cat/page-main/page-main.htm */
+
+main a { text-decoration : none ; color : steelblue }
+main a:hover { text-decoration : underline }
