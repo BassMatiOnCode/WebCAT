@@ -28,6 +28,7 @@ import "../content-height-observer/content-height-observer-1.js" ;
 import "../checked-items/checked-items-1.js?init-event-name=fragment-loading-complete" ;
 import "../continued-list/continued-list-1.js" ;
 import "../literature-reference-list/literature-reference-list-1.js?init-event-name=fragment-loading-complete" ;
+import "../link-target-highlighter/link-target-highlighter-1.js?init-event-name=fragment-loading-complete&scroll-margin-top=40" ;
 import "../collapsible-structures/collapsible-structures-1.js?init-event-name=fragment-loading-complete" ;
 import "../sitemap-navigator/sitemap-navigator-1.js?init-event-name=fragment-loading-complete" ;
 

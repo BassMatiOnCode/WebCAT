@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-08-07" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-10-31" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-10-31" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="/inc/web-cat/page-structure/tutorial-page-1.css" />
+<script type="module" src="/inc/web-cat/page-structure/tutorial-page-1.js" ></script>
+ 
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
+<meta name="tags" content="web, content, autoring, toolbox, HTML, JavaScript, CSS, WebCAT, component, highlight, link, target, hash, highlighting" />
+<meta name="description" content="This component adds an animated highlight to a link target element." />
+
+<title>Link Target Highlighter (Web > Content Authoring Toolbox)</title>
+
+</head><body>
+
+<h1>Link Target Highlighter</h1>
+
+<p id="pageAbstract"></p>
+
+<p>The component consists of two files:</p>
+
+<ul>
+<li>link-target-highlighter.css</li>
+<li>link-target-highlighter.js</li>
+</ul>
+
+<p>For detailed notes on how to import these files into a document or aggregation files, refer to <a hef="../component-anatomy.htm#using">WebCAT Component Anatomy</a>.</p>
+
+<p>If the document URL contains a document fragment identifier (the "hash"), the associated link target element is highligted. Similarly, if an anchor navigates to an element on the same page, the element ist highlighted.</p>
+
+<p>Highlighting is achieved by adding the string "highhlight-link-target" to the element's class list. This triggers a CSS animation, as defined in <tt>link-target-highlighter.css</tt>. When the animation has finished, the string is removed from the class list.</p>
+
+<p>If you want to change the animation (e. g. different colors, borders, timing, ...), simply edit the CSS file.</p>
+
+<figure class="demo"><figcaption>Highlighting link target <a href="demo-1.htm" target="_blank" >demo 1</a></figcaption>
+<iframe class="content-height-observed" src="demo-1.htm" />
+</figure>
+
+<p>The implementation doesn't work really well inside IFRAMES, so I recommend to test it in a <a href="demo-1.htm" target="_blank">separate window</a>.</p>
+
+<h2 cbc>Additional configuration parameters</h2><div>
+
+<dl>
+<dt>scroll-margin-top</dt><dd>
+	<p>Vertical distance of the target element from the window top after scrolling into view.</p>
+	<p>Default value: 60</p></dd>
+</dl>
+
+<!--h2--Additional configuration parameters--></div>
+
+<h2 cbc>Implementation Details</h2><div>
+
+<p>If the document URL contains a document fragment identifier (a "hash"), the target element is identified and decorated with a <tt>highlight-link-target</tt> classname. This triggers a background color animation, as defined in the component's CSS file.</p>
+
+<p>Smooth scrolling to the link target element usually fails, because the browser has already positioned the document before <tt>linkTargetElement.scrollIntoView()</tt> is exeuted &ndash; and therefore has <em>no effect</em>.</p>
+
+<p>The function <tt>element.scrollIntoView()</tt> cannot be used because it does not work inside <tt>IFRAME</tt> hosted documents. Instead, <tt>document.documentElement.scroll()</tt> must be used.</p>
+
+<p>A technique that works when the document is loaded is to save and clear <tt>document.location.hash</tt> at an early stage in the loading process. This prevents the browser from scrolling to the link target element. Instead, <tt>element.scrollIntoView()</tt> is called with the option <tt>behavior:smooth</tt>, then the <tt>document.location.hash()</tt> is restored.</p>
+
+<p>This works well if the document is really <em>loaded</em>, but the approach fails if a link anchor navigates the browser to an element <em>on the same page</em>. Therefore, the module script registers a click event handler with the document to catch click events on anchor elements with a link target element on the same page, abort the default behaviour and scrolls to the target element programmatically.</p>
+
+<p>Note: <tt>element.style.scrollMarginTop</tt> prevents that the element is scrolled to the top of the window, leaving space sticky elements at the top of the window, like toolbars or menus.</p>
+
+<p class="note">Note: The <a href="https://developer.mozilla.org/en-US/docs/Web/API/View_Transitions_API">view transitions API</a> might be an option for this purpose.</p>
+
+
+
+<!--h2--Implementation Details--></div>
+
+</body></html>
