@@ -70,7 +70,7 @@ body {
 	}
 figcaption { font-family : "Times New Roman", Constantia ; color : #888 ; font-size : 6px ; border-bottom : 1px solid silver  }
 figure { margin-left : 0px ; margin-right : 0px }
-figure.demo iframe { border : 1px solid silver }
+figure.demo iframe { border : 1px solid silver ; width : 100% }
 figure.demo figcaption { border-bottom-style : none ; margin-bottom : 5px }
 figure.listing > figcaption { font-style : italic ; padding-bottom : 5px }
 figure.listing > figcaption::before { content : "Listing: " }
