@@ -113,6 +113,25 @@ pre { tab-size : 20px ; margin : 5px 0 -20px -20px}
 		</div>
 	</dd>
 
+<dt class="open"><span class="date">2024-10-31-001</span> Refactor in-page-navigation, literature-reference-list and highlight-link-target</dt><dd>
+	<p class="affected components">in-page-navigation, literature-reference-list, highlight-link-target</p>
+	<p class="close-info"><span class="date"></span></p>
+	<div class="description">
+		<p>There are a number of distinct features:</p>
+		<ul>
+		<li>Figuring out the element's scroll margin top amount</li>
+		<li>Scroll a link target element into view</li>
+		<li>Highlight animation of the link target element</li>
+		</ul>
+		<p>The first point can be implemented in a <tt>scroll-margins-provider</tt> component, which inspects the elements with <tt>position:sticky</tt> and calculates a top and bottom margin values. The interface is an event listener on the document element, listening to the "query-scroll-margins" event.</p>
+		<p>The second point can be implemented in a <tt>link-target-element</tt> component, which can be imported into html documents. The component implements smooth scrolling to the link target element, if required, after html fragments have been loaded. This module uses the <tt>scroll-margins-provider</tt>.</p>
+		<p>The third point is an entirely unrelated stand-alone component, <tt>highlight-link-target</tt>, which catches clicks on anchors with links to elements on the same page. Also, the document fragement identifier in the URL ("hash") is covered.. </p>
+		</div>
+	<div class="resolution">
+		<p></p>
+		</div>
+	</dd>
+
 <!--
 <dt class="open"><span class="date"></span></dt><dd>
 	<p class="affected components"></p>
