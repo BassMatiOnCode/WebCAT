@@ -6,7 +6,8 @@ let scrollMarginTop ;  // default scroll margin top
 
 /**
 *		scrollToElement ( )
-*		Scrolls the element into view and triggers highlighting animation
+*		Scrolls the element into view and triggers highlighting animation.
+*		Returns true if the link target element was found, or undefined otherwise.
 *
 */ export function scrollToElement( selector ) {
 	// Find the link target element
@@ -25,6 +26,7 @@ let scrollMarginTop ;  // default scroll margin top
 		document.removeEventListener( "scrollend" , scrollEndHandler );
 		}
 	document.addEventListener( "scrollend" , scrollEndHandler );
+	return true;
 	}
 /**
 *		init ( )
@@ -42,10 +44,8 @@ let scrollMarginTop ;  // default scroll margin top
 	document.addEventListener( "click" , evt => {
 		// Catch anchor clicks that navigate to an element on the same page
 		if ( evt.target.tagName !== "A" ) return ;
-//		evt.stopPropagation( );
-		evt.preventDefault( );
 		// Scroll smoothly instead.
-		scrollToElement( evt.target.hash );
+		if ( scrollToElement( evt.target.hash )) evt.preventDefault( ) ;
 		} ) ;
 	}
 /** 
