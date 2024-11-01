@@ -6,6 +6,7 @@ figure.figure figcaption:before { counter-increment : figure-counter; content : 
 figure.syntax figcaption:before { counter-increment : syntax-counter; content : "Syntax " counter(syntax-counter) ": " ; }
 figure.table figcaption:before { counter-increment : table-counter; content : "Table " counter(table-counter) ": " ; }
 figure.example figcaption:before { counter-increment : example-counter; content : "Example " counter(example-counter) ": " ; }
+figure.demo figcaption:before { counter-increment : demo-counter; content : "Demo " counter(demo-counter) ": " ; }
 table > caption.autonum:before { counter-increment : caption-counter ; content : "Table " counter(caption-counter) ": " ; }
 div.definition figcaption:before { counter-increment : definition-counter; content : "Definition " counter(definition-counter) ; }
 
