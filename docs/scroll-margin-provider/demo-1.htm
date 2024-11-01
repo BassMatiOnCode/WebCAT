@@ -1,0 +1,66 @@
+﻿<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-09-15" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-11-01" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-11-01" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="/inc/web-cat/page-structure/demo-page-1.css" />
+<script type="module" src="/inc/web-cat/page-structure/demo-page-1.js" ></script>
+
+<script type="module" src="/inc/web-cat/scroll-margin-provider/scroll-margin-provider-1.js" ></script>
+ 
+<style>
+.toolbar { position : sticky ; background-color : white ; padding : 2px 0 }
+.toolbar.top { top : 0px ; border-bottom : 1px solid silver }
+.toolbar.bottom { bottom : 0px ; border-top : 1px solid silver }
+.toolbar.top:first-child { border-top : 1px solid silver ; top : -1px }
+.toolbar.bottom:last-child { border-bottom : 1px solid silver }
+</style>
+
+<script type="module">
+document.querySelector( "#setScrollMargins" ).addEventListener( "click" , ( ) => {
+	const event = new CustomEvent ( "query-scroll-margins" , { detail : { marginTop : undefined , marginBottom : undefined } } ) ;
+	document.dispatchEvent ( event ) ;
+	console.log( `marginTop=${event.detail.marginTop}` );
+	console.log( `marginBottom=${event.detail.marginBottom}` );
+	paragraph.style.setProperty("scroll-margin-top", `${ event.detail.marginTop || 0 }px` );
+	paragraph.style.setProperty("scroll-margin-bottom", `${ event.detail.marginBottom || 0 }px` );
+	console.debug( paragraph.style.scrollMarginTop, paragraph.style.scrollMarginBottom );
+	} ) ;
+document.querySelector( "#scrollToTop" ).addEventListener( "click" , ( ) => {
+	document.scrollingElement.scroll( { top : paragraph.offsetTop - parseInt( paragraph.style.getPropertyValue( "scroll-margin-top" ) || 0) , behavior : "smooth"  } ) ;
+	} ) ;
+document.querySelector( "#scrollToBottom" ).addEventListener( "click" , ( ) => {
+	document.scrollingElement.scroll( { top : paragraph.offsetTop - document.body.clientHeight + paragraph.scrollHeight + parseInt( paragraph.style.getPropertyValue( "scroll-margin-top" ) || 0) , behavior : "smooth"  } ) ;
+	} ) ;
+</script>
+
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
+<meta name="tags" content="web, content, autoring, toolbox, HTML, JavaScript, CSS, WebCAT, component" />
+<title>Web > Content Authoring Toolbox > </title>
+<meta name="description" content="" />
+
+</head><body>
+
+<div class="toolbar top">Toolbar 1</div>
+<div class="toolbar top">Toolbar 2 <button id="setScrollMargins">Set Scroll-Margins</button> <button id="scrollToTop">scroll to top</button> <button id="scrollToBottom">scroll to bottom</button></div>
+
+<div class="hide-if-hosted">
+<h1>Demo 1</h1><p class="subtitle">scroll-margin-provider</p>
+</div>
+
+<p>First, try the scroll buttons. Then click "setScrollMargins" and repeat. Notice the different scroll-positions of the paragraph, before and after.</p>
+<p style="height:600px">&nbsp;</p>
+<p id="paragraph" style="border : 1px solid blue">Content paragraph</p>
+<p style="height:600px">&nbsp;</p>
+
+<div class="toolbar bottom">Toolbar 3</div>
+<div class="toolbar bottom">Toolbar 4</div>
+
+</body></html>

@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-08-07" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-11-01" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-11-01" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+
+<link rel="stylesheet" href="/inc/web-cat/page-structure/tutorial-page-1.css" />
+<script type="module" src="/inc/web-cat/page-structure/tutorial-page-1.js" ></script>
+ 
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
+<meta name="tags" content="web, content, autoring, toolbox, HTML, JavaScript, CSS, WebCAT, component, scroll, margin" />
+<meta name="description" content="Determines the scroll-margin-top and scroll-margin-bottom values from sticky toolbar elements at the top and/or bottom of the page." />
+
+<title>Scroll Margin Provider (Web > Content Authoring Toolbox)</title>
+
+</head><body>
+
+<h1>Scroll Margin Provider</h1>
+
+<p id="pageAbstract"></p>
+
+<h2 cbc>Usage</h2><div>
+
+<p>The component consists of a single file:</p>
+<ul>
+<li>scroll-margin-provider.js</li>
+</ul>
+
+<p>For detailed notes on how to import this file into a document or aggregation file, refer to <a hef="../component-anatomy.htm#using">WebCAT Component Anatomy</a>.</p>
+
+<p>The toolbars must have the classname "toolbar" and the style <tt>position:sticky</tt>in order to be recognized.</p>
+
+<p>The component registers an <tt>query-scroll-margins</tt> event listener with the <tt>document</tt> object. A client can request the top and bottom scroll margins in the following way:</p>
+
+<figure class="listing"><figcaption>Scroll margins query</figcaption>
+<pre>
+<cc>// Create a custom event object</cc>
+const event = new CustomEvent ( "query-scroll-margins" , { 
+	detail : { 
+		<hi>marginTop</hi> : undefined , 
+		<hi>marginBottom</hi> : undefined 
+	} } ) ;
+document.dispatchEvent ( event ) ;
+<cc>// Evaluate the results in the event object</cc>
+element.style.setProperty( "scroll-margin-top", 
+	(event.detail.marginTop || 0) + "px" );
+element.style.setProperty( "scroll-margin-bottom", 
+	(event.detail.marginBottom || 0) + "px" );
+</pre></figure>
+
+<p>If a provider is listening, the result values in the event object will have a value, different from <tt>undefined</tt>. In the example above, the calculated values are used to set the scroll margin styles on an element.</p>
+
+<p>This can be tested in the following demonstration:</p>
+
+<figure class="demo"><figcaption>Testing the scroll margin provider (<a href="demo-1.htm" target="_blank">demo-1.htm</a>)</figcaption>
+<iframe src="demo-1.htm" style="height:300px"></iframe>
+</figure>
+
+<p>With the scroll margins set, the content paragraph can be positioned exactly beneath or above the toolbars. Before, the paragraph slides under the toolbars and thereby is not visible.</p>
+
+<!--h2--Usage--></div>
+
+</body></html>
