@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-08-07" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-10-30" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-10-30" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="/inc/web-cat/page-structure/tutorial-page-1.css" />
+<script type="module" src="/inc/web-cat/page-structure/tutorial-page-1.js" ></script>
+ 
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
+<meta name="tags" content="web, content, autoring, toolbox, HTML, JavaScript, CSS, WebCAT, component, highlight, link, target, hash" />
+<meta name="description" content='This component smoothly scrolls a link target element into view. The target element ID is specified in the document fragment portion or a URL (the so-called "hash") in the document URL or the href attribute of a link anchor.' />
+
+<title>Link Target Scrolling (Web > Content Authoring Toolbox)</title>
+
+</head><body>
+
+<h1>Link Target Scrolling</h1>
+
+<p id="pageAbstract"></p>
+
+<h2 cbc>Using the Component</h2><div>
+
+<p>The component consists of a single file:</p>
+
+<ul>
+<li>highlight-link-target.js</li>
+</ul>
+
+<p>For detailed notes on how to import this file into a document or aggregation file, refer to <a hef="../component-anatomy.htm#using">WebCAT Component Anatomy</a>.</p>
+
+<p>You don't have to change anything to your HTML code. Anchor elements are processed automatically if they address an element on the same page:</p>
+
+<figure class="listing"><figcaption>Link target element</figcaption>
+<pre>
+&lt;a href="<hi>#element-id</hi>"&gt;Jump to element&lt;/a&gt; in the same document
+&lt;a href="path/to/document.htm"<hi>#element-id</hi>"&gt;Jump to element&lt;/a&gt; in a different document
+</pre></figure>
+
+<p>A click on a link should carry you to the corresponding entry in the description list. The module script extracts the hash part from the URL, locates the related element in the document, and scrolles it smoothly into view.</p>
+
+<p>Click on the "entry" links and notice the document scrolling down:</p>
+
+<figure class="demo" style="scroll-margin-top:40px"><figcaption>Smooth scrolling demo</figcaption>
+<iframe style="width:100% ; height:200px" src="demo-1-linklist.htm"></iframe>
+</figure>
+
+<p>Note that scrolling functions in IFRAME-hosted documents interact with the host document, so I recommend to test <a href="demo-1.htm" target="_blank" target="_blank">demo-1</a> and <a href="demo-1-linklist.htm" target="_blank" target="_blank">demo-1-linklist</a> in a separate browser window.</p>
+
+<!--h2--Using the Component--></div>
+
+<h2 cbc="collapsed">Module Configuration Parameters</h2><div>
+
+<p>Module script parameters are passed in the query string of the script URL, as described in <a href="../component-anatomy.htm#passing-parameters">Anatomy of a WebCAT Component</a>.</p>
+
+<dl>
+<dt>scroll-margin-top</dt><dd>
+	<p>Vertical distance of the target element from the window top after scrolling into view.</p>
+	<p>Default value: 20</p></dd>
+</dl>
+
+<!--h2--Additional configuration parameters--></div>
+
+<h2 cbc="collapsed">Implementation Details</h2><div>
+
+<p>Smooth scrolling to the link target element in a different document usually fails, because the browser has already positioned the document before <tt>linkTargetElement.scrollIntoView()</tt> is exeuted &ndash; and therefore has <em>no effect</em>.</p>
+
+<p>The function <tt>element.scrollIntoView()</tt> cannot be used because it does not work inside <tt>IFRAME</tt> hosted documents. Instead, <tt>document.documentElement.scroll()</tt> must be used.</p>
+
+<p>A technique that works when the document is loaded is to save and clear <tt>document.location.hash</tt> at an early stage in the loading process. This prevents the browser from scrolling to the link target element. Instead, <tt>element.scrollIntoView()</tt> is called with the option <tt>behavior:smooth</tt>, then the <tt>document.location.hash()</tt> is restored.</p>
+
+<p>This works well if the document is really <em>loaded</em>, but the approach fails if a link anchor navigates the browser to an element <em>on the same page</em>. Therefore, the module script registers a click event handler with the document to catch click events on anchor elements with a link target element on the same page, abort the default behaviour and scrolls to the target element programmatically.</p>
+
+<p>Note: <tt>element.style.scrollMarginTop</tt> prevents that the element is scrolled to the top of the window, leaving space sticky elements at the top of the window, like toolbars or menus.</p>
+
+<p>Note: <tt>element.scrollIntoView()</tt> in an IFRAME-hosted document also scrolls the host document, and therefore cannot be used for testing. As an alternative, <tt>document.body.scroll()</tt> is used.</p>
+
+<p>Note: <tt>document.scrollingElement.scroll()</tt> or <tt>element.scrollIntoViewIfNecessary()</tt> might be better alternatives to <tt>document.body.scroll()</tt>.</p>
+
+<p class="note">Note: The <a href="https://developer.mozilla.org/en-US/docs/Web/API/View_Transitions_API">view transitions API</a> might be an option for this purpose.</p>
+
+<!--h2--Implementation Details--></div>
+
+</body></html>
