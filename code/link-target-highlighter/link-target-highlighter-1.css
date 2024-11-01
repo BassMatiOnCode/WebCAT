@@ -1,0 +1,13 @@
+/* Documentation: .../web-toolbox/link-target-highlighter/link-target-highlighter.htm */
+
+.highlight-link-target {
+	animation-duration : 1s ;
+	animation-iteration-count : 2 ;
+	animation-direction : alternate ;
+	animation-name : bgnd-color-flash;
+	}
+
+@keyframes bgnd-color-flash {
+	0% { background-color : white }
+	100% { background-color : powderblue }
+	}
