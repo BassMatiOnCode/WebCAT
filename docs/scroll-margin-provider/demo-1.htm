@@ -27,9 +27,8 @@
 document.querySelector( "#setScrollMargins" ).addEventListener( "click" , ( ) => {
 	const event = new CustomEvent ( "query-scroll-margins" , { detail : { recalculate : true , marginTop : undefined , marginBottom : undefined } } ) ;
 	document.dispatchEvent ( event ) ;
-	console.log( `marginTop=${event.detail.marginTop}` );
-	console.log( `marginBottom=${event.detail.marginBottom}` );
-	console.debug( paragraph.style.scrollMarginTop, paragraph.style.scrollMarginBottom );
+	console.log( `marginTop=${event.detail.marginTop} marginBottom=${event.detail.marginBottom}` );
+	console.debug( "scroll margin styles: ", paragraph.style.scrollMarginTop, paragraph.style.scrollMarginBottom );
 	} ) ;
 document.querySelector( "#scrollToTop" ).addEventListener( "click" , ( ) => {
 	document.scrollingElement.scroll( { 
