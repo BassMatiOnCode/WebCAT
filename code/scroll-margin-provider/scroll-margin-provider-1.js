@@ -3,6 +3,7 @@
 import * as initializer from "../component-initializer/component-initializer-1.js" ;
 
 /** Module configuration parameters */ const configuration = {
+	recalculate : true ,
 	marginTop : 0 ,
 	marginBottom : 0
 	}
@@ -14,22 +15,26 @@ import * as initializer from "../component-initializer/component-initializer-1.j
 *
 */ export function initDocument ( ) {
 	// Determine current scroll margins
-	configuration.marginTop = 0 ;
-	configuration.marginBottom = 0;
+	let marginTop = 0 ;
+	let marginBottom = 0;
 	for ( const element of document.querySelectorAll( '.toolbar' )) {
 		const style = getComputedStyle( element ) ;
 		if ( style.position === "sticky" && style.top !== "auto" )  
-			configuration.marginTop = Math.max( configuration.marginTop, parseInt( element.top || 0 ) + element.scrollHeight );
+			marginTop = Math.max( marginTop, parseInt( element.top || 0 ) + element.scrollHeight );
 		else if ( style.position === "sticky" && style.bottom !== "auto" ) 
-			configuration.marginBottom = Math.max( configuration.marginBottom, parseInt( style.bottom || 0 ) + element.offsetHeight + 1 ) ;
+			marginBottom = Math.max( marginBottom, parseInt( style.bottom || 0 ) + element.offsetHeight + 1 ) ;
 		}
-	// console.debug( configuration );
+	// Configuration update required?
+	if ( configuration.marginTop === marginTop && configuration.marginBottom === marginBottom ) return ;
+	// Update configuration
+	configuration.marginTop = marginTop ;
+	configuration.marginBottom = marginBottom ;
 	// Add static scroll-margin styles to potential link target elements
 	const root = document.querySelector( "MAIN" ) || document.body ;
 	for ( const element of root.querySelectorAll( "[id]" )) {
-		if ( configuration.marginTop ) element.style.setProperty( "scroll-margin-top" , configuration.marginTop + "px" )
+		if ( marginTop ) element.style.setProperty( "scroll-margin-top" , marginTop + "px" )
 		else element.style.removeProperty( "scroll-margin-top" );
-		if ( configuration.marginBottom ) element.style.setProperty( "scroll-margin-bottom" , configuration.marginBottom + "px" ) ;
+		if ( marginBottom ) element.style.setProperty( "scroll-margin-bottom" , marginBottom + "px" ) ;
 		else element.style.removeProperty( "scroll-margin-bottom" );
 		}
 	}
@@ -37,10 +42,11 @@ import * as initializer from "../component-initializer/component-initializer-1.j
 *		init ( )
 *		Initializes the WebCAT component.
 *
-*/ export function init ( ) {
+*/ export function init ( searchparams = new URLSearchParams( )) {
+	configuration.recalculate = searchparams.get( "recalculate" ) !== "never" ;
 	initDocument( );
 	document.addEventListener( "query-scroll-margins" , evt => {
-		if ( evt.detail.recalculate ) initDocument( );
+		if ( configuration.recalculate || evt.detail.recalculate ) initDocument( );
 		evt.detail.marginTop = configuration.marginTop ;
 		evt.detail.marginBottom = configuration.marginBottom ;
 		} ) ;

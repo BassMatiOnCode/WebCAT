@@ -40,11 +40,41 @@
 
 <p>The toolbars must have the classname "toolbar" and the style <tt>position:sticky</tt>in order to be recognized.</p>
 
-<p>During component initialization, the component calculates the maximum height of top and bottom toolbars, then sets the <tt>style.scrollMarginTop</tt> and <tt>style.scrollMarginBottom</tt> properties on element that have an <tt>id</tt> attribute. These are potential scroll targets.</p>
+<!--h2--Usage--></div>
 
-<p>A client can use these values to scroll the element to the top and bottom of the document, avoiding the space occupied by sticky toolbars.</p>
+<h2 cbc="collapsed">Module Configuration</h2><div>
 
-<p>The component registers an <tt>query-scroll-margins</tt> event listener with the <tt>document</tt> object. A client can request the top and bottom scroll margins in the following way:</p>
+<p>Module script parameters are passed in the query string of the script URL, as described in <a href="../component-anatomy.htm#passing-parameters">Anatomy of a WebCAT Component</a>.</p>
+
+<dl>
+<dt><tt>recalculate=never</tt></dt><dd>
+	<p>Optional. By default, the component recalculates the scroll margins every time a <tt>query-scroll-margins</tt> event is received. This can be deactivated in environments where the toolbar heights cannot change or in a height change push environment to improve performance a little bit.</p>
+	<p>The push notification infrastructure is currently not implemented.</p>
+	</dd>
+</dl>
+
+<!--h2--Module Configuration--></div>
+
+<h2 cbc="collapsed">Events</h2><div>
+
+<p>The component listens for the following events:</p>
+
+<dl>
+<dt><tt>query-scroll-margins</tt> on <tt>document</tt></dt><dd>
+	<p>Recalculates scroll margins required by sticky toolbars at the top or bottom of the page, updates the scroll margin styles on potential link target elements, and returns the margin values in the event.detail object members.</p>
+	<p><tt>event.detail.recalculate</tt> (optional, boolean): If true, the margins are recalculated. If false, recalulation is skipped. If absent, the module configuration value is used.</p>
+	</dd>
+</dl>
+
+<!--h2--Events--></div>
+
+<h2 cbc>Backgrounds</h2><div>
+
+<p>During component initialization, the component calculates the maximum height of top and bottom toolbars, then sets the <tt>style.scrollMarginTop</tt> and <tt>style.scrollMarginBottom</tt> properties on elements that have an <tt>id</tt> attribute. These are potential scroll targets.</p>
+
+<p>A client can use these values to scroll the element to the top and bottom of the document, avoiding the space occupied by sticky toolbars. Alternatively, the client can dispatch a <tt>query-scroll-margins"</tt> event to the <tt>document</tt> to obtain these values.</p>
+
+<p>The <tt>scroll-margin-provider</tt> implements a <tt>query-scroll-margins</tt> event listener on the <tt>document</tt> object. A client can request the top and bottom scroll margins in the following way:</p>
 
 <figure class="listing"><figcaption>Scroll margins query</figcaption>
 <pre>
@@ -53,13 +83,13 @@ const event = new CustomEvent ( "query-scroll-margins" , {
 	detail : { } } ) ;
 document.dispatchEvent ( event ) ;
 <cc>// Use the query results</cc>
-const scrollMarginTop = event.detail.<hi>marginTop</hi> ;
-const scrollMarginBottom = event.detail.<hi>marginBottom</hi> ;
+const scrollMarginTop = event.detail.<hi>marginTop</hi> || 0 ;
+const scrollMarginBottom = event.detail.<hi>marginBottom</hi> || 0 ;
 </pre></figure>
 
-<p>The provider places the result values in the event detail object as shown above.</p>
+<p>The provider places the requested values in event detail members as shown above.</p>
 
-<p>If the height of a toolbar changes, the scroll margins must be recalculated. This can be achieved by adding a <tt>recalculate:true</tt> member to the <tt>event.detail</tt> object:</p>
+<p>To obtain the most recent values, add a <tt>recalculate:true</tt> member to the <tt>event.detail</tt> object:</p>
 
 <figure class="listing"><figcaption>Recalculating the scroll margins</figcaption>
 <pre>
@@ -72,6 +102,8 @@ const scrollMarginTop = event.detail.<hi>marginTop</hi> ;
 const scrollMarginBottom = event.detail.<hi>marginBottom</hi> ;
 </pre></figure>
 
+<p>This might be necessary if automatic recalculation has been turned off via module configuration parameters.</p>
+
 <p>As a byproduct, the scroll margin values are also returned in the event detail object.</p>
 
 <p>This can be tested in the following demonstration:</p>
@@ -80,8 +112,8 @@ const scrollMarginBottom = event.detail.<hi>marginBottom</hi> ;
 <iframe src="demo-1.htm" style="height:300px"></iframe>
 </figure>
 
-<p>If you change the width of the browser window so that toolbar 2 expands to span a second row, the button "setScrollMargin" must be clicked to update the scroll margins.</p>
+<p>Try to change the browser window width so that toolbar 2 expands to span a second row. Scroll to top automatically uses the new value.</p>
 
-<!--h2--Usage--></div>
+<!--h2--Backgrounds--></div>
 
 </body></html>

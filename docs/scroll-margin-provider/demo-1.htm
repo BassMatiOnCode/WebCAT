@@ -24,20 +24,18 @@
 </style>
 
 <script type="module">
-document.querySelector( "#setScrollMargins" ).addEventListener( "click" , ( ) => {
-	const event = new CustomEvent ( "query-scroll-margins" , { detail : { recalculate : true , marginTop : undefined , marginBottom : undefined } } ) ;
-	document.dispatchEvent ( event ) ;
-	console.log( `marginTop=${event.detail.marginTop} marginBottom=${event.detail.marginBottom}` );
-	console.debug( "scroll margin styles: ", paragraph.style.scrollMarginTop, paragraph.style.scrollMarginBottom );
-	} ) ;
 document.querySelector( "#scrollToTop" ).addEventListener( "click" , ( ) => {
+	const event = new CustomEvent( "query-scroll-margins" , { detail : { } } ) ;
+	document.dispatchEvent ( event ) ;
 	document.scrollingElement.scroll( { 
-		top : paragraph.offsetTop - parseInt( paragraph.style.getPropertyValue( "scroll-margin-top" ) || 0) , 
+		top : paragraph.offsetTop - event.detail.marginTop , 
 		behavior : "smooth"  } ) ;
 	} ) ;
 document.querySelector( "#scrollToBottom" ).addEventListener( "click" , ( ) => {
+	const event = new CustomEvent( "query-scroll-margins" , { detail : { } } ) ;
+	document.dispatchEvent ( event ) ;
 	document.scrollingElement.scroll( { 
-		top : paragraph.offsetTop - document.body.clientHeight + paragraph.scrollHeight + parseInt( paragraph.style.getPropertyValue( "scroll-margin-bottom" ) || 0) , 
+		top : paragraph.offsetTop - document.body.clientHeight + paragraph.scrollHeight + event.detail.marginBottom , 
 		behavior : "smooth"  } ) ;
 	} ) ;
 </script>
@@ -50,14 +48,12 @@ document.querySelector( "#scrollToBottom" ).addEventListener( "click" , ( ) => {
 </head><body>
 
 <div class="toolbar top">Toolbar 1</div>
-<div class="toolbar top">Toolbar 2 <button id="setScrollMargins">Set Scroll-Margins</button> <button id="scrollToTop">scroll to top</button> <button id="scrollToBottom">scroll to bottom</button></div>
+<div class="toolbar top">Toolbar 2 <button id="scrollToTop">scroll to top</button> <button id="scrollToBottom">scroll to bottom</button> <button>Dummy</button> <button>Dummy</button></div>
 
 <main>
 <div class="hide-if-hosted">
 <h1>Demo 1</h1><p class="subtitle">scroll-margin-provider</p>
 </div>
-
-<p>First, try the scroll buttons. Then click "setScrollMargins" and repeat. Notice the different scroll-positions of the paragraph, before and after.</p>
 
 <p style="height:600px">&nbsp;</p>
 <p id="paragraph" style="border : 1px solid blue">Content paragraph</p>
