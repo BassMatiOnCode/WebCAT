@@ -2,7 +2,7 @@
 
 import * as initializer from "../component-initializer/component-initializer-1.js" ;
 
-let scrollMarginTop ;  // default scroll margin top
+let scrollMarginTop ;  // default fixed scroll margin top value
 
 /**
 *		scrollToElement ( )
