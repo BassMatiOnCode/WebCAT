@@ -17,7 +17,7 @@
  
 <meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
 <meta name="tags" content="web, content, autoring, toolbox, HTML, JavaScript, CSS, WebCAT, component, scroll, margin" />
-<meta name="description" content="Determines the scroll-margin-top and scroll-margin-bottom values from sticky toolbar elements at the top and/or bottom of the page." />
+<meta name="description" content="Calculates the scroll-margin-top and scroll-margin-bottom values from sticky toolbar elements at the top and/or bottom of the page." />
 
 <title>Scroll Margin Provider (Web > Content Authoring Toolbox)</title>
 
@@ -26,6 +26,8 @@
 <h1>Scroll Margin Provider</h1>
 
 <p id="pageAbstract"></p>
+
+<p>Using the scroll margins prevents and element from being (partially) obscured by sticky toolbars when the element is scrolled to the top of the window.</p>
 
 <h2 cbc>Usage</h2><div>
 
@@ -38,25 +40,39 @@
 
 <p>The toolbars must have the classname "toolbar" and the style <tt>position:sticky</tt>in order to be recognized.</p>
 
+<p>During component initialization, the component calculates the maximum height of top and bottom toolbars, then sets the <tt>style.scrollMarginTop</tt> and <tt>style.scrollMarginBottom</tt> properties on element that have an <tt>id</tt> attribute. These are potential scroll targets.</p>
+
+<p>A client can use these values to scroll the element to the top and bottom of the document, avoiding the space occupied by sticky toolbars.</p>
+
 <p>The component registers an <tt>query-scroll-margins</tt> event listener with the <tt>document</tt> object. A client can request the top and bottom scroll margins in the following way:</p>
 
 <figure class="listing"><figcaption>Scroll margins query</figcaption>
 <pre>
 <cc>// Create a custom event object</cc>
 const event = new CustomEvent ( "query-scroll-margins" , { 
-	detail : { 
-		<hi>marginTop</hi> : undefined , 
-		<hi>marginBottom</hi> : undefined 
-	} } ) ;
+	detail : { } } ) ;
 document.dispatchEvent ( event ) ;
-<cc>// Evaluate the results in the event object</cc>
-element.style.setProperty( "scroll-margin-top", 
-	(event.detail.marginTop || 0) + "px" );
-element.style.setProperty( "scroll-margin-bottom", 
-	(event.detail.marginBottom || 0) + "px" );
+<cc>// Use the query results</cc>
+const scrollMarginTop = event.detail.<hi>marginTop</hi> ;
+const scrollMarginBottom = event.detail.<hi>marginBottom</hi> ;
 </pre></figure>
 
-<p>If a provider is listening, the result values in the event object will have a value, different from <tt>undefined</tt>. In the example above, the calculated values are used to set the scroll margin styles on an element.</p>
+<p>The provider places the result values in the event detail object as shown above.</p>
+
+<p>If the height of a toolbar changes, the scroll margins must be recalculated. This can be achieved by adding a <tt>recalculate:true</tt> member to the <tt>event.detail</tt> object:</p>
+
+<figure class="listing"><figcaption>Recalculating the scroll margins</figcaption>
+<pre>
+<cc>// Create a custom event object</cc>
+const event = new CustomEvent ( "query-scroll-margins" , { 
+	detail : { <hi>recalculate : true</hi> } } ) ;
+document.dispatchEvent ( event ) ;
+<cc>// Use the query results</cc>
+const scrollMarginTop = event.detail.<hi>marginTop</hi> ;
+const scrollMarginBottom = event.detail.<hi>marginBottom</hi> ;
+</pre></figure>
+
+<p>As a byproduct, the scroll margin values are also returned in the event detail object.</p>
 
 <p>This can be tested in the following demonstration:</p>
 
@@ -64,7 +80,7 @@ element.style.setProperty( "scroll-margin-bottom",
 <iframe src="demo-1.htm" style="height:300px"></iframe>
 </figure>
 
-<p>With the scroll margins set, the content paragraph can be positioned exactly beneath or above the toolbars. Before, the paragraph slides under the toolbars and thereby is not visible.</p>
+<p>If you change the width of the browser window so that toolbar 2 expands to span a second row, the button "setScrollMargin" must be clicked to update the scroll margins.</p>
 
 <!--h2--Usage--></div>
 

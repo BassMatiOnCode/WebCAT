@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="/inc/web-cat/page-structure/demo-page-1.css" />
 <script type="module" src="/inc/web-cat/page-structure/demo-page-1.js" ></script>
 
-<script type="module" src="/inc/web-cat/scroll-margin-provider/scroll-margin-provider-1.js" ></script>
+<script type="module" src="../code/scroll-margin-provider/scroll-margin-provider-1.js" ></script>
  
 <style>
 .toolbar { position : sticky ; background-color : white ; padding : 2px 0 }
@@ -25,19 +25,21 @@
 
 <script type="module">
 document.querySelector( "#setScrollMargins" ).addEventListener( "click" , ( ) => {
-	const event = new CustomEvent ( "query-scroll-margins" , { detail : { marginTop : undefined , marginBottom : undefined } } ) ;
+	const event = new CustomEvent ( "query-scroll-margins" , { detail : { recalculate : true , marginTop : undefined , marginBottom : undefined } } ) ;
 	document.dispatchEvent ( event ) ;
 	console.log( `marginTop=${event.detail.marginTop}` );
 	console.log( `marginBottom=${event.detail.marginBottom}` );
-	paragraph.style.setProperty("scroll-margin-top", `${ event.detail.marginTop || 0 }px` );
-	paragraph.style.setProperty("scroll-margin-bottom", `${ event.detail.marginBottom || 0 }px` );
 	console.debug( paragraph.style.scrollMarginTop, paragraph.style.scrollMarginBottom );
 	} ) ;
 document.querySelector( "#scrollToTop" ).addEventListener( "click" , ( ) => {
-	document.scrollingElement.scroll( { top : paragraph.offsetTop - parseInt( paragraph.style.getPropertyValue( "scroll-margin-top" ) || 0) , behavior : "smooth"  } ) ;
+	document.scrollingElement.scroll( { 
+		top : paragraph.offsetTop - parseInt( paragraph.style.getPropertyValue( "scroll-margin-top" ) || 0) , 
+		behavior : "smooth"  } ) ;
 	} ) ;
 document.querySelector( "#scrollToBottom" ).addEventListener( "click" , ( ) => {
-	document.scrollingElement.scroll( { top : paragraph.offsetTop - document.body.clientHeight + paragraph.scrollHeight + parseInt( paragraph.style.getPropertyValue( "scroll-margin-top" ) || 0) , behavior : "smooth"  } ) ;
+	document.scrollingElement.scroll( { 
+		top : paragraph.offsetTop - document.body.clientHeight + paragraph.scrollHeight + parseInt( paragraph.style.getPropertyValue( "scroll-margin-bottom" ) || 0) , 
+		behavior : "smooth"  } ) ;
 	} ) ;
 </script>
 
@@ -51,14 +53,17 @@ document.querySelector( "#scrollToBottom" ).addEventListener( "click" , ( ) => {
 <div class="toolbar top">Toolbar 1</div>
 <div class="toolbar top">Toolbar 2 <button id="setScrollMargins">Set Scroll-Margins</button> <button id="scrollToTop">scroll to top</button> <button id="scrollToBottom">scroll to bottom</button></div>
 
+<main>
 <div class="hide-if-hosted">
 <h1>Demo 1</h1><p class="subtitle">scroll-margin-provider</p>
 </div>
 
 <p>First, try the scroll buttons. Then click "setScrollMargins" and repeat. Notice the different scroll-positions of the paragraph, before and after.</p>
+
 <p style="height:600px">&nbsp;</p>
 <p id="paragraph" style="border : 1px solid blue">Content paragraph</p>
 <p style="height:600px">&nbsp;</p>
+</main>
 
 <div class="toolbar bottom">Toolbar 3</div>
 <div class="toolbar bottom">Toolbar 4</div>
