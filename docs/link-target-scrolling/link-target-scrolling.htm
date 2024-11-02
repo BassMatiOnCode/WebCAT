@@ -49,42 +49,58 @@
 <p>Click on the "entry" links and notice the document scrolling down:</p>
 
 <figure class="demo" style="scroll-margin-top:40px"><figcaption>Smooth scrolling demo</figcaption>
-<iframe style="width:100% ; height:200px" src="demo-1-linklist.htm"></iframe>
+<iframe style="width:100% ; height:200px" src="demo-1.htm"></iframe>
 </figure>
 
-<p>Note that scrolling functions in IFRAME-hosted documents interact with the host document, so I recommend to test <a href="demo-1.htm" target="_blank" target="_blank">demo-1</a> and <a href="demo-1-linklist.htm" target="_blank" target="_blank">demo-1-linklist</a> in a separate browser window.</p>
+<p>Note that scrolling functions in IFRAME-hosted documents interact with the host document, so I recommend to test <a href="demo-1.htm" target="_blank">demo-1</a> and <a href="demo-1-linklist.htm" target="_blank">demo-1-linklist</a> in a separate browser window.</p>
 
 <!--h2--Using the Component--></div>
 
-<h2 cbc="collapsed">Module Configuration Parameters</h2><div>
+<h2 cbc="collapsed">Module Configuration</h2><div>
 
 <p>Module script parameters are passed in the query string of the script URL, as described in <a href="../component-anatomy.htm#passing-parameters">Anatomy of a WebCAT Component</a>.</p>
 
 <dl>
 <dt>scroll-margin-top</dt><dd>
 	<p>Vertical distance of the target element from the window top after scrolling into view.</p>
-	<p>Default value: 20</p></dd>
+	<p>Default value: 20</p>
+	</dd>
+<dt>restore-hash</dt><dd>
+	<p>Restores the document fragment identifier ("hash") in the document URL after the document has been loaded.</p>
+	</dd>
 </dl>
 
-<!--h2--Additional configuration parameters--></div>
+<!--h2--Module Configuration--></div>
 
 <h2 cbc="collapsed">Implementation Details</h2><div>
 
-<p>Smooth scrolling to the link target element in a different document usually fails, because the browser has already positioned the document before <tt>linkTargetElement.scrollIntoView()</tt> is exeuted &ndash; and therefore has <em>no effect</em>.</p>
+<p>First finding: The function <tt>element.scrollIntoView()</tt> cannot be used inside <tt>IFRAME</tt> hosted documents, because the function scrolls both the hosted <em>and</em> the host document. Instead, <tt>document.scrollingElement.scroll()</tt> must be used.</p>
 
-<p>The function <tt>element.scrollIntoView()</tt> cannot be used because it does not work inside <tt>IFRAME</tt> hosted documents. Instead, <tt>document.documentElement.scroll()</tt> must be used.</p>
+<p>Smooth scrolling to an element in a different document (href="different.htm#elementID") usually fails, because the browser has already positioned the document before <tt>document.scrollingElement.scroll()</tt> is exeuted &ndash; and therefore the function call has <em>no effect</em>.</p>
 
-<p>A technique that works when the document is loaded is to save and clear <tt>document.location.hash</tt> at an early stage in the loading process. This prevents the browser from scrolling to the link target element. Instead, <tt>element.scrollIntoView()</tt> is called with the option <tt>behavior:smooth</tt>, then the <tt>document.location.hash()</tt> is restored.</p>
+<p>The implementation idea is to save and clear <tt>document.location.hash</tt> at an early stage in the loading process. This actually scrolls the document back to the top, but the effect is not visible to the user because the document has not yet been rendered. Therefore there is no (additional) flicker or flash effect when the document loads. </p>
 
-<p>This works well if the document is really <em>loaded</em>, but the approach fails if a link anchor navigates the browser to an element <em>on the same page</em>. Therefore, the module script registers a click event handler with the document to catch click events on anchor elements with a link target element on the same page, abort the default behaviour and scrolls to the target element programmatically.</p>
+<p>Now we can smoothly scroll to the link target element with <tt>document.scrollingElement.scroll( )</tt>.</p>
+
+<p>If the documents in question are hosted in an IFRAME in another host document, timing issues appear: The function call <tt>document.scrollingElement.scroll( )</tt> has no effect. Therefore, the entire component initialization is delayed:</p>
+
+<figure class="listing"><figcaption>Delayed initialization</figcaption>
+<pre>
+<cc>/** Module init code */</cc> 
+const linkTargetElementSelector = document.location.hash;
+document.location.hash = "" ;  
+<hi>requestAnimationFrame</hi>( ( ) => { 
+<hi>requestAnimationFrame</hi>( ( ) => { 
+	initializer.initComponent( init, import.meta.url );
+	} );
+	} );
+</pre></figure>
+
+<p>This works well if the document is really <em>loaded</em>, but the approach fails if a link anchor navigates the browser to an element <em>on the same page</em>. Therefore, the module script sets up an event handler to catch clicks on anchor elements with link targets on the same page, abort the default behaviour and smoothly scrolls to the target element programmatically.</p>
 
 <p>Note: <tt>element.style.scrollMarginTop</tt> prevents that the element is scrolled to the top of the window, leaving space sticky elements at the top of the window, like toolbars or menus.</p>
 
-<p>Note: <tt>element.scrollIntoView()</tt> in an IFRAME-hosted document also scrolls the host document, and therefore cannot be used for testing. As an alternative, <tt>document.body.scroll()</tt> is used.</p>
-
-<p>Note: <tt>document.scrollingElement.scroll()</tt> or <tt>element.scrollIntoViewIfNecessary()</tt> might be better alternatives to <tt>document.body.scroll()</tt>.</p>
-
-<p class="note">Note: The <a href="https://developer.mozilla.org/en-US/docs/Web/API/View_Transitions_API">view transitions API</a> might be an option for this purpose.</p>
+<p class="note">Note: The <a href="https://developer.mozilla.org/en-US/docs/Web/API/View_Transitions_API">view transitions API</a> might be a better option for this purpose.</p>
 
 <!--h2--Implementation Details--></div>
 

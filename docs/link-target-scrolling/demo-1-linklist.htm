@@ -20,14 +20,15 @@
 <meta name="description" content="" />
 <script type="module">
 	// Add query event listener to the document
-	document.addEventListener( "query-scroll-margin-top" , evt => {
-		evt.detail.value = mainToolbar.scrollHeight ;
+	document.addEventListener( "query-scroll-margins" , evt => {
+		evt.detail.marginTop = mainToolbar.scrollHeight ;
+		evt.detail.marginBottom = 0 ;
 		} ) ;
 </script>
 </head><body>
 
 <div class="hide-if-hosted">
-<h1>Demo 1</h1><p class="subtitle">Highlight Link Target (destination document)</p>
+<h1>Demo 1 B</h1><p class="subtitle">Highlight Link Target (destination document)</p>
 </div>
 
 <div id="mainToolbar" style="position:sticky ; top:-1px ; height:20px ; border-top:1px solid silver ; border-bottom:1px solid silver ; background-color:white">A sticky toolbar</div>
