@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-09-15" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-10-01" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-10-01" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="/inc/web-cat/page-structure/demo-page-1.css" />
+<script type="module" src="/inc/web-cat/page-structure/demo-page-1.js" ></script>
+
+<!--script type="module" src="/inc/web-cat/scroll-margin-provider/scroll-margin-provider-1.js" ></script-->
+<script type="module" src="/inc/web-cat/in-page-navigation/in-page-navigation-1.js?scroll-margin-top=40" ></script>
+ 
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
+<meta name="tags" content="web, content, autoring, toolbox, HTML, JavaScript, CSS, WebCAT, component" />
+<title>Web > Content Authoring Toolbox > In-Page Navigation</title>
+<meta name="description" content="" />
+
+<script type="module">
+function scrollPage( method ) { 
+	document.dispatchEvent( new CustomEvent( "scroll-page" , { detail : { method : method} } ) ) ;
+	}
+const buttons = document.getElementsByTagName( "button" );
+buttons[ 0 ].addEventListener( "click" , ( ) => scrollPage( "previousTarget" ));
+buttons[ 1 ].addEventListener( "click" , ( ) => scrollPage( "nextTarget" ));
+buttons[ 2 ].addEventListener( "click" , ( ) => scrollPage( "topOfPage" ));
+buttons[ 3 ].addEventListener( "click" , ( ) => scrollPage( "bottomOfPage" ));
+</script>
+
+</head><body>
+
+<div style="position:sticky ; top:0px ; padding:5px ; background-color:white">
+<button>Previous</button>
+<button>Next</button>
+<button>Top</button>
+<button>Bottom</button>
+</div>
+
+<main id="mainContent">
+
+<h1 class="hide-if-hosted">In-Page Navigation</h1>
+
+<h2>Heading 1</h2>
+
+<p>Paragraph</p>
+<p>Paragraph</p>
+<p>Paragraph</p>
+<p>Paragraph</p>
+<p>Paragraph</p>
+<p>Paragraph</p>
+
+
+<h2>Heading 2</h2>
+
+<p>Paragraph</p>
+<p>Paragraph</p>
+<p>Paragraph</p>
+<p>Paragraph</p>
+<p>Paragraph</p>
+<p>Paragraph</p>
+
+<h2>Heading 3</h2>
+
+<p>Paragraph</p>
+<p>Paragraph</p>
+<p>Paragraph</p>
+<p>Paragraph</p>
+<p>Paragraph</p>
+<p>Paragraph</p>
+
+<h2>Heading 4</h2>
+
+<p>Paragraph</p>
+<p>Paragraph</p>
+<p>Paragraph</p>
+<p>Paragraph</p>
+<p>Paragraph</p>
+<p>Paragraph</p>
+
+</main>
+
+</body></html>

@@ -31,7 +31,7 @@
 <p>The functions <tt>scrollToNextTarget()</tt> and <tt>scrollToPreviousTarget()</tt> sroll the document to the next or previous heading elements. The functions <tt>scrollToTopOfPage()</tt> and <tt>scrollToBottomOfPage()</tt> are useful in large documents.</p>
 
 <figure class="demo"><figcaption>In-page navigation demo (<a href="in-page-navigation-demo.htm">in-page-navigation-demo.htm</a>)</figcaption>
-<iframe style="width:100%" src="in-page-navigation-demo.htm"></iframe>
+<iframe style="width:100%" src="demo-1.htm"></iframe>
 </figure>
 
 <h2 cbc>Usage</h2><div>
@@ -41,7 +41,7 @@
 <figure class="listing"><figcaption>Importing the component's script module</figcaption>
 <pre>
 &lt;script type="module"&gt;
-import * as inPageNavigator from "path/to/<hi>in-page-navigation.js</hi>?offsetTop=30" ;
+import * as inPageNavigator from "path/to/<hi>in-page-navigation.js</hi>?scroll-margin-top=30" ;
 ...
 &lt;/script&gt;
 </pre></figure>
@@ -60,7 +60,7 @@ buttonBottomOfPage.addEventListener( "click" , inPageNavigator.<hi>scrollToBotto
 
 <figure class="listing"><figcaption>Specifying the top scrolling offset</figcaption>
 <pre>
-path/to/in-page-navigation.js?<hi>offsetTop=30</hi>" ;
+path/to/in-page-navigation.js?<hi>scroll-margin-top=30</hi>" ;
 </pre></figure>
 
 <p>If that parameter is omitted, the previous sibling of the <tt>MAIN</tt> element (usually the toolbar) determines that value. If there is none, a value of 0 is assumed.</p>
@@ -86,7 +86,7 @@ path/to/in-page-navigation.js?<hi>init-event-name=fragment-loading-complete</hi>
 <figure class="listing"><figcaption>Settings</figcaption>
 <pre>
 export const settings = {
-	offsetTop : undefined ,  <cc>// compensation for toolbars and other sticky content</cc>
+	scrollMarginTop : undefined ,  <cc>// compensation for toolbars and other sticky content</cc>
 	container : undefined ,  <cc>// reference to the container that holds the scroll targets</cc>
 	selector : undefined ,  <cc>// Defines which elements can be jumped to</cc>
 	scrollTargets : undefined  <cc>// list of heading elements in the main content container</cc>
@@ -94,6 +94,21 @@ export const settings = {
 </pre></figure>
 
 <!--h2--Usage--></div>
+
+<h2 cbc>Module Configuration</h2><div>
+
+<p>Module script parameters are passed in the query string of the script URL, as described in <a href="../component-anatomy.htm#passing-parameters">Anatomy of a WebCAT Component</a>.</p>
+
+<dl>
+<dt><tt>monitor-fragment-loading-complete</tt></dt><dd>
+	<p>If present, an event listener is attached to the <tt>document</tt> that re-compiles the list of scroll targets (headings).</p>
+	</dd>
+<dt><tt>scroll-margin-top=number</tt></dt><dd>
+	<p>Sets the top scroll margin to the specified number of pixels. Useful if there is no <tt>scroll-margin-provider</tt> available.</p>
+	</dd>
+</dl>
+
+<!--h2--Module Configuration--></div>
 
 <h2 cbc>Background Information</h2><div>
 
@@ -116,7 +131,7 @@ export function scrollToPreviousTarget ( ) {
 	for ( let i = settings.scrollTargets.length - 1 ; i >= 0 ; i -= 1 ) {
 		const heading = settings.scrollTargets[ i ];
 		if ( <hi>heading.getBoundingClientRect( ).top < 0</hi>  ) {
-			<hi>document.documentElement.scroll</hi>( { top : heading.offsetTop - settings.offsetTop , behavior : "smooth"  } ) ;
+			<hi>document.documentElement.scroll</hi>( { top : heading.offsetTop - settings.scrollMarginTop , behavior : "smooth"  } ) ;
 			return;
 	}	}	}
 </pre></figure>

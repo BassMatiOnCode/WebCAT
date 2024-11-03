@@ -11,9 +11,10 @@
 <meta name="sectionTitle" content="../title.svg" />
 
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
-<link rel="stylesheet" href="../code/page-structure/demo-page-1.css" />
-<script type="module" src="../code/page-structure/demo-page-1.js" ></script>
-<!--script type="module" src="../code/scroll-margin-provider/scroll-margin-provider-1.js" ></!--script-->
+<link rel="stylesheet" href="/inc/web-cat/page-structure/demo-page-1.css" />
+<script type="module" src="/inc/web-cat/page-structure/demo-page-1.js" ></script>
+
+<!--script type="module" src="/inc/web-cat/scroll-margin-provider/scroll-margin-provider-1.js" ></!--script-->
  
 <meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
 <meta name="tags" content="web, content, autoring, toolbox, HTML, JavaScript, CSS, WebCAT, component" />
@@ -21,7 +22,7 @@
 <meta name="description" content="" />
 
 <script type="module">
-import * as inPageNavigator from "../code/in-page-navigation/in-page-navigation-1.js?keep-init-handler&offsetTop=40" ;
+import * as inPageNavigator from "../code/in-page-navigation/in-page-navigation-1.js?keep-init-handler&scroll-margin-top=40" ;
 const buttons = document.getElementsByTagName( "button" );
 buttons[ 0 ].addEventListener( "click" , inPageNavigator.scrollToPreviousTarget );
 buttons[ 1 ].addEventListener( "click" , inPageNavigator.scrollToNextTarget );
