@@ -16,29 +16,6 @@
 	e.style.marginBottom = parseInt( window.getComputedStyle( e.previousElementSibling ).marginBottom ) - parseInt( e.scrollHeight ) + "px";
 	e.previousElementSibling.style.marginBottom = "0" ;
 	return; 
-
-	// TODO: Delete code below.
-	// Create buttons
-	// Append navigation button
-	const o = document.createElement( "BUTTON" );
-	o.textContent = "Navigate" ;
-	o.addEventListener( "click" , ( ) => document.dispatchEvent( new Event( "toggle-navigation-panel" )));
-	e.insertBefore( o, null );
-	// Append home button
-	o = document.createElement( "A" );
-	o.setAttribute( "href" , "/index.htm" );
-	o.textContent = "Home" ;
-	e.insertBefore( o, null );
-	// Append collapse/expand button
-	const before = o = document.createElement( "BUTTON" );
-	o.textContent = "Collapse" ;
-	o.addEventListener( "click" , ( ) => document.dispatchEvent( new Event( "toggle-collapsible-regions" )));
-	e.insertBefore( o, null );
-	// Raise the navigation data query event
-	const event = new CustomEvent( "NavigationDataQuery",  { detail : { toolbar : e , before : before } } ) ;
-	document.dispatchEvent ( event ) ;
-	if ( event.detail.result ) processNavigationData( event );
-	else document.addEventListener( "NavigationDataPublication", processNavigationData );
 	}
 /**	
  *		processNavigationData ( )
