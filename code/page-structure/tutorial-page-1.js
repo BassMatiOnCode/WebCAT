@@ -20,6 +20,7 @@ import "../tool-buttons/next-chapter-button-1.js" ;
 import "../tool-buttons/bottom-of-page-button-1.js" ;
 import "../page-footer/page-footer-1.js" ;
 import "../page-abstract/page-abstract-1.js" ;
+import "../scroll-margin-provider/scroll-margin-provider-1.js" ;
 import "../navigation-panel/navigation-panel-1.js" ;
 import "../docking-panel/docking-panel-1.js" ;
 import "../fragment-loader/fragment-loader-1.js" ;
@@ -29,7 +30,7 @@ import "../checked-items/checked-items-1.js?init-event-name=fragment-loading-com
 import "../continued-list/continued-list-1.js" ;
 import "../literature-reference-list/literature-reference-list-1.js?init-event-name=fragment-loading-complete" ;
 import "../link-target-highlighter/link-target-highlighter-1.js?init-event-name=fragment-loading-complete" ;
-import "../link-target-scrolling/link-target-scrolling-1.js?init-event-name=fragment-loading-complete&scroll-margin-top=40" ;
+import "../page-scrolling/page-scrolling-1.js?init-event-name=fragment-loading-complete&scroll-margin-top=40" ;
 import "../collapsible-structures/collapsible-structures-1.js?init-event-name=fragment-loading-complete" ;
 import "../sitemap-navigator/sitemap-navigator-1.js?init-event-name=fragment-loading-complete" ;
 

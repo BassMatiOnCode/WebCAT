@@ -1,4 +1,4 @@
-// Documentation: .../web-toolbox/link-target-scrolling/link-target-scrolling.htm
+// Documentation: .../web-toolbox/page-scrolling/page-scrolling.htm
 
 import * as initializer from "../component-initializer/component-initializer-1.js" ;
 
