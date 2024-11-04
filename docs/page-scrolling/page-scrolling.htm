@@ -75,7 +75,11 @@
 	<p>Default value: 20</p>
 	</dd>
 <dt>restore-hash</dt><dd>
-	<p>Restores the document fragment identifier ("hash") in the document URL after the document has been loaded.</p>
+	<p>Restores the document fragment identifier ("hash") in the document URL after the document has been loaded. Usually not used, but may be necessary in some applications. May have adverse effect on scrolling behavior.</p>
+	</dd>
+<dt>scroll-targets</dt><dd>
+	<p>A valid CSS selector that selects the scroll targets on the page.</p>
+	<p>Predefined is a list of chapter headings, H1...H5.</p>
 	</dd>
 </dl>
 
@@ -83,15 +87,36 @@
 
 <h2 cbc>Event Listeners</h2><div>
 
+<p class="note">Note that you don't have to import the <tt>page-scrolling</tt> component into e. g. every button component in order to use this event interface. In is sufficient to have the <tt>page-scrolling</tt> component imported (as service provider) <em>somewhere</em> into the document.</p>
+
 <p>The component adds an <tt>scroll-page-request</tt> listener to the <tt>document</tt> element to provide page scrolling services to other components. The <tt>CustomEvent.detail</tt> object carries the following members:</p>
 
 <dl>
 <dt>scrollTarget</dt><dd>
 	<p>Specifies the element which will be scrolled to the top of the window.</p>
+	<p>Possible values:</p>
+	<dl>
+	<dt>nextTarget</dt><dd>
+		<p>Scrolls the the next scroll target on the page, usually a chapter or section heading.</p>
+		</dd>
+	<dt>previousTarget</dt><dd>
+		<p>Scrolls to the previous target.</p>
+		</dd>
+	<dt>topOfPage</dt><dd>
+		<p>Scrolls to the top of the page.</p>
+		</dd>
+	<dt>bottomOfPage</dt><dd>
+		<p>Scrolls to the bottom of the page.</p>
+		</dd>
+	<dt>Element selector</dt><dd>
+		<p>A valid CSS selector that selects an scroll target element. Usually the ID of an element (e. g. "#target-name").</p>
+		</dd>
+	<dt>Element reference</dt><dd>
+		<p>A binary reference to an element on the page.</p>
+		</dd>
+	</dl>
 	</dd>
 </dl>
-
-<p class="note">Note that you don't have to import the <tt>page-scrolling</tt> component into e. g. every button component in order to use this event interface. In is sufficient to have the <tt>page-scrolling</tt> component imported (as service provider) <em>somewhere</em> into the document.</p>
 
 <!--h2--Event Listeners--></div>
 
