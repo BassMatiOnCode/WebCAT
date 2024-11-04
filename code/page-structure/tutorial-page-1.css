@@ -104,5 +104,5 @@ tt {
 	}
 ul.no-bullets { list-style-type : none }
 
-.note { border : 3px dotted steelblue ; padding : 10px }
+.note { border-left : 8px dotted lightblue ; padding-left : 15px }
 div.note { padding-bottom : 0 }
