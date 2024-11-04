@@ -2,7 +2,6 @@
 
 import * as initializer from "../component-initializer/component-initializer-1.js" ;
 import * as anchorButton from "../tool-buttons/base-anchor-button-1.js" ;
-import { scrollToNextTarget } from "../in-page-navigation/in-page-navigation-1.js" ;
 
 /**
  *		init ( )
@@ -13,7 +12,7 @@ export function init ( searchparams = new URLSearchParams( ) ) {
 	const anchor = anchorButton.appendAnchorButton( "next-chapter-button.svg" );
 	anchor.addEventListener( "click" , evt => {
 		evt.preventDefault( );
-		scrollToNextTarget( );
+		document.dispatchEvent( new CustomEvent( "scroll-page-request" , { detail : { scrollTarget : "nextTarget" } } ) ) ;
 		} ) ;
 	}
 

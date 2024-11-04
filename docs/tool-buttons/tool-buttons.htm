@@ -77,7 +77,7 @@ import "path/to/button.js?href=path/to/resource.htm";
 <h3 cbc>Available Tool Buttons</h3><div>
 
 <style>
-#dl-001 svg { vertical-align : bottom }
+#dl-001 svg { vertical-align : bottom ; height : 30px }
 #dl-001 dd p { margin : 5px 0 }
 #dl-001 dt { margin : 10px 0 }
 </style>
@@ -91,15 +91,15 @@ import "path/to/button.js?href=path/to/resource.htm";
 	<p>Opens the site navigation panel.</p>
 	<p><tt>path/to/tool-buttons/navigate-site-button.js</tt></p></dd>
 
-<dt>Navigate Up &ensp; <a data-load-fragment href="/inc/web-cat/tool-buttons/navigate-up-button.svg"></a></dt><dd>
+<dt>Navigate Up &ensp; <a data-load-fragment href="/inc/web-cat/tool-buttons/navigate-parent-button.svg"></a></dt><dd>
 	<p>Navigates to the sitemap parent node.</p>
 	<p><tt>path/to/tool-buttons/navigate-up-button.js</tt></p></dd>
 
-<dt>Navigate Back &ensp; <a data-load-fragment href="/inc/web-cat/tool-buttons/navigate-back-button.svg"></a></dt><dd>
+<dt>Navigate Back &ensp; <a data-load-fragment href="/inc/web-cat/tool-buttons/navigate-back-sequential-button.svg"></a></dt><dd>
 	<p>Navigates to the previous document in sequential order.</p>
 	<p><tt>path/to/tool-buttons/navigate-back-button.js</tt></p></dd>
 
-<dt>Navigate Forward &ensp; <a data-load-fragment href="/inc/web-cat/tool-buttons/navigate-forward-button.svg"></a></dt><dd>
+<dt>Navigate Forward &ensp; <a data-load-fragment href="/inc/web-cat/tool-buttons/navigate-forward-sequential-button.svg"></a></dt><dd>
 	<p>Navigates to the next document in sequential order.</p>
 	<p><tt>path/to/tool-buttons/navigate-forward-button.js</tt></p></dd>
 
@@ -111,11 +111,11 @@ import "path/to/button.js?href=path/to/resource.htm";
 	<p>Navigates to the next sibling document.</p>
 	<p><tt>path/to/tool-buttons/navigate-previous-sibling-button.js</tt></p></dd>
 
-<dt>Navigate to First Sibling &ensp; <a data-load-fragment href="/inc/web-cat/tool-buttons/navigate-first-button.svg"></a></dt><dd>
+<dt>Navigate to First Sibling &ensp; <a data-load-fragment href="/inc/web-cat/tool-buttons/navigate-first-sibling-button.svg"></a></dt><dd>
 	<p>Navigates to the first sibling document.</p>
 	<p><tt>path/to/tool-buttons/navigate-first-button.js</tt></p></dd>
 
-<dt>Navigate to Last Sibling &ensp; <a data-load-fragment href="/inc/web-cat/tool-buttons/navigate-last-button.svg"></a></dt><dd>
+<dt>Navigate to Last Sibling &ensp; <a data-load-fragment href="/inc/web-cat/tool-buttons/navigate-last-sibling-button.svg"></a></dt><dd>
 	<p>Navigates to the last sibling document.</p>
 	<p><tt>path/to/tool-buttons/navigate-last-button.js</tt></p></dd>
 
@@ -183,7 +183,9 @@ import "path/to/button.js?href=path/to/resource.htm";
 
 <h2 cbc>Creating Action Tool Buttons</h2><div>
 
-<p id="test">To build your own tool buttons, create a JavaScript module and import the <tt>tool-button-base.js</tt> module and <tt>base-anchor-button.js</tt> modules:</p>
+<p id="test">To build your own tool buttons, create an SVG vector image, a JavaScript module and optionally a CSS file. Add a <tt>title</tt> element to the SVG, the text will be shown as tooltip in the browser. </p>
+
+<p>In the .js file, import the <tt>tool-button-base.js</tt> module and <tt>base-anchor-button.js</tt> modules:</p>
 
 <figure class="listing"><figcaption>Importing the component initializer</figcaption>
 <pre>
@@ -224,6 +226,14 @@ export function init ( searchparams = new URLSearchParams( )) {
 
 <p>In the example above, a click event handler is added to the anchor element. This is where the actual work is done. Of course, the code in that event handler depends on your application.</p>
 
+<h3 cbc>Using Component Services Via Event Interface</h3><div>
+
+<p>The <a href="../page-scrolling/page-scrolling.htm">Page Scrolling</a> component provides a service that scrolls elements on the page smoothly into view. This service can be called by dispatching a <tt>scroll-page-request</tt> custom event to the <tt>document</tt> element, passing the target specification in the <tt>event.detail.target</tt> member according to the <a href="../page-scrolling/page-scrolling.htm#scroll-target">scrollTarget</a> field description in the <a href="../page-scrolling/page-scrolling.htm#event-listeners">page-scrolling</a> component documentation.</p>
+
+<!--h3--Using Component Services Via Event Interface--></div>
+
 <!--h2--Creating Action Tool Buttons--></div>
+
+
 
 </body></html>
