@@ -38,6 +38,49 @@ const configuration = {
 	return true;
 	}
 /**
+ *		updateScrollMargins( )
+ *
+ */ export function updateScrollMargins( ) {
+	const event = new CustomEvent ( "query-scroll-margins" , { detail : { } } ) ; 
+	document.dispatchEvent ( event );
+	configuration.scrollMarginTop = event.detail.marginTop || configuration.scrollMarginTop || 0 ;
+	configuration.scrollMarginBottom = event.detail.marginBottom || configuration.scrollMarginBottom || 0 ;
+	}
+/**
+ *		scrollToNextTarget( )
+ *
+ */ export function scrollToNextTarget ( ) {
+	updateScrollMargins( );
+	if ( ! configuration.scrollTargets ) configuration.scrollTargets = document.querySelectorAll( configuration.scrollTargetsSelector );
+	for ( const heading of configuration.scrollTargets )
+		if ( heading.getBoundingClientRect( ).top > configuration.scrollMarginTop + 10  ) 
+			return scrollToElement( heading ) ;
+	}
+/**
+ *		scrollToPreviousTarget( )
+ *
+ */ export function scrollToPreviousTarget ( ) {
+	updateScrollMargins( );
+	if ( ! configuration.scrollTargets ) configuration.scrollTargets = document.querySelectorAll( configuration.scrollTargetsSelector );
+	for ( let i = configuration.scrollTargets.length - 1 ; i >= 0 ; i -= 1 ) {
+		const heading = configuration.scrollTargets[ i ];
+		if ( heading.getBoundingClientRect( ).top < 0  ) 
+			return scrollToElement( heading ) ;
+		}
+	}
+/**
+ *		scrollToTopOfPage()
+ *
+ */ export function scrollToTopOfPage ( ) {
+	window.scroll( { top : 0 , behavior : "smooth" } );
+	}
+/**
+ *		scrollToBottomOfPage()
+ *
+ */ export function scrollToBottomOfPage ( ) {
+	window.scroll( { top : document.documentElement.scrollHeight , behavior : "smooth" } ) ;
+	}
+/**
  *		updateScrollTargetList( )
  *
  */ export function updateScrollTargetList ( selector ) {
@@ -55,8 +98,8 @@ const configuration = {
 	configuration.scrollMarginTop = event.detail.marginTop || parseInt( searchparams.get( "scroll-margin-top" )) || 0 ;
 	configuration.scrollMarginBottom = event.detail.marginBottom || parseInt( searchparams.get( "scroll-margin-bottom" )) || 0 ;
 	// Compile the list of scroll targets
-	configuration.scrollTargetsContainer = document.getElementById( searchparams.get( "scrollTargetsContainer" )) || document.querySelector( "MAIN" ) || document ;
-	updateScrollTargetList( searchparams.get( "scrollTargetsSelector" ) || "H1,H2,H3,H4,H5" );
+	configuration.scrollTargetsContainer = document.getElementById( searchparams.get( "scroll-targets-container" )) || document.querySelector( "MAIN" ) || document ;
+	updateScrollTargetList( searchparams.get( "scroll-targets-selector" ) || "H1,H2,H3,H4,H5" );
 	// Keep scroll targets up to date
 	if ( searchparams.has( "monitor-fragment-loading" )) document.addEventListener( "fragment-loading-complete" , ( ) => updateScrollTargetList( ));
 	// Monitor scroll request events
@@ -69,10 +112,10 @@ const configuration = {
 			scrollToPreviousTarget( );
 			break;
 		case "topOfPage" :
-			scrollToTopOfPage( );
+			window.scroll( { top : 0 , behavior : "smooth" } );
 			break;
 		case "bottomOfPage" :
-			scrollToBottomOfPage( );
+			window.scroll( { top : document.documentElement.scrollHeight , behavior : "smooth" } ) ;
 			break;
 		default :
 			scrollToElement( evt.detail.scrollTarget );
@@ -92,16 +135,10 @@ const configuration = {
  *		Module init code 
  */ 
 // Save and remove document fragment identifier from the URL to enable smooth scrolling.
-debugger;
 if ( document.location.hash.length > 1 ) {
 	configuration.documentFragmentIdentifier = document.location.hash ;
 	const url = new URL ( document.location );
 	url.hash = "" ;
 	history.replaceState( null, null, url.href ) ;
-	// document.location.hash = "" ;
 	 }
-// requestAnimationFrame( ( ) => { 
-// requestAnimationFrame( ( ) => { 
-	initializer.initComponent( init, import.meta.url );
-//	} );
-//	} );
+initializer.initComponent( init, import.meta.url );

@@ -65,7 +65,7 @@
 
 <!--h2--Using the Component--></div>
 
-<h2 cbc="collapsed">Module Configuration</h2><div>
+<h2 cbc>Module Configuration</h2><div>
 
 <p>Module script parameters are passed in the query string of the script URL, as described in <a href="../component-anatomy.htm#passing-parameters">Anatomy of a WebCAT Component</a>.</p>
 
@@ -77,7 +77,10 @@
 <dt>restore-hash</dt><dd>
 	<p>Restores the document fragment identifier ("hash") in the document URL after the document has been loaded. Usually not used, but may be necessary in some applications. May have adverse effect on scrolling behavior.</p>
 	</dd>
-<dt>scroll-targets</dt><dd>
+<dt>scroll-targets-container</dt><dd>
+	<p>A valid CSS selector that determines the container to be search for scroll target elements. Default value is "MAIN". If there is no <tt>main</tt> element, the document.body is used instead.</p>
+	</dd>
+<dt>scroll-targets-selector</dt><dd>
 	<p>A valid CSS selector that selects the scroll targets on the page.</p>
 	<p>Predefined is a list of chapter headings, H1...H5.</p>
 	</dd>
@@ -128,6 +131,9 @@
 <dt><a href="../scroll-margin-provider/scroll-margin-provider.htm">scroll-margin-provider</a></dt><dd>
 	<p>Calculates the space at the top and bottom of the window that is occupied by sticky toolbars. The values must be included in the calculations for the scroll distance.</p>
 	</dd>
+<dt><a href="../tool-buttons/tool-buttons.htm">Tool Buttons</a></dt><dd>
+	<p>The four in-page navigation tool buttons use the <tt>scroll-page-request</tt> event interface of this component.</p>
+	</dd>
 </dl>
 
 <!--h2--Related Components--></div>
@@ -173,6 +179,33 @@ button1.addEventListener( "click" , ( ) =>
 </figure>
 
 <!--h3--Demo 2--></div>
+
+<h3 cbc>Demo 3</h3><div>
+
+<p>This demo shows the use of scroll targets. A scroll target is an arbitrary element on the page which can be navigated to with the buttons. By default, the chapter headings H1...H5 are selected into the <tt>configuration.scrollTargets</tt> list. In this example, the three <tt>DT</tt> elements are selected:</p>
+
+<figure class="listing"><figcaption>Passing a scroll targets selector to the module</figcaption>
+<pre>
+&lt;script type="module" src="path/to/page-scrolling.js?scroll-targets-selector=dt" &gt;&lt;/script&gt;
+</pre></figure>
+
+<p>The button click event handlers look similar to demo 2, but this time, method names are passed in the <tt>detail.scrollTarget</tt> field:</p>
+
+<figure class="listing"><figcaption>Using the scroll event interface</figcaption>
+<pre>
+button1.addEventListener( "click" , ( ) => 
+	document.dispatchEvent( 
+	new CustomEvent( "<hi>scroll-page-request</hi>" , { detail : { 
+	<hi>scrollTarget</hi> : "topOfPage" } } ) ) );
+</pre></figure>
+
+<p>Other method names are <tt>bottomOfPage</tt>, <tt>nextTarget</tt> and <tt>previousTarget</tt>. Here is the demo:</p>
+
+<figure class="demo"><figcaption>Scrolling to targets (<a href="demo-3.htm" target="_blank">demo-3.htm</a>)</figcaption>
+<iframe style="width:100% ; height:200px" src="demo-3.htm"></iframe>
+</figure>
+
+<!--h3--Demo 3--></div>
 
 <!--h2--Examples--></div>
 
