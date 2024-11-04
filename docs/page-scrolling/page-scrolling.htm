@@ -88,14 +88,14 @@
 
 <!--h2--Module Configuration--></div>
 
-<h2 cbc>Event Listeners</h2><div>
+<h2 cbc id="event-listeners">Event Listeners</h2><div>
 
 <p class="note">Note that you don't have to import the <tt>page-scrolling</tt> component into e. g. every button component in order to use this event interface. In is sufficient to have the <tt>page-scrolling</tt> component imported (as service provider) <em>somewhere</em> into the document.</p>
 
 <p>The component adds an <tt>scroll-page-request</tt> listener to the <tt>document</tt> element to provide page scrolling services to other components. The <tt>CustomEvent.detail</tt> object carries the following members:</p>
 
 <dl>
-<dt>scrollTarget</dt><dd>
+<dt id="scroll-target">scrollTarget</dt><dd>
 	<p>Specifies the element which will be scrolled to the top of the window.</p>
 	<p>Possible values:</p>
 	<dl>
