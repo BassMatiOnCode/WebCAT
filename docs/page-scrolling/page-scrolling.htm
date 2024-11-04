@@ -4,9 +4,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="template-info" file-name="empty.htm" version="2024-08-07" editor="USP" />
 <meta name="author" content="USP" />
-<meta name="creation-date" content="2024-10-30" />
+<meta name="creation-date" content="2024-11-04" />
 <meta name="editor" content="USP" />
-<meta name="change-date" content="2024-10-30" />
+<meta name="change-date" content="2024-11-04" />
 <meta name="version" content="1" />
 <meta name="sectionTitle" content="../title.svg" />
 
@@ -16,22 +16,39 @@
  
 <meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
 <meta name="tags" content="web, content, autoring, toolbox, HTML, JavaScript, CSS, WebCAT, component, highlight, link, target, hash" />
-<meta name="description" content='This component smoothly scrolls a link target element into view. The target element ID is specified in the document fragment portion or a URL (the so-called "hash") in the document URL or the href attribute of a link anchor.' />
+<meta name="description" content="This component smoothly scrolls a the page up and down in order to get a specific part or element of the page into view. The scroll target element can be defined in several ways." />
 
-<title>Link Target Scrolling (Web > Content Authoring Toolbox)</title>
+<title>Page Scrolling (Web > Content Authoring Toolbox)</title>
 
 </head><body>
 
-<h1>Link Target Scrolling</h1>
+<h1>Page Scrolling</h1>
 
 <p id="pageAbstract"></p>
+
+ <ul>
+ <li>by an anchor, carringing a link target in the URL</li>
+ <li>in the document URL with a document fragment identifier ("hash")</li>
+ <li>a heading element (H1...H5)</li>
+ <li>user selected elements</li>
+ </ul>
+
+ <p>Example URL with a link target identifier:</p>
+
+ <pre>path/to/document.htm#<hi>elementID</hi></pre>
+
+ <p>The part after the hash sign is called <a href="https://en.wikipedia.org/wiki/URI_fragment">document fragment</a> or link target element identifier.</p>
+
+ <p>By default, the browser takes care of scrolling, so this component is not stricktly necessary, but does not provide smooth scrolling, at least not at the time of writing. This is what this component is for.</p>
+
+ <p>Another situation where the browser cannot serve out of the box occurs when a link target is located in an asynchronously loaded document fragment. Deferring the component initialization after the "fragment-loading-complete" event solves this problem.</p>
 
 <h2 cbc>Using the Component</h2><div>
 
 <p>The component consists of a single file:</p>
 
 <ul>
-<li>highlight-link-target.js</li>
+<li>page-scrolling.js</li>
 </ul>
 
 <p>For detailed notes on how to import this file into a document or aggregation file, refer to <a hef="../component-anatomy.htm#using">WebCAT Component Anatomy</a>.</p>
@@ -44,15 +61,7 @@
 &lt;a href="path/to/document.htm"<hi>#element-id</hi>"&gt;Jump to element&lt;/a&gt; in a different document
 </pre></figure>
 
-<p>A click on a link should carry you to the corresponding entry in the description list. The module script extracts the hash part from the URL, locates the related element in the document, and scrolles it smoothly into view.</p>
-
-<p>Click on the "entry" links and notice the document scrolling down:</p>
-
-<figure class="demo" style="scroll-margin-top:40px"><figcaption>Smooth scrolling demo</figcaption>
-<iframe style="width:100% ; height:200px" src="demo-1.htm"></iframe>
-</figure>
-
-<p>Note that scrolling functions in IFRAME-hosted documents interact with the host document, so I recommend to test <a href="demo-1.htm" target="_blank">demo-1</a> and <a href="demo-1-linklist.htm" target="_blank">demo-1-linklist</a> in a separate browser window.</p>
+<p>A click on a link should carry you to the corresponding entry in the description list. The module script extracts the hash part from the URL, locates the related element in the document, and scrolls it smoothly into view.</p>
 
 <!--h2--Using the Component--></div>
 
@@ -72,35 +81,109 @@
 
 <!--h2--Module Configuration--></div>
 
+<h2 cbc>Event Listeners</h2><div>
+
+<p>The component adds an <tt>scroll-page-request</tt> listener to the <tt>document</tt> element to provide page scrolling services to other components. The <tt>CustomEvent.detail</tt> object carries the following members:</p>
+
+<dl>
+<dt>scrollTarget</dt><dd>
+	<p>Specifies the element which will be scrolled to the top of the window.</p>
+	</dd>
+</dl>
+
+<p class="note">Note that you don't have to import the <tt>page-scrolling</tt> component into e. g. every button component in order to use this event interface. In is sufficient to have the <tt>page-scrolling</tt> component imported (as service provider) <em>somewhere</em> into the document.</p>
+
+<!--h2--Event Listeners--></div>
+
+<h2 cbc>Related Components</h2><div>
+
+<p>This component is related to other WebCAT components:</p>
+
+<dl>
+<dt><a href="../scroll-margin-provider/scroll-margin-provider.htm">scroll-margin-provider</a></dt><dd>
+	<p>Calculates the space at the top and bottom of the window that is occupied by sticky toolbars. The values must be included in the calculations for the scroll distance.</p>
+	</dd>
+</dl>
+
+<!--h2--Related Components--></div>
+
+<h2 cbc>Examples</h2><div>
+
+<h3 cbc>Demo 1a, Demo 1b</h3><div>
+
+<p><a href="demo-1a.htm" target="_blank">Demo 1a</a> is a simple document that carries anchors that link to elements in <a href="demo-1b.htm" target="_blank"></a> The example demonstrates  solving a race condition in the browser at document load-time.</p>
+
+<p class="note">Navigation to another document combined with scripted smooth scolling exposes problems in IFRAMEs: Not only the hosted document scrolls, but the host document also, which is an unwanted effect which cannot be prevented (at least at the time of writing). If you experience problems, open the demo documents in a separate window (e. g. by using the links above). The problems don't appear in top-level documents.</p>
+
+<p>The example below demonstrates the navigation from demo 1a to an element in demo 1b. Notice the target document scrolling down smoothly:</p>
+
+<figure class="demo" style="scroll-margin-top:40px"><figcaption>Smooth scrolling demo</figcaption>
+<iframe style="width:100% ; height:200px" src="demo-1a.htm"></iframe>
+</figure>
+
+<p>Demo 1b also has links at the top of the page. They demonstrate how clicks are intercepted and converted into smooth scrolling to the link target. This technique works well in an IFRAME window.</p>
+
+<p>You don't have to change your HTML code to use these features. Just import the module script into your document.</p>
+
+<!--h3--Demo 1a, Demo 1b--></div>
+
+<h3 cbc>Demo 2</h3><div>
+
+<p>Demo 2 demonstrates the use of the <em>scrolling event interface</em>. The page hosts buttons instead of anchors. The button click event handlers dispatch a <tt>scroll-page-request</tt> event to the document and specify the scroll target element:</p>
+
+<figure class="listing"><figcaption>Using the scroll event interface</figcaption>
+<pre>
+button1.addEventListener( "click" , ( ) => 
+	document.dispatchEvent( 
+	new CustomEvent( "<hi>scroll-page-request</hi>" , { detail : { 
+	<hi>scrollTarget</hi> : "#ref-001" } } ) ) );
+</pre></figure>
+
+<p>Note that you can specify <em>any valid CSS selector</em> in the <tt>scrollTarget</tt> field.</p>
+
+<p>A click on a button should scroll the document smoothly to the target element:</p>
+
+<figure class="demo" style="scroll-margin-top:40px"><figcaption>Scroll event interface demo</figcaption>
+<iframe style="width:100% ; height:200px" src="demo-2.htm"></iframe>
+</figure>
+
+<!--h3--Demo 2--></div>
+
+<!--h2--Examples--></div>
+
 <h2 cbc="collapsed">Implementation Details</h2><div>
 
 <p>First finding: The function <tt>element.scrollIntoView()</tt> cannot be used inside <tt>IFRAME</tt> hosted documents, because the function scrolls both the hosted <em>and</em> the host document. Instead, <tt>document.scrollingElement.scroll()</tt> must be used.</p>
 
-<p>Smooth scrolling to an element in a different document (href="different.htm#elementID") usually fails, because the browser has already positioned the document before <tt>document.scrollingElement.scroll()</tt> is exeuted &ndash; and therefore the function call has <em>no effect</em>.</p>
+<p>Second finding: Smooth scrolling to an element in a different document (href="different.htm#elementID") usually fails, because the browser has already positioned the document before <tt>document.scrollingElement.scroll()</tt> is exeuted &ndash; and therefore the function call has <em>no effect</em>. This is a typical race condition.</p>
 
-<p>The implementation idea is to save and clear <tt>document.location.hash</tt> at an early stage in the loading process. This actually scrolls the document back to the top, but the effect is not visible to the user because the document has not yet been rendered. Therefore there is no (additional) flicker or flash effect when the document loads. </p>
+<p>Third finding: Navigation with smooth scrolling to an element in a different document exposes quirks in a host document if the navigation takes place in an IFRAME-hosted child document. The host document scrolls, which is not desired. This behaviour cannot be eliminated.</p>
 
-<p>Now we can smoothly scroll to the link target element with <tt>document.scrollingElement.scroll( )</tt>.</p>
-
-<p>If the documents in question are hosted in an IFRAME in another host document, timing issues appear: The function call <tt>document.scrollingElement.scroll( )</tt> has no effect. Therefore, the entire component initialization is delayed:</p>
+<p>The second and third findings are addressed by manipulating the browser history at an early stage in the loading process:</p>
 
 <figure class="listing"><figcaption>Delayed initialization</figcaption>
 <pre>
 <cc>/** Module init code */</cc> 
-const linkTargetElementSelector = document.location.hash;
-document.location.hash = "" ;  
-<hi>requestAnimationFrame</hi>( ( ) => { 
-<hi>requestAnimationFrame</hi>( ( ) => { 
-	initializer.initComponent( init, import.meta.url );
-	} );
-	} );
+if ( document.location.hash.length > 1 ) {
+	configuration.documentFragmentIdentifier = document.location.hash ;
+	const url = new URL ( document.location );
+	url.hash = "" ;
+	<hi>history.replaceState</hi>( null, null, url.href ) ;
+	}
+initializer.initComponent( init, import.meta.url );
 </pre></figure>
 
-<p>This works well if the document is really <em>loaded</em>, but the approach fails if a link anchor navigates the browser to an element <em>on the same page</em>. Therefore, the module script sets up an event handler to catch clicks on anchor elements with link targets on the same page, abort the default behaviour and smoothly scrolls to the target element programmatically.</p>
+<p>The first few instruction extract the target element ID from the document location hash and replace the history entry with an URI without hash. This prevents the browser from scrolling down to the target element immediately.</p>
+
+<p>Then the initialization takes place as usual. Part of the initialization is to smoothly scroll to the target element.</p>
+
+<p>Replacing the browser history entry also solved the host document scrolling quirks, as seen before.</p>
+
+<p>The measure above works really well if the document is really <em>loaded</em>, but the approach fails if a link anchor navigates the browser to an element <em>on the same page</em>. Therefore, the module script sets up an event handler to catch clicks on anchor elements with link targets on the same page, abort the default behaviour and smoothly scrolls to the target element programmatically.</p>
 
 <p>Note: <tt>element.style.scrollMarginTop</tt> prevents that the element is scrolled to the top of the window, leaving space sticky elements at the top of the window, like toolbars or menus.</p>
 
-<p class="note">Note: The <a href="https://developer.mozilla.org/en-US/docs/Web/API/View_Transitions_API">view transitions API</a> might be a better option for this purpose.</p>
+<p class="note">Note: The <a href="https://developer.mozilla.org/en-US/docs/Web/API/View_Transitions_API">view transitions API</a> might be a better option for this purpose. Unfortunately, not all major browsers support this API.</p>
 
 <!--h2--Implementation Details--></div>
 
