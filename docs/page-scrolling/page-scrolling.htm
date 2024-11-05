@@ -39,9 +39,9 @@
 
  <p>The part after the hash sign is called <a href="https://en.wikipedia.org/wiki/URI_fragment">document fragment</a> or link target element identifier.</p>
 
- <p>By default, the browser takes care of scrolling, so this component is not stricktly necessary, but does not provide smooth scrolling, at least not at the time of writing. This is what this component is for.</p>
+ <p>By default, the browser takes care of scrolling the page, so this component is not stricktly necessary. But the browser does not provide smooth scrolling, at least not at the time of writing. This is what this component is for.</p>
 
- <p>Another situation where the browser cannot serve out of the box occurs when a link target is located in an asynchronously loaded document fragment. Deferring the component initialization after the "fragment-loading-complete" event solves this problem.</p>
+ <p>Another situation where the browser cannot serve out of the box occurs when a link target is located in an asynchronously loaded and document fragment. Deferring the component initialization after the "fragment-loading-complete" event solves this problem.</p>
 
 <h2 cbc>Using the Component</h2><div>
 
@@ -74,8 +74,8 @@
 	<p>Vertical distance of the target element from the window top after scrolling into view.</p>
 	<p>Default value: 20</p>
 	</dd>
-<dt>restore-hash</dt><dd>
-	<p>Restores the document fragment identifier ("hash") in the document URL after the document has been loaded. Usually not used, but may be necessary in some applications. May have adverse effect on scrolling behavior.</p>
+<dt>restore-hash=no</dt><dd>
+	<p>When a document is loaded into the browser, the the document fragment identifier ("hash") in the URL is removed in order to scroll the document smoothly to the target element. When finished, the URL hash is restored. With his setting in place, the URL hash is <em>not</em> restored.</p>
 	</dd>
 <dt>scroll-targets-container</dt><dd>
 	<p>A valid CSS selector that determines the container to be search for scroll target elements. Default value is "MAIN". If there is no <tt>main</tt> element, the document.body is used instead.</p>

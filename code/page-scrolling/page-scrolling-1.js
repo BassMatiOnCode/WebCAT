@@ -29,13 +29,14 @@ const configuration = {
 	document.dispatchEvent( event ) ;
 	const scrollMargin = event.detail.marginTop || configuration.scrollMarginTop ;
 	document.scrollingElement.scroll( { top : scrollTarget.offsetTop - scrollMargin , behavior : "smooth"  } ) ;
+	// Restore original document URL only if requested.
 	function scrollEndHandler ( ) {
-		// Restore the location hash only if requested.
-		document.location.hash = selector ;
+		history.replaceState( null, null, document.location.href + (configuration.documentFragmentIdentifier || "" )) ;
+		configuration.restoreHash = false;  // it's a one-time operation
 		document.removeEventListener( "scrollend" , scrollEndHandler );
 		}
 	if ( configuration.restoreHash ) document.addEventListener( "scrollend" , scrollEndHandler );
-	return true;
+	return true;  // to indicate that the document was navigated to a link target element.
 	}
 /**
  *		updateScrollMargins( )
@@ -127,7 +128,7 @@ const configuration = {
 		if ( scrollToElement( evt.target.hash )) evt.preventDefault( ) ;
 		} ) ;
 	// An application might require the hash to be restored when loading has finished
-	configuration.restoreHash = searchparams.has( "restore-hash" );
+	configuration.restoreHash = searchparams.get( "restore-hash" ) !== "no" ;
 	// Scroll to the element addressed in the document fragment identifier (URL hash)
 	if ( configuration.documentFragmentIdentifier ) scrollToElement( configuration.documentFragmentIdentifier );
 	}
