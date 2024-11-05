@@ -6,13 +6,13 @@
 <meta name="author" content="USP" />
 <meta name="creation-date" content="2024-09-03" />
 <meta name="editor" content="USP" />
-<meta name="change-date" content="2024-09-03" />
+<meta name="change-date" content="2024-10-20" />
 <meta name="version" content="1" />
 <meta name="sectionTitle" content="../title.svg" />
 
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
-<link rel="stylesheet" href="/inc/web-cat/page-structure/tutorial-page-1.css" />
-<script type="module" src="/inc/web-cat/page-structure/tutorial-page-1.js" ></script>
+<link rel="stylesheet" href="../code/page-structure/tutorial-page-1.css" />
+<script type="module" src="../code/page-structure/tutorial-page-1.js" ></script>
 
 <meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
 <meta name="tags" content="web, autoring, toolbox, HTML, JavaScript, CSS" />
@@ -27,9 +27,9 @@
 
 <p>The <tt>sitemap-navigator</tt> is often combined with the <tt>navigation-panel</tt>, <tt>docking-panel</tt> and <tt>collapsible-structure</tt> components to provide a rich user experience.</p>
 
-<h2 cbc>Introduction</h2><div>
+<h2 cbc>Writing Sitemaps</h2><div>
 
-<p>A <em>sitemap</em> is a tree structure, built from nested UL elements with link anchors that point to website documents. A sitemap is usually stored in a separate file ("/toc.htm") to simplify maintenance. It can be easily integrated into an HTML document with an HTML fragment link anchor:</p>
+<p>A <em>sitemap</em> is a tree structure, built on UL and LI elements, with anchor elements that point to the documents. A sitemap is usually stored in a separate file ("/toc.htm") to simplify maintenance. It can be easily integrated into an HTML document with an HTML fragment link anchor:</p>
 
 <figure class="listing"><figcaption>Integrating the sitemap into a document</figcaption>
 <pre>
@@ -92,7 +92,7 @@
 
 <dl>
 <dt>Path highlighting</dt><dd>
-	<p>The path between the root node and the current document is highlighted in the sitemap. </p>
+	<p>The path between the root node and the current document is highlighted in the sitemap. The default icon color is light blue, the highlighted node icons are orange. The active not-collapsible node has an orange dot icon.</p>
 	</dd>
 <dt>Navigation Info Update</dt><dd>
 	<p>When the user navigates to a document, a related navigation info structure is compiled and published via <tt>navigation-info-update</tt> event to the document object. Site navigation tool buttons and other components subscribe to this event and update their configuration accordingly.</p>
@@ -135,10 +135,59 @@
 
 <h2 cbc>Implementation Details</h2><div>
 
+<h3 cbc>Highlighting the Navigation Path</h3><div>
+
+<p>The node icons in a <tt>.sitemap-tree</tt> are of a light blue color. The nodes along the path are highlighted with an orange stroke color. A non-collapsible active node gets a dedicated orange dot icon.</p>
+
+<p>While the <tt>active</tt> class attribute is maintained by the module script, the appearances is controlled by the CSS file. The <a href="../collapsible-structures/collapsible-structures.htm"><tt>collapsible-structure</tt></a> component provides two sets of node icons, one set in orange, one in light blue. The icon images are used for background images, which doesn't allow the use of external CSS reference from inside the SVG code to change colors. Therefore, two different colored icon sets have to be provided.</p>
+
+<p>In the <tt>sitemap-navigator.css</tt> file, two rules override the <tt>collapsible-structures</tt> rules for non-active tree nodes and prescribe a different icon color:</p>
+
+<figure class="listing"><figcaption>Additional rules for the sitemap tree</figcaption>
+<pre>
+	<cc>/* Icon image for collapsed state */</cc>
+.sitemap-tree [ data-collapsible-state = "collapsed" ]<hi>:not( .active )</hi>::before {
+	background-image : url( ../collapsible-structures/<hi>lightblue-plus.svg</hi> );
+	}
+
+	<cc>/* Icon image for expanded state */</cc>
+.sitemap-tree [ data-collapsible-state = "expanded" ]<hi>:not( .active )</hi>::before {
+	background-image : url( ../collapsible-structures/<hi>lightblue-minus.svg</hi> );
+	}
+</pre></figure>
+
+<p>The third rule adds a box with an icon to the LI element of an active uncollapsible tree node. The code resembles that for collapsible tree nodes:</p>
+
+<figure class="listing"><figcaption>Additional rule for non-collapsible active nodes</figcaption>
+<pre>
+		<cc>/* Icon image for active document */</cc>
+.sitemap-tree <hi>:not</hi>([ data-collapsible-state ])<hi>.active</hi>::before {
+	content : "\00A0" ;
+	position : absolute ;
+	left : 0px ;
+	width : 20px ;
+	height : 25px ;  <cc>/* this effectively determines the vertical position */</cc>
+	background-size: 15px 15px;
+	background-repeat: no-repeat;
+	background-position: left center;
+	background-image : url( ../collapsible-structures/<hi>orange-dot.svg</hi> );
+	}
+</pre></figure>
+
+<p>The element has a <tt>position:absolute</tt> style, so we cannot set the icon box position with the <tt>top</tt> property. This yould move it out of is LI parent and position it relative to the parent UL. If we don't provide value for that property, the vertical position of the box remains as if it had <tt>position:relative</tt>. </p>
+
+<p>The rest of the properties pretty much self-explanatory.</p>
+
+<!--h3--Highlighting the Navigation Path--></div>
+
+<h3 cbc>Sitemap Fragments</h3><div>
+
 <p>All Fragments in a document are loaded asynchronously. Fragments can contain other fragments, which are also loaded, recursively and asynchronously. When the loader has finished this recursive job, a "fragment-loading-complete" event is dipatched to the <tt>document</tt> object.</p>
 
 <p>Sitemap fragments are loaded with anchor elements</p>
 <p>The sitemap fragment that contains the root node is loaded first. It is </p>
+
+<!--h3--Sitemap Fragments--></div>
 
 <h3 cbc>Site Navigation Event</h3><div>
 
@@ -180,6 +229,20 @@ http://localhost/section-3/subsection-2/chapter-1/toc.htm
 <p>Not every folder in the path to the document might contain a sitemap fragment file. If the link to the document can be found, the remaining URLs for that path can be ignored, they are considered irrelevant.</p>
 
 <!--h3--Partially Loaded Sitemap--></div>
+
+<h3 cbc>Partially Loaded Sitemap and Navigation Info Structure</h3><div>
+
+<p>Two relatation types are problematic: The next node in sequential order, and the previous node in sequential order.</p>
+
+<p>If the current node carries an interactive fragment link anchor, the fragment must be loaded, and the first link anchor in the loaded tree is the link to the next document in sequential order. If the previous node in sequential order carries a fragment link anchor, the last anchor of the loaded tree is inspected. If it has <em>no</em> fragment link anchor, this is the previous document anchor. If it <em>does</em> have a fragment link anchor, the tree is loaded, and so on.</p>
+
+<p>If a node carries an interactive fragment link anchor, 
+
+is found instead of a document link anchor, the content must be loaded first before the navigation info is complete. An idea: Load fragments and process a promise array. The Promise.allSettled() method then continues and fires the <tt>navigation-info-update</tt> event.</p>
+
+<p>Alternatively, if a site-navigation button is linked to an interactive fragment anchor, the fragment can be loaded when the user activates the link. This may caus delays.</p>
+
+<!--h3--Partially Loaded Sitemap and Navigation Info Structure--></div>
 
 <h3 cbc>Parallel Requests for Sitemap Fragments</h3><div>
 

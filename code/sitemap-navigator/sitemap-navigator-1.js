@@ -34,13 +34,13 @@ let navigationInfo = { } ;  // carries link anchors related to the current docum
 	compileNavigationInfo( entry );
 	// Deactivate old path
 	const collapse = document.getElementById( "sitemapRoot" ).hasAttribute( "data-collapse-expired-path" );
-	for ( const listItem of document.getElementById( "sitemapRoot").querySelectorAll( "[data-active-path]" )) {
-		listItem.toggleAttribute( "data-active-path" );
+	for ( const listItem of document.getElementById( "sitemapRoot").querySelectorAll( ".active" )) {
+		listItem.classList.remove( "active" );
 		if ( collapse ) collapsibleStructures.collapse( listItem );
 		}
 	// Activate new path
 	while ( entry ) {
-		entry.toggleAttribute( "data-active-path" );
+		entry.classList.add( "active" );
 		if ( entry.hasAttribute( "data-collapsible-state" )) collapsibleStructures.expand( entry ) ;
 		entry = entry.closest( "UL" );
 		if ( entry.classList.contains( "sitemap-tree" )) break;

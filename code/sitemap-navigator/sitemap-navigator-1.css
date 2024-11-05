@@ -1,0 +1,26 @@
+/*   documentation: .../web-cat/sitemap-navigator/sitemap-navigator.htm   */
+
+	/* Icon image for collapsed state */
+.sitemap-tree [ data-collapsible-state = "collapsed" ]:not( .active )::before {
+	background-image : url( ../collapsible-structures/lightblue-plus.svg );
+	}
+
+	/* Icon image for expanded state */
+.sitemap-tree [ data-collapsible-state = "expanded" ]:not( .active )::before {
+	background-image : url( ../collapsible-structures/lightblue-minus.svg );
+	}
+
+		/* Icon image for active document */
+.sitemap-tree :not([ data-collapsible-state ]).active::before {
+		/* We cannot set a top property because the element has position:absolute and that moves the icon way up to the parent */
+	content : "\00A0" ;
+	position : absolute ;
+	left : 0px ;
+	width : 20px ;
+	height : 25px ;  /* this effectively determines the vertical position */
+	background-size: 15px 15px;
+	background-repeat: no-repeat;
+	background-position: left center;
+	background-image : url( ../collapsible-structures/orange-dot.svg );
+	}
+
