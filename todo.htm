@@ -25,7 +25,7 @@ pre { tab-size : 20px ; margin : 5px 0 -20px -20px}
 	<br/>Solution: ScrollTargets must be searched in reverse order, from bottom to top.</p>
 	</dd>
 
-<dt class="open"><span class="date">2024-10-09-001</span> Page Toolbar</dt><dd>
+<dt class="open"><span class="date">2024-10-09-001</span> Page Toolbar, overflowing buttons</dt><dd>
 	<p class="affected components">main-toolbar</p>
 	<p class="close-info"><span class="date"></span></p>
 	<p class="description">Overflowing buttons flow to the next line, but the toolbar height does not change.</p>
@@ -114,9 +114,9 @@ pre { tab-size : 20px ; margin : 5px 0 -20px -20px}
 		</div>
 	</dd>
 
-<dt class="open"><span class="date">2024-10-31-001</span> Refactor in-page-navigation, literature-reference-list, link-target-highlighter, link-target-scrolling.</dt><dd>
-	<p class="affected components">in-page-navigation, literature-reference-list, highlight-link-target</p>
-	<p class="close-info"><span class="date"></span></p>
+<dt class="closed fixed"><span class="date">2024-10-31-001</span> Refactor in-page-navigation, link-target-highlighter, link-target-scrolling.</dt><dd>
+	<p class="affected components">in-page-navigation, highlight-link-target</p>
+	<p class="close-info"><span class="date">2024-11-04</span> Closed, fixed.</p>
 	<div class="description">
 		<p>There are a number of distinct features:</p>
 		<ul>
@@ -129,29 +129,29 @@ pre { tab-size : 20px ; margin : 5px 0 -20px -20px}
 		<p>The third point is an entirely unrelated stand-alone component, <tt>highlight-link-target</tt>, which catches clicks on anchors with links to elements on the same page. Also, the document fragement identifier in the URL ("hash") is covered.. </p>
 		</div>
 	<div class="resolution">
-		<p></p>
+		<p>in-page-navigation and link-target-scrolling consolidated in page-scrolling.</p>
 		</div>
 	</dd>
 
-<dt class="open"><span class="date">2024-11-02-001</span> Combine link-target-scrolling and in-page-navigation</dt><dd>
+<dt class="closed fixed"><span class="date">2024-11-02-001</span> Combine link-target-scrolling and in-page-navigation</dt><dd>
 	<p class="affected components">link-target-scrolling, in-page-navigation</p>
-	<p class="close-info"><span class="date"></span></p>
+	<p class="close-info"><span class="date">2024-11-04</span> closed, fixed.</p>
 	<div class="description">
 		<p>Both are very similar. Headings are similar to link targets, both implement smooth scrolling.</p>
 		</div>
 	<div class="resolution">
-		<p></p>
+		<p>Code is now in page-scrolling component.</p>
 		</div>
 	</dd>
 
-<dt class="open"><span class="date">2024-11-02-002</span> Change Intra-Page Scroll Buttons to Event Protocol</dt><dd>
+<dt class="closed fixed"><span class="date">2024-11-02-002</span> Change Intra-Page Scroll Buttons to Event Protocol</dt><dd>
 	<p class="affected components">Tool Buttons</p>
-	<p class="close-info"><span class="date"></span></p>
+	<p class="close-info"><span class="date">2024-11-04</span> closed, fixed.</p>
 	<div class="description">
-		<p>Tool Buttons dispatch an intra-page-navigation event to to document. This decouples them from the navigation module.</p>
+		<p>Tool Buttons should dispatch an intra-page-navigation event to to document. This decouples the components from the navigation module.</p>
 		</div>
 	<div class="resolution">
-		<p></p>
+		<p>Went smooth.</p>
 		</div>
 	</dd>
 
@@ -173,7 +173,7 @@ pre { tab-size : 20px ; margin : 5px 0 -20px -20px}
 		<p>The fragment loader must be overhauled in order to work better with JavaScript promises.</p>
 		</div>
 	<div class="resolution">
-		<p>We have now two loader function, loadFragments(rootElement), and loadSitemapFragments(url). They return a Promise object which resolves to an injection summary array. Both use fetchFragment() and injectFragment(), which in turn use parse() and rebaseUrls(). These six functions constitute the core logic.</p>
+		<p>We have now two loader functions, loadFragments(rootElement), and loadSitemapFragments(url). They return a Promise object which resolves to an injection summary array. Both use fetchFragment() and injectFragment(), which in turn use parse() and rebaseUrls(). These six functions constitute the core logic.</p>
 		<p>The sitemap-navigator component has been changed to use fragmentLoader.loadSitemapFragments(). In code to guess sitemap fragment URLs (path/to/toc.htm) has beed greatly simplified. Fetching them is now straightforward with promises.</p>
 		</div>
 	</dd>
