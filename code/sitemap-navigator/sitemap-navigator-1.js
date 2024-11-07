@@ -110,7 +110,7 @@ let navigationInfo = { } ;  // carries link anchors related to the current docum
 	while ( ! fragmentAnchor && folders.length > 0 ) {
 		fragmentAddress += "/" + folders.shift( );
 		console.info( "Looking for " + fragmentAddress + "/toc.htm" );
-		fragmentAnchor = document.querySelector( `a[data-load-ondemand][href="${fragmentAddress}/toc.htm"]` );
+		fragmentAnchor = document.querySelector( `a[data-load-interactive][href="${fragmentAddress}/toc.htm"]` );
 		}
 	if ( ! fragmentAnchor ) return console.error( "No sitemap fragment anchor found." );
 	// Retrieve all potential sitemap fractions in parallel.
@@ -146,13 +146,14 @@ let navigationInfo = { } ;  // carries link anchors related to the current docum
 	for ( let i = 0 ; i < responses.length ; i ++ ) {
 		if ( ! responses[ i ].value.ok ) continue ;
 		// Find the next fragment anchor
-		if ( i > 0 ) fragmentAnchor = searchParent.querySelector( `a[data-load-ondemand][href="${responses[ i ].value.url}"]` );
+		if ( i > 0 ) fragmentAnchor = searchParent.querySelector( `a[data-load-interactive][href="${responses[ i ].value.url}"]` );
 		const text = textContentArray[ i ];
 		// Parse
 		template.innerHTML = text ;
 		// Rebase relative addresses
 		fragmentLoader.rebaseRelativeAddresses ( template.content, responses[ i ].value.url );
 		//	Determine the list of elements to be injected
+		// TODO: Select only if there is a selector attribute
 		let injectionList = template.content.querySelectorAll( fragmentAnchor.getAttribute( "data-select" ));
 		if ( injectionList.length === 0 ) injectionList = Array.from( template.content.childNodes );
 		for ( const element of injectionList ) {
@@ -171,6 +172,7 @@ let navigationInfo = { } ;  // carries link anchors related to the current docum
 		fragmentAnchor.replaceWith( ...injectionList );
 		console.info( "Content injected from: ", responses[ i ].value.url );
 		//	Notify the fragment anchor that the content has been loaded. 
+		// TODO: success and bubbles members are superfluous.
 		fragmentAnchor.dispatchEvent( new CustomEvent( "fragment-loaded", { 
 			bubbles: false, 
 			detail: { success : true, content : injectionList } 
