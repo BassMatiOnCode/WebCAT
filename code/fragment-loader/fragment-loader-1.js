@@ -4,11 +4,11 @@ import { names as namespaces } from "../xml-namespaces/xml-namespaces-1.js" ;
 import * as initializer from "../component-initializer/component-initializer.js" ;
 
 /**
- *		rebaseRelativeAddresses( )
+ *		rebaseUrls( )
  *		Rebase load-target relative addresses so that they continue 
  *		to work in the context of the host document.
  *	
- */ export function rebaseRelativeAddresses ( buffer, base, addressAttributes = [ "href", "src", "data" ] ) {
+ */ export function rebaseUrls ( buffer, base, addressAttributes = [ "href", "src", "data" ] ) {
 	for ( const addressAttribute of addressAttributes ) {
 		for ( const element of buffer.querySelectorAll( `[${addressAttribute}]` )){
 			// Skip elements that have host document relative addresses
@@ -45,8 +45,8 @@ import * as initializer from "../component-initializer/component-initializer.js"
 	.then ( text => { 
 		// Parse text and return selected elements for injection
 		const content = parse( text, url );
-		if ( contentSelector ) content.replaceChildren( content.querySelectorAll( contentSelector ));
-		rebaseRelativeAddresses ( content, url );
+		if ( contentSelector ) content.replaceChildren( ...content.querySelectorAll( contentSelector ));
+		rebaseUrls ( content, url );
 		if ( recordOrigin ) for ( const element of content.children ) element.setAttribute( "data-load-origin", url );
 		return content ;
 		} ) ;  // no catch statement here because the browser noted the missing file already. 
@@ -94,7 +94,7 @@ import * as initializer from "../component-initializer/component-initializer.js"
 				.finally ( ( ) => {    
 					console.debug( "Requests pending:", requestInfos.length - settledRequests - 1 );
 					if ( ++ settledRequests === requestInfos.length ) {
-						document.dispatchEvent( new CustomEvent( "fragment-loading-completed" , { options : { anchor : anchor } } ) ) ;
+						document.dispatchEvent( new CustomEvent( "fragment-loading-complete" , { options : { anchor : anchor } } ) ) ;
 						resolve( requestInfos ) ; // resolve outermost promise
 						}
 					} );
@@ -114,12 +114,10 @@ import * as initializer from "../component-initializer/component-initializer.js"
 	while ( true ) {
 		const fragmentUrl = url.href + fragmentName ;
 		urls.push( fragmentUrl );
-		rootAnchor = document.querySelector( `A[data-load-interactive][href="${ fragmentUrl }"]` );
-		if ( rootAnchor ) break;
-		if ( url.href === document.location.origin + "/" ) break;
+		if ( document.querySelector( `A[data-load-interactive][href="${ fragmentUrl }"]` )) break;
+		if ( url.href === document.location.origin + "/" ) return console.error( "No sitemap fragment chain head anchor found." );   // error exit
 		url = new URL( url.href + "../" );  // ascend to parent node
 		}
-	if ( ! rootAnchor ) return console.error( "No sitemap fragment chain head anchor found." );
 	const requests = [ ] ;
 	for ( const url of urls ) requests.push( fetchFragment( url ));
 	return Promise.allSettled( requests ).then ( results => {

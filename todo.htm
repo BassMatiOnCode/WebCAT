@@ -166,14 +166,15 @@ pre { tab-size : 20px ; margin : 5px 0 -20px -20px}
 		</div>
 	</dd>
 
-<dt class="open"><span class="date">2024-11-07-001</span> Fragment Loader Rework</dt><dd>
+<dt class="closed fixed"><span class="date">2024-11-07-001</span> Fragment Loader Rework</dt><dd>
 	<p class="affected components">fragment-loader, sitemap-navigator</p>
-	<p class="close-info"><span class="date"></span></p>
+	<p class="close-info"><span class="date">2024-11-07</span> fixed, closed.</p>
 	<div class="description">
 		<p>The fragment loader must be overhauled in order to work better with JavaScript promises.</p>
 		</div>
 	<div class="resolution">
-		<p></p>
+		<p>We have now two loader function, loadFragments(rootElement), and loadSitemapFragments(url). They return a Promise object which resolves to an injection summary array. Both use fetchFragment() and injectFragment(), which in turn use parse() and rebaseUrls(). These six functions constitute the core logic.</p>
+		<p>The sitemap-navigator component has been changed to use fragmentLoader.loadSitemapFragments(). In code to guess sitemap fragment URLs (path/to/toc.htm) has beed greatly simplified. Fetching them is now straightforward with promises.</p>
 		</div>
 	</dd>
 
