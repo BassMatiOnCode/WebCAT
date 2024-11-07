@@ -49,10 +49,7 @@ import * as initializer from "../component-initializer/component-initializer.js"
 		rebaseRelativeAddresses ( content, url );
 		if ( recordOrigin ) for ( const element of content.children ) element.setAttribute( "data-load-origin", url );
 		return content ;
-		} ) 
-	.catch ( reason => {
-		console.error( `${reason} ${url}` );
-		} ) ; 
+		} ) ;  // no catch statement here because the browser noted the missing file already. 
 	}
 /**
  *		injectFragment ( )
@@ -96,7 +93,10 @@ import * as initializer from "../component-initializer/component-initializer.js"
 					} ) 
 				.finally ( ( ) => {    
 					console.debug( "Requests pending:", requestInfos.length - settledRequests - 1 );
-					if ( ++ settledRequests === requestInfos.length ) resolve( requestInfos ) ; // resolve outermost promise
+					if ( ++ settledRequests === requestInfos.length ) {
+						document.dispatchEvent( new CustomEvent( "fragment-loading-completed" , { options : { anchor : anchor } } ) ) ;
+						resolve( requestInfos ) ; // resolve outermost promise
+						}
 					} );
 				} ) ;
 			}
@@ -106,7 +106,7 @@ import * as initializer from "../component-initializer/component-initializer.js"
 /**		
  *		loadSitemapFragments()
  * 
- */ export function loadSitemapFragments ( url = new URL( document.location.origin + document.location.pathname ), fragmentName = "toc.htm" ) {
+ */ export function loadSitemapFragments ( url = new URL( document.location.origin + document.location.pathname + "/../" ), fragmentName = "toc.htm" ) {
 	// Split the document address into a list of folders
 	console.info( `Loading sitemap fragments for ${ url.pathname }` );
 	const urls = [ ] ;
@@ -122,11 +122,16 @@ import * as initializer from "../component-initializer/component-initializer.js"
 	if ( ! rootAnchor ) return console.error( "No sitemap fragment chain head anchor found." );
 	const requests = [ ] ;
 	for ( const url of urls ) requests.push( fetchFragment( url ));
-	Promise.allSettled( requests ).then ( results => {
+	return Promise.allSettled( requests ).then ( results => {
+		const summary = [ ] ;
 		for ( let i = results.length - 1 ; i >= 0 ; i -= 1 ) {
 			if ( ! results[ i ].value ) continue ;  // ignore failed request, this is normal.
-			injectFragment( results[ i ].value , document.querySelector( `A[href="${ urls[ i ] }"]` ) );
+			summary.push( { 
+				url : urls[ i ] ,
+				injectedElements : injectFragment( results[ i ].value , document.querySelector( `A[href="${ urls[ i ] }"]` ))
+				} ) ;
 			}
+		return summary ;   // fulfillment value
 		} ) ;
 	}
 /**
@@ -152,7 +157,7 @@ import * as initializer from "../component-initializer/component-initializer.js"
  *		Finds fragment link anchors and load the related resources.
  *
  */ export function init ( searchparams = new URLSearchParams( )) {
-	const root = searchparams.get( "root" ) || document.body ;
+	const root = document.getElementById( searchparams.get( "root" )) || document.body ;
 	for ( const anchor of document.querySelectorAll( "A[data-load-interactive]" )) {
 		anchor.setAttribute( "href", anchor.href );
 		}

@@ -6,7 +6,7 @@
 <meta name="author" content="USP" />
 <meta name="creation-date" content="2024-10-20" />
 <meta name="editor" content="USP" />
-<meta name="change-date" content="2024-10-20" />
+<meta name="change-date" content="2024-10-07" />
 <meta name="version" content="1" />
 <meta name="sectionTitle" content="../title.svg" />
 
@@ -15,8 +15,8 @@
 <script type="module" src="/inc/web-cat/page-structure/tutorial-page-1.js" ></script>
  
 <meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
-<meta name="tags" content="web, content, autoring, toolbox, HTML, JavaScript, CSS, WebCAT, component" />
-<meta name="description" content="" />
+<meta name="tags" content="web, content, autoring, toolbox, HTML, JavaScript, CSS, WebCAT, component, fragment, loader" />
+<meta name="description" content="The fragment-loader is a component that enables <i>modular web pages</i>. A web page can be composed from prefabricated, re-usable components, called <i>fragments</i>. Fragments are referenced by so-called document fragment anchors. These are standard HTML anchor elements. The loader processes them automatically and imports the fragment into the document. An document fragment itself may contain other fragment anchors, they are loaded by a recursive algorithm." />
 
 <title>Fragment Loader (Web > Content Authoring Toolbox)</title>
 
@@ -26,119 +26,165 @@
 
 <p id="pageAbstract"></p>
 
-<h2 cbc>Restrucutring</h2><div>
+<h2 cbc>Introduction</h2><div>
+
+<p>The concept of re-usable document fragments eases the life of web content authors dramatically, because they can now focus on the actual content and omit all the stuff that never changes.</p>
+
+<p>The entire WebCAT is built around the fragment-loader, so this is really an important component.</p>
+
+<p>A fragment link is held by a regurlar anchor element:</p>
+
+<figure class="listing"><figcaption>An HTML fragment link anchor</figcaption>
+<pre>
+&lt;p&gt;This is a regular paragraph.&lt;/p&gt;
+&lt;a <hi>data-load-fragment</hi> href="path/to/fragment.htm"&gt;&lt;/a&gt;
+</pre></figure>
+
+<p>After the fragment loader did its job, the document looks like this:</p>
+
+<figure class="listing"><figcaption>The document fragment imported</figcaption>
+<pre>
+&lt;p&gt;This is a regular paragraph.&lt;/p&gt;
+&lt;p <hi>data-load-origin</hi>="path/to/fragment.htm"&gt;<hi>This is the fragment content.</hi>&lt;/p&gt;
+</pre></figure>
+
+<p>This concept can be applied to nearly everyhing on a web page: Page headers, footers, toolbars, navigation bars, tool buttons, a site navigation system, you name it. You can load HTML, SVG, MathML or even plain text (with a minor restriction &ndash; no recursion loop protection).</p>
+
+<!--h2--Introduction--></div>
+
+<h2 cbc>Using the Component</h2><div>
+
+<p>The component consists of a single file:</p>
 
 <ul>
-<li>Create a buffer (html, svg, mathml)</li>
-<li>Parse text into buffer</li>
-<li>Rebase local addresses</li>
-<li>Create a list of root elements</li>
-<li>Record origin in the root elements</li>
-<li>load nested fragments, incrementing a request counter</li>
-<li>Notify anchor "fragment-injecting"</li>
-<li>Inject the root elements</li>
-<li>Notify anchor "fragment-injected </li>
-<li>Decrement the request counter and notify document about "fragment-loading-complete"</li>
+<li>fragment-loader.js</li>
 </ul>
 
-<h3 cbc>Recursive Fragment Loading</h3><div>
+<p>For detailed notes on how to import these files into a document or aggregation script, refer to <a hef="../component-anatomy.htm#using">WebCAT Component Anatomy</a>.</p>
 
-<p>Consider a simple sitemap represented by the following graph:</p>
+<!--h2--Using the Component--></div>
 
-<figure class="figure"><figcaption style="border-bottom-style:none">Recursive Fragment Structure</figcaption>
-<iframe class="content-height-observed" src="fig-001.htm"></iframe>
+<h2 cbc>Module Configuration</h2><div>
+
+<p>Module script parameters are passed in the query string of the import URL, as described in <a href="../component-anatomy.htm#passing-parameters">Anatomy of a WebCAT Component</a>.</p>
+
+<dl>
+<dt>root=elementID</dt><dd>
+	<p>ID of the root element to be processed. If invalid or absent, the <tt>document.body</tt> is processed.</p>
+	</dd>
+</dl>
+
+<!--h2--Module Configuration--></div>
+
+<h2 cbc>Events</h2><div>
+
+<p>The component dispatches the following events:</p>
+
+<dl>
+<dt>fragment-loading</dt><dd>
+	<p>Dispatched to the document fragment anchor before the content is injected into the host document. Bubbles, cancelable.</p>
+	<p>Event details:</p>
+	<dl>
+	<dt>content</dt><dd>
+		<p>A container element (<tt>DocumentFragment</tt> or similar) with <tt>Node</tt> objects.</p>
+		<p>The content object may contain <tt>Text</tt> nodes.</p>
+		</dd>
+	</dl>
+	</dd>
+<dt>fragment-loaded</dt><dd>
+	<p>Dispatched to to the document fragment anchor after the content was injected into the host document. The content has replaced the anchor, so the anchor is no longer part of the host document tree.</p>
+	<p>Event details:</p>
+	<dl>
+	<dt>content</dt><dd>
+		<p>An array of references to the injected HTML elements.</p>
+		</dd>
+	</dl>
+	</dd>
+<dt>fragment-loading-completed</dt><dd>
+	<p>Dispatched to the <tt>document</tt> element when all fragment anchors have been processed recursively. The document can be considered complete.</p>
+	<p>Event details:</p>
+	<dl>
+	<dt>anchor</dt><dd>
+		<p>Points to the document fragment anchor that provided the url of the fragment.</p>
+		</dd>
+	</dl>
+	</dd>
+</dl>
+
+<!--h2--Event Listeners--></div>
+
+<h2 cbc>Related Components</h2><div>
+
+<p>This component is related to other WebCAT components:</p>
+
+<dl>
+<dt><a href="../sitemap-navigator/sitemap-navigator.htm">Sitemap Navigator</a></dt><dd>
+	<p>The <tt>sitemap-navigator</tt> calls <tt>loadSitemapFragments()</tt>, which is similar to <tt>loadFragments()</tt>, but expects the address of a fragment and does not recurse into nested document fragment anchors.</p>
+	</dd>
+</dl>
+
+<!--h2--Related Components--></div>
+
+<h2 cbc>Examples</h2><div>
+
+<h3 cbc>Study 3 &ndash; <tt>loadFragments()</tt></h3><div>
+
+<p>This demo shows how document fragments are loaded recursively. The module parameter <tt>path/to/fragment-loader-1.js?<hi>no-default-init</hi></tt> in the URL query string portion prevents execution of the module's <tt>init()</tt> function, so that we can call <tt>loadFragments()</tt> from the button click event handler:</p>
+
+<figure class="demo"><figcaption>Loading fragments recursively (<a href="study-03/study-03.htm" target="_blank">study-03.htm</a>)</figcaption>
+<iframe class="content-height-observed" src="study-03/study-03.htm"></iframe>
 </figure>
 
-<p>Green nodes represent nodes with a sitemap fragment anchor. These sitemap fragments must be loaded and injected into the tree to complete it. You can click on these nodes to simulate this process.</p>
+<p>A click on the start button should load some content into the document. To inspect the details, open the browser developer tools window, inspect the console output, set breakpoints and single-step through the code. </p>
 
-<p>The first fragment contains the nodes 1, 2, 6 and 7. Two of them have fragment anchors. So we load the fragments for nodes 2 and 7. When they are injected into the tree, they are searched for other fragment anchors. We will find two, in the nodes 3 and 10. These fragments don't contain other fragment anchors, so the loading process is finished.</p>
-
-<p>Sitemap fragments are loaded with a recursive stragegy. </p>
-
-<p>The core function <tt>loadFragment()</tt> takes a fragment link anchor, retrieves the HTML fragment, replaces the anchor with the elements in the fragment, and returns a promise that resolves to an array of injected elements.</p>
-
-<figure class="listing"><figcaption></figcaption>
+<figure class="listing"><figcaption>loadFragments() returns a Promise object</figcaption>
 <pre>
-function loadFragment( anchor ) {
-	const promise = new Promise( resolve => {
-		fetch ( anchor.href )
-		.then ( response => {
-			if ( response.ok ) return response.text( );
-			else return "not found" ;
-			} )
-		.then ( text => {
-			const rootElements = injectText( text, anchor );
-			resolve( rootElements );
-			} ) ;
-		} ) ;
-	return promise ;
+startButton.addEventListener( "click" , ( ) => {
+	loadFragments( ).<hi>then</hi>( summary => { console.log( summary ) });
+	} ) ;
+</pre></figure>
+
+<p><tt>LoadFragments()</tt> returns a promise. the code above logs the fulfillment value to the console. Check it out, expand the arrays and inspect the injected elements and their origin.</p>
+
+<!--h3--Study 3--></div>
+
+<h3 cbc>Study 4 &ndash; <tt>loadSitemapFragments()</tt></h3><div>
+
+<p>This demo shows a slightly different function, <tt>loadSitemapFragments()</tt>. The function expects the address of a folder, derived from the URL of a document that has not been loaded via sitemap link. In a <em>partially loaded sitemap</em>, the sitemap path may no have been completely loaded.</p>
+
+<p>The functions assumes that every folder between root and the document can contain a sitemap fragment (<tt>"toc.htm"</tt>). The code compiles a list of speculative URLs and fetches them in parallel. Not all fetch requests will succeed. This is normal and not considered an error.</p>
+
+<p>When all sitemap fragments arrived, they are injected into the document. This is demonstrated in study 4:</p>
+
+<figure class="listing"><figcaption>loadFragments() returns a Promise object</figcaption>
+<pre>
+<cc>// Convert relative to absolute addesses so that the anchors can be properly selected.</cc>
+for ( const anchor of document.querySelectorAll( "A[data-load-interactive]" )) {
+	anchor.setAttribute( "href", anchor.href );
 	}
+startButton.addEventListener( "click" , ( ) => {
+	<hi>loadFragments</hi>( ).<hi>then</hi>( summary => { console.log( summary ) });
+	} ) ;
 </pre></figure>
 
-<p>This function is used in <tt>loadFragmentsRecursive()</tt>:</p>
+<p>The loop at the top is necessary because that task would have been performed in the component's <tt>init()</tt> function &ndash; which we have bypassed with the <tt>no-default-init</tt> module parameter.</p>
 
-<figure class="listing"><figcaption></figcaption>
-<pre>
-function loadFragmentsRecursive( rootElement ) {
-	const promise = new Promise( resolve => {
-		const loadPromises = [ ] ;
-		const anchors = rootElement.querySelectorAll( "A[data-load-interactive]" );
-		for ( const anchor of anchors ) loadPromises.push( loadFragment( anchor ));
-		Promise.allSettled( loadPromises )
-		.then ( results => {
-			const rootElements = [ ] ;
-			for ( const result of results ) {
-				if ( result.value.ok ) {
-					const 	
-					}
-				}
-			} ) ;
-		return promise;
-		} ) ;
-	}
-</pre></figure>
+<figure class="demo"><figcaption>Parallel loading of sitemap fragments (<a href="study-04/study-04.htm" target="_blank">study-04.htm</a>)</figcaption>
+<iframe class="content-height-observed" src="study-04/study-04.htm"></iframe>
+</figure>
 
+<p>A click on the start button should load some content into the document. To inspect the details, open the browser developer tools window, inspect the console output, set breakpoints or single-step through the code, inspect the DOM tree structure. </p>
 
+<p>Also make sure to checkout the function call summary at the end of the console output. Expand the arrays and inspect the injected elements and their origin.</p>
 
-<figure class="listing"><figcaption></figcaption>
-<pre>
-function loadFragments( anchors ) {
-	const promise = new Promise ( resolve => {
-		const loadRequests = [ ] ;
-		for ( const anchor of anchors ) loadRequests.push( loadFragment( anchor ));
-		Promise.allSettled( loadRequests )
-			.then ( resolve( loadRequests ));
-		} ) ;
-	return promise ;
-	}
+<!--h3--Study 3--></div>
 
-const anchors = someRootElement.querySelectorAll( "A[data-load-interactive]" );
-const promise = loadFragments( anchors );
-</pre></figure>
+<!--h2--Examples--></div>
 
+<h2 cbc>Implementation Details</h2><div>
 
-<figure class="listing"><figcaption>Recursive loading strategy</figcaption>
-<pre>
-function loadFragments( rootElement ) {
-	const promise = new Promise( resolve => {
-		const anchors = rootElement.querySelectorAll( "a[data-load-fragment]" );
+<!--TODO-->
 
-		} ) ;
-	}
-</pre></figure>
-
-<figure class="listing"><figcaption></figcaption>
-<pre>
-
-</pre></figure>
-
-
-<!--h3--Recursive Fragment Loading--></div>
-
-<!--h2--Restrucutring--></div>
-
-<h2 cbc></h2><div>
-
-<!--h2----></div>
+<!--h2--Implementation Details--></div>
 
 </body></html>

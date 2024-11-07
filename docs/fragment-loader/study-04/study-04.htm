@@ -11,7 +11,7 @@
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
 <link rel="stylesheet" href="/inc/web-cat/page-structure/demo-page-1.css" />
 <script type="module" src="/inc/web-cat/page-structure/demo-page-1.js" ></script>
-<script type="module" src="../../code/fragment-loader/fragment-loader-1.js" ></script>
+<!-- script type="module" src="../../code/fragment-loader/fragment-loader-1.js" ></script -->
  
 <meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
 <meta name="tags" content="web, content, autoring, toolbox, HTML, JavaScript, CSS, WebCAT, component" />
@@ -22,15 +22,24 @@
 
 <div class="hide-if-hosted">
 <h1>Study 4</h1><p class="subtitle">Load Sitemap Fragments</p>
-</div>
 
 <p>Demonstrates how missing sitemaps are loaded if the user navigates to a document via link in the main content instead of walking through the sitemap.</p>
+</div>
+
+<p><button id="startButton">Start</button></p>
 
 <a data-load-interactive href="toc.htm"></a>
 
 <script type="module">
-import { loadSitemapFragments } from "../../code/fragment-loader/fragment-loader-1.js" ;
-loadSitemapFragments( new URL( "a/b/c/", document.location ));
+import { loadSitemapFragments } from "../../code/fragment-loader/fragment-loader-1.js?no-default-init" ;
+// Convert relative to absolute addesses so that the anchors can be properly selected.
+for ( const anchor of document.querySelectorAll( "A[data-load-interactive]" )) {
+	anchor.setAttribute( "href", anchor.href );
+	}
+startButton.addEventListener( "click" , ( ) => {
+	loadSitemapFragments( new URL( "a/b/c/", document.location ))
+	.then( summary => { console.log( "Summary:" ) ; console.log( summary ) } ) ;
+	} ) ;
 </script>
 
 </body></html>
