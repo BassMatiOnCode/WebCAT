@@ -1,0 +1,155 @@
+<html  style="height:fit-content"><head>
+<!--TODO: Create demo from this example in the web technologies > SVG project-->
+</head><body style="height:fit-content">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1"fill="white" stroke="black" stroke-width="2" font-size="20" text-anchor="middle" style="border:1px none silver ; height:100px ; width:340px" >
+   
+<style type="text/css">
+	
+	circle { fill : white }
+	circle[ controls ] { stroke : green }
+	circle[ controls ]:not( .loaded ) { fill : #dfd }
+	g[fragment] > g { transition: all 700ms linear }
+	xg[fragment] { transition: all 700ms linear }
+	g[fragment]:not(.loaded) > line { transform : scale( 0 ) } 
+	g[fragment]:not(.loaded) > g { transform : translate( 0, 0 ) } /* encircled text group */
+	g.level-indicator > line { stroke : gray ; stroke-width: 1 }
+	g.level-indicator > text { font-size : 16px ; text-anchor : start }
+	line { transition : all 0.7s linear }
+	svg { transition : all 0.7s linear }
+	text { fill:black ; stroke:none ; alignment-baseline:central }
+	</style>
+	
+<defs>
+	<marker id="DartArrow" style="overflow:visible" refX="0" refY="0" orient="auto-start-reverse" markerWidth="1" markerHeight="1" viewBox="0 0 1 1" preserveAspectRatio="xMidYMid">
+		<path id="path6" style="fill:context-stroke; stroke:none" d="M 0,0 5,-5 -12.5,0 5,5 Z" transform="scale(-0.5)" />
+		</marker>
+	</defs>
+
+<g transform="scale(0.6) translate(150, 30)" >
+	<g class="level-indicators">
+		<g class="level-indicator">
+			<line x1="-130" x2="350" />
+			<text x="360">Level 0</text>
+			</g>
+		<g class="level-indicator" transform="translate(0, 100)">
+			<line x1="-130" x2="350" />
+			<text x="360">Level 1</text>
+			</g>
+		<g class="level-indicator" transform="translate(0, 200)">
+			<line x1="-130" x2="350" />
+			<text x="360">Level 2</text>
+			</g>
+		<g class="level-indicator" transform="translate(0, 300)">
+			<line x1="-130" x2="350" />
+			<text x="360">Level 3</text>
+			</g>
+		</g>
+	<g fragment="1" class="loaded" transform="translate( 0, 0)">
+		<line x2="-100" y2="100" />
+		<line y2="100" />
+		<line x2="100" y2="100" />
+		<g transform="translate(0, 0)">
+			<circle r="20"/>
+			<text>1</text>
+			</g>
+		<g transform="translate(-100, 100)">
+			<g fragment="2">
+				<line y2="100" />
+				<g transform="translate(0, 100)">
+					<g fragment="3">
+						<line y2="100" />
+						<line x2="100" y2="100" />
+						<g transform="translate(0, 100)">
+							<circle r="20"/>
+							<text>4</text>
+							</g>
+						<g transform="translate(100, 100)">
+							<circle r="20"/>
+							<text>5</text>
+							</g>
+						</g>
+					<circle r="20" controls="3" svg-height="200"/>
+					<text>3</text>
+					</g>
+				</g>
+			<circle r="20" controls="2" svg-height="100"/>
+			<text>2</text>
+			</g>
+		<g transform="translate(0, 100)">
+			<circle r="20"/>
+			<text>6</text>
+			</g>
+		<g transform="translate(100, 100)">
+			<g fragment="4">
+				<line x2="-100" y2="100" />
+				<g transform="translate(-100, 100)">
+					<circle r="20"/>
+					<text>8</text>
+					</g>
+				<line y2="100" />
+				<g transform="translate(0, 100)">
+					<circle r="20"/>
+					<text>9</text>
+					</g>
+				<line x2="100" y2="100" />
+				<g transform="translate(100, 100)">
+					<g fragment="5">
+						<line x2="-100" y2="100" />
+						<g transform="translate(-100, 100)">
+							<circle r="20"/>
+							<text>11</text>
+							</g>
+						<line y2="100" />
+						<g transform="translate(0, 100)">
+							<circle r="20"/>
+							<text>12</text>
+							</g>
+						<line x2="100" y2="100" />
+						<g transform="translate(100, 100)">
+							<circle r="20"/>
+							<text>13</text>
+							</g>
+						</g>
+					<circle r="20" controls="5" svg-height="200"/>
+					<text>10</text>
+					</g>
+				</g>
+			<circle r="20" controls="4" svg-height="100"/>
+			<text>7</text>
+			</g>
+		</g>
+</g>
+
+<script type="text/javascript">
+( function ( ) {  // Expand and collapse nodes
+		// g[fragment]:not(.loaded) elements have a transform:translate(0,0) style that
+		// overrides the g element's transform attribute, while g[fragment].loaded elements
+		// don't have a style.tranform property. Therefore the transform attribute comes into
+		// effect and positions the group element.
+	const svgroot = document.currentScript.parentElement ;
+	function controllerClickHandler( evt ) {
+		// Handles click events on a loaded controller.
+		evt.stopPropagation( ); 
+		// Find group controller and group
+		const circle = evt.currentTarget.querySelector( ":scope > circle" );
+		const group = svgroot.querySelector( `[fragment="${circle.getAttribute( "controls" )}"]` );
+		if ( ! group ) console.error( "Controlled group not found." );
+		// Prevent collapsing if the group has expanded subgroups
+		if ( circle.classList.contains( "loaded" ) && group.querySelector( "circle.loaded" )) return ;
+		// Toggle state
+		circle.classList.toggle( "loaded" );
+		group.classList.toggle( "loaded" );
+		// Calculate new svg element height
+		const loadedFragments = svgroot.querySelectorAll( "circle.loaded" );
+		let svgHeight = 0;
+		for ( const fragment of loadedFragments ) svgHeight = Math.max( svgHeight, parseInt( fragment.getAttribute( "svg-height" )));
+		svgroot.style.height = 100 + svgHeight * 0.6 ;
+		}
+	// Find active group controllers and add click event handler.
+	for ( const circle of svgroot.querySelectorAll("circle[controls]")) {
+		circle.parentElement.addEventListener( "click" , controllerClickHandler ) ;
+		}
+	} ) ( ) ;
+ </script>
+</svg>
+</body></html>

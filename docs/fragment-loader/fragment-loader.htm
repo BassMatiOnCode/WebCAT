@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-08-07" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-10-20" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-10-20" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="/inc/web-cat/page-structure/tutorial-page-1.css" />
+<script type="module" src="/inc/web-cat/page-structure/tutorial-page-1.js" ></script>
+ 
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
+<meta name="tags" content="web, content, autoring, toolbox, HTML, JavaScript, CSS, WebCAT, component" />
+<meta name="description" content="" />
+
+<title>Fragment Loader (Web > Content Authoring Toolbox)</title>
+
+</head><body>
+
+<h1>Fragment Loader</h1>
+
+<p id="pageAbstract"></p>
+
+<h2 cbc>Restrucutring</h2><div>
+
+<ul>
+<li>Create a buffer (html, svg, mathml)</li>
+<li>Parse text into buffer</li>
+<li>Rebase local addresses</li>
+<li>Create a list of root elements</li>
+<li>Record origin in the root elements</li>
+<li>load nested fragments, incrementing a request counter</li>
+<li>Notify anchor "fragment-injecting"</li>
+<li>Inject the root elements</li>
+<li>Notify anchor "fragment-injected </li>
+<li>Decrement the request counter and notify document about "fragment-loading-complete"</li>
+</ul>
+
+<h3 cbc>Recursive Fragment Loading</h3><div>
+
+<p>Consider a simple sitemap represented by the following graph:</p>
+
+<figure class="figure"><figcaption style="border-bottom-style:none">Recursive Fragment Structure</figcaption>
+<iframe class="content-height-observed" src="fig-001.htm"></iframe>
+</figure>
+
+<p>Green nodes represent nodes with a sitemap fragment anchor. These sitemap fragments must be loaded and injected into the tree to complete it. You can click on these nodes to simulate this process.</p>
+
+<p>The first fragment contains the nodes 1, 2, 6 and 7. Two of them have fragment anchors. So we load the fragments for nodes 2 and 7. When they are injected into the tree, they are searched for other fragment anchors. We will find two, in the nodes 3 and 10. These fragments don't contain other fragment anchors, so the loading process is finished.</p>
+
+<p>Sitemap fragments are loaded with a recursive stragegy. </p>
+
+<p>The core function <tt>loadFragment()</tt> takes a fragment link anchor, retrieves the HTML fragment, replaces the anchor with the elements in the fragment, and returns a promise that resolves to an array of injected elements.</p>
+
+<figure class="listing"><figcaption></figcaption>
+<pre>
+function loadFragment( anchor ) {
+	const promise = new Promise( resolve => {
+		fetch ( anchor.href )
+		.then ( response => {
+			if ( response.ok ) return response.text( );
+			else return "not found" ;
+			} )
+		.then ( text => {
+			const rootElements = injectText( text, anchor );
+			resolve( rootElements );
+			} ) ;
+		} ) ;
+	return promise ;
+	}
+</pre></figure>
+
+<p>This function is used in <tt>loadFragmentsRecursive()</tt>:</p>
+
+<figure class="listing"><figcaption></figcaption>
+<pre>
+function loadFragmentsRecursive( rootElement ) {
+	const promise = new Promise( resolve => {
+		const loadPromises = [ ] ;
+		const anchors = rootElement.querySelectorAll( "A[data-load-interactive]" );
+		for ( const anchor of anchors ) loadPromises.push( loadFragment( anchor ));
+		Promise.allSettled( loadPromises )
+		.then ( results => {
+			const rootElements = [ ] ;
+			for ( const result of results ) {
+				if ( result.value.ok ) {
+					const 	
+					}
+				}
+			} ) ;
+		return promise;
+		} ) ;
+	}
+</pre></figure>
+
+
+
+<figure class="listing"><figcaption></figcaption>
+<pre>
+function loadFragments( anchors ) {
+	const promise = new Promise ( resolve => {
+		const loadRequests = [ ] ;
+		for ( const anchor of anchors ) loadRequests.push( loadFragment( anchor ));
+		Promise.allSettled( loadRequests )
+			.then ( resolve( loadRequests ));
+		} ) ;
+	return promise ;
+	}
+
+const anchors = someRootElement.querySelectorAll( "A[data-load-interactive]" );
+const promise = loadFragments( anchors );
+</pre></figure>
+
+
+<figure class="listing"><figcaption>Recursive loading strategy</figcaption>
+<pre>
+function loadFragments( rootElement ) {
+	const promise = new Promise( resolve => {
+		const anchors = rootElement.querySelectorAll( "a[data-load-fragment]" );
+
+		} ) ;
+	}
+</pre></figure>
+
+<figure class="listing"><figcaption></figcaption>
+<pre>
+
+</pre></figure>
+
+
+<!--h3--Recursive Fragment Loading--></div>
+
+<!--h2--Restrucutring--></div>
+
+<h2 cbc></h2><div>
+
+<!--h2----></div>
+
+</body></html>

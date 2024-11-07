@@ -1,0 +1,143 @@
+<html  style="height:fit-content"><head>
+</head><body style="height:fit-content">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1"fill="white" stroke="black" stroke-width="2" font-size="20" text-anchor="middle" style="border:1px solid silver ; height:100px ; width:500px" >
+   
+<style type="text/css">
+	#group3 { transition: all 700ms linear }
+	#group3:has(+g:not(.loaded)) { transform : translate( 100px, 100px ) }
+	circle { fill : white }
+	circle[ controls ] { stroke : green }
+	circle[ controls ]:not( .loaded ) { fill : #efe }
+	g.fragment > g { transition: all 700ms linear }
+	g.fragment:not(.loaded) > line { transform : scale( 0 ) }
+	g.fragment:not(.loaded) > g { transform : translate( 0, 0 ) }
+	g.level-indicator > line { stroke : gray ; stroke-width: 1 }
+	g.level-indicator > text { font-size : 16px ; text-anchor : start }
+	line { transition : all 0.7s linear }
+	svg { transition : all 0.7s linear }
+	text { fill:black ; stroke:none ; alignment-baseline:central }
+	</style>
+	
+<defs>
+	<marker id="DartArrow" style="overflow:visible" refX="0" refY="0" orient="auto-start-reverse" markerWidth="1" markerHeight="1" viewBox="0 0 1 1" preserveAspectRatio="xMidYMid">
+		<path id="path6" style="fill:context-stroke; stroke:none" d="M 0,0 5,-5 -12.5,0 5,5 Z" transform="scale(-0.5)" />
+		</marker>
+	</defs>
+
+<g transform="scale(0.6) translate(150, 30)" >
+
+	<g class="level-indicator">
+		<line x1="-130" x2="350" />
+		<text x="360">Level 0</text>
+		</g>
+	<g class="level-indicator" transform="translate(0, 100)">
+		<line x1="-130" x2="350" />
+		<text x="360">Level 1</text>
+		</g>
+	<g class="level-indicator" transform="translate(0, 200)">
+		<line x1="-130" x2="350" />
+		<text x="360">Level 2</text>
+		</g>
+	<g class="level-indicator" transform="translate(0, 300)">
+		<line x1="-130" x2="350" />
+		<text x="360">Level 3</text>
+		</g>
+
+	<g id="group31" class="fragment" transform="translate( -100, 200)">
+		<line y2="100" />
+		<line x2="100" y2="100" />
+		</g>
+
+	<g id="group3" class="fragment" transform="translate( 200, 200)">
+		<line x2="-100" y2="100" />
+		<line y2="100" />
+		<line x2="100" y2="100" />
+		<g transform="translate(-100, 100)">
+			<circle r="20"/>
+			<text>7</text>
+			</g>
+		<g transform="translate(0, 100)">
+			<circle r="20"/>
+			<text>8</text>
+			</g>
+		<g transform="translate(100, 100)">
+			<circle r="20"/>
+			<text>9</text>
+			</g>
+		</g>
+
+	<g id="group21" class="fragment" transform="translate(-100, 100)">
+		<line y2="100" />
+		<g transform="translate(0, 100)">
+			<circle r="20" controls="group31" />
+			<text>5</text>
+			</g>
+		</g>
+
+	<g id="group2" class="fragment" transform="translate( 100, 100)">
+		<line x2="-100" y2="100" />
+		<line y2="100" />
+		<line x2="100" y2="100" />
+		<g transform="translate(-100, 100)">
+			<circle r="20"/>
+			<text>4</text>
+			</g>
+		<g transform="translate(0, 100)">
+			<circle r="20"/>
+			<text>5</text>
+			</g>
+		<g transform="translate(100, 100)">
+			<circle r="20" controls="group3" svg-height="200"/>
+			<text>6</text>
+			</g>
+		</g>
+
+	<g id="group1" class="fragment loaded" transform="translate( 0, 0)">
+		<line x2="-100" y2="100" />
+		<line y2="100" />
+		<line x2="100" y2="100" />
+		<g transform="translate(0, 0)">
+			<circle r="20"/>
+			<text>1</text>
+			</g>
+		<g transform="translate(-100, 100)">
+			<circle r="20" controls="group21" svg-height="100"/>
+			<text>2</text>
+			</g>
+		<g transform="translate(0, 100)">
+			<circle r="20"/>
+			<text>3</text>
+			</g>
+		<g transform="translate(100, 100)">
+			<circle r="20" controls="group2" svg-height="100"/>
+			<text>10</text>
+			</g>
+		</g>
+
+</g>
+
+<script type="text/javascript">
+( function ( ) {
+const svgroot = document.currentScript.parentElement ;
+// Find group controllers and add click event handler
+for ( const circle of svgroot.querySelectorAll( "[controls]" )) {
+	circle.parentElement.addEventListener( "click" , evt => {
+		const circle = evt.currentTarget.querySelector( "circle" );
+		// Toggle group controller state
+		circle.classList.toggle( "loaded" );
+		const group = circle.getAttribute( "controls" );
+		svgroot.getElementById( group ).classList.toggle( "loaded" );
+		// calculate the svg element height
+		const loadedFragments = svgroot.querySelectorAll( "circle.loaded" );
+		let svgHeight = 0;
+		for ( const fragment of loadedFragments ) {
+			svgHeight = Math.max( svgHeight, parseInt( fragment.getAttribute( "svg-height" )));
+			}
+		svgroot.style.height = 100 + svgHeight * 0.6 ;
+		// svgroot.setAttribute( "viewBox", `-150 -30 500 ${380 - n * 100}` );
+		} ) ;
+	}
+} ) ( ) ;
+ </script>
+</svg>
+</body></html>

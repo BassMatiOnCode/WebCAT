@@ -14,7 +14,7 @@ pre { tab-size : 20px ; margin : 5px 0 -20px -20px}
 <dl class="todo-list">
 <dt class="closed fixed"><span class="date">2024-10-07-001</span> Replace direct usage of element ID</dt><dd>
 	<p class="affected items">All script modules</p>
-	<p class="close-info><span class="date">2024-10-07</span> closed fixed</p>
+	<p class="close-info"><span class="date">2024-10-07</span> fixed, closed</p>
 	<p class="description">Direct use of element ID might lead to "Element is not defined" exceptions. Instead, use document.getElementById(), which returns null or undefined and does not throw an exception.</p>
 	</dd>
 
@@ -94,7 +94,8 @@ pre { tab-size : 20px ; margin : 5px 0 -20px -20px}
 		</div>
 	</dd>
 
-<dt class="open"><span class="date">2024-10-28-002</span> Highlighted path in sitemap tree needs some CSS</dt><dd>
+<dt class="closed fixed"><span class="date">2024-10-28-002</span> Active path in sitemap tree needs some CSS</dt><dd>
+	<p class="close-info"><span class="date">2024-11-05</span> fixed, closed.</p>
 	<p class="affected components">sitemap-navigator</p>
 	<div class="description">
 		<p>The node icon color must be changed to some blue, the icon color for active path elements remains dark orange. An additional document icon may have to be introduced.</p>
@@ -113,7 +114,7 @@ pre { tab-size : 20px ; margin : 5px 0 -20px -20px}
 		</div>
 	</dd>
 
-<dt class="open"><span class="date">2024-10-31-001</span> Refactor in-page-navigation, literature-reference-list and highlight-link-target</dt><dd>
+<dt class="open"><span class="date">2024-10-31-001</span> Refactor in-page-navigation, literature-reference-list, link-target-highlighter, link-target-scrolling.</dt><dd>
 	<p class="affected components">in-page-navigation, literature-reference-list, highlight-link-target</p>
 	<p class="close-info"><span class="date"></span></p>
 	<div class="description">
@@ -126,6 +127,50 @@ pre { tab-size : 20px ; margin : 5px 0 -20px -20px}
 		<p>The first point can be implemented in a <tt>scroll-margins-provider</tt> component, which inspects the elements with <tt>position:sticky</tt> and calculates a top and bottom margin values. The interface is an event listener on the document element, listening to the "query-scroll-margins" event.</p>
 		<p>The second point can be implemented in a <tt>link-target-element</tt> component, which can be imported into html documents. The component implements smooth scrolling to the link target element, if required, after html fragments have been loaded. This module uses the <tt>scroll-margins-provider</tt>.</p>
 		<p>The third point is an entirely unrelated stand-alone component, <tt>highlight-link-target</tt>, which catches clicks on anchors with links to elements on the same page. Also, the document fragement identifier in the URL ("hash") is covered.. </p>
+		</div>
+	<div class="resolution">
+		<p></p>
+		</div>
+	</dd>
+
+<dt class="open"><span class="date">2024-11-02-001</span> Combine link-target-scrolling and in-page-navigation</dt><dd>
+	<p class="affected components">link-target-scrolling, in-page-navigation</p>
+	<p class="close-info"><span class="date"></span></p>
+	<div class="description">
+		<p>Both are very similar. Headings are similar to link targets, both implement smooth scrolling.</p>
+		</div>
+	<div class="resolution">
+		<p></p>
+		</div>
+	</dd>
+
+<dt class="open"><span class="date">2024-11-02-002</span> Change Intra-Page Scroll Buttons to Event Protocol</dt><dd>
+	<p class="affected components">Tool Buttons</p>
+	<p class="close-info"><span class="date"></span></p>
+	<div class="description">
+		<p>Tool Buttons dispatch an intra-page-navigation event to to document. This decouples them from the navigation module.</p>
+		</div>
+	<div class="resolution">
+		<p></p>
+		</div>
+	</dd>
+
+<dt class="open"><span class="date">2024-11-06-001</span> Replace data-load-interactive with data-load-ondemand</dt><dd>
+	<p class="affected components">multiple</p>
+	<p class="close-info"><span class="date"></span></p>
+	<div class="description">
+		<p>Describes the purose of on-demand loading of document fragements better.</p>
+		</div>
+	<div class="resolution">
+		<p></p>
+		</div>
+	</dd>
+
+<dt class="open"><span class="date">2024-11-07-001</span> Fragment Loader Rework</dt><dd>
+	<p class="affected components">fragment-loader, sitemap-navigator</p>
+	<p class="close-info"><span class="date"></span></p>
+	<div class="description">
+		<p>The fragment loader must be overhauled in order to work better with JavaScript promises.</p>
 		</div>
 	<div class="resolution">
 		<p></p>
