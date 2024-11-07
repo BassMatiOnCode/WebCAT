@@ -1,0 +1,52 @@
+<html><head>
+
+</head><body>
+
+<h1>Study 6 - Finding Sequential Neighbors</h1>
+
+<p>for partially loaded sitemaps in the sitemap-navigator. More details in the source code of this document.</p>
+
+<p><a data-load-interactive="A" href="paragraph.htm"></a></p>
+
+<ul>
+<li>Node 1<a data-load-interactive="B" href="fragment-1.htm"></a></li>
+</ul>
+
+<script type="module">
+	/*
+The data-load-interactive="A" fragment link represents subtree in the next sibling sitemap node. The data-load-interactive="B" fragment link represents a subtree in the previous sibling node. This tree is fragmented into several parts which will have to be loaded in a loop, kind of.
+	*/
+import { loadFragment } from "../../code/fragment-loader/fragment-loader-1.js" ;
+// Array for two promises
+const a = [ ] ;
+// Adding the first promise which simply loads the subtree into the next sibling node.
+a.push( loadFragment( document.querySelector( "A[data-load-interactive='A']" )));
+// Add the second promise, which is a wrapper for the loading loop.
+// A call to resolve will resolve this second promise.
+a.push( new Promise( ( resolve ) => { 
+	// Fragment loading function
+	function load ( anchor ) {
+		// Adds an event listener that searches for nested fragment anchors in the loaded fragment.
+		anchor.addEventListener( "fragment-loading" , evt => {
+			const anchor = evt.detail.content.querySelector( "A" );
+			// A nested fragment anchor causes a recursive call to load().
+			if ( anchor ) load( anchor );
+			// The outer promise will be resolved if no nested anchors were found.
+			else ( resolve( ));
+			} ) ;
+		// Load the fragment.
+		loadFragment( anchor );
+		}
+	// This is the initial call of the load() function.
+	load ( document.querySelector( "A[data-load-interactive='B']" ));
+	} ) );
+
+// Wait for both promises in the array to become settled.
+Promise.allSettled( a ).then ( results => {
+	console.log( "done" );
+	} ) ;
+</script>
+
+
+
+</body></html>

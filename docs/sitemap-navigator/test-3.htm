@@ -1,0 +1,25 @@
+<html><head>
+
+</head><body>
+
+<h1>Test 3</h1>
+<p>This test demonstrates that the fragment loader can be used to load, process and inject multiple fragments in one go. The anchors below stand for interactive fragment link anchors in the navigation info structure of the sitemap navigator component.</p>
+<p><a id="link1" data-load-interactive href="test-3/fragment-1.htm"></a></p>
+<p><a id="link2" data-load-interactive href="test-3/fragment-2.htm"></a></p>
+<p><a id="link3" data-load-interactive href="test-3/fragment-3.htm"></a></p>
+
+<script type="module">
+import * as fragmentLoader from "../code/fragment-loader/fragment-loader-1.js" ;
+const a = [ 
+	fragmentLoader.loadFragment( link1 ),
+	fragmentLoader.loadFragment( link2 ),
+	fragmentLoader.loadFragment( link3 )
+	] ;
+Promise.allSettled( a )
+	.then ( results => {
+		document.dispatchEvent( new Event ( "navigation-info-update" ));
+		debugger;
+		} ) ;
+document.addEventListener( "navigation-info-update" , ( ) => console.log( "Navigation info update event" ));
+</script>
+</body></html>

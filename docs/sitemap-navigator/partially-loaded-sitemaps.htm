@@ -1,0 +1,352 @@
+﻿<!DOCTYPE html>
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-08-07" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-09-03" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-09-03" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="../code/page-structure/tutorial-page-1.css" />
+<script type="module" src="../code/page-structure/tutorial-page-1.js" ></script>
+
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
+<meta name="tags" content="web, autoring, toolbox, HTML, JavaScript, CSS, sitemap, partially loaded, fragment, loader." />
+<title>Partially Loaded Sitemaps (Web > Content Authoring Toolbox > Sitemap Navigator)</title>
+<meta name="description" content="A very large sitemap can be fragmented into smaller fragments, as already discussed. They are loaded automatically, unless the fragment link anchor is decorated with the attribute 'data-load-interactive'. The sitemap fragment remains unloaded until needed." />
+
+</head><body data-collapsible-default="expanded">
+
+<h1>Partially Loaded Sitemaps</h1>
+
+<p id="pageAbstract"></p>
+
+<p>Such situations are</p>
+
+<ul>
+<li>The user expands a node with an interactive fragment anchor</li>
+<li>The left sibling of the current node has an interactive fragment anchor</li>
+<li>The right sibling of the current node has an interactive fragment anchor</li>
+<li>No anchor that links to the current document could be found in the sitemap tree</li>
+</ul>
+
+<h2 cbc>Path Highlighting</h2><div>
+
+<p>The function <tt>highlightPath()</tt> searches the sitemap tree for an anchor element that carries the URL of the current document:</p>
+
+<figure class="listing"><figcaption>highlightPath()</figcaption>
+<pre>
+function highlightPath( ) {
+	<cc>// Compute the content address without url query string</cc>
+	const url = new URL( document.getElementById( "mainContent" ).getAttribute( "data-content-address" ) || document.location.href ) ;
+	url.search = "" ;
+	let entry = <hi>findCurrentEntry</hi>( url.href );
+</pre></figure>
+
+<p>If that fails, it doesn't necessarily mean that the document is not registered in the sitemap tree, it might be located in a not yet loaded sitemap fragment. Therefore, the function <tt>loadMissingFragments()</tt> is called. The function returns <tt>true</tt> if sitemap fragments have been requested. In this case, it does not make sense to continue and the function bails out. <tt>highlightPath()</tt> will be called again from the thread that injects the requested fragments into the host document.</p>
+
+<figure class="listing"><figcaption></figcaption>
+<pre>
+	if ( ! entry ) {
+		if ( <hi>loadMissingFragments</hi>( url.href )) return ;  // abort if sitemap fragments are being loaded.
+		entry = <hi>findCurrentEntry</hi>( url.href );
+		if ( ! entry ) return console.error( "Cannot find entry for current document." );
+		}
+	...
+	}
+</pre></figure>
+
+<p>If the second call to <tt>highlightPath()</tt> runs and the document can still not be found, <tt>loadMissingFragments()</tt> will return false and the functions exits with an error message. The website author should then add an entry for the current document into the right sitemap fragment.</p>
+
+<!--h2--Highlighting the Path to the Current Document--></div>
+
+<h2 cbc>Neighbors in Sequential Order</h2><div>
+
+<p>Consider a site with a number of pages, arranged in a tree structure:</p>
+
+<figure class="figure"><figcaption style="border-bottom-style:none">Model of a website map</figcaption>
+<iframe class="content-height-observed" src="fig-001.htm"></iframe>
+</figure>
+
+<p>The nodes are numbered in natural reading order (descend first strategy). Node 3 hosts an sitemap fragment anchor, which has not yet been loaded, indicated by the green fill color.</p>
+
+<p>If node 3 is the current node, its right sibling <em>is not</em> the next node in reading order. To determine the next node in sequence, the sitemap fragement has to be loaded first. Click on node 3 to do that. The first child of node 3 is the next node in sequence, node 4.</p>
+
+<p>Click on node 3 again to collapse it. Now let's consider <em>node 10</em> to be the current node. Apparently, node 3, the left sibling of node 10, <em>is not</em> the previous node in sequence. To find the correct node, the missing fragment hosted by node 3 must be loaded. Click on node 3 to do that.</p>
+
+<p>The correct previous node in sequence is <em>the last child</em> of node 3.</p>
+
+<p>The next example is a slight variation of the sitemap. Click node 3 to load the sitemap fragment. It contains the nodes 4, 5 and 6:</p>
+
+<figure class="figure"><figcaption style="border-bottom-style:none">Another model of a website map</figcaption>
+<iframe class="content-height-observed" src="fig-002.htm"></iframe>
+</figure>
+
+<p>Apparently, node 6 is not the previous node in sequence to the current node 10. Again, the reason is that node 6 hosts a fragment link anchor. So click on node 6 to load the fragment.</p>
+
+<p>The previous node to number 10 is the last child of node 6, which is node number 9. This node does not host a fragment link anchor, so we are sure that node number 9 is indeed the previous node to node 10.</p>
+
+<!--h2--Neighbors in Sequential Order--></div>
+
+<h2 cbc>Expanding a Node</h2><div>
+
+<p>Nodes with a fragment link anchor are automatically considered to have child nodes. If the user clicks on such a node in the sitemap to expand it, the sitemap fragment must be loaded. A suitable event handler is registered in <tt>init()</tt>:</p>
+
+<figure class="listing"><figcaption>Handling icon clicks</figcaption>
+<pre>
+export function init ( searchparams = new URLSearchParams( ) ) {
+	...
+	<cc>// Catch interactive sitemap fragment load clicks</cc>
+	document.getElementById( "sitemapRoot" ).addEventListener( "click" , evt => { 
+		const anchor = evt.target.querySelector( ":scope > [data-load-interactive]" );
+		if ( ! anchor ) return ;
+		fragmentLoader.<hi>loadFragment</hi>( anchor );
+		evt.preventDefault( );
+		evt.stopPropagation( );
+		} ) ;
+	}
+</pre></figure>
+
+<p>A click on a node icon does not automatically make the node current, so, although the sitemap fragment is loaded, the document is not.</p>
+
+<!--h2--Expanding a Node--></div>
+
+<h2 cbc>Implementation</h2><div>
+
+<h3 cbc>compileNavigationInfo()</h3><div>
+
+<p>The function <tt>compileNavigationInfo()</tt> must be extended with some logic to load the sitemap fragments. For reference, the code line lines that determine the next and previous nodes in sequence are shown:</p>
+
+<figure class="listing"><figcaption>Extensions to <tt>compileNavigationInfo()</tt></figcaption>
+<pre>
+...
+<cc>// Previous andNext in sequence</cc>
+const currentIndex = anchors.indexOf( findNodeAnchor( currentNode ));
+navigationInfo.backSequential = anchors[ currentIndex - 1 ];
+navigationInfo.forwardSequential = anchors[ currentIndex + 1 ];
+</pre></figure>
+
+<p>The code above assumes that there are no unloaded fragments &ndash; which of course is not always true. This is corrected by the additional code.</p>
+
+<p>First, the next sitemap node in sequential order is inspected. If it has a fragment link anchor, the fragment is loaded with a call to <tt>loadFragment()</tt> on the <tt>fragmentLoader</tt>:</p>
+
+<figure class="listing"><figcaption>Extensions to <tt>compileNavigationInfo()</tt></figcaption>
+<pre>
+<cc>// Load interactive fragments in sibling nodes</cc>
+const promises = [ ] ;
+<cc>// Get first anchor of fragment in next sibling node</cc>
+const fragmentAnchor = findNodeAnchor( findParentNode( navigationInfo.forwardSequential ), "A[data-load-interactive]" );
+if ( fragmentAnchor ) {
+	promises.push( fragmentLoader.<hi>loadFragment</hi>( fragmentAnchor ));
+	fragmentAnchor.addEventListener( "fragment-loading" , evt => {
+		<cc>// Replace next sibling page anchor with next page in sequence</cc>
+		navigationInfo.forwardSequential = evt.detail.content.querySelector( "A" ) ;
+		} ) ;
+	}
+</pre></figure>
+
+<p>The function call returns a <tt>Promise</tt>, which is added to the <tt>promises[]</tt> array. </p>
+
+<p>A <tt>fragment-loading</tt> event handler is attached to the fragment link anchor. The handler code finds the first anchor element in the fragement and replaces the <tt>navigationInfo.forwardSequential</tt> member with that reference.</p>
+
+<p>The next instructions inspect the <tt>backSequential</tt> member. The idea is similar to the code above, but things are more complicated here, because we will have to descend the chain of last child nodes until we find one that doesn't host a fragment link anchor.</p>
+
+<p>If the code finds a fragment link anchor, a new <tt>Promise</tt> is created. It will be resolved when the correct previous sitemap node has been found.</p>
+
+<p>The <tt>Promise</tt> constructor takes a function expression as parameter. The code defines a function that loads a fragment, injects it into the document and finally resolves the promise. We will look at that later.</p>
+
+<figure class="listing"><figcaption>Extensions to <tt>compileNavigationInfo()</tt></figcaption>
+<pre>
+if ( navigationInfo.backSequential.hasAttribute( "data-load-interactive" )) 
+	promises.push( new <hi>Promise</hi>( resolve => { 
+		<cc>// Fragment loading wrapper function</cc>
+		function <hi>loadSubTree</hi>( anchor ) { ... }
+		<cc>// Start the loading sequence</cc>
+		<hi>loadSubTree</hi>( navigationInfo.backSequential );
+		} ) )  ;
+</pre></figure>
+
+<p>So, the promise constructor defines that function and calls it with the current <tt>backSequential</tt> anchor to start the recursive loading procedure.</p>
+
+<p>As already mentioned, <tt>loadSubTree()</tt> is a recursive funcion. Its code registers a <tt>fragment-loading</tt> event handler, which inspects the loaded fragment code. The second instruction calls <tt>loadFragment()</tt> to retrieve the sitemap fragment.</p>
+
+<figure class="listing"><figcaption>Extensions to <tt>compileNavigationInfo()</tt></figcaption>
+<pre>
+	function loadSubTree( anchor ) {
+			<cc>// Loads the subtree referenced by the anchor parameter.</cc>
+			anchor.addEventListener( "fragment-loading" , evt => {
+				const anchors = evt.detail.content.querySelectorAll( "A" );
+				const anchor = anchors && anchors[ anchors.length - 1 ];
+				if ( ! anchor ) resolve( );  <cc>// no document anchors in this fragment</cc>
+				else if ( anchor.hasAttribute( "data-load-interactive" )) {
+					<cc>// Load nested fragment</cc>
+					navigationInfo.backSequential = anchors && anchors[ anchors.length - 2 ];
+					<hi>loadSubTree( anchor )</hi>;
+					}
+				else {  <cc>// done</cc>
+					navigationInfo.backSequential = anchor ;
+					<hi>resolve( );</hi>
+				}	} ) ;
+			<cc>// Start loading the sitemap subtree fragments</cc>
+			fragmentLoader.loadFragment( anchor );
+			}
+</pre></figure>
+
+<p>When the fragment arrives at the browser, the event handler, registered avove, is executed. It retrieves a list of anchor elements and inspects the last one. Which is contained in the last sitemap node in sequential order in that fragment.</p>
+
+<p>Now, if that anchor is a site fragment anchor, the function loads that fragment by calling itself. <tt>navigationInfo.backSequential</tt> is updated with a preliminary value, just in case that the next fragment is inclomplete in some way.</p>
+
+<p>On the other hand, if that anchor <em>is not</em> a fragment link but a regular document link, we have found the sitemap node we have been looking for. The result is stored in the navigation info, and the surrounding <tt>Promise</tt> is resolved.</p>
+
+<p>While most of the stuff above runs asynchronously, the code below has already been executed:</p>
+
+<figure class="listing"><figcaption>Extensions to <tt>compileNavigationInfo()</tt></figcaption>
+<pre>
+<cc>// Dispatch update event</cc>
+Promise.<hi>allSettled</hi>( promises ).then ( ( ) => {
+	const event = new CustomEvent( "navigation-info-update" , { detail : { navigationInfo : navigationInfo } } ) ;
+	document.<hi>dispatchEvent</hi>( event );
+	} ) ;
+</pre>
+</figure>
+
+<p>A promise is created that resolves when both elements in the <tt>promises</tt> array were either resolved, or rejected. If so, the <tt>navigationInfo</tt> structure is published to the <tt>navigation-info-update"</tt> event listeners, which then can read the <tt>navigationInfo</tt> and update their internal state.</p>
+
+<!--h3--compileNavigationInfo()--></div>
+
+<h3 cbc>loadMissingFragments()</h3><div>
+
+<p>This function is called if no link to the current document could be found in the sitemap tree. It is assumed that one or more sitemap fragments are not yet loaded.</p>
+
+<p>Another assumption is that the website is organized in a tree of folders, and each folder may contain a sitemap fragment named "toc.htm". The path between the root folder and the current document provides the guide route for the search. The function fetches all potential sitemap fragments along this route simultaneously. Some requestes may fail, which usually is okay. When all request promises settled, the successfully retrieved fragments are injected into the sitemap tree. Finally, <tt>highlightPath()</tt> is called again to finish the navigation procedure.</p>
+
+<p>The first part rules out fragments which are already there. This is achieve by inspecting fragment link anchors along the path:</p>
+
+<figure class="listing"><figcaption>Finding the first missing fragment</figcaption>
+<pre>
+function loadMissingFragments ( documentAddress = getContentAddress( )) {
+	<cc>// Split the document address into a list of folders</cc>
+	const folders = new URL( documentAddress + "/.." ).href.split( "/" ).slice( 0, -1 );
+	let fragmentAnchor, fragmentAddress = folders.shift( ) + "/" + folders.shift( ) + "/" + folders.shift( ) ;
+	<cc>// Find the first sitemap fragment anchor in that path</cc>
+	while ( ! fragmentAnchor && folders.length > 0 ) {
+		fragmentAddress += "/" + folders.shift( );
+		fragmentAnchor = document.querySelector( `a[data-load-interactive][href="${fragmentAddress}/toc.htm"]` );
+		}
+	if ( ! fragmentAnchor ) return console.error( "No sitemap fragment anchor found." );
+</pre></figure>
+
+<p>This anchor is used later in <tt>injectFragments()</tt> as starting point to inject the missing sitemap fragment chain.</p>
+
+<p>The next piece of code creates the fetch requests and notifies the caller that sitemap fragments are being loaded (or not), so that the caller can bail out or generate an error message.</p>
+
+<figure class="listing"><figcaption>Compiling the requests</figcaption>
+<pre>
+	<cc>// Retrieve all potential sitemap fractions in parallel.</cc>
+	const fetchRequests = [ ] ; let fetchResults ;
+	 fetchRequests.push( fetch( fragmentAddress + "/toc.htm" ));
+	<cc>// Every folder below in the path might contain another sitemap fragment.</cc>
+	while ( folders.length > 0 ) {
+		fragmentAddress += "/" + folders.shift( );
+		 fetchRequests.push( fetch( fragmentAddress + "/toc.htm" ));
+		}
+	Promise.allSettled( fetchRequests ).then ...
+	return requests.length > 0 ;  <cc>// indicates that sitemap fragments are being loaded.</cc>
+	}
+</pre></figure>
+
+<p>The code below executes later, on a different thread, when the fetch promises became settled:</p>
+
+<figure class="listing"><figcaption>loadMissingFragments()</figcaption>
+<pre>
+	Promise.allSettled( fetchRequests ).then ( responses => {
+		fetchResults = results;
+		<cc>// Request the text content from the responses</cc>
+		const textRequests = [ ] ; 
+		for ( const result of results ) textRequests.push( result.value.ok ? result.value.text( ) : "" );
+		return Promise.allSettled( textRequests );
+		} )
+</pre></figure>
+
+<p>The results are stored, and the text results of succeded fetch promises are retrieved.</p>
+
+<p><tt>fetchResults</tt> and <tt><tt>textRequests</tt></tt> are defined in the outer scope, so they are also accessible from the following .then() chain function bodies.</p>
+
+<p><tt>result.value.text()</tt> returns <tt>Promises</tt>, which are stored in the  array. The function returns a <tt>Promise</tt> which settles when all text request promises became settled. This triggers the next <tt>.then</tt> chain element:</p>
+
+<figure class="listing"><figcaption>loadMissingFragments()</figcaption>
+<pre>
+	.then ( textResults => {
+		injectFragments( fragmentAnchor, fetchResults, textResults ) ;
+		highlightPath( );
+		} ) ;
+</pre></figure>
+
+<p>The function block calls <tt>injectFragments()</tt> to process the fetch responses and retrieved text values, in the order of requests (which is important). Finally, <tt>highlightPath()</tt> is called to finish the job that has been aborted previously.</p>
+
+<!--h3--loadMissingFragments()--></div>
+
+<h3 cbc>injectFragments()</h3><div>
+
+<p>This method is called from <tt>loadMissingFragments()</tt> when all <tt>fetch()</tt> requests have settled. The purpose is to inject the response texts into the host document, in the order of fetch requests: </p>
+
+<figure class="listing"><figcaption>loadMissingFragments()</figcaption>
+<pre>
+function injectFragments ( fragmentAnchor, fetchResults, textResults ) {
+	const <hi>searchParent</hi> = fragmentAnchor.parentElement ;
+	<cc>// Create an html parser</cc>
+	const template = document.createElement( "TEMPLATE" );
+	<cc>// Process results</cc>
+	for ( let i = 0 ; i &lt; <hi>fetchResults</hi>.length ; i ++ ) {
+		if ( ! fetchResults[ i ].value.<hi>ok</hi> ) continue ;
+</pre></figure>
+
+<p>The <tt>searchParent</tt> is used further down to find fragment link anchors.</p>
+
+<p>Failed requests are skipped, which usually means that there is no sitemap fragment at that location. This is not considered an error.</p>
+
+<p>The next piece of code searches for the fragment anchors that must be replaced with the first sitemap fragment in the chain:</p>
+
+<figure class="listing"><figcaption>loadMissingFragments()</figcaption>
+<pre>
+		<cc>// Find the matching fragment anchor</cc>
+		if ( i > 0 ) fragmentAnchor = searchParent.querySelector( `a[data-load-interactive][href="${ fetchResults[ i ].value.url }"]` );
+		<cc>// Inject/parse the html code</cc>
+		template.innerHTML = textResults[ i ].value;
+		fragmentLoader.rebaseRelativeAddresses( template.content, fetchResults[ i ].value.url );
+		<cc>// Determine the list of elements to be injected</cc>
+		let injectionList = template.content.querySelectorAll( fragmentAnchor.getAttribute( "data-select" ));
+		if ( injectionList.length === 0 ) injectionList = Array.from( template.content.childNodes );
+		for ( const element of injectionList ) {
+			if ( element.nodeType !== 1 ) continue ;  <cc>// element nodes only</cc>
+			<cc>// Store fragment origin address for recursion prevention</cc>
+			if ( element.setAttribute ) element.setAttribute( "data-load-origin", fetchResults[ i ].value.url );
+			}
+		<cc>// Notify the fragment anchor that the content will be loaded.</cc>
+		fragmentAnchor.dispatchEvent( new CustomEvent( "fragment-loading", { 
+			bubbles: true, 
+			detail: { success : true, content : injectionList } 
+			} ) ) ;
+		<cc>// Inject the content into the document. This takes the fragment anchor out of the DOM tree</cc>
+		fragmentAnchor.replaceWith( ...injectionList );
+		console.info( "Content injected from: ", fetchResults[ i ].value.url );
+		<cc>// Notify the fragment anchor that the content has been loaded. </cc>
+		fragmentAnchor.dispatchEvent( new CustomEvent( "fragment-loaded", { 
+			bubbles: false, 
+			detail: { success : true, content : injectionList }
+			} ) ) ;
+		}
+	}
+</pre></figure>
+
+<p>The code pretty much duplicates what the <tt>fragment-loader</tt> does: Rebase relative addresses, compile a list of HTML nodes to be injected, notify the fragment anchor that content will be injected, inject the content, notify the anchor that content has been injected. The only difference is that this code does not search for nested fragment anchors to be loaded, and that no <tt>fragment-loading-complete</tt> event is sent to the document.</p>
+
+<!--h3--injectFragments()--></div>
+
+<!--h2--Implementation--></div>
+
+</body></html>

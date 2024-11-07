@@ -1,0 +1,22 @@
+<html><head>
+
+</head><body>
+
+<p>Demonstrates how a multiple promises can resolve a single "parent" promise.</p>
+
+<p>The promise p2 follows the scheme of promise p1, but is resolved inside promise p3.</p>
+
+<script type="module">
+const delay = ms => new Promise( resolve => setTimeout( resolve, ms ) );
+for ( let i = 0, p = Promise.resolve( ) ; i < 10 ; i ++ ) {
+    p = p.then( ( ) => { 
+		const d = Math.random( );
+		console.log( d );
+		return delay( d  * 1000 ); 
+		} ).then( ( ) => console.log( i, new Date( ) ) ) ;
+}
+</script>
+
+
+
+</body></html>

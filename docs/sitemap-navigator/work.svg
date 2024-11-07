@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   id="svg1"
+   version="1.1"
+   width="500"
+   height="500"
+   viewBox="-250 -30 500 500"
+   style="border:1px solid silver"
+   fill="white"
+   stroke="black"
+   stroke-width="2"
+   font-size="20"
+   text-anchor="middle"
+   sodipodi:docname="work.svg"
+   inkscape:version="1.4-rc1 (61ec3f2, 2024-09-26)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs14">
+    <marker
+       style="overflow:visible"
+       id="marker18"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Dart arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         transform="scale(-0.5)"
+         id="path18" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="DartArrow"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Dart arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         transform="scale(-0.5)"
+         id="path6" />
+    </marker>
+  </defs>
+  <sodipodi:namedview
+     id="namedview14"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1.7423111"
+     inkscape:cx="279.5138"
+     inkscape:cy="122.82537"
+     inkscape:window-width="1368"
+     inkscape:window-height="860"
+     inkscape:window-x="-6"
+     inkscape:window-y="23"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <style
+     id="style1">
+	text { fill:black ; stroke:none ; alignment-baseline:central}
+	</style>
+  <g
+     id="layer1"
+     fill="none"
+     stroke="black"
+     stroke-width="2">
+    <line
+       x2="-100"
+       y2="100"
+       id="line1" />
+    <line
+       y1="100"
+       id="line2" />
+    <line
+       x2="100"
+       y2="100"
+       id="line3" />
+    <g
+       stroke="green"
+       id="g6">
+      <line
+         x1="0"
+         y1="100"
+         x2="-100"
+         y2="200"
+         id="line4" />
+      <line
+         x1="0"
+         y1="100"
+         x2="0"
+         y2="200"
+         id="line5" />
+      <line
+         x1="0"
+         y1="100"
+         x2="100"
+         y2="200"
+         id="line6" />
+    </g>
+  </g>
+  <g
+     id="layer2">
+    <g
+       transform="translate(0,0)"
+       id="g7">
+      <circle
+         r="20"
+         id="circle6" />
+      <text
+         id="text6">1</text>
+    </g>
+    <g
+       transform="translate(-100,100)"
+       id="g8">
+      <circle
+         r="20"
+         id="circle7" />
+      <text
+         id="text7">2</text>
+    </g>
+    <g
+       transform="translate(0,100)"
+       id="g9">
+      <circle
+         r="20"
+         stroke="#c44"
+         id="circle8" />
+      <text
+         id="text8">3</text>
+    </g>
+    <g
+       transform="translate(100,100)"
+       id="g10">
+      <circle
+         r="20"
+         id="circle9" />
+      <text
+         id="text9">7</text>
+    </g>
+    <g
+       stroke="green"
+       fill="#efe"
+       id="g14">
+      <g
+         transform="translate(-100,200)"
+         id="g11">
+        <circle
+           r="20"
+           id="circle10" />
+        <text
+           id="text10">4</text>
+      </g>
+      <g
+         transform="translate(0,200)"
+         id="g12">
+        <circle
+           r="20"
+           stroke="green"
+           fill="#efe"
+           id="circle11" />
+        <text
+           id="text11">5</text>
+      </g>
+      <g
+         transform="translate(100,200)"
+         id="g13">
+        <circle
+           r="20"
+           id="circle12" />
+        <text
+           id="text12">6</text>
+      </g>
+    </g>
+  </g>
+  <path
+     style="fill:none;stroke:#efbd5a;stroke-opacity:1;marker-start:url(#DartArrow)"
+     d="M -96.498165,168.77096 C -88.801573,143.21855 -55.065144,110.59952 -20,100"
+     id="path14"
+     sodipodi:nodetypes="cc" />
+  <path
+     style="fill:none;stroke:#efbd5a;stroke-opacity:1;marker-end:url(#marker18)"
+     d="m 117.74807,110.33111 c 20.60804,20.93062 23.03047,51.8278 6.15067,69.91886"
+     id="path15"
+     sodipodi:nodetypes="cc" />
+  <text
+     xml:space="preserve"
+     style="font-size:12px;line-height:0px;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;white-space:pre;fill:#000000;fill-opacity:1;stroke:none;stroke-opacity:1"
+     id="text15"><textPath
+       xlink:href="#path14"
+       startOffset="50%"
+       id="textPath15">forward</textPath></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;line-height:0px;font-family:Sans;-inkscape-font-specification:'Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-opacity:1"
+     x="80.595367"
+     y="133.00189"
+     id="text16"><tspan
+       sodipodi:role="line"
+       id="tspan16"
+       x="80.595367"
+       y="133.00189" /></text>
+  <text
+     xml:space="preserve"
+     style="font-size:12px;line-height:0px;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;white-space:pre;fill:#000000;fill-opacity:1;stroke:none;stroke-opacity:1"
+     id="text17"><textPath
+       xlink:href="#path15"
+       startOffset="50%"
+       id="textPath18">back</textPath></text>
+</svg>

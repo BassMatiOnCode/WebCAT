@@ -1,0 +1,35 @@
+<html><head></head><body>
+
+<h1 class="hide-if-hosted">Parallel Fetches</h1>
+
+<div class="hide-if-hosted">
+<p>In a promise.then()...then() chain, it is difficult to get local variables from one then() block to the next. The trick is that <em>the outer scope</em> provides the variables that hold the result values, retrieved in the function bodies, passed to the <tt>.then</tt> method calls.</p>
+</div>
+
+<script type="module">
+debugger;
+const requests = [ ] , urls = [ ] , ok = [ ] , texts = [ ] ;
+for ( let i = 0 ; i < 3 ; i ++ ) requests.push( fetch ( "study-7.htm" ) );
+Promise.allSettled( requests ).then ( responses => {
+	const textRequests = [ ] ;
+	for ( const response of responses ) {
+		// Store response values
+		urls.push( response.value.url );
+		ok.push( response.value.ok );
+		// Store text request promises
+		textRequests.push( response.value.ok ? response.value.text( ) : "" );
+		}
+	// Return a single promise for all text requests
+	// This is the trick.
+	return Promise.allSettled( textRequests );
+	} ) 
+.then ( results =>  { 
+	// Extract the text values from the results
+	for ( const result of results ) {
+		texts.push( result.value );
+		console.log( texts );
+		}
+	} ) ;
+</script>
+
+</body></html>

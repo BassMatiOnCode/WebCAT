@@ -1,0 +1,45 @@
+<html><head>
+
+</head><body>
+
+<p>Demonstrates how a multiple promises can resolve a single "parent" promise.</p>
+
+<p>The promise p2 follows the scheme of promise p1, but is resolved inside promise p3.</p>
+
+<script type="module">
+const p1 = new Promise( ( resolve, reject ) => {
+	setTimeout( (() => resolve( "done p1" )), 1000 );
+	} ) ;
+const p2 = new Promise( ( resolve1, reject1 ) => {
+	setTimeout( ( ) => {
+		const p3 = new Promise( ( resolve2, reject2 ) => {
+			setTimeout( ( ) => {
+				resolve2( "done p3" );
+				resolve1( "done p2" );
+				} , 1000 ) ;
+			} ).then( text => console.log( text )) ;		
+		//resolve1( "done p2" );
+		}, 2000 ) ;
+	} ) ;
+const p4 = new Promise( ( resolve4, reject4 ) => {
+	for ( let i = 0 ; i < 5 ; i += 1 ) {
+		const p = new Promise ( ( resolve, reject ) => {
+			setTimeout ( ( ) => { 
+				resolve( "done p" );
+				if ( i === 4 ) resolve4( "done p4" );
+				} , 2000 );
+			} ).then ( text => console.log( text ));
+		}
+	} ) ;
+const a = [ 
+	p1.then( text => { console.log( text ) ; return text } ) , 
+	p2.then( text => { console.log( text ) ; return text } ) 
+	] ;
+Promise.allSettled( a ).then ( results => { 
+	console.log( "all settled" );
+	for ( const result of results ) console.log( result.value );
+	} ) ;
+
+</script>
+
+</body></html>
