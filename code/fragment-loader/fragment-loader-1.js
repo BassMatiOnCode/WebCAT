@@ -8,8 +8,9 @@ import * as initializer from "../component-initializer/component-initializer.js"
 // TODO: Think about anchor element decoration. A classname beginning with "fragment" should be better than an a data-load-fragment attribute.
 
 /** Tracks the number of fragments being loaded */ let counter = 0 ;
+
 /**
- *		ConvertAddresses( )
+ *		rebaseRelativeAddresses( )
  *		Rebase load-target relative addresses so that they continue 
  *		to work in the context of the host document.
  *	
@@ -68,6 +69,7 @@ import * as initializer from "../component-initializer/component-initializer.js"
 		// Load nested fragments recursively
 		for ( const anchor of fragment.querySelectorAll( "[data-load-fragment]" )) loadFragment( anchor );
 		//	Notify the fragment anchor that the content will be loaded.
+		// TODO: success member is superfluous
 		anchor.dispatchEvent( new CustomEvent( "fragment-loading", { bubbles: true, detail: { success : true, content : fragment } } ) ) ;
 		//	Create an array of references to the elements to be injected before the fragment is injected (which will deplete its children list unless the clone flag was given.
 		const injectionList = Array.from ( fragment.childNodes );
@@ -75,6 +77,7 @@ import * as initializer from "../component-initializer/component-initializer.js"
 		console.info( "Content injected from: ", fragmentAddress );
 		// NOTE that the fragment anchor has been taken out of the DOM tree at this point!
 		//	Notify the fragment anchor that the content has been loaded. 
+		// TODO: success member is superfluous
 		anchor.dispatchEvent( new CustomEvent( "fragment-loaded", { bubbles: false, detail: { success : true, content : injectionList } } ) ) ;
 		//	Update tracking counter and dispatch "fragment-loading-completed" event
 		counter -= 1;
