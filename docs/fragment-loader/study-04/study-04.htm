@@ -15,16 +15,22 @@
  
 <meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
 <meta name="tags" content="web, content, autoring, toolbox, HTML, JavaScript, CSS, WebCAT, component" />
-<title>Study 3 (Web > Content Authoring Toolbox > Fragment Loader)</title>
-<meta name="description" content="" />
+<title>Study 4 (Web > Content Authoring Toolbox > Fragment Loader)</title>
+<meta name="description" content="Examines loadSitemapFragments()" />
 
 </head><body>
 
 <div class="hide-if-hosted">
-<h1>Study 3</h1>
+<h1>Study 4</h1><p class="subtitle">Load Sitemap Fragments</p>
 </div>
 
-<a href="node-00.htm" data-load-fragment></a>
-<a href="content.htm" data-load-fragment></a>
+<p>Demonstrates how missing sitemaps are loaded if the user navigates to a document via link in the main content instead of walking through the sitemap.</p>
+
+<a data-load-interactive href="toc.htm"></a>
+
+<script type="module">
+import { loadSitemapFragments } from "../../code/fragment-loader/fragment-loader-1.js" ;
+loadSitemapFragments( new URL( "a/b/c/", document.location ));
+</script>
 
 </body></html>

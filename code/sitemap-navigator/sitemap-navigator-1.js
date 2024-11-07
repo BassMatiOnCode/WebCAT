@@ -1,9 +1,10 @@
-// documentation : /web-cat/sitemap-navigator/sitemap-navigator.htm
+// Documentation : /web-cat/sitemap-navigator/sitemap-navigator.htm
+
 // TODO: Use the Navigation API instead of anchor click events when it is available in all browsers.
 
 import * as initializer from "../component-initializer/component-initializer-1.js" ;
 import * as fragmentLoader from "../fragment-loader/fragment-loader-1.js" ;
-import * as collapsibleStructures from "../collapsible-structures/collapsible-structures-1.js" ;
+import * as collapsibleStructures from "../collapsible-structures/collapsible-structures-1.js" ;  // imports
 
 let navigationInfo = { } ;  // carries link anchors related to the current document
 
@@ -27,7 +28,7 @@ let navigationInfo = { } ;  // carries link anchors related to the current docum
 	url.search = "" ;
 	let entry = findCurrentEntry( url );
 	if ( ! entry ) {
-		loadMissingFragments( url.href );
+		fragmentLoader.loadSitemapFragments ( url );
 		entry = findCurrentEntry( url );
 		if ( ! entry ) return console.error( "Cannot find entry for current document." );
 		}
@@ -98,86 +99,6 @@ let navigationInfo = { } ;  // carries link anchors related to the current docum
 	// Dispatch navigation-info-change event
 	const event = new CustomEvent( "navigation-info-update" , { detail : { navigationInfo : navigationInfo } } ) ;
 	document.dispatchEvent( event );
-	}
-/**		loadMissingFragments()
- * 
- */ function loadMissingFragments ( documentAddress = getContentAddress( )) {
-	// Split the document address into a list of folders
-	console.info( `Loading sitemap fragments for ${documentAddress}` );
-	const folders = new URL( documentAddress + "/.." ).href.split( "/" ).slice( 0, -1 );
-	let fragmentAnchor, fragmentAddress = folders.shift( ) + "/" + folders.shift( ) + "/" + folders.shift( ) ;
-	// Find the first sitemap fragment anchor in that path
-	while ( ! fragmentAnchor && folders.length > 0 ) {
-		fragmentAddress += "/" + folders.shift( );
-		console.info( "Looking for " + fragmentAddress + "/toc.htm" );
-		fragmentAnchor = document.querySelector( `a[data-load-interactive][href="${fragmentAddress}/toc.htm"]` );
-		}
-	if ( ! fragmentAnchor ) return console.error( "No sitemap fragment anchor found." );
-	// Retrieve all potential sitemap fractions in parallel.
-	const requests = [ ] ;
-	requests.push( fetch( fragmentAddress + "/toc.htm" ));
-	console.info( `Fetching ${fragmentAddress}/toc.htm` );
-	// Every folder below in the path might contain another sitemap fragment.
-	while ( folders.length > 0 ) {
-		fragmentAddress += "/" + folders.shift( );
-		requests.push( fetch( fragmentAddress + "/toc.htm" ));
-		console.info( `Fetching ${fragmentAddress}/toc.htm` );
-		}
-	Promise.allSettled( requests ).then ( responses => {
-		// Collect the text content for retrieved resources
-		// Failed requests are no error, because we have only guessed the URL
-		const texts = [ ] ;  
-		for ( const response of responses ) texts.push( response.value.ok ? response.value.text( ) : "" );
-		Promise.all( texts ).then( texts => { 
-			// Inject the text resources in the order of retrieval
-			console.log( responses );
-			console.log( fragmentAnchor ) ;
-			injectFragments( fragmentAnchor, responses, texts ) ;
-			} ) ;
-		} ) ;
-	}
-/**		injectFragments( )
- * 
- */ function injectFragments ( fragmentAnchor, responses, textContentArray ) {
-	const searchParent = fragmentAnchor.parentElement ;
-	// the html parser
-	const template = document.createElement( "TEMPLATE" );
-	// Process responses
-	for ( let i = 0 ; i < responses.length ; i ++ ) {
-		if ( ! responses[ i ].value.ok ) continue ;
-		// Find the next fragment anchor
-		if ( i > 0 ) fragmentAnchor = searchParent.querySelector( `a[data-load-interactive][href="${responses[ i ].value.url}"]` );
-		const text = textContentArray[ i ];
-		// Parse
-		template.innerHTML = text ;
-		// Rebase relative addresses
-		fragmentLoader.rebaseRelativeAddresses ( template.content, responses[ i ].value.url );
-		//	Determine the list of elements to be injected
-		// TODO: Select only if there is a selector attribute
-		let injectionList = template.content.querySelectorAll( fragmentAnchor.getAttribute( "data-select" ));
-		if ( injectionList.length === 0 ) injectionList = Array.from( template.content.childNodes );
-		for ( const element of injectionList ) {
-			// element nodes only
-			if ( element.nodeType !== 1 ) continue ;
-			// Store fragment origin address for recursion prevention
-			if ( element.setAttribute ) element.setAttribute( "data-load-origin", responses[ i ].value.url );
-			}
-		//	Notify the fragment anchor that the content will be loaded. 
-		fragmentAnchor.dispatchEvent( new CustomEvent( "fragment-loading", { 
-			bubbles: true, 
-			detail: { success : true, content : injectionList } 
-			} ) ) ;
-		//	Inject the content into the document.
-		// This takes the fragment anchor out of the DOM tree
-		fragmentAnchor.replaceWith( ...injectionList );
-		console.info( "Content injected from: ", responses[ i ].value.url );
-		//	Notify the fragment anchor that the content has been loaded. 
-		// TODO: success and bubbles members are superfluous.
-		fragmentAnchor.dispatchEvent( new CustomEvent( "fragment-loaded", { 
-			bubbles: false, 
-			detail: { success : true, content : injectionList } 
-			} ) ) ;
-		}
 	}
 /**
  *		init ( )

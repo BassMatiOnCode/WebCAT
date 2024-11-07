@@ -1,13 +1,7 @@
-// Documentation: /web-cat/fragment-loader/fragment-loader.htm
-//	Ideas
-//	Drop the fragment loading complete? 
-//	Dispatch fragment-loading-complete to container element?
-//	Fragment loaded event dispatched to each root element in a fragment after injection into the document.
+// Documentation: .../web-cat/fragment-loader/fragment-loader.htm 
+
+import { names as namespaces } from "../xml-namespaces/xml-namespaces-1.js" ;
 import * as initializer from "../component-initializer/component-initializer.js" ;
-
-// TODO: Think about anchor element decoration. A classname beginning with "fragment" should be better than an a data-load-fragment attribute.
-
-/** Tracks the number of fragments being loaded */ let counter = 0 ;
 
 /**
  *		rebaseRelativeAddresses( )
@@ -25,67 +19,119 @@ import * as initializer from "../component-initializer/component-initializer.js"
 		}
 	 }
 /**
- * Loads HTML/MathML/SVG/plain text fragments into the current document.
- * The element anchor stores the target address in the href attribute and 
- * is replaced by the injected code.
- * @param {HTMLElement} anchor - reference to the fragment link (A) element
- * @returns {Promise} - the promise used to fetch the resource text.
- */ export async function loadFragment ( anchor ) {
-		// Store the load address
-		const fragmentAddress = anchor.href ;
-		// Prevent recursion
-		if ( anchor.closest( `[data-load-origin="${fragmentAddress}"]` )) 
-			return console.error( `Fragment address recursion: ${fragmentAddress}` );
-		//	Setup content construction structures
-		let buffer, bufferContent ;
-		switch ( anchor.getAttribute( "data-load-namespace" )) {
-		case "http://www.w3.org/1998/Math/MathML" :
-			buffer = bufferContent = document.createElementNS( "http://www.w3.org/1998/Math/MathML", "mrow" ) ;
-			break ;
-		case "http://www.w3.org/2000/svg" :
-			buffer = bufferContent = document.createElementNS( "http://www.w3.org/2000/svg", "g" ) ;
-			break ;
-		default :
-			buffer = document.createElement( "template" ) ; 
-			bufferContent = buffer.content ;
-			break;
-			}
-		//	Fetch fragment into buffer
-		counter += 1;
-		console.info( "Loading: ", fragmentAddress );
-		const promise = fetch( fragmentAddress ).then ( response => response.text( ));
-		buffer.innerHTML = await promise ;
-		rebaseRelativeAddresses ( bufferContent, fragmentAddress );
-		//	Process the list of elements to be injected.
-		const fragment = new DocumentFragment( );
-		fragment.append (...( anchor.hasAttribute( "data-select" ) ? bufferContent.querySelectorAll( anchor.getAttribute( "data-select" )) : bufferContent.childNodes )) ;
-		// mainContent doesn't need recursion prevention.
-		const recordOrigin = anchor.getAttribute( "data-record-origin" ) !== "no" ;
-		for ( const element of fragment.children ) {
-			// Store fragment origin address for recursion prevention
-			// Note: Text nodes cannot have attributes...
-			if ( recordOrigin && element.setAttribute ) element.setAttribute( "data-load-origin", fragmentAddress );
-			}
-		// Load nested fragments recursively
-		for ( const anchor of fragment.querySelectorAll( "[data-load-fragment]" )) loadFragment( anchor );
-		//	Notify the fragment anchor that the content will be loaded.
-		// TODO: success member is superfluous
-		anchor.dispatchEvent( new CustomEvent( "fragment-loading", { bubbles: true, detail: { success : true, content : fragment } } ) ) ;
-		//	Create an array of references to the elements to be injected before the fragment is injected (which will deplete its children list unless the clone flag was given.
-		const injectionList = Array.from ( fragment.childNodes );
-		anchor.replaceWith( ...fragment.childNodes );
-		console.info( "Content injected from: ", fragmentAddress );
-		// NOTE that the fragment anchor has been taken out of the DOM tree at this point!
-		//	Notify the fragment anchor that the content has been loaded. 
-		// TODO: success member is superfluous
-		anchor.dispatchEvent( new CustomEvent( "fragment-loaded", { bubbles: false, detail: { success : true, content : injectionList } } ) ) ;
-		//	Update tracking counter and dispatch "fragment-loading-completed" event
-		counter -= 1;
-		if ( counter === 0 ) document.dispatchEvent( new CustomEvent( "fragment-loading-complete", { detail : { success : true } } ) );
-		return promise;
-		} ;
+ *		parse()
+ *
+ */ export function parse( text, origin ) {
+	let buffer ;
+	if ( origin.endsWith( ".svg" )) buffer = document.createElementNS( namespaces.svg , "G" ) ;
+	else if ( origin.endsWith( ".math.htm" )) buffer = document.createElementNS( namespaces.mathml , "MROW" ) ;
+	else buffer = document.createElement( "TEMPLATE" ) ; 
+	buffer.innerHTML = text ;
+	return buffer.content || buffer;
+	}
 /**
- *		loadFragmentInteractive()
+ *		fetchFragment ( )
+ *		Fetches and parses the specified document fragment and selects the requested elements
+ *		@return {Promise<DocumentFragment|MTRElement|SVGGroupElement>} An content container element
+ *
+ */ export function fetchFragment ( url, contentSelector="", recordOrigin=true ) {
+	console.debug( "Fetching " + url );
+	return fetch ( url )
+	.then ( response => {
+		// Process the server response
+		if ( response.ok ) return response.text( );
+		else throw response.statusText ;
+		} ) 
+	.then ( text => { 
+		// Parse text and return selected elements for injection
+		const content = parse( text, url );
+		if ( contentSelector ) content.replaceChildren( content.querySelectorAll( contentSelector ));
+		rebaseRelativeAddresses ( content, url );
+		if ( recordOrigin ) for ( const element of content.children ) element.setAttribute( "data-load-origin", url );
+		return content ;
+		} ) 
+	.catch ( reason => {
+		console.error( `${reason} ${url}` );
+		} ) ; 
+	}
+/**
+ *		injectFragment ( )
+ *
+ */ function injectFragment( content , anchor ) {
+	console.debug( "Injecting", content.childNodes.length, "nodes", content.children.length, "elements" );
+	// Pending injection notification
+	// TODO: Rename fragment-loading to fragment-loaded
+	// TODO: Rename detail.content to detail.nodes
+	anchor.dispatchEvent( new CustomEvent( "fragment-loading", { bubbles: true, cancelable : true , detail: { content : content } } ) ) ;
+	// Inject content nodes
+	const injectedElements = Array.from( content.children );
+	anchor.replaceWith( ...content.childNodes );
+	// TODO: Rename detail.content to detail.elements
+	// TODO: Rename fragment-loaded to fragment-injected
+	anchor.dispatchEvent( new CustomEvent( "fragment-loaded", { detail: { content : injectedElements } } ) ) ;
+	return injectedElements ;
+	}
+/**
+ *		loadFragments ( )
+ *
+ */ export function loadFragments( root = document.body ) {
+	return new Promise ( resolve => {
+		const requestInfos = [ ] ;    // a combination of fragment origin and array of injected elements
+		let settledRequests = 0 ;
+		function processTree ( treeRoot ) {
+			// Loop with forEach because anchor must in in a closure because
+			// it will be referenced asynchronously on different threads.
+			treeRoot.querySelectorAll( "A[data-load-fragment]" ).forEach( anchor => {
+				// Prevent recursion
+				if ( anchor.closest( `[data-fragment-origin="${anchor.href}"]` )) { console.error( `Fragment address recursion: ${anchor.href}` ) ; return }
+				const requestInfo = requestInfos[ requestInfos.push( { url : anchor.href } ) - 1] ;
+				fetchFragment ( anchor.href, anchor.getAttribute( "data-select" ), anchor.getAttribute( "recordOrigin" ) !== "no" )
+				.then ( content => {  
+					requestInfo.injectedElements = injectFragment( content, anchor );
+					for ( const element of requestInfo.injectedElements ) processTree( element );  // recurse into fragment
+					return requestInfo.injectedElements ;
+					} ) 
+				.catch ( statustext => {
+					anchor.innerText = ( `<< ${ statustext } (${ requestInfo.url }) >>` );
+					} ) 
+				.finally ( ( ) => {    
+					console.debug( "Requests pending:", requestInfos.length - settledRequests - 1 );
+					if ( ++ settledRequests === requestInfos.length ) resolve( requestInfos ) ; // resolve outermost promise
+					} );
+				} ) ;
+			}
+		processTree( root ) ;
+		} ) ;
+	}
+/**		
+ *		loadSitemapFragments()
+ * 
+ */ export function loadSitemapFragments ( url = new URL( document.location.origin + document.location.pathname ), fragmentName = "toc.htm" ) {
+	// Split the document address into a list of folders
+	console.info( `Loading sitemap fragments for ${ url.pathname }` );
+	const urls = [ ] ;
+	let rootAnchor ;
+	while ( true ) {
+		const fragmentUrl = url.href + fragmentName ;
+		urls.push( fragmentUrl );
+		rootAnchor = document.querySelector( `A[data-load-interactive][href="${ fragmentUrl }"]` );
+		if ( rootAnchor ) break;
+		if ( url.href === document.location.origin + "/" ) break;
+		url = new URL( url.href + "../" );  // ascend to parent node
+		}
+	if ( ! rootAnchor ) return console.error( "No sitemap fragment chain head anchor found." );
+	const requests = [ ] ;
+	for ( const url of urls ) requests.push( fetchFragment( url ));
+	Promise.allSettled( requests ).then ( results => {
+		for ( let i = results.length - 1 ; i >= 0 ; i -= 1 ) {
+			if ( ! results[ i ].value ) continue ;  // ignore failed request, this is normal.
+			injectFragment( results[ i ].value , document.querySelector( `A[href="${ urls[ i ] }"]` ) );
+			}
+		} ) ;
+	}
+/**
+ *		anchorParentClickHandler()
+ *		Catches clicks on the parent of interactive fragment anchors and loads the fragment.
  *
  */ export function anchorParentClickHandler( evt ) {
 	console.info( "anchorParentClickHandler()" );
@@ -102,27 +148,17 @@ import * as initializer from "../component-initializer/component-initializer.js"
 		}
 	}
 /**
- * Loads HTML/MathML/SVG/plain text fragments into the current document.
- * The element e stores the target address in the href attribute and 
- * is replaced by the injected code.
- * @param {HTMLElement} e - reference to the fragment link (A) element
- * @returns {Promise} - the promise used to fetch the resource text.
- * 
- */ export function loadFragments ( container = document ) {
-	console.log( "loadFragments()" );
-	////	Processes child elements which have a data-load-fragment attribute
-	for ( const o of container.querySelectorAll( '[data-load-fragment]' )) loadFragment( o );
-	if ( counter === 0 ) document.dispatchEvent( new CustomEvent( "fragment-loading-complete", { detail : { success : true } } ) );
-	}
-/**
  *		init()
  *		Finds fragment link anchors and load the related resources.
  *
  */ export function init ( searchparams = new URLSearchParams( )) {
-	const root = searchparams.get( "root" ) || undefined ;
-	loadFragments ( root );
-	for ( const anchor of (root || document.body).querySelectorAll( "a[data-load-interactive]" )) {
-		anchor.parentElement.addEventListener( "click" , anchorParentClickHandler ) ;
+	const root = searchparams.get( "root" ) || document.body ;
+	for ( const anchor of document.querySelectorAll( "A[data-load-interactive]" )) {
+		anchor.setAttribute( "href", anchor.href );
 		}
+	loadFragments( root ).then ( ( ) => {
+		// Monitor click events on interactive fragment anchors
+		for ( const anchor of root.querySelectorAll( "a[data-load-interactive]" )) anchor.parentElement.addEventListener( "click" , anchorParentClickHandler ) ;
+		} ) ;
 	}
 /** Module init code */ initializer.initComponent( init, import.meta.url );
