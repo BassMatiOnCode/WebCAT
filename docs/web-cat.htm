@@ -16,7 +16,7 @@
  
 <meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
 <meta name="tags" content="web, content, autoring, toolbox, HTML, JavaScript, CSS, WebCAT, component" />
-<meta name="description" content="The Web Content Authoring Toolbox (WebCAT) is a suite of components that simplifies the life of web content authors. WebCAT introduces the concept of modular HTML documents, <i>document fragments</i>, which enables to re-use content like the sitemap tree for navigation. WebCAT also introduces a <em>component concept</em> and formalizes the bundling of JavaScript and CSS files with versioning rules." />
+<meta name="description" content="The Web Content Authoring Toolbox (WebCAT) is a suite of loosely coupled <em>components</em> that simplify web page authoring drastically." />
 
 <title>Web > Content Authoring Toolbox > </title>
 
@@ -28,9 +28,15 @@
 
 <p id="pageAbstract"></p>
 
+<p>WebCAT formalizes the bundling of JavaScript and CSS files, symbolic links and version naming rules into <em>WebCAT components</em>.</p>
+
+<p>WebCAT also introduces the concept of modular HTML documents, <i>document fragments</i>, which enables content sharing bewteen documents. The site navigation tree is a prominent example.</p>
+
 <h2 cbc>Introduction</h2><div>
 
 <p>Typical WebCAT components are visible, like the page header, footer, path bar, toolbar, tool buttons, navigation panel. Other components are invisible and provide functionality, such as the collapsible structures component, CSS counters, sitemap navigator, page scrolling, page templates and other components. Then there are programming support components, such as the XML namespace or the utility components.</p>
+
+<h3 cbc>Page Templates</h3><div>
 
 <p>As a web content author, you pick a page template component, tweak it to your needs and import it into your document:</p>
 
@@ -54,13 +60,204 @@
 &lt;/body&gt;
 </pre></figure>
 
-
 <p>That's all it needs to get a page like the one you currently viewing at.</p>
 
+<!--h3--Page Templates--></div>
+
+<h3 cbc>Document Fragments</h3><div>
+
+<p>Document fragments are included with ordinary anchor elements:</p>
+
+<figure class="listing"><figcaption>Importing a document fragment</figcaption>
+<pre>
+&lt;body&gt;
+	...
+&lt;a <hi>data-load-fragment</hi> href="path/to/<hi>author-summary.htm</hi>"&gt;&lt;/a&gt;
+	...
+&lt;/body&gt;
+</pre></figure>
+
+<p>The fragment loader component recognizes these special anchors and silently imports the referenced content into the host document:</p>
+
+<figure class="listing"><figcaption>Document fragment imported</figcaption>
+<pre>
+&lt;body&gt;
+	...
+&lt;p&gt;&lt;img src="path/to/john-doe.jpg" /&gt;
+	John Doe is a our long-term hardware specialist blah blah blah
+	&lt;/p&gt;
+	...
+&lt;/body&gt;
+</pre></figure>
+
+<!--h3--Document Fragments--></div>
+
+<h3 cbc>Importing a WebCAT Component</h3><div>
+
+<p>To import extra components not provided by the page template, add these code to the head section of the document:</p>
+
+<figure class="listing"><figcaption>Importing an additional WebCAT component</figcaption>
+<pre>
+&lt;head&gt;
+	...
+&lt;link rel="<hi>stylesheet</hi>" href="path/to/<hi>the-component.css</hi>" /&gt;
+&lt;script type="<hi>module</hi>" src="path/to/<hi>the-component.js</hi>" &gt;&lt;/script&gt;
+	...
+&lt;/head&gt;
+</pre></figure>
+
+<p>WebCAT components are usually self-contained and self-initializing, so the example shown above is everything you need to know.</p>
+
+<p>WebCAT components are well documented, there is always information on how to use it, notes on import options, parameters, and HTML element decoration. Combined with many examples, even non-programmers should be able to use WebCAT components.</p>
+
+<!--h3--Importing a WebCAT Component--></div>
+
+<h3 cbc>Writing Your Own WebCAT Component</h3><div>
+
+<p>If there is nothing in the box you are looking for, you can easily write your own WebCAT component. The section <a href="creating-components/creating-components.htm">Creating WebCAT Components</a> has a lot background information and step-by-step instructions.</p>
+
+<p>And of course, existing WebCAT components can serve as a starting point for your own ones.</p>
+
+<!--h3--Writing Your Own WebCAT Component--></div>
 
 <!--h2--Introduction--></div>
 
 <h2 cbc>Overview</h2><div>
+
+<p>A side note: Dividing components into categories is a difficult task. Visual components also have functional aspects, and some functional components have visual aspects.</p>
+
+<dl>
+<dt>Visual Components</dt><dd>
+	<p>A visual component <em>creates</em> visible elements on the screen. Examples are <tt>page-header</tt>, <tt>page-footer</tt>, <tt>page-toolbar</tt> and <tt>tool-buttons</tt></p>
+	</dd>
+<dt>Functional Components</dt><dd>
+	<p>Functional components have no visible user interface elements, they change the behaviour of HTML elements, add functionality or re-arrange elements. Examples are the <tt>page-persistence</tt> component, the <tt>docking-panel</tt>, the <tt>page-main</tt> content container, </p>
+	</dd>
+</dl>
+
+<h3 cbc>Alphabetically</h3><div>
+
+<dl>
+<dt class="html functional">checked-items</dt><dd>
+	<p></p>
+	</dd>
+<dt class="html functional">collapsible-structures</dt><dd>
+	<p></p>
+	</dd>
+<dt class="html functional">collapsible-table-structures</dt><dd>
+	<p></p>
+	</dd>
+<dt class="coding-support">component-initializer</dt><dd>
+	<p></p>
+	</dd>
+<dt class="html functional">content-height-observer</dt><dd>
+	<p></p>
+	</dd>
+<dt class="visual">context-dialog</dt><dd>
+	<p></p>
+	</dd>
+<dt class="html functional">continued-list</dt><dd>
+	<p></p>
+	</dd>
+<dt class="">create-element</dt><dd>
+	<p></p>
+	</dd>
+<dt class="html functional">css-counter</dt><dd>
+	<p></p>
+	</dd>
+<dt class="">description-list</dt><dd>
+	<p></p>
+	</dd>
+<dt class="html functional">docking-panel</dt><dd>
+	<p></p>
+	</dd>
+<dt class="functional">fragment-loader</dt><dd>
+	<p></p>
+	</dd>
+<dt class="style">horizontal-title-rule</dt><dd>
+	<p></p>
+	</dd>
+<dt class="html functional">link-target-highlighter</dt><dd>
+	<p></p>
+	</dd>
+<dt class="html functional">literature-reference-list</dt><dd>
+	<p></p>
+	</dd>
+<dt class="style">math</dt><dd>
+	<p></p>
+	</dd>
+<dt class="html functional">navigation-panel</dt><dd>
+	<p></p>
+	</dd>
+<dt class="html functional">page-abstract</dt><dd>
+	<p></p>
+	</dd>
+<dt class="style">page-colors</dt><dd>
+	<p></p>
+	</dd>
+<dt class="html functional">page-footer</dt><dd>
+	<p></p>
+	</dd>
+<dt class="html functional">page-header</dt><dd>
+	<p></p>
+	</dd>
+<dt class="html structural">page-main</dt><dd>
+	<p></p>
+	</dd>
+<dt class="html visual">page-pathbar</dt><dd>
+	<p></p>
+	</dd>
+<dt class="functional">page-persistence</dt><dd>
+	<p></p>
+	</dd>
+<dt class="functional">page-scrolling</dt><dd>
+	<p></p>
+	</dd>
+<dt class="structural">page-structure</dt><dd>
+	<p></p>
+	</dd>
+<dt class="visual">page-toolbar</dt><dd>
+	<p></p>
+	</dd>
+<dt class="coding-support">scroll-margin-provider</dt><dd>
+	<p></p>
+	</dd>
+<dt class="coding-support">set-attributes</dt><dd>
+	<p></p>
+	</dd>
+<dt class="coding-support">set-properties</dt><dd>
+	<p></p>
+	</dd>
+<dt class="functional">simple-loader</dt><dd>
+	<p></p>
+	</dd>
+<dt class="functional">sitemap-navigator</dt><dd>
+	<p></p>
+	</dd>
+<dt class="style">sourcecode</dt><dd>
+	<p></p>
+	</dd>
+<dt class="functional">table-column-selector</dt><dd>
+	<p></p>
+	</dd>
+<dt class="style">table-styles</dt><dd>
+	<p></p>
+	</dd>
+<dt class="visual">tool-buttons</dt><dd>
+	<p></p>
+	</dd>
+<dt class="coding-support">unicode-characters</dt><dd>
+	<p></p>
+	</dd>
+<dt class="">utilities</dt><dd>
+	<p></p>
+	</dd>
+<dt class="">xml-namespaces</dt><dd>
+	<p></p>
+	</dd>
+</dl>
+
+<!--h3--Visual Components--></div>
 
 <!--h2--Overview--></div>
 
