@@ -16,7 +16,7 @@
  
 <meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
 <meta name="tags" content="web, content, autoring, toolbox, HTML, JavaScript, CSS, WebCAT, component" />
-<meta name="description" content="" />
+<meta name="description" content="The Web Content Authoring Toolbox (WebCAT) is a suite of components that simplifies the life of web content authors. WebCAT introduces the concept of modular HTML documents, <i>document fragments</i>, which enables to re-use content like the sitemap tree for navigation. WebCAT also introduces a <em>component concept</em> and formalizes the bundling of JavaScript and CSS files with versioning rules." />
 
 <title>Web > Content Authoring Toolbox > </title>
 
@@ -27,6 +27,38 @@
 <p class="subtitle">A web content authoring toolbox</p>
 
 <p id="pageAbstract"></p>
+
+<h2 cbc>Introduction</h2><div>
+
+<p>Typical WebCAT components are visible, like the page header, footer, path bar, toolbar, tool buttons, navigation panel. Other components are invisible and provide functionality, such as the collapsible structures component, CSS counters, sitemap navigator, page scrolling, page templates and other components. Then there are programming support components, such as the XML namespace or the utility components.</p>
+
+<p>As a web content author, you pick a page template component, tweak it to your needs and import it into your document:</p>
+
+<figure class="listing"><figcaption>Importing a page template</figcaption>
+<pre>
+&lt;head&gt;
+	...
+&lt;link rel="<hi>stylesheet</hi>" href="path/to/<hi>tutorial-page.css</hi>" /&gt;
+&lt;script type="<hi>module</hi>" src="path/to/<hi>tutorial-page.js</hi>" &gt;&lt;/script&gt;
+	...
+&lt;/head&gt;
+</pre></figure>
+
+<p>Then you can focus on authoring the content:</p>
+
+<figure class="listing"><figcaption>Writing the content</figcaption>
+<pre>
+&lt;body&gt;
+&lt;h1&gt;My First WebCAT Page&lt;/&gt;
+&lt;p&gt;Write content and forget about the rest&lt;/p&gt;
+&lt;/body&gt;
+</pre></figure>
+
+
+<p>That's all it needs to get a page like the one you currently viewing at.</p>
+
+
+<!--h2--Introduction--></div>
 
 <h2 cbc>Overview</h2><div>
 
