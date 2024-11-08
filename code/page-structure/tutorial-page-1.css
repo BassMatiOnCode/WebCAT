@@ -74,7 +74,6 @@ figure { margin-left : 0px ; margin-right : 0px }
 figure.demo iframe { border : 1px solid silver ; width : 100% }
 figure.demo figcaption { border-bottom-style : none ; margin-bottom : 5px }
 figure.listing > figcaption { font-style : italic ; padding-bottom : 5px }
-figure.listing > figcaption::before { content : "Listing: " }
 figure.listing > pre { background-color : #eee ; font-family: "inconsolata condensed", "constantia", "droid sans mono" ; font-size : 15px ; font-variant-numeric : lining-nums tabular-nums slashed-zero ; line-height: 20px ; tab-size : 15px ; overflow-x : auto ; padding : 5px ; scrollbar-color : #aaa #ddd ; margin-top : 0px }
 h1 { text-align : center }
 h1, h2, h3, h4, h5 { font-family : "Times New Roman", "Arial Narrow" ; font-weight : normal ; margin-left : -20px }
