@@ -2,6 +2,7 @@
 @import url( ../page-pathbar/page-pathbar-1.css );
 @import url( ../page-toolbar/page-toolbar-1.css );
 @import url( ../page-main/page-main-1.css );
+@import url( ../horizontal-title-rule/horizontal-title-rule-1.css );
 @import url( ../tool-buttons/collapse-chapters-button-1.css );
 @import url( ../page-footer/page-footer-1.css );
 @import url( ../page-abstract/page-abstract-1.css );
@@ -67,7 +68,6 @@
 body { 
 	font-family : "Segoe UI" ;
 	margin : 120px 20px 50px 20px ;
-	color : #666 ;
 	}
 figcaption { font-family : "Times New Roman", Constantia ; color : #888 ; font-size : 6px ; border-bottom : 1px solid silver  }
 figure { margin-left : 0px ; margin-right : 0px }
@@ -83,7 +83,7 @@ html { scrollbar-color : #999 #eee }
 ol > li, ul > li { margin-top: 5px ; margin-bottom : 5px }
 ol.spaced-items li, ul.spaced-items li { margin-top: 20px ; margin-bottom : 20px }
 p { line-height : 25px }
-p.subtitle { text-align : center ; margin-top : -20px }
+p.subtitle { text-align : center ; margin-top : 0 ; margin-bottom : 30px ; font-family : "palatino linotype", "times new roman" }
 pre { 
 	font-family : "inconsolata condensed" ; 
 	font-size : 10pt ;

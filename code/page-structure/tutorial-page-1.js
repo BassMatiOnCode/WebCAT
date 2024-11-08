@@ -1,6 +1,7 @@
 // Documentation : .../web-cat/page-structure/page-structure.htm
 
 import "../page-main/page-main-1.js"  ;
+import "../horizontal-title-rule/horizontal-title-rule-1.js"  ;
 import "../page-header/page-header-1.js" ;
 import "../page-pathbar/page-pathbar-1.js" ;
 import "../page-toolbar/page-toolbar-1.js" ;
