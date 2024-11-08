@@ -113,6 +113,34 @@
 
 <!--h2--Event Listeners--></div>
 
+<h2 cbc>Document Fragment Anchor</h2><div>
+
+<p>The document fragment anchor has a number of attributes that determine how it is processed:</p>
+
+<dl>
+<dt>data-load-fragment</dt><dd>
+	<p>Applied on the fragment anchor. Identifies the anchor as a regular document fragment anchor.</p>
+	</dd>
+<dt>data-load-interactive</dt><dd>
+	<p>Applied on the fragment anchor. Identifies a document fragment anchor that is not automatically processed at document load time. Instead, a click event handler is registered on the anchor's parent element. The event handler loads the referenced fragment when the user interacts with the parent element.</p>
+	<p>Interactive fragment anchors are used in <a href="../sitemap-navigator/sitemap-navigator.htm#partially-loaded">partially loaded sitemaps</a>, but of course you can load them anywhere else.</p>
+	</dd>
+<dt>data-load-origin="url"</dt><dd>
+	<p>Applied to injected root elements selected from the fragment. Used to prevent recursion loops. Also used to drop "stale" document fragments and convert them back into a fragment anchor in order to reduce the memory footprint in very large sitemaps.</p>
+	</dd>
+<dt>data-select="css-selector"</dt><dd>
+	<p>Applied on the fragment anchor. A CSS selector string that is applied to the loaded content to select a subset of the fragment. Should not be applied to fragments that contain only text nodes, not HTML elements.</p>
+	</dd>
+<dt>href="url"</dt><dd>
+	<p>Applied on the fragment anchor. Specifies the address of the document fragment.</p>
+	</dd>
+<dt>record-origin="no"</dt><dd>
+	<p>Prevent setting the "data-load-origin" attribute on injected root elements. Useful for elements in the MAIN content container in a single-page web application to avoid pollution of the main content.</p>
+	</dd>
+</dl>
+
+<!--h2--Document Fragment Anchor--></div>
+
 <h2 cbc>Related Components</h2><div>
 
 <p>This component is related to other WebCAT components:</p>
