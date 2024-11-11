@@ -1,0 +1,84 @@
+﻿<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-09-15" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-11-10" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-11-10" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="/inc/web-cat/page-structure/demo-page-1.css" />
+<script type="module" src="/inc/web-cat/page-structure/demo-page-1.js" ></script>
+
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox > Utility" />
+<meta name="tags" content="web, content, autoring, toolbox, HTML, JavaScript, CSS, WebCAT, component, utility, demo" />
+<title>Set Attributes (Web > Content Authoring Toolbox)</title>
+<meta name="description" content="" />
+
+</head><body>
+
+<div class="hide-if-hosted">
+<h1>Demo 2</h1><p class="subtitle">Test Cases</p>
+</div>
+<p>Open the developer tools console to view the output.</p>
+
+<script type="module">
+import { setAttributes } from "../../code/utility/set-attributes/set-attributes-1.js" ;
+
+function test( { firstname="John", lastname="Doe" , age } = { } ) {
+	console.log( firstname, lastname, age );
+	}
+test( );
+test( {firstname:"Linda" , lastname:"Lane" } );
+test( {firstname:"Linda"  } );
+let errors = 0 ;
+function check( title, subtitle, element, expected, actual ) {
+	console.info( title );
+//	console.group( );
+	if ( subtitle ) console.info( "\t" , subtitle );
+	if ( expected === actual ) console.info( "\t" , element, actual, expected );
+	else { console.warn( "\t" , element, actual, expected ); errors ++ }
+//	console.groupEnd( );
+	}
+
+const element = document.createElement( "DIV" );
+console.debug( element );
+document.body.append( element );
+// update a non-existent attribute (should fail)
+setAttributes( element, { "firstName" : element.hasAttribute( "data-first-name" ) && "John" } );
+check( "update a non-existent attribute (should fail)", "", element, null, element.getAttribute( "data-first-name" ));
+// update a non-existent attribute (should fail)
+setAttributes( element, { "firstName" : ! element.hasAttribute( "data-first-name" ) &&"John" } );
+check( "update a non-existent attribute (should fail)", "", element, "John", element.getAttribute( "data-first-name" ));
+// create an existing attribute (should fail)
+setAttributes( element, { "firstName" : ! element.hasAttribute( "data-first-name" ) &&"James" } );
+check( "create an existing attribute (should fail)", "", element, "John", element.getAttribute( "data-first-name" ));
+// update an existing attribute (should succeed)
+setAttributes( element, { "firstName" : element.hasAttribute( "data-first-name" ) &&  "James" } );
+check( "update an existing attribute (should succeed)", "", element, "James", element.getAttribute( "data-first-name" ));
+// create or update an existing attribute (should succeed)
+setAttributes( element, { "firstName" :  "Jane" } );
+check( "create or update an existing attribute (should succeed)", "", element, "Jane", element.getAttribute( "data-first-name" ));
+// toggle an existing attribute (should succeed)
+setAttributes( element, { "firstName" : true } );   // toggle 
+check( "toggle an existing attribute (should succeed)", "", element, null, element.getAttribute( "data-first-name" ));
+// toggle a non-existing attribute (should succeed)
+setAttributes( element, { "firstName" : true } );   // toggle 
+check( "toggle a non-existing attribute (should succeed)", "", element, "", element.getAttribute( "data-first-name" ));
+// remove an existing attribute (should succeed)
+setAttributes( element, { "firstName" : null } );
+check( "remove an existing attribute (should succeed)", "", element, null, element.getAttribute( "data-first-name" ));
+// remove a non-existing attribute (should succeed)
+setAttributes( element, { "firstName" : null } );
+check( "remove a non-existing attribute (should succeed)", "", element, null, element.getAttribute( "data-first-name" ));
+// create or update an non-existing attribute
+setAttributes( element, { "firstName" :  "Jane" } );
+check( "create or update an non-existing attribute", "", element, "Jane", element.getAttribute( "data-first-name" ));
+// Statistics
+console.log( "Done", errors + " error(s)" );
+</script>
+
+</body></html>

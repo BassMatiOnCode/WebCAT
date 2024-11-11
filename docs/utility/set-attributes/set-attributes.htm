@@ -1,0 +1,205 @@
+﻿<!DOCTYPE html>
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-08-07" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-11-10" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-11-10" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="/inc/web-cat/page-structure/tutorial-page-1.css" />
+<script type="module" src="/inc/web-cat/page-structure/tutorial-page-1.js" ></script>
+ 
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox > Utility" />
+<meta name="tags" content="web, content, autoring, toolbox, HTML, JavaScript, CSS, WebCAT, component, utility" />
+<meta name="description" content="The setAttributes() function is a versatile tool to create, update, set, remove and toggle multiple element attributes in a single function call." />
+
+<title>Set Attributes (Web > Content Authoring Toolbox > Utility)</title>
+
+</head><body>
+
+<h1>Set Attributes</h1>
+<p class="subtitle">Utility Function to Set or Remove Multiple Attributes</p>
+
+<p id="pageAbstract"></p>
+
+<p>Additionally, the attribute name can be automatically prefixed (for example with a "data-" string) and converted to kebab case. And an update summary <tt>{ suppliedValue, currentValue }</tt> can be returned to the caller.</p>
+
+<h2 cbc>Introduction</h2><div>
+
+<p>The following basic attribute operations are possible:</p>
+
+<figure class="listing"><figcaption>Attribute operations</figcaption><pre>
+	<cc>// create or update an attribute</cc>
+setAttributes( element, { name : "string-value" } );
+	<cc>// remove an attribute</cc>
+setAttributes( element, { name : null } );
+	<cc>// toggle an attribute</cc>
+setAttributes( element, { name : true } );
+	<cc>// don't change the attribute </cc>
+setAttributes( element, { name : false } );
+</pre></figure>
+
+<p>Additional operations are possible with some additional logic:</p>
+
+<figure class="listing"><figcaption>Create an attribute</figcaption><pre>
+	<cc>// create an attribute (fails if the attribute exists)</cc>
+setAttributes( element, { name : ! element.hasAttribute( "name" ) && "string-value" } );
+	<cc>// update an attribute (fails if the attribute does not exist)</cc>
+setAttributes( element, { name : element.hasAttribute( "name" ) && "string-value" } );
+</pre></figure>
+
+<!--h2--Introduction--></div>
+
+<h2 cbc>Using the Component</h2><div>
+
+<p>The component consists of a single file:</p>
+
+<ul>
+<li>set-attributes.js</li>
+</ul>
+
+<p>For detailed notes on how to import these files into a document or aggregation script, refer to <a hef="../component-anatomy.htm#using">WebCAT Component Anatomy</a>.</p>
+
+<p>The function has the following signature:</p>
+
+<figure class="listing"><pre>
+function setAttributes ( element, attributes = { } , { 
+	prefix = configuration.attributeNamePrefix , 
+	kebabCase = configuration.convertToKebabCase, 
+	summaries = configuration.summaries 
+	} = { } )
+</pre></figure>
+
+<p>The <tt>element</tt> parameter references the HTML element to process. The <tt>attributes</tt> is used as an associative array to provide name and value parameters. The <tt>prefix</tt> parameter defines the string that is automatically prepended to the attribute name. The boolean <tt>kebabCase</tt> parameter determines whether the attribute name is converted to kebab case, or not. If <tt>summaries</tt> is true, each attribute value parameter will be converted into a summary object which carries the supplied value <em>and</em> the current value after the update. The caller can use this information to check what went wrong can can take appropriate action.</p>
+
+<p>Typical use cases can be found in the <a href="#examples">examples</a> section.</p>
+
+<!--h2--Using the Component--></div>
+
+<h2 cbc>Module Configuration</h2><div>
+
+<p>Module script parameters are passed in the query string of the import URL, as described in <a href="../component-anatomy.htm#passing-parameters">Anatomy of a WebCAT Component</a>.</p>
+
+<dl>
+<dt>attribute-name-prefix</dt><dd>
+	<p>String. Default value: "data-". Will be prepended to the attribute name.</p>
+	</dd>
+<dt>no-kebab-case</dt><dd>
+	<p>Boolean. Default value: False. If present, attribute names will <em>not</em> be converted to kebab case.</p>
+	</dd>
+<dt>value-summary</dt><dd>
+	<p>Boolan. Default value: false. If present, attribute value parameters will be converted to an update summay { beforeUpdate {string} , afterUpdate {string}, success {boolean} }.</p>
+	</dd>
+</dl>
+
+<!--h2--Module Configuration--></div>
+
+<h2 cbc>Examples</h2><div>
+
+<p>The most usual case only supplies attribute name and value pairs:</p>
+
+<figure class="listing"><figcaption>Setting attributes</figcaption><pre>
+&lt;div id="testTarget" data-name="John Doe"&gt;&lt;/div&gt;
+&lt;script type="module"&gt;
+<hi>import</hi> { setAttributes } from "path/to/<hi>set-attributes.js</hi>" ;
+<hi>setAttributes</hi>( testTarget, { name : "John Smith" , age : 42 , profession : "mechanic" } );
+
+log( testTarget.getAttribute( "data-name" ), testTarget.getAttribute( "data-age" ), testTarget.getAttribute( "data-profession" )) ; 
+
+for ( const attributeName in attributes ) {
+	log( `${ attributeName }` );
+	for ( const name in attributes[ attributeName ] ) {
+		log( `\u2003${ name }=${ attributes[ attributeName ][name] }` );
+		}
+	}
+&lt;/script&gt;
+</pre></figure>
+
+<p>Demo 1 is actually more elaborated,  you can check that in the developer tools:</p>
+
+<figure class="demo"><figcaption>A simple example (<a href="demo-1.htm" target="_blank">demo-1.htm</a>)</figcaption>
+<iframe class="content-height-observed" src="demo-1.htm"></iframe>
+</figure>
+
+<p>This demo runs through a number of test cases. Open the browser console and inspect the console output.</p>
+
+<figure class="demo"><figcaption>A simple example (<a href="demo-2.htm" target="_blank">demo-2.htm</a>)</figcaption>
+<iframe class="content-height-observed" src="demo-2.htm"></iframe>
+</figure>
+
+<!--h2--Examples--></div>
+
+<h2 cbc="collapsed">Implementation Details</h2><div>
+
+<p>The operations are encoded in the value type. This is a little bit unusual, but quite efficient.</p>
+
+<figure class="listing"><figcaption>Possible operations</figcaption><pre>
+	<cc>// create or update an attribute</cc>
+setAttributes( element, { name : "string-value" } );
+	<cc>// remove an attribute</cc>
+setAttributes( element, { name : null } );
+	<cc>// toggle an attribute</cc>
+setAttributes( element, { name : true } );
+	<cc>// don't change the attribute</cc>
+setAttributes( element, { name : false } );
+</pre></figure>
+
+<p>Here is the implementation.</p>
+
+<p>The function expects a reference to the <tt>element</tt> to be processed, and a list of name-value pairs in the <tt>attributes</tt> parameter. The additional (optional) parameters are set with a <a href="/javascript/operators/destructuring.htm">destructuring object assignment</a>. Default values are pulled from the module configuration:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+export function <hi>setAttributes</hi> ( element, attributes = { } , { 
+		prefix = configuration.attributeNamePrefix , 
+		kebabCase = configuration.convertToKebabCase, 
+		summaries = configuration.summaries 
+		} = { } ) {
+	...
+	return element;
+	}
+</pre></figure>
+
+<p>At the bottom, the <tt>element</tt> reference is returned to the caller, which enables chained function calls.</p>
+
+<p>Attribute entries are processed in a loop:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+	for ( let [name, value] of Object.entries( attributes )) {
+		...
+		}
+</pre></figure>
+
+<p>The loop variables <tt>name</tt> and <tt>value</tt> are assigned with a destructuring array assignment. The array is returned by the <tt>Object.entries()</tt> call.</p>
+
+<p>Inside the loop, the prefixed attribute name is calculated, the name is converted to kebab case, and the current attribute value is converted to an object and initialized with current values:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+		const prefixedName = prefix + name ;
+		if ( kebabCase ) name = toKebabCase( name );
+		if ( summaries ) attributes[ name ] = { prefixedName : prefixedName, previousValue : element.getAttribute( prefixedName ), suppliedValue : value } ;
+</pre></figure>
+
+<p>The next part is the actual attribute processing. Here we can see how the value type is translated into the appropriate operation:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+		if ( value === null ) element.removeAttribute( prefixedName );  <cc>// removes the attribute</cc>
+		else if ( value === true ) element.toggleAttribute( prefixedName );  <cc>// toggles the attribute</cc>
+		else if ( value !== false ) element.setAttribute( prefixedName, value );  <cc>// creates or updates the attribute</cc>
+</pre></figure>
+
+<p>Finally, the value summary is updated with the current attribute value:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+		if ( summaries ) attributes[ name ].currentValue = element.getAttribute( prefixedName ) ;
+</pre></figure>
+
+<p>It is recommended to inspect the <a href="">source code</a> of the module.</p>
+
+<!--h2--Implementation Details--></div>
+
+</body></html>

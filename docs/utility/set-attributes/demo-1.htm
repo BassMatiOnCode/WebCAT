@@ -1,0 +1,58 @@
+﻿<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-09-15" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-11-10" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-11-10" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="/inc/web-cat/page-structure/demo-page-1.css" />
+<script type="module" src="/inc/web-cat/page-structure/demo-page-1.js" ></script>
+<style>
+#output > p { margin : 0 }
+</style>
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox > Utility > setAttributes()" />
+<meta name="tags" content="web, content, autoring, toolbox, HTML, JavaScript, CSS, WebCAT, component, utility, demo, setAttributes" />
+<title>Set Attributes Demo 1(Web > Content Authoring Toolbox)</title>
+<meta name="description" content="" />
+
+</head><body>
+
+<div class="hide-if-hosted">
+<h1>Demo 1</h1><p class="subtitle">Simple example</p>
+</div>
+
+<div id="testTarget" data-name="John Doe"></div>
+<p><button id="startButton">Start</button></p>
+<div id="output" style="tab-size:10px"></div>
+
+<script type="module">
+import { setAttributes } from "../../code/utility/set-attributes/set-attributes-1.js" ;
+function log( ) {
+	const p = document.createElement( "P" );
+	output.append( p );
+	for ( const arg of arguments ) {
+		p.append( document.createTextNode( arg + "\t" ));
+		}
+	}
+startButton.addEventListener( "click" , ( ) => {
+	log( "Before" );
+	log( "\u2003" + testTarget.outerHTML );
+	const attributes = { name : "John Smith" , age : 42 , profession : "mechanic" } ;
+	setAttributes( testTarget, attributes, { summaries : true } );
+	log( "After" );
+	log( "\u2003" + testTarget.getAttribute( "data-name" ), testTarget.getAttribute( "data-age" ), testTarget.getAttribute( "data-profession" )) ; 
+	log( "\u2003" + testTarget.outerHTML );
+	for ( const attributeName in attributes ) {
+		log( `${ attributeName }` );
+		for ( const name in attributes[ attributeName ] ) {
+			log( `\u2003${ name }=${ attributes[ attributeName ][name] }` );
+			}
+		}
+	} ) ;
+</script>
+</body></html>
