@@ -1,0 +1,371 @@
+﻿<!DOCTYPE html>
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-08-07" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-11-12" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-11-12" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="/inc/web-cat/page-structure/tutorial-page-1.css" />
+<script type="module" src="/inc/web-cat/page-structure/tutorial-page-1.js" ></script>
+ 
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
+<meta name="tags" content="web, content, autoring, toolbox, HTML, JavaScript, CSS, WebCAT, component, utility, set, property" />
+<meta name="description" content="The set-properties component provides a versatile utility function to set multiple object properties with a single function call. It is used in the create-element component" />
+
+<title>Set Properties (Web > Content Authoring Toolbox > Utility)</title>
+
+</head><body>
+
+<h1>Set Properties</h1>
+<p class="subtitle">Setting multiple properties with a single function call.</p>
+
+<p id="pageAbstract"></p>
+
+<p>Although most examples on this page can be writen with simple object literal (curly braces) notation, there are reasons for <tt>setProperties()</tt> to exist. For example, <tt>createElement()</tt> utility function takes attribute and property lists as parameters and uses <tt>setProperties()</tt> to, well, set properties.</p>
+
+<h2 cbc>Using the Component</h2><div>
+
+<p>The component consists of a single file:</p>
+
+<ul>
+<li>set-properties.js</li>
+</ul>
+
+<p>For detailed notes on how to import these files into a document or aggregation script, refer to <a hef="../component-anatomy.htm#using">WebCAT Component Anatomy</a>.</p>
+
+<!--h2--Using the Component--></div>
+
+<h2 cbc>Module Configuration</h2><div>
+
+<p>Module script parameters are passed in the query string of the import URL, as described in <a href="../component-anatomy.htm#passing-parameters">Anatomy of a WebCAT Component</a>.</p>
+
+<dl>
+<dt>dots-are-no-path</dt><dd>
+	<p>If present, <tt>configuration.noPath</tt> is set true, or false otherwise.</p>
+	</dd>
+<dt>preserve-existing-properties</dt><dd>	
+	<p>If present, <tt>configuration.preserve</tt> is set true, or false otherwise.</p>
+	</dd>
+<dt>empty-values='undefined, null, "" '</dt><dd>
+	<p>Sets the <tt>configuration.emptyValue</tt> array from a list of comma separated values. Default is "undefined, null, ' '".</p>
+	</dd>
+</dl>
+
+<!--h2--Module Configuration--></div>
+
+<h2 cbc>Related Components</h2><div>
+
+<p>This component is related to other WebCAT components:</p>
+
+<dl>
+<dt><a href="../utility/create-element/create-element.htm">create-element</a></dt><dd>
+	<p>The function <tt>createElement()</tt> calls <tt>setProperties()</tt> to set element properties.</p>
+	</dd>
+</dl>
+
+<!--h2--Related Components--></div>
+
+<h2 cbc>Programming Reference</h2><div>
+
+<h3 cbc>setProperties( )</h3><div>
+
+<p>Sets one or more properties of an object.</p>
+
+<figure class="listing"><pre>
+function setProperties ( target, ...assignmentDescriptions )
+</pre></figure>
+
+<dl>
+<dt>target</dt><dd>
+	<p>{object} References the target object for the assignment(s).</p>
+	</dd>
+<dt>assignmentDescriptions</dt><dd>
+	<p>{ [ { PropertyDescriptor|Object ] } An assigment description is either a <a href="#property-descriptor">PropertyDescriptor</a> or a plain JavaScript <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a> containing one or more name-value pairs, which is sufficient for a simple assignment description.</p>
+	<p>A PropertyDescriptor parameter carries the property name, property value and optional additional parameters to control the assignment.</p> 
+	<p>A plain object is evaluated as associative array and carries <em>one or more</em> name-value pairs, which serve as "simple" assignment descriptions. Each member of a plain object is converted into a <tt>PropertyDescriptor</tt> for the actual assignment.</p>
+	<p>For more information, refer to the <a href="#property-descriptor">PropertyDescriptor</a>.</p>
+</dl>
+
+<p>For examples, see the <a href="#examples">examples section</a> in this document.</p>
+
+<!--h3----></div>
+
+<h3 cbc>PD</h3><div>
+
+<p>An alias for <a href="#property-descriptor">PropertyDescriptor</a>.</p>
+
+<!--h3--PD--></div>
+
+<h3 cbc id="property-descriptor">PropertyDescriptor</h3><div>
+
+<p>The <tt>PropertyDescriptor</tt> encapsulates the assignment information: Property name and value plus additional information. the property descriptor also provides the <tt>assign( )</tt> method.</p>
+
+<dl>
+<dt>PropertyDescriptor( )</dt><dd>
+	<p>Constructor function. Defines the following parameters:</p>
+	<dl>
+	<dt>propertyName</dt><dd>
+		<p>{String} The name of the property ("firstName") or a property access path ("address.street") with the familiar dot notation.</p>
+		</dd>
+	<dt>propertyValue</dt><dd>
+		<p>{any} The value to be assigned to the property. Can be of any type.</p>
+		</dd>
+	<dt>options</dt><dd>
+		<p>{Object, optional} Carries optional parameters as described below.</p>
+		</dd>
+	<dt>options.noPath</dt><dd>
+		<p>{Boolean=true} Prevents the interpretation of a property name with dots as access path. The result is an "unusual" property name that actually contains dots. </p>
+		</dd>
+	<dt>preserve</dt><dd>
+		<p>{Boolean=false} If the specified property already exists and is <em>not empty</em>, the value will <em>not</em> be assigned.</p>
+		</dd>
+	<dt>emptyValues</dt><dd>
+		<p>{ Array=[undefined, null, ''] } Defines the list of values to be considered "empty". By default, these are <tt>undefined</tt>, <tt>null</tt> and the empty string.</p>
+		<p>If the list is empty, <tt>Object.hasOwn( assignmentTarget, propertyName )</tt> must return false for the property value to be assigned successfully.</p>
+		</dd>
+	</dl></dd>
+<dt>assign( assignmentTarget )</dt><dd>
+	<p>Returns {undefined}. Assigns the specified value to the specified property of the assigment target. Parameters:</p>
+	<dl>
+	<dt>assignmentTarget</dt><dd>
+		<p>{ Object } The <tt>target</tt> object that was passed initially to <tt>setProperties()</tt>. The <tt>assignmentTarget</tt> changes the <tt>this.path</tt> array is not empty.</p>
+		<p>The implementation navigates tho the assignment target property, evaluates the <tt>this.preserve</tt> and determines whether the property can be considered "empty". If conditoins are met, the value is assigned to the property.</p>
+		</dd>
+	</dl>
+	</dd>
+</dl>
+
+<h4 cbc>Preservation of Exisiting Properties</h4><div>
+
+<p>Sometimes it is desirable to preserve existing property values, i. e., to not overwrite them. An overwrite protection can be engaged by setting the parameter <tt>preserve=true</tt>.</p>
+
+<p>There are several situations where the value can be assigned, event if the <tt>preserve</tt> flag is true:</p>
+
+<ol>
+<li><p>The property does not exits:</p><pre>
+	o = { name : "John" } ;
+	Object.hasOwn( o, "age" ) === false
+	</pre></li>
+	<p>This would <em>create</em> the property on the target object.</p>
+
+<li><p>The property exists, but is considered to be empty:</p><pre>
+	o = { name : "John" , age : undefined } ;
+	Object.hasOwn( o, "age" ) === true
+	empty = [ undefined, null, "" ] ;
+	empty.includes( o.age ) === true ;
+	</pre>
+	<p>In this case, the value of <tt>age</tt> is included in the <tt>empty</tt> values, the assignment can be be done.</p>
+	</li>
+<li><p>The property exists and contains a "non-empty" value:</p><pre>
+	o = { name : "John" , age : 42 } ;
+	Object.hasOwn( o, "age" ) === true
+	empty = [ undefined, null, "" ] ;
+	empty.includes( o.age ) === false ;
+	</pre>
+	<p>The value cannot be overwritten.</p>
+	</li>
+</ol>
+
+<!--h4--Preservation of Exisiting Properties--></div>
+
+<!--h3--Property Descriptor--></div>
+
+<!--h2--Programming Reference--></div>
+
+<h2 cbc id="examples">Examples</h2><div>
+
+<p>This section demonstrates how to use the <tt>setProperties()</tt> function.</p>
+
+<h3 cbc>Demo 1</h3><div>
+
+<p>In this example, <tt>setProperties()</tt> is called to set properties on an empty object. An empty <tt>target</tt> object is passed in the first parameter, the following parameters contain objects with a single name-value pair that describes a property assignment:</p>
+
+<figure class="listing"><figcaption>Setting properties on an empty object</figcaption><pre>
+import { <hi>setProperties</hi> } from "path/to/set-properties.js" ;
+const person = <hi>setProperties</hi>( { } , <cc>// target object</cc> 
+	{ name : "John Smith" } ,  <cc>// simple property descriptors</cc>
+	{ age : 42 } ,
+	{ address : {
+		street : "Lexington Road" , 
+		building : 124 , 
+		city : "Arlington" , 
+		zipcode : 12345
+		} } ,
+	} ) ;
+</pre></figure>
+
+<p>For example, the first assignment description specifies the property name "name" and the property value "John Smith".</p>
+
+<p>The result is assigned to the variable "person".</p>
+
+<p>This code prints the person object to the console:</p>
+
+<figure class="listing"><figcaption>Inspecting the result</figcaption><pre>
+console.log( person );
+	<cc>{
+	"name": "John Smith",
+	"age" : 42 , 
+	"address": {
+		"street": "Lexington Road",
+		"building": 124,
+		"city": "Arlington",
+		"zipcode": 12345
+	}	}</cc>
+</pre></figure>
+
+<p>The demo prints a JSON string to the screen.</p>
+
+<figure class="demo"><figcaption>A simple example (<a href="demo-1.htm" target="_blank">demo-1.htm</a>)</figcaption>
+<iframe class="content-height-observed" src="demo-1.htm"></iframe>
+</figure>
+
+<p>Note that each assignment description has been packed in a separate parameter. This is not necessary, as shown in the next example.</p>
+
+<!--h3--Demo 1--></div>
+
+<h3 cbc>Demo 2</h3><div>
+
+<p>In this example, multiple name-value pairs are packed into a single assignment description parameter. The effect is exactly the same as in the previous demo, but this notation is slightly more efficient.</p>
+
+<figure class="listing"><figcaption>Using a single assignment description parameter</figcaption><pre>
+import { setProperties } from "path/to/set-properties.js" ;
+const person = setProperties( { } , { 
+	name : "John Smith" , 
+	age : 42 ,
+	address : {
+		street : "Lexington Road" , 
+		building : 124 , 
+		city : "Arlington" , 
+		zipcode : 12345
+		} ,
+	} ) ;
+</pre></figure>
+
+<p>An empty object <tt>{ }</tt> is passed to the first parameter, and three name-value pairs are passed in the second parameter.</p>
+
+<figure class="demo"><figcaption>Combining assignment descriptions (<a href="demo-2.htm" target="_blank">demo-2.htm</a>)</figcaption>
+<iframe class="content-height-observed" src="demo-2.htm"></iframe>
+</figure>
+
+<!--h3--Demo 2--></div>
+
+<h3 cbc>Demo 3</h3><div>
+
+<p>This example demonstrates the use of a <em>property path</em> as property name to initialize <tt>address</tt> members:</p>
+
+<figure class="listing"><figcaption>Creating an object</figcaption><pre>
+import { setProperties } from "path/to/set-properties.js" ;
+const person = setProimport { setProperties } from "path/to/set-properties.js" ;
+perties( { } , { 
+	name : "John Smith" , 
+	address : { } , 
+	"address.street" : "Lexington Road" , 
+	"address.building" : 124 , 
+	"address.city" : "Arlington" , 
+	"address.zipcode" : 12345 
+	} ) ;
+</pre></figure>
+
+<p>Again, name-value pairs are passed in the second parameter. This time, the <tt>address</tt> property is created as empty object, and then filled from the following name-value pairs. Note that if the property name contains dots, the name must be enclosed in quotation marks. The dot changes the <em>property name</em> to a <em>property path</em>.</p>
+
+<figure class="demo"><figcaption>Using property paths (<a href="demo-3.htm" target="_blank">demo-3.htm</a>)</figcaption>
+<iframe class="content-height-observed" src="demo-3.htm"></iframe>
+</figure>
+
+<!--h3--Demo 3--></div>
+
+<h3 cbc>Demo 4</h3><div>
+
+<p>This example demonstrates using a <tt>PropertyDescriptor</tt> objects for a assignment description. The effect is the same as before, but <tt>PropertyDescriptors</tt> provide additional options, not available on simple name-value pairs.</p>
+
+<p>NOTE the import of the <tt>PD</tt> symbol, an alias for the <tt>PropertyDescriptor</tt>:</p>
+
+<figure class="listing"><figcaption>Creating an object</figcaption><pre>
+import { setProperties, <hi>PD</hi> } from "path/to/set-properties.js" ;
+const person = setProperties( { } , 
+	new PD( "name", "John Smith" ), 
+	new PD( "age", 42 ),
+	new PD( "address", { } ), 
+	new PD( "address.street", "Lexington Road 123" ), 
+	new PD( "address.city", "Arlington" ), 
+	new PD( "address.zipcode" : 12345 ), 
+	new PD( "address.building" : 123 )
+	} ) ;
+</pre></figure>
+
+<figure class="demo"><figcaption>Propery descriptors (<a href="demo-4.htm" target="_blank">demo-4.htm</a>)</figcaption>
+<iframe class="content-height-observed" src="demo-4.htm"></iframe>
+</figure>
+
+<!--h3--Demo 4--></div>
+
+<h3 cbc>Demo 5</h3><div>
+
+<p>This example demonstrates how to preserve existing property values.</p>
+
+<p>We start with a predefined object:</p>
+
+<figure class="listing"><figcaption>Creating an object</figcaption><pre>
+import { setProperties, PD } from "path/to/set-properties.js" ;
+const person = {
+	lastName : "Smith" ,
+	firstName : "Jane" ,
+	<hi>age : undefined</hi> ,
+	<hi>street : ""</hi>
+	}
+</pre></figure>
+
+<p>Then we call <tt>setProperties()</tt>. Some <tt>PropertyDescriptor</tt> constructors are supplied with a <tt>preserve</tt> option:</p>
+
+<figure class="listing"><figcaption>Creating an object</figcaption><pre>
+setProperties( person , 
+	new PD( "lastName", "Doe" ),
+	new PD( "firstName", "Jane", { <hi>preserve : true</hi> } ),
+	new PD( "age", 42, { preserve : true } ),
+	new PD( "street", "Lexington Road", { 
+		preserve : true, 
+		<hi>empty : [undefined, null] </hi>
+	} )
+) ;
+</pre></figure>
+
+<p>Last name will be overwritten, because <tt>preserve = false</tt> is the default setting. First name will <em>not</em> be overwritten because <tt>preserve : true</tt> has been specified in the options. In contrast, the age member <em>will</em> be overwritten because its initial value is <tt>undefined</tt>, and <tt>undefined</tt> is in the list of values considered to be <tt>empty</tt>.</p>
+
+<p>The <tt>street</tt> property has been initialized to an empty string, which would have been considered an "empty value" by default, but the <tt>option</tt> argument to the <tt>PropertyDescriptor</tt> constructor function call has a member <tt>empty</tt>, set to <tt>[undefined, null]</tt> &ndash; which effectively takes the empty string out of the list of values that are considered "empty". This causes the assignment to be skipped.</p>
+
+<p>Therefore we get the following console output:</p>
+
+<figure class="listing"><figcaption>Creating an object</figcaption><pre>
+console.log( person );
+	<cc>{ lastName: 'Doe', firstName: 'Jane', age: 42, street: '' }</cc>
+</pre></figure>
+
+<figure class="demo"><figcaption>Preserving properties (<a href="demo-5.htm" target="_blank">demo-5.htm</a>)</figcaption>
+<iframe class="content-height-observed" src="demo-5.htm"></iframe>
+</figure>
+
+<!--h3--Demo 5--></div>
+
+<!--h2--Examples--></div>
+
+<h2 cbc="collapsed">Implementation Details</h2><div>
+
+<p>Describe the inner workings of the component.</p>
+
+<figure class="listing"><figcaption>Caption</figcaption>
+<pre>
+<cc>// Comment</cc> 
+function <hi>name</hi> ( ) {
+	...
+	}
+</pre></figure>
+
+<!--h2--Implementation Details--></div>
+
+</body></html>

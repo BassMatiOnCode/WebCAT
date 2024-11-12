@@ -1,0 +1,52 @@
+﻿<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-09-15" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-11-12" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-11-12" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="/inc/web-cat/page-structure/demo-page-1.css" />
+<script type="module" src="/inc/web-cat/page-structure/demo-page-1.js" ></script>
+ 
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox > Utility" />
+<meta name="tags" content="web, content, autoring, toolbox, WebCAT, HTML, JavaScript, CSS, component, utility, demo, set, property" />
+<title>Demo 1 - Simple Assignment Descriptions (Web > Content Authoring Toolbox)</title>
+<meta name="description" content="This demo shows how to use simple assigment description objects to set properties on a target object." />
+
+</head><body>
+
+<div class="hide-if-hosted">
+<h1>Demo 1</h1><p class="subtitle">Simple Assignment Descriptions</p>
+</div>
+<button id="startButton">Start</button>
+<div id="messages"></div>
+
+<script type="module">
+</script>
+
+<script type="module">
+import { setProperties } from "../../code/utility/set-properties/set-properties-1.js" ;
+startButton.addEventListener( "click" , ( ) => {
+	const person = setProperties( { } , 
+		{ name : "John Smith" } ,
+		{ age : 42 } ,
+		{ address : {
+			street : "Lexington Road" , 
+			building : 124 , 
+			city : "Arlington" , 
+			zipcode : 12345
+			} } ,
+		} ) ;
+	const p=document.createElement( "P" );
+	messages.append( p );
+	p.innerText = JSON.stringify( person );
+	console.log( person );
+	} ) ;
+</script>
+
+</body></html>
