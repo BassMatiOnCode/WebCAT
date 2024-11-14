@@ -15,7 +15,7 @@
 <script type="module" src="/inc/web-cat/page-structure/tutorial-page-1.js" ></script>
  
 <meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
-<meta name="tags" content="web, content, autoring, toolbox, HTML, JavaScript, CSS, WebCAT, component, utility, set, property" />
+<meta name="tags" content="web, content, authoring, toolbox, HTML, JavaScript, CSS, WebCAT, component, utility, set, property" />
 <meta name="description" content="The set-properties component provides a versatile utility function to set multiple object properties with a single function call. It is used in the create-element component" />
 
 <title>Set Properties (Web > Content Authoring Toolbox > Utility)</title>
@@ -85,10 +85,10 @@ function setProperties ( target, ...assignmentDescriptions )
 <dt>target</dt><dd>
 	<p>{object} References the target object for the assignment(s).</p>
 	</dd>
-<dt>assignmentDescriptions</dt><dd>
-	<p>{ [ { PropertyDescriptor|Object ] } An assigment description is either a <a href="#property-descriptor">PropertyDescriptor</a> or a plain JavaScript <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a> containing one or more name-value pairs, which is sufficient for a simple assignment description.</p>
-	<p>A PropertyDescriptor parameter carries the property name, property value and optional additional parameters to control the assignment.</p> 
-	<p>A plain object is evaluated as associative array and carries <em>one or more</em> name-value pairs, which serve as "simple" assignment descriptions. Each member of a plain object is converted into a <tt>PropertyDescriptor</tt> for the actual assignment.</p>
+<dt id="assignment-description">assignmentDescriptions</dt><dd>
+	<p>{ [ { PropertyDescriptor|Object ] }, a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters">rest parameter</a>. An assigment description is either a plain JavaScript <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a> or <a href="#property-descriptor">PropertyDescriptor</a>.</p>
+	<p>A PropertyDescriptor parameter carries an assigment property name, a assignment property value and optional parameters to fine-control the assignment.</p> 
+	<p>A plain object is evaluated as associative array and carries <em>one or more</em> name-value pairs, which serve as "simple" assignment descriptions. Each member of a plain object is converted into a <tt>PropertyDescriptor</tt> before the actual assignment is executed.</p>
 	<p>For more information, refer to the <a href="#property-descriptor">PropertyDescriptor</a>.</p>
 </dl>
 

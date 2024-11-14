@@ -51,18 +51,13 @@ import * as initializer from "../../component-initializer/component-initializer-
 *		Initializes the WebCAT component.
 *
 */ export function init( searchparams = new URLSearchParams( )) {
-	// Update module configuration
-	configuration.attributeNamePrefix = searchparams.get( "attribute-name-prefix" ) || "data-" ;
+	// Initialize module configuration
+	configuration.attributeNamePrefix = searchparams.get( "attribute-name-prefix" ) || "" ;
 	configuration.convertToKebabCase = ! searchparams.has( "no-kebab-case" ) || true ;
 	configuration.valueSummary = searchparams.has( "value-summary" ) || false ;
 	}
 
 // * * * Module init code * * *
 
-export const configuration = {
-	attributeNamePrefix : undefined ,  // prefix will be added to the attribute name
-	convertToKebabCase : undefined ,  // attribute names will be converted to kebab case
-	valueSummary : undefined  // attribute values will be converted to attribute value summaries
-	} ;
-
+export const configuration = { } ;
 initializer.initComponent( init, import.meta.url );

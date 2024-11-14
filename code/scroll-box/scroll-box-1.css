@@ -1,0 +1,10 @@
+/* Documentation: .../web-toolbox/scroll-box/scroll-box.htm */
+
+.scroll-box.horizontal { border : 1px none silver ; height : 30px }
+.curtain { border : 1px solid silver ; height : 27px ; overflow : hidden ; transition : height 0.4s linear }
+.curtain:hover { height : 39px }
+.scrollbar-provider { padding : 2px ; overflow-x : auto ; scrollbar-color : #aaa #eee }
+.items { white-space : nowrap ; display : inline-block }
+.items > div { background-color : #ccc ; display : inline-block ; padding : 2px ; width : 20px ; text-align : center ; font-size : 20px }
+#curtain-001 { height : 31px }
+#curtain-001:hover { height : 43px }

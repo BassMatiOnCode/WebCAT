@@ -1,0 +1,32 @@
+/* Documentation: .../web-toolbox/scroll-box/scroll-box.htm */
+
+div.scrollbox {
+	border : 1px solid silver;
+	padding : 3px 3px ;
+	white-space : nowrap ;
+	position : relative ;
+	}
+div.scrollbox > div.content-box {
+	border : 1px solid red ;
+	padding : 5px ;
+	display : block ;
+	overflow : hidden ;
+	position : relative ;
+	width : calc( 100% - 60px ) ;
+	left : 25px ;
+	right : 25px ;
+	}
+div.scrollbox > div.arrow {
+	display : inline-block ;
+	position : absolute ;
+	width : 25px ;
+	vertical-align : text-bottom ;
+	border : 1px solid silver ;
+	text-align : center ;
+	}
+div.scrollbox :first-child {
+	left : 0px ;
+	}
+div.scrollbox :last-child {
+	right : 0px ;
+	}

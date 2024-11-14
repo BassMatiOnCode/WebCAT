@@ -15,8 +15,8 @@
 <script type="module" src="/inc/web-cat/page-structure/tutorial-page-1.js" ></script>
  
 <meta name="categories" content="Projects > Web > Content Authoring Toolbox > Utility" />
-<meta name="tags" content="web, content, autoring, toolbox, HTML, JavaScript, CSS, WebCAT, component, utility" />
-<meta name="description" content="The setAttributes() function is a versatile tool to create, update, set, remove and toggle multiple element attributes in a single function call." />
+<meta name="tags" content="web, content, authoring, toolbox, HTML, JavaScript, CSS, WebCAT, component, utility" />
+<meta name="description" content="The setAttributes() function is a versatile tool to create, update, set, remove and toggle multiple element attributes in a single hfunction call." />
 
 <title>Set Attributes (Web > Content Authoring Toolbox > Utility)</title>
 
@@ -87,7 +87,7 @@ function setAttributes ( element, attributes = { } , {
 
 <dl>
 <dt>attribute-name-prefix</dt><dd>
-	<p>String. Default value: "data-". Will be prepended to the attribute name.</p>
+	<p>String. Default value: "". The string will be prepended to the attribute name unless specified in a PropertyDescriptor. Useful value: "data-" creates standards conforming attribute names.</p>
 	</dd>
 <dt>no-kebab-case</dt><dd>
 	<p>Boolean. Default value: False. If present, attribute names will <em>not</em> be converted to kebab case.</p>
@@ -164,7 +164,7 @@ export function <hi>setAttributes</hi> ( element, attributes = { } , {
 	}
 </pre></figure>
 
-<p>At the bottom, the <tt>element</tt> reference is returned to the caller, which enables chained function calls.</p>
+<p>At the bottom, the <tt>element</tt> reference is returned to the caller, which makes it possible to chain additional function calls on the element.</p>
 
 <p>Attribute entries are processed in a loop:</p>
 

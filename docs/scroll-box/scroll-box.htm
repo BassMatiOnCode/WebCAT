@@ -15,14 +15,14 @@
 <script type="module" src="/inc/web-cat/page-structure/tutorial-page-1.js" ></script>
  
 <meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
-<meta name="tags" content="web, content, autoring, toolbox, HTML, JavaScript, CSS, WebCAT, component" />
-<meta name="description" content="" />
+<meta name="tags" content="web, content, authoring, toolbox, HTML, JavaScript, CSS, WebCAT, component, scroll, box" />
+<meta name="description" content="The scroll-box component is an alternative to the page-toolbar. It has a similar slim and unobtrusive design, and adds scrolling capabilities. It features a hidden scroll bar, which appears when the mouse pointer hovers over the element. Even with the scrollbar hidden, the content can be scrolled with a swiping gesture on touchscreens." />
 
-<title>title (Web > Content Authoring Toolbox)</title>
+<title>Scroll-Box (Web > Content Authoring Toolbox)</title>
 
 </head><body>
 
-<h1></h1>
+<h1>Scroll-Box</h1>
 
 <p id="pageAbstract"></p>
 
@@ -94,14 +94,18 @@
 
 <!--h2--Related Components--></div>
 
-<h2 cbc="collapsed">Examples</h2><div>
+<h2 cbc>Examples</h2><div>
 
 <p>This section provides examples of use.</p>
 
 <p>Describe what the example does.</p>
 
-<figure class="demo"><figcaption>A simple example (<a href="demo-1.htm target=_blank">demo-1.htm</a>)</figcaption>
-<iframe class="content-height-observed" src="demo-1.htm"></iframe>
+<figure class="demo"><figcaption>A simple example (<a href="demo-01.htm" target="_blank">demo-1.htm</a>)</figcaption>
+<iframe class="content-height-observed" src="demo-01.htm"></iframe>
+</figure>
+
+<figure class="demo"><figcaption>A simple example (<a href="/html/boxes/demos/demo-30.htm" target="_blank">demo-1.htm</a>)</figcaption>
+<iframe class="content-height-observed" src="/html/boxes/demos/demo-30.htm"></iframe>
 </figure>
 
 <p>Provide hints how to use or examine the example.</p>
@@ -109,6 +113,10 @@
 <!--h2--Examples--></div>
 
 <h2 cbc="collapsed">Implementation Details</h2><div>
+
+<p>The height of a button is 27px, so is the height of the items. The offsetHeight of the scrollbar-provider is 43px. This is the height including the scrollbar. scrollHeight and clientHeight are 31px. This is the height excluding the scrollbar.</p>
+
+<p>The idea is to inspect the scrollbar provider and determine its client height and scroll height. Then generate a new ID for the scrollbox curtain element and insert two new style rules into the generated stylesheet element.</p>
 
 <p>Describe the inner workings of the component.</p>
 

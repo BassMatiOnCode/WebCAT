@@ -1,6 +1,6 @@
 // Documentation: .../web-cat/fragment-loader/fragment-loader.htm 
 
-import { names as namespaces } from "../xml-namespaces/xml-namespaces-1.js" ;
+import { namespaces } from "../utility/xml-namespaces/xml-namespaces-1.js" ;
 import * as initializer from "../component-initializer/component-initializer.js" ;
 
 /**

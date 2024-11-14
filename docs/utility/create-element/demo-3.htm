@@ -1,0 +1,49 @@
+﻿<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-09-15" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-11-12" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-11-12" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="/inc/web-cat/page-structure/demo-page-1.css" />
+<script type="module" src="/inc/web-cat/page-structure/demo-page-1.js" ></script>
+
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox > Utility" />
+<meta name="tags" content="web, content, authoring, toolbox, WebCAT, HTML, JavaScript, CSS, component, utility, demo, set, property" />
+<title>Demo 3 - Using Property Descriptors (Web > Content Authoring Toolbox)</title>
+<meta name="description" content="" />
+
+</head><body>
+
+<div class="hide-if-hosted">
+<h1>Demo 3</h1><p class="subtitle">Using Property Descriptors</p>
+</div>
+
+<p><button id="startButton">Run</button></p>
+
+<script type="module">
+import { createElement } from "../../code/utility/create-element/create-element-1.js" ;
+import { PropertyDescriptor as PD } from "../../code/utility/set-properties/set-properties-1.js" ;
+let counter = 0;
+startButton.addEventListener( "click" , ( ) => {
+	document.body.insertBefore( createElement( "DIV", 
+		{ attributes : { id : "container-123" , class : "citation" , style : "border : 1px solid silver ; padding : 20px" } } ) , null )
+	.insertBefore( createElement( "P", { properties : [
+		new PD ( "innerText", "Emission of greenhouse gases must be reduced to zero by end of 2020" ),
+		new PD ( "style.marginTop" , "0" ) ,
+		new PD ( "style.marginBottom" , "5px" ) 		
+		] } ) , null )
+	.parentElement.insertBefore( createElement( "P", { properties : [ 
+		new PD ( "innerText" , "Of course, this is utopic." ) ,
+		new PD ( "style.marginTop" , "5px" ) ,
+		new PD ( "style.marginBottom" , "0px" )
+		] } ) , null );
+ 	} ) ;
+</script>
+
+</body></html>
