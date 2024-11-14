@@ -163,52 +163,122 @@ export function createElement ( tagname, options = { } )
 <!--h3--Configuration--></div>
 
 
-<h3 cbc></h3><div>
-
-<p></p>
-
-<figure class="demo"><figcaption>A simple example (<a href="demo-1.htm" target="_blank">demo-1.htm</a>)</figcaption>
-<iframe class="content-height-observed" src="demo-1.htm"></iframe>
-</figure>
-
-<p></p>
-
-<!--h3----></div>
-
 <!--h2--Programming Reference--></div>
 
 <h2 cbc>Examples</h2><div>
 
-<p></p>
 
-<h3 cbc>Example 1</h3><div>
+<h3 cbc>Demo 1</h3><div>
 
-<p></p>
+<p>The first demo shows how to use <tt>createElement()</tt> to set attributes and properties in the most simple way:</p>
 
 <figure class="listing"><figcaption></figcaption><pre>
+import { <hi>createElement</hi> } from "path/to/<hi>create-element.js</hi>" ;
+let counter = 0;
+startButton.addEventListener( "click" , ( ) => {
+	document.body.append( <hi>createElement</hi>( "P", { 
+		<hi>attributes</hi> : { id : `p-${ counter++ }` }, 
+		<hi>properties</hi> : { innerText : "hello, world" } 
+		} ) ) ; 
+	} ) ;
 </pre></figure>
+
+<p>Here is the live demo:</p>
 
 <figure class="demo"><figcaption> (<a href="demo-1.htm" target="_blank">demo-1.htm</a>)</figcaption>
 <iframe class="content-height-observed" src="demo-1.htm"></iframe>
 </figure>
 
-<p></p>
+<p>Inspect the document in the <tt>elements tab</tt> in the browser dev tools. Notice that a paragraph element has been inserted, and that it has an ID attribute and text content as specified in the code above.</p>
 
-<!--h3--Example 1--></div>
+<p>In the <tt>attributes</tt> member of the <tt>options</tt> parameter, an object with a single member has been supplied. This member describes the attribute name (ID) and its value. Similarly, the <tt>properties</tt> member carries an object that describes the <tt>innerText</tt> property and the string value to be assigned.</p>
+
+<!--h3--Demo 1--></div>
+
+<h3 cbc>Demo 2</h3><div>
+
+<p>This is a more complex demo, it shows how to chain multiple commands to create an element structure, a DIV with two Ps inside:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+import { <hi>createElement</hi> } from "path/to/<hi>create-element.js</hi>" ;
+let counter = 0;
+startButton.addEventListener( "click" , ( ) => {
+	document.body.insertBefore( <hi>createElement</hi>( "DIV", 
+		{ <hi>attributes</hi> : { 
+			id : "container-123" , 
+			class : "citation" , 
+			style : "border : 1px solid silver ; padding : 20px" 
+			} } ) , null )
+	.insertBefore( <hi>createElement</hi>( "P", { <hi>properties</hi> : { 
+		innerText : "Emission of greenhouse gases must be reduced to zero by end of 2020" ,
+		<hi>"</hi>style.marginTop<hi>"</hi> : "0px" ,
+		<hi>"</hi>style.marginBottom<hi>"</hi> : "5px" 		
+		} } ) , null )
+	.parentElement.insertBefore( <hi>createElement</hi>( "P", { <hi>properties</hi> : { 
+		innerText : "Of course, this is utopic." ,
+		"style.marginTop" : "5px" ,
+		"style.marginBottom" : "0px" 
+		} } ) , null );
+ 	} ) ;
+</pre></figure>
+
+<p>NOTE how <em>multiple attributes</em> were provided to the DIV element. Similarly, multiple properties were set on the two paragraph elements. Also note that the <tt>style.margin.top</tt> property uses a <em>property access path</em> with dots between path components. Dots in a member name are non-standard and must be surrounded by quotation marks.</p>
+
+<p>Here's the demo:</p>
+
+<figure class="demo"><figcaption> (<a href="demo-2.htm" target="_blank">demo-2.htm</a>)</figcaption>
+<iframe class="content-height-observed" src="demo-2.htm"></iframe>
+</figure>
+
+<p>Again, it is recommended to inspect the generated elements with the browser dev tools.</p>
+
+<!--h3--Demo 2--></div>
+
+<h3 cbc>Demo 3</h3><div>
+
+<p>This example demonstrates the use of <tt>PropertyDescriptor</tt> elements to set element properties. In order to use them, you must import the <tt>PropertyDescriptor</tt> constructor function from the <tt>set-properties.js</tt> module. The function has been given the alias <tt>PD</tt>:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+import { <hi>createElement</hi> } from "path/to/<hi>create-element.js</hi>" ;
+import { <hi>PropertyDescriptor</hi> as <hi>PD</hi> } from "path/to/<hi>set-properties.js</hi>" ;
+let counter = 0;
+startButton.addEventListener( "click" , ( ) => {
+	document.body.insertBefore( <hi>createElement</hi>( "DIV", { 
+		<hi>attributes</hi> : { 
+			id : "container-123" , 
+			class : "citation" , 
+			style : "border : 1px solid silver ; padding : 20px" 
+		} } ) , null )
+	.insertBefore( <hi>createElement</hi>( "P", { properties : <hb>[</hb>
+		new <hi>PD</hi> ( "innerText", "Emission of greenhouse gases must be reduced to zero by end of 2020" ),
+		new <hi>PD</hi> ( "style.marginTop" , "0" ) ,
+		new <hi>PD</hi> ( "style.marginBottom" , "5px" ) 		
+		<hb>]</hb> } ) , null )
+	.parentElement.insertBefore( createElement( "P", { properties : [ 
+		new PD ( "innerText" , "Of course, this is utopic." ) ,
+		new PD ( "style.marginTop" , "5px" ) ,
+		new PD ( "style.marginBottom" , "0px" )
+		] } ) , null );
+ 	} ) ;
+</pre></figure>
+
+<p>Multiple property descriptors must be packaged into an array. This is different from the previous examples.</p>
+
+<p>Here's the demo:</p>
+
+<figure class="demo"><figcaption> (<a href="demo-3.htm" target="_blank">demo-3.htm</a>)</figcaption>
+<iframe class="content-height-observed" src="demo-3.htm"></iframe>
+</figure>
+
+<p>Again, it is recommended to inspect the generated elements with the browser dev tools.</p>
+
+<!--h3--Demo 3--></div>
 
 <!--h2--Examples--></div>
 
 <h2 cbc="collapsed">Implementation Details</h2><div>
 
-<p></p>
-
-<figure class="listing"><figcaption></figcaption>
-<pre>
-<cc>// Comment</cc> 
-function <hi>name</hi> ( ) {
-	...
-	}
-</pre></figure>
+<p>For the implementation details, refer to the <a href="">set-properties.js</a> component implementation source.</p>
 
 <!--h2--Implementation Details--></div>
 

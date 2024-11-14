@@ -29,8 +29,6 @@
 <script type="module">
 import { createElement } from "../../code/utility/create-element/create-element-1.js" ;
 let counter = 0;
-// import { configuration as setAttributesConfiguration } from "../../code/utility/set-attributes/set-attributes-1.js" ;
-// setAttributesConfiguration.attributeNamePrefix = "" ; // prevent attributes from being prefixed
 startButton.addEventListener( "click" , ( ) => {
 	document.body.append( createElement( "P", { attributes : { id : `p-${counter++}` }, properties : { innerText : "hello, world" } } ) ) ; 
 	} ) ;

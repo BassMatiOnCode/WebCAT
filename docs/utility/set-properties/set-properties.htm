@@ -86,7 +86,7 @@ function setProperties ( target, ...assignmentDescriptions )
 	<p>{object} References the target object for the assignment(s).</p>
 	</dd>
 <dt id="assignment-description">assignmentDescriptions</dt><dd>
-	<p>{ [ { PropertyDescriptor|Object ] }, a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters">rest parameter</a>. An assigment description is either a plain JavaScript <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a> or <a href="#property-descriptor">PropertyDescriptor</a>.</p>
+	<p>{ [ { PropertyDescriptor | Object ] } This is a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters">rest parameters</a> array. An assigment description is either a plain JavaScript <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>, or <a href="#property-descriptor">PropertyDescriptor</a>.</p>
 	<p>A PropertyDescriptor parameter carries an assigment property name, a assignment property value and optional parameters to fine-control the assignment.</p> 
 	<p>A plain object is evaluated as associative array and carries <em>one or more</em> name-value pairs, which serve as "simple" assignment descriptions. Each member of a plain object is converted into a <tt>PropertyDescriptor</tt> before the actual assignment is executed.</p>
 	<p>For more information, refer to the <a href="#property-descriptor">PropertyDescriptor</a>.</p>
@@ -107,7 +107,7 @@ function setProperties ( target, ...assignmentDescriptions )
 <p>The <tt>PropertyDescriptor</tt> encapsulates the assignment information: Property name and value plus additional information. the property descriptor also provides the <tt>assign( )</tt> method.</p>
 
 <dl>
-<dt>PropertyDescriptor( )</dt><dd>
+<dt>PropertyDescriptor( propertyName, propertyValue, options )</dt><dd>
 	<p>Constructor function. Defines the following parameters:</p>
 	<dl>
 	<dt>propertyName</dt><dd>
@@ -122,20 +122,23 @@ function setProperties ( target, ...assignmentDescriptions )
 	<dt>options.noPath</dt><dd>
 		<p>{Boolean=true} Prevents the interpretation of a property name with dots as access path. The result is an "unusual" property name that actually contains dots. </p>
 		</dd>
-	<dt>preserve</dt><dd>
+	<dt>options.preserve</dt><dd>
 		<p>{Boolean=false} If the specified property already exists and is <em>not empty</em>, the value will <em>not</em> be assigned.</p>
 		</dd>
-	<dt>emptyValues</dt><dd>
+	<dt>options.emptyValues</dt><dd>
 		<p>{ Array=[undefined, null, ''] } Defines the list of values to be considered "empty". By default, these are <tt>undefined</tt>, <tt>null</tt> and the empty string.</p>
 		<p>If the list is empty, <tt>Object.hasOwn( assignmentTarget, propertyName )</tt> must return false for the property value to be assigned successfully.</p>
 		</dd>
 	</dl></dd>
 <dt>assign( assignmentTarget )</dt><dd>
-	<p>Returns {undefined}. Assigns the specified value to the specified property of the assigment target. Parameters:</p>
+	<p>This method performs the actual assignment. Assigns the specified value to the specified property of the assigment target. Parameters:</p>
 	<dl>
 	<dt>assignmentTarget</dt><dd>
 		<p>{ Object } The <tt>target</tt> object that was passed initially to <tt>setProperties()</tt>. The <tt>assignmentTarget</tt> changes the <tt>this.path</tt> array is not empty.</p>
 		<p>The implementation navigates tho the assignment target property, evaluates the <tt>this.preserve</tt> and determines whether the property can be considered "empty". If conditoins are met, the value is assigned to the property.</p>
+		</dd>
+	<dt>returns</dt><dd>
+		<p>{ undefined }</p>
 		</dd>
 	</dl>
 	</dd>
