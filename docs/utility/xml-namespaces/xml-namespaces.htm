@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-08-07" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-11-14" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-11-14" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="/inc/web-cat/page-structure/tutorial-page-1.css" />
+<script type="module" src="/inc/web-cat/page-structure/tutorial-page-1.js" ></script>
+ 
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox > Utility" />
+<meta name="tags" content="web, content, authoring, toolbox, HTML, JavaScript, CSS, WebCAT, component, utility, XML, namespace" />
+<meta name="description" content="This component provides a map for XML namespace strings as defined by the W3C." />
+
+<title>XML Namespaces (Web > Content Authoring Toolbox)</title>
+
+</head><body>
+
+<h1>XML Namespaces</h1>
+<p class="subtitle">Provides a map of XML namespace strings</p>
+
+<p id="pageAbstract"></p>
+
+<p>Shorthand key values are associated with the official namespace strings. For details, refer to the <a href="#implementation-details">implementation details</a> section in this document.</p>
+
+<h2 cbc>Using the Component</h2><div>
+
+<p>The component consists of a single file:</p>
+
+<ul>
+<li>xml-namespaces.js</li>
+</ul>
+
+<p>For detailed notes on how to import these files into a document or aggregation script, refer to <a hef="../component-anatomy.htm#using">WebCAT Component Anatomy</a>.</p>
+
+<!--h2--Using the Component--></div>
+
+<h2 cbc id="implementation-details">Implementation Details</h2><div>
+
+<p>The script module publishes a single export:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+export const <hi>namespaces</hi> = {
+	html : "" ,
+	mathml : "http://www.w3.org/1998/Math/MathML" ,
+	svg : "http://www.w3.org/2000/svg" ,
+	xhtml : "http://www.w3.org/1999/xhtml" ,
+	xlink : "http://www.w3.org/1999/xlink" ,
+	xml : "http://www.w3.org/XML/1998/namespace" ,
+	xmlns : "http://www.w3.org/2000/xmlns/"
+	} ;
+</pre></figure>
+
+<!--h2--Implementation Details--></div>
+
+</body></html>
