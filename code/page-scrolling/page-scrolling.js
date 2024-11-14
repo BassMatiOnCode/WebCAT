@@ -1,1 +1,1 @@
-highlight-link-target-1.js
+page-scrolling-1.js
