@@ -4,9 +4,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="template-info" file-name="empty.htm" version="2024-08-07" editor="USP" />
 <meta name="author" content="USP" />
-<meta name="creation-date" content="2024-11-08" />
+<meta name="creation-date" content="2024-11-14" />
 <meta name="editor" content="USP" />
-<meta name="change-date" content="2024-11-08" />
+<meta name="change-date" content="2024-11-15" />
 <meta name="version" content="1" />
 <meta name="sectionTitle" content="../title.svg" />
 
@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="/inc/web-cat/page-structure/tutorial-page-1.css" />
 <script type="module" src="/inc/web-cat/page-structure/tutorial-page-1.js" ></script>
  
-<meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox > Scroll Box" />
 <meta name="tags" content="web, content, authoring, toolbox, HTML, JavaScript, CSS, WebCAT, component, scroll, box" />
 <meta name="description" content="The scroll-box component is an alternative to the page-toolbar. It has a similar slim and unobtrusive design, and adds scrolling capabilities. It features a hidden scroll bar, which appears when the mouse pointer hovers over the element. Even with the scrollbar hidden, the content can be scrolled with a swiping gesture on touchscreens." />
 
@@ -26,68 +26,30 @@
 
 <p id="pageAbstract"></p>
 
+<p>The component provides a dynamic horizontal scroll-bar that appears when the mouse pointer hovers over it. On touchscreen devices, the content can be scrolled horizontally withou the scrollbar showing up.</p>
+
 <h2 cbc>Using the Component</h2><div>
 
 <p>The component consists of two files:</p>
 
 <ul>
-<li>name.css</li>
-<li>name.js</li>
+<li>scroll-box.css</li>
+<li>scroll-box.js</li>
 </ul>
 
 <p>For detailed notes on how to import these files into a document or aggregation script, refer to <a hef="../component-anatomy.htm#using">WebCAT Component Anatomy</a>.</p>
 
+<p>See the <a href="#examples">examples chapter</a> for more information on how to use this component.</p>
+
 <!--h2--Using the Component--></div>
-
-<h2 cbc>Module Configuration</h2><div>
-
-<p>Module script parameters are passed in the query string of the import URL, as described in <a href="../component-anatomy.htm#passing-parameters">Anatomy of a WebCAT Component</a>.</p>
-
-<dl>
-<dt>name</dt><dd>
-	<p>desciption</p>
-	</dd>
-</dl>
-
-<!--h2--Module Configuration--></div>
-
-<h2 cbc>Event Listeners</h2><div>
-
-<p>The component adds an <tt>event-name</tt> listener to the <tt>document</tt> element to provide services to other components. The <tt>CustomEvent.detail</tt> object carries the following members:</p>
-
-<dl>
-<dt>name</dt><dd>
-	<p>desciption</p>
-	</dd>
-</dl>
-
-<!--h2--Event Listeners--></div>
-
-<h2 cbc>Events</h2><div>
-
-<p>The component dispatches the following events:</p>
-
-<dl>
-<dt>name</dt><dd>
-	<p>Dispatched to: </p>
-	<p>Event details:</p>
-	<dl>
-	<dt>name</dt><dd>
-		<p></p>
-		</dd>
-	</dl>
-	</dd>
-</dl>
-
-<!--h2--Event Listeners--></div>
 
 <h2 cbc>Related Components</h2><div>
 
 <p>This component is related to other WebCAT components:</p>
 
 <dl>
-<dt><a href="../name/name.htm">name</a></dt><dd>
-	<p>Describe the relationship to that component.</p>
+<dt><a href="../name/name.htm"></a></dt><dd>
+	<p></p>
 	</dd>
 </dl>
 
@@ -95,39 +57,212 @@
 
 <h2 cbc>Examples</h2><div>
 
-<p>This section provides examples of use.</p>
+<p>We begin with the HTML structure. Provide a container (<tt>DIV</tt>) element and decorate it with the class names <tt>horizontal scroll-box</tt> so that the component's <tt>init()</tt> function can find and process it. Then add some elements. Here we use simple boxes with letters:</p>
 
-<p>Describe what the example does.</p>
+<figure class="listing"><figcaption>Initial HTML structure</figcaption><pre>
+&lt;<hi>div</hi> class="<hi>horizontal scroll-box</hi>"&gt;
+	&lt;div&gt;A&lt;/div&gt;
+	&lt;div&gt;B&lt;/div&gt;
+		&vellip;
+	&lt;div&gt;T&lt;/div&gt;
+	&lt;div&gt;U&lt;/div&gt;
+	&lt;/div&gt;
+</pre></figure>
+
+<p>After processing, the structure looks like this:</p>
+
+<figure class="listing"><figcaption>Initial HTML structure</figcaption><pre>
+&lt;div class="horizontal scroll-box"&gt;  <cc>&lt;!-- Scrollbox container --&gt;</cc>
+	&lt;div id="curtain-1"&gt;  <cc>&lt;!-- Curtain --&gt;</cc>
+		&lt;div&gt;  <cc>&lt;!-- Scrollbar provider --&gt;</cc>
+			&lt;div&gt;  <cc>&lt;!-- item container --&gt;</cc>
+				&lt;div&gt;A&lt;/div&gt;
+				&lt;div&gt;B&lt;/div&gt;
+					&vellip;
+				&lt;div&gt;T&lt;/div&gt;
+				&lt;div&gt;U&lt;/div&gt;
+				&lt;/div&gt;
+			&lt;/div&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
+</pre></figure>
+
+<p>The <tt>init()</tt> code has added three more container <tt>DIV</tt>s. One of them is a "curtain" and got a unique id. But there more than meets the eye: <tt>Init()</tt> has created a <tt>style</tt> element at the end of the document <tt>head</tt>, which appears to be empty in the browser dev tools. But there are two rules, which provide a <tt>height</tt> style value for the curtain element. There is no text hat has been parsed, the rules have been added programmatically by <tt>init()</tt>.</p>
+
+<p>Here is the demo:</p>
 
 <figure class="demo"><figcaption>A simple example (<a href="demo-01.htm" target="_blank">demo-1.htm</a>)</figcaption>
 <iframe class="content-height-observed" src="demo-01.htm"></iframe>
 </figure>
 
-<p>This is a demo from the Boxes section of the HTML tutorial: It pretty much outlines what is </p>
-
-<figure class="demo"><figcaption>A simple example (<a href="/html/boxes/demos/demo-30.htm" target="_blank">demo-1.htm</a>)</figcaption>
-<iframe class="content-height-observed" src="/html/boxes/demos/demo-30.htm"></iframe>
-</figure>
-
-<p>Provide hints how to use or examine the example.</p>
-
 <!--h2--Examples--></div>
 
-<h2 cbc="collapsed">Implementation Details</h2><div>
+<h2 cbc="xcollapsed">Implementation Details</h2><div>
 
-<p>The height of a button is 27px, so is the height of the items. The offsetHeight of the scrollbar-provider is 43px. This is the height including the scrollbar. scrollHeight and clientHeight are 31px. This is the height excluding the scrollbar.</p>
+<p>The idea is to provide a set of four nested containers, each providing specific functionality:</p>
 
-<p>The idea is to inspect the scrollbar provider and determine its client height and scroll height. Then generate a new ID for the scrollbox curtain element and insert two new style rules into the generated stylesheet element.</p>
+<dl>
+<dt>The scroll box, the outermost container</dt><dd>
+	<p>Essentially invisible, but has a static height and determines the (static) layout height of the entire scroll-box stack, event if the content overflows the container at the bottom.</p>
+	</dd>
+<dt>The curtain box</dt><dd>
+	<p>Provides the curtain effect and the border. If the mouse pointer hovers over the curtain box, a CSS rule expands the height so that the horizontal scrollbar becomes visible.</p>
+	</dd>
+<dt>The scrollbar provider</dt><dd>
+	<p>A container with a <tt>display:block</tt> style. Expands to occupy the entire window width and provides the horizontal scroll-bar, if necessary.</p>
+	</dd>
+<dt>The element box, the innermost container</dt><dd>
+	<p>Contains the items. Items determine the box height. The element has a <tt>white-space:nowrap</tt> style, thus overflows the window to the right if there are more items that fit into the window.</p>
+	</dd>
+</dl>
 
-<p>Describe the inner workings of the component.</p>
+<p>The <tt>clientHeight</tt> property of an element represents its height <em>whithout</em> scroll-bar, the <tt>offsetHeight</tt> represents the height with the scrollbar <em>included</em>. These values on the scrollbar provider are used to create CSS rules for the height of the curtain element.</p>
 
-<figure class="listing"><figcaption>Caption</figcaption>
-<pre>
-<cc>// Comment</cc> 
-function <hi>name</hi> ( ) {
-	...
+<p>The height of the scrollbar provider is driven by the height of items in the item container, and therefore must be considered "dynamic". Therefore a <tt>SizeObserver</tt> is set up in <tt>init()</tt> to monitor the scrollbar provider. If <tt>clientHeight</tt> or <tt>offsetHeight</tt> change, the CSS rules for the curtain box are rewritten accordingly.</p>
+
+<h3 cbc>Init()</h3><div>
+
+<figure class="listing"><figcaption>The component init function</figcaption><pre>
+export function init( ) {
+	<cc>// Find scroll-box item containers and add the functional containers</cc>
+	for ( const scrollbox of document.querySelectorAll( ".horizontal.scroll-box" )) {
+		<cc>// Save references to the items</cc>
+		const items = Array.from( scrollbox.childNodes );
+		<cc>// Create the container stack</cc>
+		const curtain = createElement( "DIV" , { attributes : { 
+			<hi>id: `curtain-${ (++curtainID).toString().padStart( 3, "0" ) }` }</hi> 
+			} );
+		scrollbox.append( curtain );
+		const scrollbarProvider = createElement( "DIV" ); 
+		curtain.append( scrollbarProvider );
+		const itemContainer = createElement( "DIV" ); 
+		scrollbarProvider.append( itemContainer );
+		itemContainer.append( ...items );  <cc>// this moves the items to a new parent</cc>
+		<cc>// Create the CSS height rules for the curtain box</cc>
+		createHeightRule( scrollbarProvider, "clientHeight" );
+		createHeightRule( scrollbarProvider, "offsetHeight", ":hover" );
+		<cc>// Monitor the scrollbar provider height</cc>
+		createObserver( scrollbarProvider );
+		<cc>// It is now safe to show the box.</cc>
+		scrollbox.style.visibility = "visible" ;
+		}
 	}
 </pre></figure>
+
+<p>The accompanying stylesheet initially sets the scrollbox visibility style to hidden, because elements might be shown vertically. When the HTML structures are set up, the related CSS rules are in effect, and we can show the scrollbox element.</p>
+
+<p>Note that the curtain element gets a unique ID, which is required for the CSS height rules that are created at the bottom.</p>
+
+<!--h3--Init()--></div>
+
+<h3 cbc>The WebCAT Style Element</h3><div>
+
+<p>Height rules for the curtain box require that a special <tt>STYLE</tt> element exists in the <tt>document.head</tt> section, which provides a <a href="https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet">CSSStyleSheet</a> member. It is dedicated to specific dynamic style rules, and created in the module-level init code:</p>
+
+<figure class="listing"><figcaption>The WebCAT style element</figcaption><pre>
+const stylesheet = (( ) => {
+	const style = document.getElementById( "webcatStylesheet" ) || document.createElement( "STYLE" ) ;
+	if ( ! style.id ) {
+		style.id = "webcatStylesheet" ;
+		document.head.append( style );
+		}
+	return style.sheet ;
+	} ) ( ) ; // The CSSStyleSheet of the webcatStylesheet element.
+</pre></figure>
+
+<p>An anonymous function searches for a STYLE element with the ID "webcatStylesheet". If it does not exist, it is created. The function returns its <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLStyleElement/sheet"><tt>sheet</tt></a> member, which is then assigned to the module-level variable named "<tt>stylesheet</tt>". </p>
+
+<p>Then we need a counter for generating unique curtain element IDs:</p>
+
+<figure class="listing"><figcaption>Curtain ID generator</figcaption><pre>
+let curtainID = 0 ;  <cc>// A couter to create unique IDs for the curtain elements.</cc>
+</pre></figure>
+
+<!--h3--The WebCAT Style Element--></div>
+
+<h3 cbc>Creating CSS Rules for the Curtains</h3><div>
+
+<p>Both rules are created with a single function:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+function createHeightRule( scrollbarProvider, heightSelector, selectorAppendix="", index ) {
+	stylesheet.insertRule( `${ createSelector( scrollbarProvider, selectorAppendix) } { height : ${ scrollbarProvider[ heightSelector ] }px }` , index ) ;
+	}
+</pre></figure>
+
+<p>The <tt>heightSelector</tt> string is either "clientHeight" or "offsetHeight". <tt>selectorAppendix</tt> is either the empty string or ":hover". The function calls <tt>createSelector()</tt>:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+function createSelector( scrollbarProvider, appendix="" ) {
+	return `#${ scrollbarProvider.parentElement.id }${ appendix }` ;
+	}
+</pre></figure>
+
+<p>This function reads the curtain element ID and generates one of two CSS selector strings:</p>
+
+<pre>
+#curtain-001
+#curtain-001:hover
+</pre>
+
+<p>In the end, we get two CSS rules:</p>
+
+<pre>
+#curtain-001 { height: 31px; }
+#curtain-001:hover { height: 43px; }
+</pre>
+
+<p>As we have seen, the scrollbar provider height is dynamic, so these rules must be rewritten if its height changes.</p>
+
+<!--h3--Creating CSS Rules for the Curtains--></div>
+
+<h3 cbc>Monitoring the Scrollbar Provider Height</h3><div>
+
+<p>We setup a <a href="https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver">ResizeObserver</a> in a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures">closure structure</a>:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+function createObserver( scrollbarProvider ) {
+	<cc>// variables for recent height values</cc>
+	let clientHeight = scrollbarProvider.clientHeight ;
+	let offsetHeight = scrollbarProvider.offsetHeight ;
+	new ResizeObserver( entries => { 
+		&vellip;
+		} ).observe( scrollbarProvider ); // immediately start monitoring
+	}
+</pre></figure>
+
+<p>The function creates two local variables to store <tt>clientHeight</tt> and <tt>offsetHeigt</tt> of the scrollbox provider. Then we create a <tt>ResizeObserver</tt> and pass a callback function to the constructor. This callback function is executed when a scrollbar size change is detected.</p>
+
+<p>The callback function compares the current versus recent height values. If they are different, the related CSS rule is rewritten. The references to the function-scoped variables keeps them alive: </p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+		const entry = entries[ 0 ] ;
+		if ( <hi>entry.target.offsetHeight !== offsetHeight</hi> ) { 
+			offsetHeight = scrollbarProvider.offsetHeight ;
+			const selector = createSelector( scrollbarProvider, "<hi>:hover</hi>" );
+			const index = <hi>findStyleRuleIndex</hi>( selector ) ;
+			if ( index === -1 ) return console.error( "CSS rule not found." , selector ) ;
+			stylesheet.<hi>deleteRule</hi>( index );
+			<hi>createHeightRule</hi>( scrollbarProvider, "offsetHeight", <hi>":hover"</hi>, index );
+			}
+</pre></figure>
+
+<p>The code above detects changes in the <tt>offsetHeight</tt>, which is the case if the need for a horizontal scrollbar arises or vanishes. The code beneath does the same for a change of the <tt>clientHeight</tt>. This is the case if the maximum height of all items changes:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+		if ( entry.target.<hi>clientHeight</hi> !== clientHeight ) { 
+			clientHeight = scrollbarProvider.clientHeight ;
+			const selector = <hi>createSelector</hi>( scrollbarProvider );
+			const index = findStyleRuleIndex( selector ) ;
+			if ( index === -1 ) return console.error( "CSS rule not found." , selector ) ;
+			stylesheet.deleteRule( index );
+			createHeightRule( scrollbarProvider, "clientHeight", <hi>""</hi>, index );
+			}
+</pre></figure>
+
+<p>Both parts are very similar, the differences are the variables compared, and the CSS selectors.</p>
+
+<!--h3--Monitoring the Scrollbar Provider Height--></div>
 
 <!--h2--Implementation Details--></div>
 
