@@ -23,6 +23,7 @@
 </head><body>
 
 <h1>Scroll-Box</h1>
+<p class="subtitle">Horizontally Scrolling Container With Hidden Scroll-Bar</p>
 
 <p id="pageAbstract"></p>
 
@@ -87,7 +88,22 @@
 	&lt;/div&gt;
 </pre></figure>
 
-<p>The <tt>init()</tt> code has added three more container <tt>DIV</tt>s. One of them is a "curtain" and got a unique id. But there more than meets the eye: <tt>Init()</tt> has created a <tt>style</tt> element at the end of the document <tt>head</tt>, which appears to be empty in the browser dev tools. But there are two rules, which provide a <tt>height</tt> style value for the curtain element. There is no text hat has been parsed, the rules have been added programmatically by <tt>init()</tt>.</p>
+<p>The <tt>init()</tt> code has added three more container <tt>DIV</tt>s. One of them is a "curtain" and got a unique id. But there more than meets the eye: <tt>Init()</tt> has created a <tt>style</tt> element at the end of the document <tt>head</tt>, which appears to be empty in the browser dev tools. But there are two rules, which provide a <tt>height</tt> style value for the curtain element. There is no text to be parsed, the rules have been added programmatically by <tt>init()</tt>.</p>
+
+<p>We need a style rule to control the appearance and most importantly, the height of items:</p>
+
+<figure class="listing"><figcaption>Item style</figcaption><pre>
+	<cc>/* items */</cc>
+.scroll-box.horizontal > div > div > div > div { 
+	background-color : #ccc ; 
+	display : inline-block ; 
+	padding : 2px 8px ; 
+	width : 20px ; 
+	text-align : center ; 
+	font-size : 20px 
+	}
+</pre></figure>
+
 
 <p>Here is the demo:</p>
 
@@ -137,7 +153,8 @@ export function init( ) {
 		curtain.append( scrollbarProvider );
 		const itemContainer = createElement( "DIV" ); 
 		scrollbarProvider.append( itemContainer );
-		itemContainer.append( ...items );  <cc>// this moves the items to a new parent</cc>
+		<cc>// Moves items to their new parent</cc>
+		itemContainer.append( ...items );  
 		<cc>// Create the CSS height rules for the curtain box</cc>
 		createHeightRule( scrollbarProvider, "clientHeight" );
 		createHeightRule( scrollbarProvider, "offsetHeight", ":hover" );
@@ -155,38 +172,15 @@ export function init( ) {
 
 <!--h3--Init()--></div>
 
-<h3 cbc>The WebCAT Style Element</h3><div>
-
-<p>Height rules for the curtain box require that a special <tt>STYLE</tt> element exists in the <tt>document.head</tt> section, which provides a <a href="https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet">CSSStyleSheet</a> member. It is dedicated to specific dynamic style rules, and created in the module-level init code:</p>
-
-<figure class="listing"><figcaption>The WebCAT style element</figcaption><pre>
-const stylesheet = (( ) => {
-	const style = document.getElementById( "webcatStylesheet" ) || document.createElement( "STYLE" ) ;
-	if ( ! style.id ) {
-		style.id = "webcatStylesheet" ;
-		document.head.append( style );
-		}
-	return style.sheet ;
-	} ) ( ) ; // The CSSStyleSheet of the webcatStylesheet element.
-</pre></figure>
-
-<p>An anonymous function searches for a STYLE element with the ID "webcatStylesheet". If it does not exist, it is created. The function returns its <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLStyleElement/sheet"><tt>sheet</tt></a> member, which is then assigned to the module-level variable named "<tt>stylesheet</tt>". </p>
-
-<p>Then we need a counter for generating unique curtain element IDs:</p>
-
-<figure class="listing"><figcaption>Curtain ID generator</figcaption><pre>
-let curtainID = 0 ;  <cc>// A couter to create unique IDs for the curtain elements.</cc>
-</pre></figure>
-
-<!--h3--The WebCAT Style Element--></div>
-
 <h3 cbc>Creating CSS Rules for the Curtains</h3><div>
 
 <p>Both rules are created with a single function:</p>
 
 <figure class="listing"><figcaption></figcaption><pre>
-function createHeightRule( scrollbarProvider, heightSelector, selectorAppendix="", index ) {
-	stylesheet.insertRule( `${ createSelector( scrollbarProvider, selectorAppendix) } { height : ${ scrollbarProvider[ heightSelector ] }px }` , index ) ;
+import * as <hi>dynamcStyles</hi> from "path/to/<hi>dynamic-styles.js</hi>" ;
+
+function createHeightRule( scrollbarProvider, heightSelector, selectorAppendix="" ) {
+	dynamcStyles.<hi>insertRule</hi>( `${ createSelector( scrollbarProvider, selectorAppendix) }` , `height : ${ scrollbarProvider[ heightSelector ] }px` ) ;
 	}
 </pre></figure>
 
@@ -238,12 +232,10 @@ function createObserver( scrollbarProvider ) {
 <figure class="listing"><figcaption></figcaption><pre>
 		const entry = entries[ 0 ] ;
 		if ( <hi>entry.target.offsetHeight !== offsetHeight</hi> ) { 
+			<cc>// Update recent value</cc>
 			offsetHeight = scrollbarProvider.offsetHeight ;
-			const selector = createSelector( scrollbarProvider, "<hi>:hover</hi>" );
-			const index = <hi>findStyleRuleIndex</hi>( selector ) ;
-			if ( index === -1 ) return console.error( "CSS rule not found." , selector ) ;
-			stylesheet.<hi>deleteRule</hi>( index );
-			<hi>createHeightRule</hi>( scrollbarProvider, "offsetHeight", <hi>":hover"</hi>, index );
+			<cc>// Update style rule</cc>
+			<hi>createHeightRule</hi>( scrollbarProvider, "offsetHeight", ":hover" );
 			}
 </pre></figure>
 
@@ -251,18 +243,81 @@ function createObserver( scrollbarProvider ) {
 
 <figure class="listing"><figcaption></figcaption><pre>
 		if ( entry.target.<hi>clientHeight</hi> !== clientHeight ) { 
+			<cc>// Update recent value</cc>
 			clientHeight = scrollbarProvider.clientHeight ;
-			const selector = <hi>createSelector</hi>( scrollbarProvider );
-			const index = findStyleRuleIndex( selector ) ;
-			if ( index === -1 ) return console.error( "CSS rule not found." , selector ) ;
-			stylesheet.deleteRule( index );
-			createHeightRule( scrollbarProvider, "clientHeight", <hi>""</hi>, index );
+			<cc>// Update style rule</cc>
+			<hi>createHeightRule</hi>( scrollbarProvider, "clientHeight", ":hover" );
 			}
 </pre></figure>
 
 <p>Both parts are very similar, the differences are the variables compared, and the CSS selectors.</p>
 
 <!--h3--Monitoring the Scrollbar Provider Height--></div>
+
+<h3 cbc>Stylesheet Rules</h3><div>
+
+<p>The rules have nostly structural selectors. This avoids cluttering the CSS namespace.</p>
+
+<p>The rules for the scroll-box define the component height in the document:</p>
+<figure class="listing"><figcaption>Scroll-box style rule</figcaption><pre>
+	<cc>/* scroll-box */</cc>
+.scroll-box.horizontal { 
+	border : 1px none silver ; 
+	<hi>height</hi> : 30px ; 
+	visibility : hidden 
+	}
+</pre></figure>
+
+<p>The visibility is set to hidden because the HTML structure has not been set up at this point, so the CSS rules below have no effect yet.</p>
+
+<p>Next comes the curtain style rule. The element provides a border and has overflow hidden, so that the scrollbar of the scrollbar provider is hidden.</p>
+
+<figure class="listing"><figcaption>Curtain style rule</figcaption><pre>
+	<cc>/* curtain */</cc>
+.scroll-box.horizontal > div { 
+	border : 1px solid silver ; 
+	overflow : hidden ; 
+	transition : height 0.4s 0.3s linear 
+	}
+</pre></figure>
+
+<p>The transition setting has a 0.3 seconds delay. This keeps the element "calm" when the mouse pointer is just briefly bypassing it.</p>
+
+<p>Next is the scrollbar provider. It has <tt>overflow-x:auto</tt>, which means that the horizontal scrollbar is only shown if necessary. By the way, this setting demands the observation of its offset height changes:</p>
+
+<figure class="listing"><figcaption>Scrollbar provider</figcaption><pre>
+	<cc>/* scrollbar provider */</cc>
+.scroll-box.horizontal > div > div { 
+	padding : 2px ; 
+	overflow-x : auto ; 
+	scrollbar-color : #aaa #eee 
+	}
+</pre></figure>
+
+<p>Next comes the item container. It is there to force the items into a single row with the <tt>white-space:nowrap</tt> setting:</p>
+
+<figure class="listing"><figcaption>Item container</figcaption><pre>
+	<cc>/* item container */</cc>
+.scroll-box.horizontal > div > div > div { 
+	white-space : nowrap ; 
+	display : inline-block 
+	}
+</pre></figure>
+
+<p>The setting <tt>display:inline-block</tt> makes the container stretch horizontally to fit the entire row of items.</p>
+
+<p>Items are styled with the following rule:</p>
+
+<figure class="listing"><figcaption>Item style</figcaption><pre>
+	<cc>/* items */</cc>
+.scroll-box.horizontal > div > div > div > div { 
+	display : inline-block ; 
+	}
+</pre></figure>
+
+<p>This rule sets the display style of items, so that they can have a defined width. the actual styling of items is outside the scope of this document. You can find an example in <a href="demo-01.htm" target="_blank">demo&nbsp;1</a>.</p>
+
+<!--h3--Stylesheet Rules--></div>
 
 <!--h2--Implementation Details--></div>
 

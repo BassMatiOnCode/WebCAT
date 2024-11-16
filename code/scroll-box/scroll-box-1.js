@@ -1,6 +1,7 @@
 // Documentation: .../web-toolbox/scroll-box/scroll-box.htm
 
 import * as initializer from "../component-initializer/component-initializer-1.js" ;
+import * as dynamcStyles from "../dynamic-styles/dynamic-styles-1.js" ;
 import { createElement } from "../utility/create-element/create-element-1.js" ;
 
 /**
@@ -12,15 +13,8 @@ import { createElement } from "../utility/create-element/create-element-1.js" ;
 /**
  *		createHeightRule( )
  *
- */ function createHeightRule( scrollbarProvider, heightSelector, selectorAppendix="", index ) {
-	stylesheet.insertRule( `${ createSelector( scrollbarProvider, selectorAppendix) } { height : ${ scrollbarProvider[ heightSelector ] }px }` , index ) ;
-	}
-/**
- *		findStyleRuleIndex( )
- *
- */ function findStyleRuleIndex( selector ) {
-	for ( let i = 0 ; i < stylesheet.cssRules.length ; i ++ ) if ( stylesheet.cssRules[ i ].selectorText === selector ) return i ;
-	return -1 ;
+ */ function createHeightRule( scrollbarProvider, heightSelector, selectorAppendix="" ) {
+	dynamcStyles.insertRule( `${ createSelector( scrollbarProvider, selectorAppendix) }` , `height : ${ scrollbarProvider[ heightSelector ] }px` ) ;
 	}
 /**
  *		createObserver( )
@@ -32,22 +26,16 @@ import { createElement } from "../utility/create-element/create-element-1.js" ;
 	new ResizeObserver( entries => { 
 		const entry = entries[ 0 ] ;
 		if ( entry.target.offsetHeight !== offsetHeight ) { 
-//			console.debug ( "offsetHeight changed:" , entry.target.offsetHeight, offsetHeight ) ;
+			// Update recent value
 			offsetHeight = scrollbarProvider.offsetHeight ;
-			const selector = createSelector( scrollbarProvider, ":hover" );
-			const index = findStyleRuleIndex( selector ) ;
-			if ( index === -1 ) return console.error( "CSS rule not found." , selector ) ;
-			stylesheet.deleteRule( index );
-			createHeightRule( scrollbarProvider, "offsetHeight", ":hover", index );
+			// Update style rule
+			createHeightRule( scrollbarProvider, "offsetHeight", ":hover" );
 			}
 		if ( entry.target.clientHeight !== clientHeight ) { 
-//			console.debug ( "clientHeight changed:" , entry.target.clientHeight, clientHeight ) ;
+			// Update recent value
 			clientHeight = scrollbarProvider.clientHeight ;
-			const selector = createSelector( scrollbarProvider );
-			const index = findStyleRuleIndex( selector ) ;
-			if ( index === -1 ) return console.error( "CSS rule not found." , selector ) ;
-			stylesheet.deleteRule( index );
-			createHeightRule( scrollbarProvider, "clientHeight", "", index );
+			// Update style rule
+			createHeightRule( scrollbarProvider, "clientHeight", "" );
 			}
 		} ).observe( scrollbarProvider ); // immediately start monitoring
 	}
@@ -81,13 +69,5 @@ import { createElement } from "../utility/create-element/create-element-1.js" ;
 
 // * * Module init code * *// 
 
-const stylesheet = (( ) => {
-	const style = document.getElementById( "webcatStylesheet" ) || document.createElement( "STYLE" ) ;
-	if ( ! style.id ) {
-		style.id = "webcatStylesheet" ;
-		document.head.append( style );
-		}
-	return style.sheet ;
-	} ) ( ) ; // The CSSStyleSheet of the webcatStylesheet element.
 let curtainID = 0 ;  // A couter to create unique IDs for the curtain elements.
 initializer.initComponent( init, import.meta.url );
