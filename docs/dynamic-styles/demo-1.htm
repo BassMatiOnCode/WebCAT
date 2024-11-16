@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html> 
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-09-15" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-11-15" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-11-15" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="/inc/web-cat/page-structure/demo-page-1.css" />
+<script type="module" src="/inc/web-cat/page-structure/demo-page-1.js" ></script>
+ 
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox > Utility" />
+<meta name="tags" content="web, content, authoring, toolbox, WebCAT, HTML, JavaScript, CSS, component, utility, demo, set, property" />
+<title> (Web > Content Authoring Toolbox)</title>
+<meta name="description" content="" />
+
+</head><body>
+
+<div class="hide-if-hosted">
+<h1>Demo 1</h1><p class="subtitle">Managing Dynamic Styles</p>
+</div>
+
+<p><button id="buttonRed">Red</button> <button id="buttonGreen">Green</button> <button id="buttonBlue">Blue</button> <button id="buttonDeleteRule">Delete Rule</button></p>
+
+<div class="demo">
+<p>Some test text.</p>
+</div>
+
+<script type="module">
+import * as dynamicStyles from "../code/dynamic-styles/dynamic-styles-1.js" ;
+function wait ( duration, callback ) { return new Promise ( resolve => setTimeout( ( ) => { callback( ) ; resolve( ) } , duration ) ) } ;
+buttonRed.addEventListener( "click" , ( ) => dynamicStyles.replaceRule( "div.demo", "color : red" ) );
+buttonGreen.addEventListener( "click" , ( ) => dynamicStyles.replaceRule( "div.demo", "color : green" ) );
+buttonBlue.addEventListener( "click" , ( ) => dynamicStyles.replaceRule( "div.demo", "color : Blue" ) );
+buttonDeleteRule.addEventListener( "click" , ( ) => console.log( dynamicStyles.deleteRule( "div.demo" )) );
+console.log( webcatDynamicStyles );
+console.log( dynamicStyles.stylesheet.cssRules.length );
+wait( 1000, ( ) => dynamicStyles.insertRule( "div.demo", "color : red" ))
+.then( ( ) => { return wait( 1000, ( ) => dynamicStyles.insertRule( "div.demo", "color : green" )) } ) 
+.then( ( ) => { return wait( 1000, ( ) => dynamicStyles.insertRule( "div.demo", "color : blue" )) } ) 
+.then( ( ) => { return wait( 1000, ( ) => dynamicStyles.insertRule( "div.demo" )) } ) 
+.then( ( ) => console.log( webcatDynamicStyles.sheet.cssRules.length ));
+</script>
+
+</body></html>

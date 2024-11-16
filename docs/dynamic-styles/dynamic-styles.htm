@@ -1,0 +1,247 @@
+﻿<!DOCTYPE html>
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-08-07" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-11-15" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-11-16" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="/inc/web-cat/page-structure/tutorial-page-1.css" />
+<script type="module" src="/inc/web-cat/page-structure/tutorial-page-1.js" ></script>
+ 
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox > Dynamic Styles" />
+<meta name="tags" content="web, content, authoring, toolbox, HTML, JavaScript, CSS, WebCAT, component, dynamic, style, rule" />
+<meta name="description" content="The component creates a STYLE element in document.head as container for dynamic CSS rules, and provides some rule management functions." />
+
+<title>Dynamic Styles (Web > Content Authoring Toolbox > Dynamic Styles)</title>
+
+</head><body>
+
+<h1>Dynamic Styles</h1>
+<p class="subtitle">Dynamic CSS Rules Management</p>
+
+<p id="pageAbstract"></p>
+
+<h2 cbc>Introduction</h2><div>
+
+<p>Dynamically created HTML elements cannot be styled individually with CSS. You can still set element.style members &ndash; or create and mangage style rules efficiently with this component.</p>
+
+<p>Suppose you create some elements dynamically:</p>
+
+<figure class="listing"><figcaption>Creating some elements</figcaption><pre>
+document.body.append ( createElement( "DIV" , { attributes : { id : "div-001" } } ) ;
+</pre></figure>
+
+<p>Then you add a dynamic style rule:</p>
+
+<figure class="listing"><figcaption>Add a dynamic style rule</figcaption><pre>
+import * as dynamicStyles from "path/to/dynamic-styles.js" ;
+dynamicStyles.insertRule( "#div-001", "color : green" ));
+</pre></figure>
+
+<p>This will render the DIV text in a green color.</p>
+<p>Later you change your mind:</p>
+
+<figure class="listing"><figcaption>Change a dynamic style rule</figcaption><pre>
+dynamicStyles.replaceRule( "#div-001", "color : red" ));
+</pre></figure>
+
+<p>The text color changes to red.</p>
+<p>Finally, the rule becomes obsolete:</p>
+
+<figure class="listing"><figcaption>Delete a dynamic style rule</figcaption><pre>
+dynamicStyles.deleteRule( "#div-001" ));
+</pre></figure>
+
+<p>The DIV text appears in its default color.</p>
+<p>Of course, this is not the most useful example, but you get the idea.</p>
+
+<!--h2--Introduction--></div>
+
+<h2 cbc>Using the Component</h2><div>
+
+<p>The component consists of a single file:</p>
+
+<ul>
+<li>dynamic-styles.js</li>
+</ul>
+
+<p>For detailed notes on how to import these files into a document or aggregation script, refer to <a hef="../component-anatomy.htm#using">WebCAT Component Anatomy</a>.</p>
+
+<p>Find information on how to use the module in the <a href="#examples">examples section</a>.</p>
+
+<!--h2--Using the Component--></div>
+
+<h2 cbc>Programming Reference</h2><div>
+
+<p>The component creates a <tt>STYLE</tt> element in the <tt>document.head</tt> section:</p>
+
+<pre>&lt;style id="webcatDynamicStyles"&gt;&lt;/style&gt;</pre>
+
+<p>It has a <tt>sheet</tt> property of type <a href="https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet"><tt>CSSStyleSheet</tt></a>, which holds the dynamic CSS rules.</p>
+
+<h3 cbc>findRule( )</h3><div>
+
+<p>Searches for a rule that matches the selector and returns its index. Syntax:</p>
+
+<pre>findRule( selector )</pre>
+
+<p>Parameters:</p>
+<dl>
+<dt>selector</dt><dd>
+	<p>{string} The selector of the rule.</p>
+	</dd>
+<dt>returns</dt><dd>
+	<p>{number} The index of the rule or -1.</p>
+	</dd>
+</dl>
+
+<!--h3----></div>
+
+<h3 cbc>deleteRule( ) </h3><div>
+
+<p>Deletes a dynamic CSS rule. Syntax:</p>
+
+<pre>deleteRule( selector, options ) </pre>
+
+<p>Parameters:</p>
+
+<dl>
+<dt>selector</dt><dd>
+	<p>{string} The selector of the rule.</p>
+	</dd>
+<dt>options</dt><dd>
+	<p>{object} Optional parameters as described below.</p>
+	</dd>
+<dt>options.strict</dt><dd>
+	<p>{boolean=false} If true, outputs an error if the rule does not exist</p>
+	</dd>
+<dt>returns</dt><dd>
+	<p>{integer | undefined} The index of the deleted rule.</p>
+	</dd>
+</dl>
+
+<!--h3----></div>
+
+<h3 cbc>insertRule( )</h3><div>
+
+<p>Inserts a dynamic CSS rule. Syntax:</p>
+
+<pre>insertRule( selector, ruleText, options )</pre>
+
+<p>Parameters:</p>
+
+<dl>
+<dt>selector</dt><dd>
+	<p>{string} The selector of the rule.</p>
+	</dd>
+<dt>ruleText</dt><dd>
+	<p>{string} The body of the rule without curly braces. Contains semicolon-separated name:value pairs for the style property assignments.</p>
+	</dd>
+<dt>options</dt><dd>
+	<p>{object} Optional parameters as described below.</p>
+	</dd>
+<dt>options.insertIndex</dt><dd>
+	<p>{integer=undefined} The desired insertion index.</p>
+	</dd>
+<dt>options.strict</dt><dd>
+	<p>{boolean=false} If true, outputs an error if the rule already exists.</p>
+	</dd>
+<dt>returns</dt><dd>
+	<p>{integer|undefined} The index of the inserted rule.</p>
+	</dd>
+</dl>
+
+<!--h3----></div>
+
+<h3 cbc>replaceRule( )</h3><div>
+
+<p>Replaces the rule text of an existing rule.</p>
+
+<pre>replaceRule( selector, ruleText, options )</pre>
+
+<dl>
+<dt>selector</dt><dd>
+	<p>{string} Selector of the rule.</p>
+	</dd>
+<dt>ruleText</dt><dd>
+	<p>{string} The new CSS rule text, without curly braces.</p>
+	</dd>
+<dt>options</dt><dd>
+	<p>{object} Optional parameters as described below.</p>
+	</dd>
+<dt>options.insertIndex</dt><dd>
+	<p>{integer=undefined} The desired insertion index.</p>
+	</dd>
+<dt>options.strict</dt><dd>
+	<p>{boolean=false] If true, aborts with a console error if the rule does not exist.</p>
+	</dd>
+<dt>returns</dt><dd>
+	<p>{integer|undefined} The index of the inserted rule.</p>
+	</dd>
+</dl>
+
+<!--h3----></div>
+
+<!--h2--Programming Reference--></div>
+
+<h2 cbc>Examples</h2><div>
+
+<h3 cbc>Demo 1</h3><div>
+
+<p>Demo 1 provides a simple usage example. The document contains a test container:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+&lt;div class="demo"&gt;
+&lt;p&gt;Some test text.&lt;/p&gt;
+&lt;/div&gt;
+</pre></figure>
+
+<p>The module import:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+import * as <hi>dynamicStyles</hi> from "path/to/<hi>dynamic-styles.js</hi>" ;
+</pre></figure>
+
+<p>These button click event handlers create or replace the CSS rule with the <tt>div.demo</tt> selector:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+buttonRed.addEventListener( "click" , 
+	( ) => dynamicStyles.<hi>replaceRule</hi>( "div.demo", "color : red" ));
+buttonGreen.addEventListener( "click" , 
+	( ) => dynamicStyles.<hi>replaceRule</hi>( "div.demo", "color : green" ));
+buttonBlue.addEventListener( "click" , 
+	( ) => dynamicStyles.<hi>replaceRule</hi>( "div.demo", "color : Blue" ));
+</pre></figure>
+
+<p>This button click handler removes the CSS rule:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+buttonDeleteRule.addEventListener( "click" , 
+	( ) => console.log( dynamicStyles.<hi>deleteRule</hi>( "div.demo" )));
+</pre></figure>
+
+<p>And here is the live demo:</p>
+
+<figure class="demo"><figcaption> (<a href="demo-1.htm" target="_blank">demo-1.htm</a>)</figcaption>
+<iframe class="content-height-observed" src="demo-1.htm"></iframe>
+</figure>
+
+<p>Note that the first few instructions start automatically. For details, inspect the sourcecode of demo 1.</p>
+
+<!--h3--Example 1--></div>
+
+<!--h2--Examples--></div>
+
+<h2 cbc="collapsed">Implementation Details</h2><div>
+
+<p>For implementation details, refer to the <a href="">sourcecode</a> of the module.</p>
+
+<!--h2--Implementation Details--></div>
+
+</body></html>
