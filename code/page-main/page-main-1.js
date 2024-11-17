@@ -6,14 +6,18 @@ import * as initializer from "../component-initializer/component-initializer-1.j
 *		init ( )
 *		Wraps the entire body content in a MAIN container.
 *
-*/ export function init ( ) {
+*/ export function init ( searchparams = new URLSearchParams( )) {
 	const main = document.getElementsByTagName( "MAIN" )[ 0 ] || document.createElement( "MAIN" );
 	main.id = "mainContent" ;
+//	main.style.marginTop = (searchparams.get( "margin-top" ) || 120) + "px" ;
+	// TODO: Is collapsible-structure still necessary?
 	main.classList.add( "collapsible-structure" );  // root element for collapsible chapters
-	const searchparams = new URLSearchParams( document.location.search );
 	main.setAttribute( "data-collapsible-default", searchparams.get("collapsible-default") || "expanded" );
-	for ( const e of Array.from( document.body.children )) main.insertBefore( e, null );
+	main.append( ...document.body.childNodes );
+//	for ( const e of Array.from( document.body.children )) main.insertBefore( e, null );
 	document.body.insertBefore( main, null );
 	}
 
-/** Module init code */ initializer.initComponent( init, import.meta.url );
+// * * * Module init code * * * // 
+
+initializer.initComponent( init, import.meta.url );

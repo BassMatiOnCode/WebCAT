@@ -14,8 +14,11 @@
 	e.insertBefore( a, null );
 	document.body.insertBefore( e, referenceElement );
 	// Move margin bottom from previous sibling to path bar
-	e.style.marginBottom = parseInt( window.getComputedStyle( e.previousElementSibling ).marginBottom ) - parseInt( e.scrollHeight ) + "px";
-	e.previousElementSibling.style.marginBottom = "0" ;
+//	e.style.marginBottom = parseInt( window.getComputedStyle( e.previousElementSibling ).marginBottom ) - parseInt( e.scrollHeight ) + "px";
+//	e.previousElementSibling.style.marginBottom = "0" ;
+	const main = document.querySelector( "MAIN" );
+	if ( main ) main.style.marginTop = parseInt( main.style.marginTop || getComputedStyle( main ).marginTop ) - parseInt( e.offsetHeight ) + "px";
+
 	}
 
 //
