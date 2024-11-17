@@ -1,6 +1,5 @@
 // Documentation: .../web-cat/page-pathbar/page-pathbar.htm
 
-
 import * as initializer from "../component-initializer/component-initializer-1.js" ;
 
 /**
@@ -15,7 +14,7 @@ import * as initializer from "../component-initializer/component-initializer-1.j
 	const a = document.createElement( "A" );
 	a.href = "/index.htm" ;
 	a.textContent = "Home" ;
-	e.insertBefore( a, null );
+	e.append( a );
 	document.body.insertBefore( e, referenceElement );
 	// Move margin bottom from previous sibling to path bar
 	e.style.marginBottom = parseInt( window.getComputedStyle( e.previousElementSibling ).marginBottom ) - parseInt( e.scrollHeight ) + "px";
