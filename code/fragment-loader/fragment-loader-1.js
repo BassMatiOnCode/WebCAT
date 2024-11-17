@@ -3,6 +3,9 @@
 import { namespaces } from "../utility/xml-namespaces/xml-namespaces-1.js" ;
 import * as initializer from "../component-initializer/component-initializer.js" ;
 
+// TODO: Think about anchor element decoration. A classname beginning with "fragment" should be better than an a data-load-fragment attribute.
+
+/** Tracks the number of fragments being loaded */ let counter = 0 ;
 /**
  *		rebaseUrls( )
  *		Rebase load-target relative addresses so that they continue 
@@ -79,7 +82,7 @@ import * as initializer from "../component-initializer/component-initializer.js"
 			// Loop with forEach because anchor must in in a closure because
 			// it will be referenced asynchronously on different threads.
 			treeRoot.querySelectorAll( "A[data-load-fragment]" ).forEach( anchor => {
-				// Prevent recursion
+		// Prevent recursion
 				if ( anchor.closest( `[data-fragment-origin="${anchor.href}"]` )) { console.error( `Fragment address recursion: ${anchor.href}` ) ; return }
 				const requestInfo = requestInfos[ requestInfos.push( { url : anchor.href } ) - 1] ;
 				fetchFragment ( anchor.href, anchor.getAttribute( "data-select" ), anchor.getAttribute( "recordOrigin" ) !== "no" )
@@ -131,7 +134,23 @@ import * as initializer from "../component-initializer/component-initializer.js"
 			}
 		return summary ;   // fulfillment value
 		} ) ;
-	}
+			}
+		// Load nested fragments recursively
+		for ( const anchor of fragment.querySelectorAll( "[data-load-fragment]" )) loadFragment( anchor );
+		//	Notify the fragment anchor that the content will be loaded.
+		anchor.dispatchEvent( new CustomEvent( "fragment-loading", { bubbles: true, detail: { success : true, content : fragment } } ) ) ;
+		//	Create an array of references to the elements to be injected before the fragment is injected (which will deplete its children list unless the clone flag was given.
+		const injectionList = Array.from ( fragment.children );
+		anchor.replaceWith( ...fragment.children );
+		console.info( "Content injected from: ", fragmentAddress );
+		// NOTE that the fragment anchor has been taken out of the DOM tree at this point!
+		//	Notify the fragment anchor that the content has been loaded. 
+		anchor.dispatchEvent( new CustomEvent( "fragment-loaded", { bubbles: false, detail: { success : true, content : injectionList } } ) ) ;
+		//	Update tracking counter and dispatch "fragment-loading-completed" event
+		counter -= 1;
+		if ( counter === 0 ) document.dispatchEvent( new CustomEvent( "fragment-loading-complete", { detail : { success : true } } ) );
+		return promise;
+		} ;
 /**
  *		anchorParentClickHandler()
  *		Catches clicks on the parent of interactive fragment anchors and loads the fragment.
@@ -149,6 +168,19 @@ import * as initializer from "../component-initializer/component-initializer.js"
 		evt.target.removeEventListener( "click" , anchorParentClickHandler );
 		loadFragment( anchor );
 		}
+	}
+/**
+ * Loads HTML/MathML/SVG/plain text fragments into the current document.
+ * The element e stores the target address in the href attribute and 
+ * is replaced by the injected code.
+ * @param {HTMLElement} e - reference to the fragment link (A) element
+ * @returns {Promise} - the promise used to fetch the resource text.
+ * 
+ */ export function loadFragments ( container = document ) {
+	console.log( "loadFragments()" );
+	////	Processes child elements which have a data-load-fragment attribute
+	for ( const o of container.querySelectorAll( '[data-load-fragment]' )) loadFragment( o );
+	if ( counter === 0 ) document.dispatchEvent( new CustomEvent( "fragment-loading-complete", { detail : { success : true } } ) );
 	}
 /**
  *		init()

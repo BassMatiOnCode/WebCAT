@@ -1,1 +1,1 @@
-dynamic-style-rules-1.js
+dynamic-styles-1.js

@@ -1,0 +1,4 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="-50 -50 100 100" xwidth="30" xheight="30" stroke="darkorange" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="white">
+	<circle cx="0" cy="0" r="45"></circle>
+	<path d="M 0 -20 l -25 20 l 25 20 M -15 0 h 40" transform="rotate(50)"></path>
+	</svg>

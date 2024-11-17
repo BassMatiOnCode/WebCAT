@@ -14,16 +14,16 @@
 <link rel="stylesheet" href="/inc/web-cat/page-structure/tutorial-page-1.css" />
 <script type="module" src="/inc/web-cat/page-structure/tutorial-page-1.js" ></script>
  
-<meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
-<meta name="tags" content="web, content, authoring, toolbox, HTML, JavaScript, CSS, WebCAT, component" />
-<meta name="description" content="" />
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox > Page Structure" />
+<meta name="tags" content="web, content, authoring, toolbox, HTML, JavaScript, CSS, WebCAT, component, page, structure, main, content, container" />
+<meta name="description" content="The body child elements are moved to a container, the MAIN element. This adds structure to the document. The process is transparent, a page author doesn't have to worry about." />
 
-<title> (Web > Content Authoring Toolbox)</title>
+<title>MAIN Content Container (Web > Content Authoring Toolbox > Page Structure)</title>
 
 </head><body>
 
-<h1></h1>
-<p class="subtitle"></p>
+<h1>The MAIN Content Container</h1>
+<p class="subtitle">Adding Structure to the Document</p>
 
 <p id="pageAbstract"></p>
 
@@ -128,6 +128,17 @@
 <h2 cbc="collapsed">Implementation Details</h2><div>
 
 <p>For implementation details, refer to the <a href="">sourcecode</a> of the module.</p>
+
+<h3 cbc>Unolved Questions</h3><div>
+
+<dl>
+<dt>(solved) Margin between MAIN and Page Toolbar</dt><dd>
+	<p>The MAIN content container butts up against some margin at the top. The origin of the margin is unclear. Currently, its size is 20px.</p>
+	<p>Solution: It is the top margin of the H1 element, which stretches beyond the top border of MAIN. Giving MAIN a transparent top border of 1 pixel solves the problem.</p>
+	</dd>
+</dl>
+
+<!--h3--Unsolved Questions--></div>
 
 <!--h2--Implementation Details--></div>
 
