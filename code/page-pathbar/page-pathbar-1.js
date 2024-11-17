@@ -1,13 +1,17 @@
 // Documentation: .../web-cat/page-pathbar/page-pathbar.htm
 
+
+import * as initializer from "../component-initializer/component-initializer-1.js" ;
+
 /**
 *		init ( )
-*		Creates a navigation path bar before the mainContent element
+*		Initializes the WebCAT component.
 *
-*/ export function init ( referenceElement = document.getElementById("mainContent" )) { 
+*/ export function init( searchparams = new URLSearchParams( )) {
+	const referenceElement = document.getElementById( searchparams.get( "reference-element" )) || document.querySelector( "MAIN" ); 
 	// Create and insert the navigation path bar
 	const e = document.createElement( "DIV" );
-	e.className = "page-pathbar" ;
+	e.className = "page-pathbar horizontal scroll-box" ;
 	const a = document.createElement( "A" );
 	a.href = "/index.htm" ;
 	a.textContent = "Home" ;
@@ -18,7 +22,6 @@
 	e.previousElementSibling.style.marginBottom = "0" ;
 	}
 
-//
-// Module init code 
-const searchparams = new URL( import.meta.url ).searchParams ;
-if ( ! searchparams.has( "no-default-init" )) init ( searchparams.get( "referenceElement" ) || undefined ) ;
+// * * * Module init code * * * //
+
+initializer.initComponent( init, import.meta.url );
