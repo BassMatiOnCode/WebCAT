@@ -11,8 +11,6 @@ import * as initializer from "../component-initializer/component-initializer-1.j
 	const e = document.createElement( "HEADER" );
 	document.body.insertBefore( e, referenceElement );
 	// Subtract height from main's margin-top
-//	e.style.marginBottom = parseInt( window.getComputedStyle( document.body ).marginTop ) - parseInt( e.scrollHeight ) + "px";
-//	document.body.style.marginTop = "0" ;
 	const main = document.querySelector( "MAIN" );
 	if ( main ) main.style.marginTop = parseInt( main.style.marginTop || getComputedStyle( main ).marginTop ) - parseInt( e.offsetHeight ) + "px";
 	// Add section title image
