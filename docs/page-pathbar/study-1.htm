@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html> 
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-09-15" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-11-17" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-11-17" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+ 
+<style>
+div.toolbar.top { position : static ; border : 1px solid silver ; display : block  }
+main { position : absolute ; background-color : #eee ; top : 60px  }
+</style>
+
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox > Page Layout" />
+<meta name="tags" content="web, content, authoring, toolbox, WebCAT, HTML, JavaScript, CSS, component, study, page, layout" />
+<title>Page Layout Study (Web > Content Authoring Toolbox)</title>
+<meta name="description" content="" />
+
+</head><body>
+
+<div class="toolbar top">Toolbar</div>
+
+<div class="toolbar top">Toolbar</div>
+
+<main>
+<div class="hide-if-hosted">
+<h1>Page Layout Study</h1>
+</div>
+
+<p>The MAIN content container <em>could</em> have <tt>position:absolute</tt>, this would guarantee that the distance between the window's top border and the content remains constant while the page is being contructed. On the other hand, toolbars that are docked to the top border may have overflowing content and occupy more vertical space than expected. This would cause toolbars to expand into the main content area, where they woud be obscured by the main content container. So,with potentially expanding toolbars, it is best to have toolbars and main content have <tt>position:static</tt>. Expanding toolbars would then shift down the main toolbar. </p>
+
+<p>On the other hand, expanding or shrinking toolbars could update main.style.top appropriately. With a transition style on that property, a smooth position change would be guaranteed.</p>
+
+</main>
+</body></html>
