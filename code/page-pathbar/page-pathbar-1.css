@@ -1,8 +1,22 @@
 
 /*   page-pathbar-1.css   */
 
-div.page-pathbar { 
-	border-bottom : 1px solid silver ;
+div.page-pathbar.scroll-box { 
+	border-bottom : 1px none silver ;
 	margin : 0 -20px 0 -20px ;
-	padding : 4px 20px 4px 20px ;
+	padding : 0 0 0 0 ;
+	height : 36px ;
+	}
+div.page-pathbar a {
+	text-decoration : none ;
+	color : #aaa ;
+	}
+div.page-pathbar a:hover {
+	text-decoration : underline ;
+	}
+xdiv.page-pathbar div {
+	border-style : solid ;
+	}
+div.page-pathbar .item-container {
+	padding : 5px 5px 5px 5px ;
 	}

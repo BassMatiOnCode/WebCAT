@@ -11,8 +11,8 @@ import * as initializer from "../component-initializer/component-initializer-1.j
 	main.id = "mainContent" ;
 	// TODO: Is collapsible-structure still necessary?
 	main.classList.add( "collapsible-structure" );  // root element for collapsible chapters
-	const searchparams = new URLSearchParams( document.location.search );
 	main.setAttribute( "data-collapsible-default", searchparams.get("collapsible-default") || "expanded" );
+	// Move body elements to MAIN
 	main.append( ...document.body.childNodes );
 	document.body.insertBefore( main, null );
 	}
