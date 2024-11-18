@@ -6,8 +6,8 @@
 <meta name="author" content="USP" />
 <meta name="creation-date" content="2024-08-15" />
 <meta name="editor" content="USP" />
-<meta name="change-date" content="2024-08-15" />
-<meta name="version" content="1" />
+<meta name="change-date" content="2024-11-18" />
+<meta name="version" content="2" />
 <meta name="sectionTitle" content="../title.svg" />
 
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
@@ -184,6 +184,19 @@ import "/path/to/my-page-footer.js" ;
 <p>Refer to the component documentation for specifig instructions on how the component is integrated into your document.</p>
 
 <!--h2--Adding an HTML Component--></div>
+
+<h2 cbc>Z-Index Management</h2><div>
+
+<p>Usually, a page author doesn't have to worry about CSS <tt>z-index</tt> properties. A page template author might have to, if the "natural" vertical order of components must be tweaked. For example, the <tt>page-pathbar</tt> and <tt>page-toolbar</tt> components have a hidden horizontal scrollbar, which becomes visible if the mouse pointer hovers over the element. To avoid the scrollbar from being covered by the following element, its z-index value is tweaked towards lower values:</p>
+
+<figure class="listing"><pre>
+#mainToolbar { z-index : -1 }
+main { z-index : -2 }
+</pre></figure>
+
+<p>Which components have to be tweaked depends primarily on the page architecture, which is defined in the page template CSS file. Therefore it is useful to have a central section in the page template CSS aggregation file (e. g. "tutorial-page-template.css") that deals exclusively with the z-index property of HTML elements.</p>
+
+<!--h2--Z-Index Management--></div>
 
 <h2 id="downloads" cbc>Downloads</h2><div>
 
