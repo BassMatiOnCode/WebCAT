@@ -51,9 +51,9 @@ import { createElement } from "../utility/create-element/create-element-1.js" ;
 		// Save references to the items
 		const curtain = createElement( "DIV" , { attributes : { id : `curtain-${ (++curtainID).toString().padStart(3, "0") }` } } );
 		scrollbox.append( curtain );
-		const scrollbarProvider = createElement( "DIV" ); // , { attributes : { class : "scrollbar-provider" } } ) ;
+		const scrollbarProvider = createElement( "DIV" , { attributes : { class : "scrollbar-provider" } } ) ;
 		curtain.append( scrollbarProvider );
-		const itemContainer = createElement( "DIV" ); // , { attributes : { class : "item-container" } } ) ;
+		const itemContainer = createElement( "DIV" , { attributes : { class : "item-container" } } ) ;
 		scrollbarProvider.append( itemContainer );
 		// Move the items to the item container
 		itemContainer.append( ...items );

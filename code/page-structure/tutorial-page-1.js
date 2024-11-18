@@ -5,6 +5,7 @@ import "../horizontal-title-rule/horizontal-title-rule-1.js"  ;
 import "../page-header/page-header-1.js" ;
 import "../page-pathbar/page-pathbar-1.js" ;
 import "../page-toolbar/page-toolbar-1.js" ;
+import "../scroll-box/scroll-box-1.js" ;
 import "../tool-buttons/navigate-home-button-1.js" ;
 import "../tool-buttons/navigate-site-button-1.js" ;
 import "../tool-buttons/navigate-parent-button-1.js" ;

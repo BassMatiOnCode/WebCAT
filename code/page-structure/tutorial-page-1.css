@@ -1,6 +1,7 @@
 @import url( ../page-header/page-header-1.css );
 @import url( ../page-pathbar/page-pathbar-1.css );
 @import url( ../page-toolbar/page-toolbar-1.css );
+@import url( ../scroll-box/scroll-box-1.css );
 @import url( ../page-main/page-main-1.css );
 @import url( ../horizontal-title-rule/horizontal-title-rule-1.css );
 @import url( ../tool-buttons/collapse-chapters-button-1.css );
@@ -74,8 +75,8 @@ figure.demo iframe { border : 1px solid silver ; width : 100% }
 figure.demo figcaption { border-bottom-style : none ; margin-bottom : 5px }
 figure.listing > figcaption { font-style : italic ; padding-bottom : 5px }
 figure.listing > pre { background-color : #eee ; font-family: "inconsolata condensed", "constantia", "droid sans mono" ; font-size : 15px ; font-variant-numeric : lining-nums tabular-nums slashed-zero ; line-height: 20px ; tab-size : 15px ; overflow-x : auto ; padding : 5px ; scrollbar-color : #aaa #ddd ; margin-top : 0px }
-h1 { text-align : center }
 h1, h2, h3, h4, h5 { font-family : "Times New Roman", "Arial Narrow" ; font-weight : normal ; margin-left : -20px }
+h1 { margin-left : 0 ; text-align : center }
 main { margin-left : 20px }
 html { scrollbar-color : #999 #eee }
 ol > li, ul > li { margin-top: 5px ; margin-bottom : 5px }
@@ -105,3 +106,6 @@ ul.no-bullets { list-style-type : none }
 
 .note { border-left : 8px dotted lightblue ; padding-left : 15px }
 div.note { padding-bottom : 0 }
+
+#mainToolbar { z-index : -1 }
+main { z-index : -2 }

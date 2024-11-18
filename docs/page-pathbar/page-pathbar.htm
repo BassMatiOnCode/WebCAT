@@ -42,6 +42,8 @@
 
 <p>For detailed notes on how to import these files into a document or aggregation script, refer to <a hef="../component-anatomy.htm#using">WebCAT Component Anatomy</a>.</p>
 
+<p>The horizontal scrollbar usually overlaps the next toolbar, following at the bottom. To keep the toolbar visible when the curtain expands down, the z-index must be changed.</p>
+
 <p>More information on how to use the module can be found in the <a href="#examples">examples section</a>.</p>
 
 <!--h2--Using the Component--></div>
@@ -128,6 +130,14 @@
 <h2 cbc="collapsed">Implementation Details</h2><div>
 
 <p>For implementation details, refer to the <a href="">sourcecode</a> of the module.</p>
+
+<h3 cbc>Added Scroll-Box Class</h3><div>
+
+<p>By adding the <tt>horizontal scroll-box</tt> class names to the <tt>path-bar</tt> component and adding the <a href="../scroll-box/scroll-box.htm">scroll-box</a> component, a dynamic horizontal scrollbar was added to the <tt>path-bar</tt>. The path-bar now expands down to show a horizontal scrollbar if its content does not fit into the available width.</p>
+
+<p>This required changes in the CSS z-index and position properties of components. The first attempt to raise the z-index value. That failed because the path-bar then covered the sitemap navigation panel. Instead, the z-index of the following toolbars and the main content container was lowered to negative values.</p>
+
+<!--h3--Added Scroll-Box Class--></div>
 
 <!--h2--Implementation Details--></div>
 
