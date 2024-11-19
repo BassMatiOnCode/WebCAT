@@ -14,6 +14,7 @@
 @import url( ../content-height-observer/content-height-observer-1.css );
 @import url( ../checked-items/checked-items-1.css );
 @import url( ../collapsible-structures/collapsible-structures-1.css );
+@import url( ../scroll-box/scroll-box-1.css );
 @import url( ../sitemap-navigator/sitemap-navigator-1.css );
 @import url( ../css-counter/css-counter-1.css );
 @import url( ../description-list/description-list-1.css );
@@ -110,5 +111,5 @@ div.note { padding-bottom : 0 }
 
 body { position : relative ; z-index : -4 }
 main { z-index : -3 }
-mainToolbar { z-index : -2 }
-mainPathbar { z-index : -1 }
+#mainToolbar { z-index : -2 }
+.pagePathbar { z-index : -1 }

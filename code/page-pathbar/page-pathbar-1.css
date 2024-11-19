@@ -4,7 +4,7 @@ div.page-pathbar.scroll-box {
 	position : relative ;	
 	border-bottom : 1px none silver ;
 	margin : 0 -20px 0 -20px ;
-	height : 36px ;
+	height : 31px ;
 	}
 div.page-pathbar a {
 	text-decoration : none ;
@@ -16,6 +16,10 @@ div.page-pathbar a:hover {
 xdiv.page-pathbar div {
 	border-style : solid ;
 	}
+div.page-pathbar .curtain {
+	border : 0 ;
+	border-bottom : 1px solid silver ;
+	}
 div.page-pathbar .item-container {
-	padding : 5px 5px 5px 5px ;
+	padding : 2px 5px 2px 20px ;
 	}

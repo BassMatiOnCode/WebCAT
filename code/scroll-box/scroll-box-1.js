@@ -49,11 +49,11 @@ import { createElement } from "../utility/create-element/create-element-1.js" ;
 		// Find scroll-box item containers and add the functional containers
 		const items = Array.from( scrollbox.childNodes );
 		// Save references to the items
-		const curtain = createElement( "DIV" , { attributes : { id : `curtain-${ (++curtainID).toString().padStart(3, "0") }` } } );
+		const curtain = createElement( "DIV" , { attributes : { class : "curtain" , id : `curtain-${ (++curtainID).toString().padStart(3, "0") }` } } );
 		scrollbox.append( curtain );
-		const scrollbarProvider = createElement( "DIV" ); // , { attributes : { class : "scrollbar-provider" } } ) ;
+		const scrollbarProvider = createElement( "DIV" , { attributes : { class : "scrollbar-provider" } } ) ;
 		curtain.append( scrollbarProvider );
-		const itemContainer = createElement( "DIV" ); // , { attributes : { class : "item-container" } } ) ;
+		const itemContainer = createElement( "DIV" , { attributes : { class : "item-container" } } ) ;
 		scrollbarProvider.append( itemContainer );
 		// Move the items to the item container
 		itemContainer.append( ...items );
