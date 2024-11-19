@@ -1,6 +1,7 @@
 // Documentation: .../web-cat/page-pathbar/page-pathbar.htm
 
 import * as initializer from "../component-initializer/component-initializer-1.js" ;
+import { createElement } from "../utility/create-element/create-element-1.js" ;
 
 /**
 *		init ( )
@@ -17,11 +18,8 @@ import * as initializer from "../component-initializer/component-initializer-1.j
 	e.append( a );
 	document.body.insertBefore( e, referenceElement );
 	// Move margin bottom from previous sibling to path bar
-//	e.style.marginBottom = parseInt( window.getComputedStyle( e.previousElementSibling ).marginBottom ) - parseInt( e.scrollHeight ) + "px";
-//	e.previousElementSibling.style.marginBottom = "0" ;
 	const main = document.querySelector( "MAIN" );
 	if ( main ) main.style.marginTop = parseInt( main.style.marginTop || getComputedStyle( main ).marginTop ) - parseInt( e.offsetHeight ) + "px";
-
 	}
 
 // * * * Module init code * * * //

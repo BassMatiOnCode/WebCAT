@@ -5,16 +5,15 @@
 #mainToolbar > a > svg:hover { stroke : darkorange }
 
 div.page-toolbar { 
-	position : relative ;
+	position : sticky ;
 	border-bottom : 1px solid silver ;
 	margin : 0 -20px 0 -20px ;
 	padding : 4px 20px 4px 20px ;
 	top : 0px ;
-	position : sticky ;
 	background-color : white ;
 	height : 20px ;
 	}
-div.page-toolbar > a { 
+div.page-toolbar > a {
 	text-decoration : none ;
 	display : inline-block ;
 	overflow : hidden ;

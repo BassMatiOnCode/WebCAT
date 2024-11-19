@@ -1,9 +1,21 @@
+/*   documentation: .../web-cat/page-pathbar/page-pathbar.htm   */
 
-/*   page-pathbar-1.css   */
-
-div.page-pathbar { 
-	position : relative ;
-	border-bottom : 1px solid silver ;
+div.page-pathbar.scroll-box { 
+	position : relative ;	
+	border-bottom : 1px none silver ;
 	margin : 0 -20px 0 -20px ;
-	padding : 4px 20px 4px 20px ;
+	height : 36px ;
+	}
+div.page-pathbar a {
+	text-decoration : none ;
+	color : #aaa ;
+	}
+div.page-pathbar a:hover {
+	text-decoration : underline ;
+	}
+xdiv.page-pathbar div {
+	border-style : solid ;
+	}
+div.page-pathbar .item-container {
+	padding : 5px 5px 5px 5px ;
 	}
