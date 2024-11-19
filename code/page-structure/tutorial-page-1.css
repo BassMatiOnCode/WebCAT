@@ -15,6 +15,7 @@
 @import url( ../content-height-observer/content-height-observer-1.css );
 @import url( ../checked-items/checked-items-1.css );
 @import url( ../collapsible-structures/collapsible-structures-1.css );
+@import url( ../scroll-box/scroll-box-1.css );
 @import url( ../sitemap-navigator/sitemap-navigator-1.css );
 @import url( ../css-counter/css-counter-1.css );
 @import url( ../description-list/description-list-1.css );
@@ -107,5 +108,9 @@ ul.no-bullets { list-style-type : none }
 .note { border-left : 8px dotted lightblue ; padding-left : 15px }
 div.note { padding-bottom : 0 }
 
-#mainToolbar { z-index : -1 }
-main { z-index : -2 }
+/* * * z-index management * * */
+
+body { position : relative ; z-index : -4 }
+main { z-index : -3 }
+#mainToolbar { z-index : -2 }
+.pagePathbar { z-index : -1 }

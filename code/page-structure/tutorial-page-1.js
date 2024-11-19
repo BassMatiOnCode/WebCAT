@@ -23,6 +23,7 @@ import "../tool-buttons/bottom-of-page-button-1.js" ;
 import "../page-footer/page-footer-1.js" ;
 import "../page-abstract/page-abstract-1.js" ;
 import "../scroll-margin-provider/scroll-margin-provider-1.js" ;
+import "../scroll-box/scroll-box-1.js" ;
 import "../navigation-panel/navigation-panel-1.js" ;
 import "../docking-panel/docking-panel-1.js" ;
 import "../fragment-loader/fragment-loader-1.js" ;
