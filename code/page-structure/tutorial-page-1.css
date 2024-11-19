@@ -105,3 +105,10 @@ ul.no-bullets { list-style-type : none }
 
 .note { border-left : 8px dotted lightblue ; padding-left : 15px }
 div.note { padding-bottom : 0 }
+
+/* * * z-index management * * */
+
+body { position : relative ; z-index : -4 }
+main { z-index : -3 }
+mainToolbar { z-index : -2 }
+mainPathbar { z-index : -1 }

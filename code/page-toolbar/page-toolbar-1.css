@@ -5,6 +5,7 @@
 #mainToolbar > a > svg:hover { stroke : darkorange }
 
 div.page-toolbar { 
+	position : relative ;
 	border-bottom : 1px solid silver ;
 	margin : 0 -20px 0 -20px ;
 	padding : 4px 20px 4px 20px ;
