@@ -1,3 +1,63 @@
 /* Documentation: .../web-toolbox/horizontal-listbox/horizontal-listbox.htm */
 
+.horizontal-listbox {
+	height : 40px ;
+	}
+.horizontal-listbox > .curtain {
+	border : 1px solid silver ;
+	position : relative;
+	padding : 0 ;
+	padding-top : 2px ;
+	line-height : 1 ;
+	height : 20px;
+	overflow : hidden ;
+	}
+.horizontal-listbox > .curtain:hover {
+	height : 33px ;
+	}
+.horizontal-listbox .arrow {
+	position : absolute ;
+	display : inline-block ;
+	top : 0px ;
+	bottom : 0px ;
+	 width : 20px ;
+	background-color : #ddd ;
+	background-position : center center ;
+	background-size : contain ;
+	background-repeat : no-repeat ;
+	user-select : none ;
+	}
+.horizontal-listbox .arrow.left {
+	left : 0px ;
+	background-image : url( triangle-left.svg );
+	}
+.horizontal-listbox .arrow.right {
+	right : 0px ;
+	background-image : url( triangle-right.svg );
+	}
+.horizontal-listbox .item-container {
+	position : relative ;
+	display : inline-block ;
+	left : 20px ;
+	box-sizing : border-box ;
+	width : calc( 100% - 40px );
+	white-space : nowrap ;
+	overflow-x : auto ;
+	margin-bottom : -4px ;
+	}
+.horizontal-listbox .item-container > * {
+	display : inline-block ;
+	padding-top : 1px ;
+	padding-bottom : 1px ;
+	margin-left : 5px  ;
+	margin-right : 5px  ;
+	box-sizing : border-box ;
+	overflow : hidden ;
+	}
+.horizontal-listbox .item-container > *.collapsed {
+	width : 0px ;
+	margin-left : 0px ;
+	margin-right : 0px ;
+	}
+
 
