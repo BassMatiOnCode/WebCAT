@@ -1,3 +1,3 @@
-// Documentation : .../web-cat/page-structure/page-structure.htm
+// Documentation : .../webcat/page-structure/page-structure.htm
 
 

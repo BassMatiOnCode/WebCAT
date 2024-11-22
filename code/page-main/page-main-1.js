@@ -1,4 +1,4 @@
-// Documentation: .../web-cat/page-main/page-main.htm
+// Documentation: .../webcat/page-main/page-main.htm
 
 import * as initializer from "../component-initializer/component-initializer-1.js" ;
 

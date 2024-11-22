@@ -1,4 +1,4 @@
-// Documentation: .../web-cat/fragment-loader/fragment-loader.htm 
+// Documentation: .../webcat/fragment-loader/fragment-loader.htm 
 
 import { namespaces } from "../utility/xml-namespaces/xml-namespaces-1.js" ;
 import * as initializer from "../component-initializer/component-initializer.js" ;

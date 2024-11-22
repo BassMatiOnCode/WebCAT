@@ -1,4 +1,4 @@
-// Documentation : /web-cat/sitemap-navigator/sitemap-navigator.htm
+// Documentation : /webcat/sitemap-navigator/sitemap-navigator.htm
 
 // TODO: Use the Navigation API instead of anchor click events when it is available in all browsers.
 

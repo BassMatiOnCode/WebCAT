@@ -1,4 +1,4 @@
-// Documentation: .../web-cat/xml-namespaces/xml-namespaces.htm
+// Documentation: .../webcat/xml-namespaces/xml-namespaces.htm
 
 export const namespaces = {
 	html : "" ,

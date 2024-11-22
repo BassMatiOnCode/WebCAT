@@ -1,4 +1,4 @@
-// Documentation : .../web-cat/utility/createElement.htm
+// Documentation : .../webcat/utility/createElement.htm
 
 import * as initializer from "../../component-initializer/component-initializer-1.js" ;
 import { namespaces } from "../xml-namespaces/xml-namespaces-1.js" ; 

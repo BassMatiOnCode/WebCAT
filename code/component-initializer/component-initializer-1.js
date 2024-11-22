@@ -1,4 +1,4 @@
-// Documentation : /web-cat/component-initializer/component-initializer.htm
+// Documentation : /webcat/component-initializer/component-initializer.htm
 
 /**
  *		initComponent()

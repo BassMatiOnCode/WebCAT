@@ -1,4 +1,4 @@
-// Documentation: /web-cat/tool-buttons/tool-buttons.htm#anchor-buttons
+// Documentation: /webcat/tool-buttons/tool-buttons.htm#anchor-buttons
 
 /**
  *		appendAnchorButton( )

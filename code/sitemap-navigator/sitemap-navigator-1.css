@@ -1,4 +1,4 @@
-/*   documentation: .../web-cat/sitemap-navigator/sitemap-navigator.htm   */
+/*   documentation: .../webcat/sitemap-navigator/sitemap-navigator.htm   */
 
 	/* Icon image for collapsed state */
 .sitemap-tree [ data-collapsible-state = "collapsed" ]:not( .active )::before {

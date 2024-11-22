@@ -1,4 +1,4 @@
-// Documentation : .../web-cat/page-structure/page-structure.htm
+// Documentation : .../webcat/page-structure/page-structure.htm
 
 import "../page-main/page-main-1.js"  ;
 import "../horizontal-title-rule/horizontal-title-rule-1.js"  ;

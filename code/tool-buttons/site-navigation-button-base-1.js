@@ -1,4 +1,4 @@
-// Documentation: /web-cat/tool-buttons/tool-buttons.htm#site-navigation-buttons
+// Documentation: /webcat/tool-buttons/tool-buttons.htm#site-navigation-buttons
 
 import * as anchorButton from "../tool-buttons/base-anchor-button-1.js" ;
 

@@ -1,4 +1,4 @@
-// Documentation: /web-cat/tool-buttons/tool-buttons.htm
+// Documentation: /webcat/tool-buttons/tool-buttons.htm
 
 import * as initializer from "../component-initializer/component-initializer-1.js" ;
 import * as anchorButton from "../tool-buttons/base-anchor-button-1.js" ;

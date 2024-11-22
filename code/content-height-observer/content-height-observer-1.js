@@ -1,4 +1,4 @@
-// Documentation: /web-cat/content-height-observer/content-height-observer.htm
+// Documentation: /webcat/content-height-observer/content-height-observer.htm
 
 /**
  *		init ( )

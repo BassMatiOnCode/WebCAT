@@ -1,4 +1,4 @@
-// Documentation: /web-cat/navigation-panel/navigation-panel.htm
+// Documentation: /webcat/navigation-panel/navigation-panel.htm
 
 import * as initializer from "../component-initializer/component-initializer-1.js" ;
 

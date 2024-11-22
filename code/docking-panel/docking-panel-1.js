@@ -1,4 +1,4 @@
-// Documentation: /web-cat/docking-panel/docking-panel.htm
+// Documentation: /webcat/docking-panel/docking-panel.htm
 
 import * as initializer from "../component-initializer/component-initializer-1.js" ;
 

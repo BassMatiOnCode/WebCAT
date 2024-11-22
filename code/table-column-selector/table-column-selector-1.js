@@ -1,4 +1,4 @@
-// Documentation: .../web-cat/table-column-selector/table-column-selector.htm
+// Documentation: .../webcat/table-column-selector/table-column-selector.htm
 
 import * as initializer from "../component-initializer/component-initializer-1.js" ;
 

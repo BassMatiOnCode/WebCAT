@@ -1,4 +1,4 @@
-// Documentation: /web-cat/continued-list/continued-list.htm
+// Documentation: /webcat/continued-list/continued-list.htm
 
 /**
 *		init ( )

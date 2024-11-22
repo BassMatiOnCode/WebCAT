@@ -1,4 +1,4 @@
-//	Documentation: /web-cat/page-toolbar/page-toolbar.htm
+//	Documentation: /webcat/page-toolbar/page-toolbar.htm
 //	TODO: The toolbar must have a defined height and determine the height of buttons.
 
 /**

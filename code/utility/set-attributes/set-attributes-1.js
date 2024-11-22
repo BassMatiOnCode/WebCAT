@@ -1,4 +1,4 @@
-// Documentation: .../web-cat/utility/set-attributes/set-attributes.htm
+// Documentation: .../webcat/utility/set-attributes/set-attributes.htm
 
 import * as initializer from "../../component-initializer/component-initializer-1.js" ;
 

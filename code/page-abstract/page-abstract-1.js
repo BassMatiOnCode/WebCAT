@@ -1,4 +1,4 @@
-// Documentation: /web-cat/page-abstract/page-abstract.htm
+// Documentation: /webcat/page-abstract/page-abstract.htm
 
 /**
  *		init ( )

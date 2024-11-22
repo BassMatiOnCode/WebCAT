@@ -1,4 +1,4 @@
-﻿//	documentation : /web-cat/page-footer/page-footer.htm
+﻿//	documentation : /webcat/page-footer/page-footer.htm
 
 /**
 *		init ( )

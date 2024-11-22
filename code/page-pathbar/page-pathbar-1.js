@@ -1,4 +1,4 @@
-// Documentation: .../web-cat/page-pathbar/page-pathbar.htm
+// Documentation: .../webcat/page-pathbar/page-pathbar.htm
 
 import * as initializer from "../component-initializer/component-initializer-1.js" ;
 import { createElement } from "../utility/create-element/create-element-1.js" ;

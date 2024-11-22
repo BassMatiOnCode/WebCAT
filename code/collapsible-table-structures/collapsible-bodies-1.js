@@ -1,4 +1,4 @@
-// Documentation: .../web-cat/collaspible-table-structures/collaspible-table-structures.htm
+// Documentation: .../webcat/collaspible-table-structures/collaspible-table-structures.htm
 
 import * as initializer from "../component-initializer/component-initializer-1.js" ;
 

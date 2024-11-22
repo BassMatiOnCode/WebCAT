@@ -1,4 +1,4 @@
-// Documentation: /web-cat/collapsible-structures/collapsible-structures.htm
+// Documentation: /webcat/collapsible-structures/collapsible-structures.htm
 // TODO: Replace console.info with console.debug
 import * as initializer from "../component-initializer/component-initializer-1.js" ;
 

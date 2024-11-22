@@ -1,4 +1,4 @@
-// Documentation: /web-cat/page-header/page-header.htm
+// Documentation: /webcat/page-header/page-header.htm
 
 import * as initializer from "../component-initializer/component-initializer-1.js" ;
 

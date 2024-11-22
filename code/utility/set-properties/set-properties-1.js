@@ -1,4 +1,4 @@
-// Documentation: .../web-cat/utility/set-properties/set-properties.htm
+// Documentation: .../webcat/utility/set-properties/set-properties.htm
 
 import * as initializer from "../../component-initializer/component-initializer-1.js" ;
 
