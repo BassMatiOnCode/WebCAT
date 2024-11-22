@@ -3,6 +3,7 @@
 import * as initializer from "../component-initializer/component-initializer-1.js" ;
 import * as dynamcStyles from "../dynamic-styles/dynamic-styles-1.js" ;
 import { createElement } from "../utility/create-element/create-element-1.js" ;
+import { createUniqueID } from "../utility/unique-id/unique-id-1.js" ;
 
 /**
  *		createSelector( )
@@ -49,7 +50,7 @@ import { createElement } from "../utility/create-element/create-element-1.js" ;
 		// Find scroll-box item containers and add the functional containers
 		const items = Array.from( scrollbox.childNodes );
 		// Save references to the items
-		const curtain = createElement( "DIV" , { attributes : { class : "curtain" , id : `curtain-${ (++curtainID).toString().padStart(3, "0") }` } } );
+		const curtain = createElement( "DIV" , { attributes : { class : "curtain" , id : `curtain-${ createUniqueID( "curtain" ).toString().padStart(3, "0") }` } } );
 		scrollbox.append( curtain );
 		const scrollbarProvider = createElement( "DIV" , { attributes : { class : "scrollbar-provider" } } ) ;
 		curtain.append( scrollbarProvider );
@@ -69,5 +70,4 @@ import { createElement } from "../utility/create-element/create-element-1.js" ;
 
 // * * Module init code * *// 
 
-let curtainID = 0 ;  // A couter to create unique IDs for the curtain elements.
 initializer.initComponent( init, import.meta.url );

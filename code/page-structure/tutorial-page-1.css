@@ -51,6 +51,13 @@
 		url(/inc/fonts/DroidSansMono.ttf) format("truetype");
 	}
 @font-face { 
+	font-family: "M+ 1m"; 
+	font-style: normal;
+	font-weight: 400;
+	src: 	local("M+ 1m"), 
+		url(/inc/fonts/mplus-1m-regular.ttf) format("truetype");
+	}
+@font-face { 
 		/* unused */
 	font-family: "encode sans condensed"; 
 	font-style: normal; 
@@ -70,12 +77,12 @@ body {
 	font-family : "Segoe UI" ;
 	margin : 0 20px 50px 20px ;
 	}
-figcaption { font-family : "Times New Roman", Constantia ; color : #888 ; font-size : 6px ; border-bottom : 1px solid silver  }
+figcaption { font-family : "Times New Roman", Constantia ; color : #888 ; font-size : 10pt ; border-bottom : 1px solid silver  }
 figure { margin-left : 0px ; margin-right : 0px }
 figure.demo iframe { border : 1px solid silver ; width : 100% }
 figure.demo figcaption { border-bottom-style : none ; margin-bottom : 5px }
 figure.listing > figcaption { font-style : italic ; padding-bottom : 5px }
-figure.listing > pre { background-color : #eee ; font-family: "inconsolata condensed", "constantia", "droid sans mono" ; font-size : 15px ; font-variant-numeric : lining-nums tabular-nums slashed-zero ; line-height: 20px ; tab-size : 15px ; overflow-x : auto ; padding : 5px ; scrollbar-color : #aaa #ddd ; margin-top : 0px }
+figure.listing > pre { background-color : #eee ; overflow-x : auto ; padding : 5px ; scrollbar-color : #aaa #ddd ; margin-top : 0px }
 h1, h2, h3, h4, h5 { font-family : "Times New Roman", "Arial Narrow" ; font-weight : normal ; margin-left : -20px }
 h1 { margin-left : 0 ; text-align : center }
 main { margin-left : 20px }
@@ -85,12 +92,13 @@ ol.spaced-items li, ul.spaced-items li { margin-top: 20px ; margin-bottom : 20px
 p { line-height : 25px }
 p.subtitle { text-align : center ; margin-top : 0 ; margin-bottom : 30px ; font-family : "palatino linotype", "times new roman" }
 pre { 
-	font-family : "inconsolata condensed" ; 
-	font-size : 10pt ;
-	font-stretch: semi-condensed;
+	font-family: "inconsolata condensed", "constantia", "droid sans mono" ;
+	font-stretch: 75% ;
 	font-weight : normal ;
+	font-variant-numeric : lining-nums tabular-nums slashed-zero ; 
 	line-height : 18px ;
-	tab-size : 20px ;
+	line-height: 1.4 ; 
+	tab-size : 15px ; 
 	}
 span.keyword { font-family : "Palatino Linotype", "Times New Roman" }
 table > caption { 
@@ -100,7 +108,8 @@ table > caption {
 	margin-bottom : 5px ;
 	}
 tt { 
-	font-family : "Times New Roman" ;
+	font-family : "Segoe UI", "Times New Roman" ;
+	font-variant-numeric : lining-nums tabular-nums slashed-zero ; 
 	color : SteelBlue ;
 	}
 ul.no-bullets { list-style-type : none }
