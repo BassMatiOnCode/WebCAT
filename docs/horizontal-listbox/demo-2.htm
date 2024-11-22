@@ -16,19 +16,6 @@
 
 <link rel="stylesheet" href="../code/horizontal-listbox/horizontal-listbox-1.css" />
 <script type="module" src="../code/horizontal-listbox/horizontal-listbox-1.js" ></script>
-
-<script type="module">
-const listbox = document.querySelector( ".horizontal-listbox" );
-toggleArrows.addEventListener( "click" , () => {
-	listbox.classList.toggle( "with-arrows" );
-	} ) ;
-scrollbar.addEventListener( "click" , () => {
-	listbox.classList.toggle( "scrollbar" );
-	} ) ;
-transitioned.addEventListener( "click" , () => {
-	listbox.classList.toggle( "transitioned" );
-	} ) ;
-</script>
  
 <meta name="categories" content="Projects > Web > Content Authoring Toolbox > Horizontal Listbox" />
 <meta name="tags" content="web, content, authoring, toolbox, WebCAT, HTML, JavaScript, CSS, component, utility, demo, horizontal, listbox" />
@@ -41,11 +28,7 @@ transitioned.addEventListener( "click" , () => {
 <h1>Demo 1</h1><p class="subtitle">Horizontal Listbox</p>
 </div>
 
-<p><input id="toggleArrows" type="checkbox" />Arrows<br/>
-<input id="scrollbar" type="checkbox" />Scrollbar<br/>
-<input id="transitioned" type="checkbox" />transitioned</p>
-
-<div class="horizontal-listbox">
+<div class="horizontal-listbox transitioned scrollbar with-arrows" style="height:21px">
 	<span>Item 1</span>
 	<span>Item 2</span>
 	<span>Item 3</span>
@@ -64,7 +47,5 @@ transitioned.addEventListener( "click" , () => {
 	<span>Item 16</span>
 	<span>Item 17</span>
 	</div>
-
-<p>The vertical position of this text should not be affected by the horizontal scrollbar being visible, or not.</p>
 
 </body></html>

@@ -92,7 +92,7 @@ itemContainer.addEventListener( "mouseenter" , evt => {
 		} ) ;
 		} ) ;
 	} ) ;
-curtain.addEventListener( "mouseleave" , evt => {
+itemContainer.addEventListener( "mouseleave" , evt => {
 	curtain.style.height = itemContainer.clientHeight + "px" ;
 	console.debug( "mouse leave" );
 	} ) ;
@@ -109,7 +109,8 @@ rightArrow.addEventListener( "click" , ( evt ) => {
 	evt.preventDefault( );
 	evt.stopPropagation( );
 	for ( const item of itemContainer.children ) {
-		const d = item.offsetLeft - 5 ;
+		const d = item.offsetLeft + item.offsetWidth - itemContainer.clientWidth + 5 ;
+		console.debug( item.innerText, d, d - Math.round( itemContainer.scrollLeft )); 
 		if ( d - Math.round( itemContainer.scrollLeft ) > 5 ) {
 			itemContainer.scroll( { left : d , behavior : "smooth" } );
 			break ;
