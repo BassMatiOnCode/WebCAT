@@ -30,7 +30,7 @@
 </script>
 
 <script type="module">
-import { setProperties } from "../../code/utility/set-properties/set-properties-1.js" ;
+import { setProperties } from "/inc/webcat/utility/set-properties/set-properties-1.js" ;
 startButton.addEventListener( "click" , ( ) => {
 	const person = setProperties( { } , { name : "John Smith", age : 42 , address : { } , "address.street" : "Lexington Road" , "address.building" : 124 , "address.city" : "Arlington" , "address.zipcode" : 12345 } ) ;
 	const p=document.createElement( "P" );

@@ -11,7 +11,7 @@
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
 <link rel="stylesheet" href="/inc/webcat/page-structure/demo-page-1.css" />
 <script type="module" src="/inc/webcat/page-structure/demo-page-1.js" ></script>
-<!-- script type="module" src="../../code/fragment-loader/fragment-loader-1.js" ></script -->
+<!-- script type="module" src="..//inc/webcat/fragment-loader/fragment-loader-1.js" ></script -->
  
 <meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
 <meta name="tags" content="web, content, authoring, toolbox, HTML, JavaScript, CSS, WebCAT, component" />
@@ -31,7 +31,7 @@
 <a data-load-interactive href="toc.htm"></a>
 
 <script type="module">
-import { loadSitemapFragments } from "../../code/fragment-loader/fragment-loader-1.js?no-default-init" ;
+import { loadSitemapFragments } from "/inc/webcat/fragment-loader/fragment-loader-1.js?no-default-init" ;
 // Convert relative to absolute addesses so that the anchors can be properly selected.
 for ( const anchor of document.querySelectorAll( "A[data-load-interactive]" )) {
 	anchor.setAttribute( "href", anchor.href );
