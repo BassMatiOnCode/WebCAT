@@ -11,23 +11,29 @@
 <meta name="sectionTitle" content="../title.svg" />
 
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
-<link rel="stylesheet" href="/inc/webcat/page-structure/tutorial-page-1.css" />
-<script type="module" src="/inc/webcat/page-structure/tutorial-page-1.js" ></script>
+<link rel="stylesheet" href="../code/page-structure/tutorial-page-1.css" />
+<script type="module" src="../code/page-structure/tutorial-page-1.js" ></script>
  
-<meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
-<meta name="tags" content="web, content, authoring, toolbox, HTML, JavaScript, CSS, WebCAT, component" />
-<meta name="description" content="" />
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox > Visual Components" />
+<meta name="tags" content="web, content, authoring, toolbox, HTML, JavaScript, CSS, WebCAT, component, horizontal, listbox" />
+<meta name="description" content="This component implements a horizontal listbox with dynamic scrollbar and touchscreen support." />
 
-<title> (Web > Content Authoring Toolbox)</title>
+<title>Horizontal Listbox (Web > Content Authoring Toolbox > Visual Components)</title>
 
 </head><body>
 
-<h1></h1>
-<p class="subtitle"></p>
+<h1>Horizontal Listbox</h1>
+<p class="subtitle">Scrolling Items Horizontally</p>
 
 <p id="pageAbstract"></p>
 
 <h2 cbc>Introduction</h2><div>
+
+<p>A toolbar with too many items needs a horizontal scrolling functionality, but a scrollbar on a toolbar looks strange. This component might be a solution:</p>
+
+<iframe class="content-height-observed" src="demo-2.htm"></iframe>
+
+<p>The component provides two arrow buttons which allow you to scroll item-wise left or right. A horizontal scrollbar is shown if necessary if the mouse pointer hovers over the content, if desired, with a smooth transition effect. Touchscreen scrolling is supported even without showing the scrollbar. If you like, you can enable the dynamic scrollbar feature, which shows the scrollbar when the mouse pointer hovers over the element. All features can be separately turned on or off.</p>
 
 <!--h2--Introduction--></div>
 
@@ -36,13 +42,40 @@
 <p>The component consists of two files:</p>
 
 <ul>
-<li>name.css</li>
-<li>name.js</li>
+<li>horizontal-listbox.css</li>
+<li>horizontal-listbox.js</li>
 </ul>
 
 <p>For detailed notes on how to import these files into a document or aggregation script, refer to <a hef="../component-anatomy.htm#using">WebCAT Component Anatomy</a>.</p>
 
-<p>More information on how to use the module can be found in the <a href="#examples">examples section</a>.</p>
+<p>More information on how to use this module can be found in the <a href="#examples">examples section</a>.</p>
+
+<h3 cbc>Creating the HTML Structure</h3><div>
+
+<p>Create a DIV element and decorate it with the class name "horizontal-listbox". Optionally add the class names "transitioned", "scrollbar" and "with-arrows". Add items inside:</p>
+
+<figure class="listing"><figcaption>Create the HTML structure</figcaption><pre>
+&lt;div class="<hi>horizontal-listbox transitioned scrollbar with-arrows</hi>" style="height:21px"&gt;
+	&lt;span&gt;Item 1&lt;/span&gt;
+	&lt;span&gt;Item 2&lt;/span&gt;
+		&vellip;
+	&lt;span&gt;Item 16&lt;/span&gt;
+	&lt;span&gt;Item 17&lt;/span&gt;
+	&lt;/div&gt;
+</pre></figure>
+
+<p>The height of the component must be set with a CSS rule:</p>
+
+<figure class="listing"><figcaption>Controlling the component height</figcaption><pre>
+#horizontal-listbox-001 {
+	height : 22px ;
+	}
+</pre></figure>
+
+
+<p>The rest is done by the CSS and script files.</p>
+
+<!--h3--Creating the HTML Structure--></div>
 
 <!--h2--Using the Component--></div>
 
@@ -51,73 +84,26 @@
 <p>Module script parameters are passed in the query string of the import URL, as described in <a href="../component-anatomy.htm#passing-parameters">Anatomy of a WebCAT Component</a>.</p>
 
 <dl>
-<dt></dt><dd>
-	<p></p>
+<dt>item-space-left</dt><dd>
+	<p>Numeric, default = "5". Defines the margin on the left side each item.</p>
+	</dd>
+<dt>item-space-right</dt><dd>
+	<p>Numeric, default = "5". Defines the margin on the right side of the <em>last</em> item.</p>
+	</dd>
+<dt>pick-threshold</dt><dd>
+	<p>Numeric, default = "5". The threshold for recognizing an element as scroll target.</p>
 	</dd>
 </dl>
 
 <!--h2--Module Configuration--></div>
 
-<h2 cbc>Events</h2><div>
-
-<p></p>
-
-<dl>
-<dt></dt><dd>
-	<p></p>
-	</dd>
-</dl>
-
-<!--h2--Events--></div>
-
-<h2 cbc>Event Listeners</h2><div>
-
-<p></p>
-
-<dl>
-<dt></dt><dd>
-	<p></p>
-	</dd>
-</dl>
-
-<!--h2--Event Listeners--></div>
-
-<h2 cbc>Programming Reference</h2><div>
-
-<p></p>
-
-<h3 cbc></h3><div>
-
-<p>Syntax:</p>
-
-<pre></pre>
-
-<p>Parameters:</p>
-<dl>
-<dt></dt><dd>
-	<p>{} </p>
-	</dd>
-<dt>returns</dt><dd>
-	<p>{} </p>
-	</dd>
-</dl>
-
-<!--h3----></div>
-
-<!--h2--Programming Reference--></div>
-
 <h2 cbc>Examples</h2><div>
 
 <h3 cbc>Demo 1</h3><div>
 
-<p></p>
+<p>The following demo provides a complete example. Use the checkboxes to enable the features:</p>
 
-<figure class="listing"><figcaption></figcaption><pre>
-</pre></figure>
-
-<p>And here is the live demo:</p>
-
-<figure class="demo"><figcaption> (<a href="demo-1.htm" target="_blank">demo-1.htm</a>)</figcaption>
+<figure class="demo"><figcaption>Functionality of the horizontal scrollbar (<a href="demo-1.htm" target="_blank">demo-1.htm</a>)</figcaption>
 <iframe class="content-height-observed" src="demo-1.htm"></iframe>
 </figure>
 
@@ -125,9 +111,441 @@
 
 <!--h2--Examples--></div>
 
-<h2 cbc="collapsed">Implementation Details</h2><div>
+<h2 cbc>Implementation Details</h2><div>
 
-<p>For implementation details, refer to the <a href="">sourcecode</a> of the module.</p>
+<h3 cbc>Studies</h3><div>
+
+<h4 cbc>Box Height and Vertical Text Position</h4><div>
+
+<p>The box height and the vertical text position can be controlled with the following CSS rules:</p>
+
+<pre>
+.horizontal-listbox {
+	line-height : 1 ;
+	}
+.horizontal-listbox > .item-container {
+	margin-bottom : -4px ;
+	}
+</pre>
+
+<p>Note that <tt>line-height</tt> is an inherited property. The negative bottom margin reduces the listbox height a little bit.</p>
+
+<!--h4--Box Height and Vertical Text Position--></div>
+
+<h4 cbc>Study 1 CSS Box Structure</h4><div>
+
+<p>The horizontal listbox depends on the following HTML container structure:</p>
+
+<figure class="listing"><figcaption>The HTML box structure</figcaption><pre>
+&lt;div class="<hi>horizontal-listbox</hi>"&gt;
+	&lt;div class="<hi>curtain</hi>"&gt;
+		&lt;div class="<hi>left arrow</hi>"&gt;&lt;/div&gt;
+		&lt;div class="<hi>item-container</hi>"&gt;
+			&lt;a&gt;Item&lt;/a&gt;
+			&lt;a&gt;Item&lt;/a&gt;
+				&vellip;
+			&lt;a&gt;Item&lt;/a&gt;
+			&lt;a&gt;Item&lt;/a&gt;
+			&lt;/div&gt;
+		&lt;div class="<hi>right arrow</hi>"&gt;&lt;/div&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
+</pre></figure>
+
+<p>The <tt>horizontal-listbox</tt> element is the root container. The classname "horizontal-listbox" is mandatory. Additional classnames unlock features, such as "with-arrows",  "dynamic-scrollbar", and "static-scrollbar".</p>
+
+<p>The structure height is controlled by the content, i. e. the size of elements in the item container.</p>
+
+<p>The CSS code below implements a scrollbar which becomes visible when the mouse pointer hovers over the element.</p>
+
+<figure class="listing"><figcaption>The HTML box structure</figcaption><pre>
+.horizontal-listbox {
+	<cc>/* We have child elements with position:absolute */</cc>
+	position : relative;
+	<cc>/* Ensure a static height */</cc>
+	height : 50px ;
+	overflow : visible ;
+	}
+.horizontal-listbox .curtain {
+	<cc>/* Provide a border */</cc>
+	border : 1px solid silver ;
+	position : relative ;
+	}
+.horizontal-listbox .arrow {
+	<cc>/* Prepare position and size */</cc>
+	position: absolute ;
+	top : 0 ;
+	bottom : 0 ;
+	width : 20px ;
+	<cc>/* Prepare for background image */</cc>
+	background-color : #ddd ;
+	background-position : center center ;
+	background-size : contain ;
+	background-repeat : no-repeat ;
+	<cc>/* Prevent a mouse click from selecting item text */</cc>
+	user-select : none ;
+	}
+.horizontal-listbox .left.arrow {
+	left : 0 ;
+	border-right : 1px solid silver ;
+	background-image : url( ../code/horizontal-listbox/triangle-left.svg );
+	}
+.horizontal-listbox .right.arrow {
+	right : 0 ;
+	border-left : 1px solid silver ;
+	background-image : url( ../code/horizontal-listbox/triangle-right.svg );
+	}
+.horizontal-listbox .item-container {
+	<cc>/* Define position and size */</cc>
+	position : relative ;
+	left : 21px ;
+	box-sizing : border-box ;
+	width : calc( 100% - 42px );
+	<cc>/* Define the height of the element */</cc>
+	line-height : 1.2 ;
+	<cc>/* Enforce a single horizontal row of elements */</cc>
+	white-space : nowrap ;
+	<cc>/* Hide elements overflowing to the right */</cc>
+	overflow-x : hidden ;
+	}
+.horizontal-listbox .item-container:hover {
+	<cc>/* Show the scrollbar when the mouse pointer is over the element */</cc>
+	overflow-x : auto ;
+	}
+.horizontal-listbox .item-container > * {
+	<cc>/* Basic element spacing */</cc>
+	margin-left : 5px ;
+	}
+</pre></figure>
+
+<p>The study can be inspected here:</p>
+
+<figure class="demo"><figcaption>CSS-controlled dynamic scrollbar (<a href="study-1.htm" target="_blank">Study 1</a>)</figcaption>
+<iframe class="content-height-observed" src="study-1.htm"></iframe>
+</figure>
+
+<!--h4--Study 1 CSS Box Structure--></div>
+
+<h4 cbc>Study 2 Scroll Buttons Visibility Control</h4><div>
+
+<p>The arrows are now takeb out of the rendering structure with this CSS property setting:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+.horizontal-listbox .arrow {
+	display : none ;
+	}
+</pre></figure>
+
+<p>They are made visible with the following rule:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+.horizontal-listbox.<hi>with-arrows</hi> .arrow {
+	display : block ;
+	}
+</pre></figure>
+
+<p>The item container takes the entire width of its container:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+.horizontal-listbox .item-container {
+	width : 100% ;
+	}
+</pre></figure>
+
+<p>Size and position changes if the arrows are visible:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+.horizontal-listbox.<hi>with-arrows</hi> .item-container {
+	left : 21px ;
+	width : calc( 100% - 42px );
+	}
+</pre></figure>
+
+<p>A button toggles the class list name:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+toggleButton.addEventListener( "click" , ( ) => listbox.classList.toggle( "<hi>with-arrows</hi>" ) );
+</pre></figure>
+
+<p>The study can be inspected here:</p>
+
+<figure class="demo"><figcaption>CSS-controlled dynamic scrollbar (<a href="study-2.htm" target="_blank">Study 2</a>)</figcaption>
+<iframe class="content-height-observed" src="study-2.htm"></iframe>
+</figure>
+
+
+<!--h4--Study 2 Scroll Buttons Visibility Control--></div>
+
+<h4 cbc>Study 3</h4><div>
+
+<p>This study examines how we can create a dynamic scrollbar with transition effects.</p>
+
+<p>The CSS has an additional rule for the <tt>dynamic-scrollbar</tt> feature:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+.horizontal-listbox.<hi>dynamic-scrollbar</hi> .curtain {
+	transition : height 0.4s 0.3s linear ;
+	overflow : hidden ;
+	}
+</pre></figure>
+
+<p>For a dynamic scrollbar, the <tt>curtain</tt> gets an additional property setting <tt>overflow : hidden</tt> to hide the scrollbar before the <tt>curtain.style.height</tt> property has been set up by the script to exclude the item container's scrollbar. </p>
+
+<p>The following rule is shows the scrollbar while the mouse pointer hovers over the item container:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+.horizontal-listbox .item-container:hover {
+	overflow-x : auto ;
+	}
+</pre></figure>
+
+<p>At the same time, the <tt>mouseenter</tt> event handler in the script ensures that the scrollbar is not immediately visible. This is achieved by setting the <tt>curtain.style.height</tt> to <tt>itemContainer.clientHeight</tt>. In addition to that, the <tt>itemContainer.style.overflowX</tt> is set to <tt>auto</tt>, because, without, the curtain sometimes fails to expand for whatever reason:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+const curtain = document.getElementById( "curtain001" );
+const itemContainer = document.getElementById( "itemContainer" );
+curtain.addEventListener( "<hi>mouseenter</hi>" , evt => {
+ 	curtain.style.<hi>height</hi> = itemContainer.<hi>clientHeight</hi> + "px" ;
+	itemContainer.style.<hi>overflowX</hi> = "<hi>auto</hi>" ;
+	requestAnimationFrame( ( ) => {
+	requestAnimationFrame( ( ) => {
+		curtain.style.<hi>height</hi> = itemContainer.<hi>offsetHeight</hi> + "px" ;
+		} ) ;
+		} ) ;
+	} ) ;
+</pre></figure>
+
+<p>When the state of the rendering engine has settled (which is usually the case after two <tt>requestAnimationFrame()</tt> calls), the <tt>curtain.style.height</tt> is set to the height required to include the scrollbar. This is the <tt>itemContainer.offsetHeight</tt>.</p>
+
+<p>When the mouse pointer leaves the <tt>curtain</tt> element boudaries, the curtain height is set to exclude the item container scrollbar:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+curtain.addEventListener( "<hi>mouseleave</hi>" , evt => {
+	curtain.style.<hi>height</hi> = itemContainer.<hi>clientHeight</hi> + "px" ;
+	} ) ;
+</pre></figure>
+
+<p>Note that the <tt>curtain.style.overflowX</tt> is not reset to "hidden". It doesn't hurt because the curtain height is now controlled by code.</p>
+
+<p>The arrow button feature remains independent, you can turn them on and off.</p>
+
+<!--h4--Study 3--></div>
+
+<h4 cbc>Study 4 Scroll Button Event Integration</h4><div>
+
+<p>The <tt>mouseenter</tt> event is now registered with the <tt>item-container</tt>. This prevents the <tt>curtain</tt> to expand if the mouse pointer hovers over the scroll-buttons.</p>
+
+<p id="study-4-right">The script attaches a click-event handler to the right scroll-button:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+<hi>rightArrow</hi>.addEventListener( "<hi>click</hi>" , ( evt ) => {
+	evt.preventDefault( );
+	evt.stopPropagation( );
+	for ( const item of <hi>itemContainer</hi>.<hi>children</hi> ) {
+		const d = item.offsetLeft + item.offsetWidth - itemContainer.clientWidth + 5 ;
+		if ( d - Math.round( itemContainer.scrollLeft ) > 5 ) {
+			itemContainer.scroll( { left : d , behavior : "smooth" } );
+			break ;
+	}	}	} ) ;
+</pre></figure>
+
+<p>The loop iterates over the elements in the <tt>item-container</tt> and finds the first one that is fully visible at the left side. The calculation of <tt>d</tt> takes the space (margin or padding) of 5 pixels in front of the element into account. The comparison with <tt>itemContainer.scrollLeft</tt> includes a threshold of 5 pixels.</p>
+
+<p>If an item matches the criteria, the item container is smoothly scrolled to the item offset plus left margin (5px).</p>
+
+<p id="study-4-left">The click-event handler for the left scroll-button is quite similar:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+<hi>leftArrow</hi>.addEventListener( "<hi>click</hi>" , ( evt ) => {
+	evt.preventDefault( );
+	evt.stopPropagation( );
+	for ( const item of <hi>Array</hi>.<hi>from</hi>( itemContainer.children ).<hi>reverse</hi>( )) {
+		const d = item.offsetLeft - 5 ;
+		if ( d - Math.round( itemContainer.scrollLeft ) < - 5  ) {
+			itemContainer.<hi>scroll</hi>( { left : d , behavior : "smooth" } );
+			return ;
+	}	}	} ) ;
+</pre></figure>
+
+<p>The difference is that the items are searched in reverse order, from right to left. The comparison finds the first item with a position left of the left container border, and scrolls it into view.</p>
+
+<!--h4--Study 4--></div>
+
+<h4 cbc>Spontaneous Back-Scrolling</h4><div>
+
+<p>A problem occured during development of the scroll-right event handler: It could not be scrolled past a certain item. Debugging revealed that the item container scrolled back to the previous item. So the calculations were correct and picked the next. Which was the same as in the previous event handling.</p>
+
+<p>This back-scrolling must be eliminated.</p>
+
+<p>The situation could be resolved manually by expanding the curtain once. After that, the back-scrolling no longer appeared.</p>
+
+<p>The solution is to execute the follwing instructions at the end of <tt>init()</tt>:</p>
+
+<pre>
+curtain.style.height = itemContainer.clientHeight + "px" ;
+itemContainer.style.overflowX = "auto" ;
+curtain.style.overflow = "hidden" ;
+</pre>
+
+<p>Additionally, the instruction can be removed from the mouse enter event handler, the item container overflow x style is permanently left on "auto":</p>
+
+<pre>
+itemContainer.style.overflowX = "auto" ;
+</pre>
+
+<p>These changes go into Demo 1.</p>
+
+<!--h4--Spontaneous Back-Scrolling--></div>
+
+<h4 cbc>Study 5 ScrollIntoView()</h4><div>
+
+<p>This study uses the function <tt>scrollIntoView()</tt>. A CSS rule can define scroll margins on the items:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+.horizontal-listbox .item-container > * {
+	margin-left : <hi>5px</hi> ;
+	<hi>scroll-margin-inline</hi> : 5px 5px ;
+	}
+</pre></figure>
+
+<p>This margin should be equal to the <tt>margin</tt> defined on the items</p>
+
+<p>The computations have been changed, and the scroll instructions now look as follows:</p>
+<figure class="listing"><figcaption></figcaption><pre>
+item.scrollIntoView( { behavior : "smooth" , inline : "start", block : "center" } );
+item.scrollIntoView( { behavior : "smooth", inline : "end", block : "center" } );
+</pre></figure>
+
+<p>Here is a live demo. It should be noted that <tt>scrollIntoView()</tt> works across IFRAMEs and also scrolls the host document, which is not always desirable. It might be better to open the document in a separate window (click the link):</p>
+
+<figure class="demo"><figcaption><a href="study-5.htm" target="_blank">Study 5</a></figcaption>
+<iframe class="content-height-observed" src="study-5.htm"></iframe>
+</figure>
+
+<p>Summary: ScrollIntoView() scrolls in two dimensions simultaneously, this is not suited to a horizontal listbox element.</p>
+
+<!--h4--Study 5 ScrollIntoView()--></div>
+
+<!--h3--Studies--></div>
+
+<h3 cbc>Scroll Buttons</h3><div>
+
+<p>The two scroll-buttons are activeated if the <tt>horizontal-listbox</tt> carries the classname <tt>with-arrows</tt>. This activates the second rule, which switches the <tt>display</tt> style from <tt>none</tt> to <tt>block</tt>:</p>
+
+<figure class="listing"><figcaption>Enabling the arrow buttons</figcaption><pre>
+.horizontal-listbox .arrow {
+	display : <hi>none</hi> ;
+	}
+.horizontal-listbox.<hi>with-arrows</hi> .arrow {
+	display : <hi>block</hi> ;
+	}
+</pre></figure>
+
+<p>To make the script work properly, the item container must have <tt>overflow-x:auto</tt> permanently set.</p>
+
+<figure class="listing"><figcaption>Enabling the arrow buttons</figcaption><pre>
+.horizontal-listbox .item-container {
+	overflow-x : <hi>auto</hi> ;
+	}
+</pre></figure>
+
+<p>With <tt>overflow:hidden</tt>, the item container sometimes scrolls back to the previous item for some unknown reason &ndash; which effectively breaks the button scroll functionality every now and then.</p>
+
+<p>The event handling code has already been discussed in study 4, <a href="#study-4-right">right</a> and <a href="'study-4-left">left button</a>.</p>
+
+<!--h3--Scroll Buttons--></div>
+
+<h3 cbc>Scrollbar Feature</h3><div>
+
+<p>The horizontal scrollbar is enabled by the classname "scrollbar":</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+&lt;div class="horizontal-listbox scrollbar"&gt;
+</pre></figure>
+
+<p>If the classname is absend, the code executes an early <tt>return</tt> statement:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+function mouseEnterHandler( evt ) {
+	const { itemContainer, curtain, listbox } = getContainers( evt );
+	curtain.style.height = itemContainer.clientHeight + "px" ;
+	if ( ! listbox.classList.contains( "<hi>scrollbar</hi>" )) <hi>return</hi> ;
+	requestAnimationFrame( ( ) => {
+	requestAnimationFrame( ( ) => {
+		curtain.style.<hi>height</hi> = <hi>itemContainer.offsetHeight</hi> + "px" ;
+		} ) ;
+		} ) ;
+	}
+</pre></figure>
+
+<p>Otherwise, the <tt>curtain.style.height</tt> is set to the <tt>itemContainer.offsetHeight</tt>, which includes the scrollbar, and the scrollbar becomes visible.</p>
+
+<p>If the mouse pointer leaves the item container boundaries, the curtain height is reduced to <tt>itemContainer.clientHeight</tt>, which effectively hides the scrollbar:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+function mouseLeaveHandler( evt ) {
+	const { itemContainer, curtain, listbox } = getContainers( evt );
+	curtain.style.<hi>height</hi> = itemContainer.<hi>clientHeight</hi> + "px" ;
+	}</pre></figure>
+
+<!--h3--Scrollbar Feature--></div>
+
+<h3 cbc>Scrollbar Transition Effect</h3><div>
+
+<p>The smooth curtain effect is controlled by a CSS rule:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+.horizontal-listbox.<hi>transitioned</hi>.scrollbar .curtain {
+	transition : height 0.4s 0.3s linear ;
+	}
+</pre></figure>
+
+<p>This rule is activated if the classname "transitioned" is found on the horizontal scrollbar element:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+&lt;div class="horizontal-listbox <hi>transitioned</hi> scrollbar"&gt;
+</pre></figure>
+
+<!--h3--Scrollbar Transition Effect--></div>
+
+<h3 cbc>Creating the Container Structure</h3><div>
+
+<p>The container structure is creates in the <tt>init()</tt> function. The code expects the following HTML structure:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+&lt;div class="horizontal-listbox transitioned scrollbar"&gt;
+	&lt;span&gt;Item 1&lt;/span&gt;
+	&lt;span&gt;Item 2&lt;/span&gt;
+		&vellip;
+	&lt;span&gt;Item 16&lt;/span&gt;
+	&lt;span&gt;Item 17&lt;/span&gt;
+	&lt;/div&gt;
+</pre></figure>
+
+<p>After processing, the structure looks like this:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+&lt;div class="horizontal-listbox transitioned scrollbar"&gt;
+	&lt;div class="<hi>curtain</hi>" style="height: 19px;"&gt;
+		&lt;div class="<hi>arrow left</hi>"&gt;&lt;/div&gt;
+		&lt;div class="<hi>item-container</hi>"&gt;
+			&lt;span&gt;Item 1&lt;/span&gt;
+			&lt;span&gt;Item 2&lt;/span&gt;
+				&vellip;
+			&lt;span&gt;Item 16&lt;/span&gt;
+			&lt;span&gt;Item 17&lt;/span&gt;
+			&lt;/div&gt;
+		&lt;div class="<hi>arrow right</hi>"&gt;&lt;/div&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
+</pre></figure>
+
+<figure class="listing"><figcaption></figcaption><pre>
+</pre></figure>
+
+<!--h3--Creating the Container Structure--></div>
+
+<p>For the complete implementation details, refer to the <a href="">sourcecode</a> of the module.</p>
 
 <!--h2--Implementation Details--></div>
 

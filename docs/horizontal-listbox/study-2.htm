@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html> 
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-09-15" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-11-19" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-11-19" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="../code/page-structure/demo-page-1.css" />
+<script type="module" src="../code/page-structure/demo-page-1.js" ></script>
+
+<style>
+.horizontal-listbox {
+	position : relative;
+	height : 50px ;
+	overflow : visible ;
+	}
+.horizontal-listbox .curtain {
+	border : 1px solid silver ;
+	position : relative ;
+	}
+.horizontal-listbox .arrow {
+	display : none ;
+	position: absolute ;
+	top : 0 ;
+	bottom : 0 ;
+	width : 20px ;
+	background-color : #ddd ;
+	background-position : center center ;
+	background-size : contain ;
+	background-repeat : no-repeat ;
+	user-select : none ;
+	}
+.horizontal-listbox.with-arrows .arrow {
+	display : block ;
+	}
+.horizontal-listbox .left.arrow {
+	left : 0 ;
+	border-right : 1px solid silver ;
+	background-image : url( ../code/horizontal-listbox/triangle-left.svg );
+	}
+.horizontal-listbox .right.arrow {
+	right : 0 ;
+	border-left : 1px solid silver ;
+	background-image : url( ../code/horizontal-listbox/triangle-right.svg );
+	}
+.horizontal-listbox .item-container {
+	position : relative ;
+	box-sizing : border-box ;
+	width : 100% ;
+	line-height : 1.2 ;
+	white-space : nowrap ;
+	overflow-x : hidden ;
+	}
+.horizontal-listbox .item-container:hover {
+	overflow-x : auto ;
+	}
+.horizontal-listbox.with-arrows .item-container {
+	left : 21px ;
+	width : calc( 100% - 42px );
+	}
+.horizontal-listbox .item-container > * {
+	margin-left : 5px ;
+	}
+</style>
+
+<script type="module">
+toggleButton.addEventListener( "click" , ( ) => listbox.classList.toggle( "with-arrows" ) );
+</script>
+ 
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox > Horizontal Listbox" />
+<meta name="tags" content="web, content, authoring, toolbox, WebCAT, HTML, JavaScript, CSS, component, utility, demo, horizontal, listbox" />
+<title>Horizontal Listbox (Web > Content Authoring Toolbox > Visual Components)</title>
+<meta name="description" content="" />
+
+</head><body>
+
+<div class="hide-if-hosted">
+<h1>Study 2: Horizontal List Box</h1><p class="subtitle">Arrow Buttons as Feature</p>
+<p>The classname "with-arrows" makes the arrow buttons visible.</p>
+</div>
+
+<p><button id="toggleButton">Toggle Buttons</button></p>
+
+<div id="listbox" class="horizontal-listbox with-arrows">
+	<div class="curtain">
+		<div class="left arrow"></div>
+		<div class="item-container">
+			<a>Item</a>
+			<a>Item</a>
+			<a>Item</a>
+			<a>Item</a>
+			<a>Item</a>
+			<a>Item</a>
+			<a>Item</a>
+			<a>Item</a>
+			<a>Item</a>
+			<a>Item</a>
+			<a>Item</a>
+			<a>Item</a>
+			<a>Item</a>
+			<a>Item</a>
+			<a>Item</a>
+			<a>Item</a>
+			</div>
+		<div class="right arrow"></div>
+		</div>
+	</div>
+
+<p>The vertical position of this text should not be affected by the horizontal scrollbar being visible, or not.</p>
+
+</body></html>

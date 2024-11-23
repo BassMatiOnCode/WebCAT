@@ -19,34 +19,26 @@
 <meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
 <meta name="tags" content="web, content, authoring, toolbox, WebCAT, HTML, JavaScript, CSS, component, utility, demo" />
 <title> (Web > Content Authoring Toolbox)</title>
+<meta name="description" content="" />
 
 </head><body>
 
 <div class="hide-if-hosted">
-<h1>Demo 2</h1><p class="subtitle">Unique ID Generator</p>
-<p>Verifies that different modules cannot create the same ID.</p>
-<p>Enter a name and click both buttons. Generated IDs should be different.</p>
+<h1>Demo 1</h1><p class="subtitle">Unique ID Generator</p>
 </div>
 
-<p><input id="prefixInput" type="text" value="banana" /> <button id="generateButton1">Generate</button> <button id="generateButton2">Generate</button></p>
+<p><input id="prefixInput" type="text" value="banana" /> <button id="generateButton">Generate</button></p>
 
 <div id="output">
 </div>
 
 <script type="module">
 import { createUniqueID } from "../../code/utility/unique-id/unique-id-1.js" ;
-generateButton1.addEventListener( "click" , ( ) => {
+generateButton.addEventListener( "click" , ( ) => {
 	const paragraph = output.insertBefore( document.createElement( "P" ), null ) ;
 	paragraph.innerText = createUniqueID( prefixInput.value );
 	} ) ;
-</script>
 
-<script type="module">
-import { createUniqueID } from "../../code/utility/unique-id/unique-id-1.js" ;
-generateButton2.addEventListener( "click" , ( ) => {
-	const paragraph = output.insertBefore( document.createElement( "P" ), null ) ;
-	paragraph.innerText = createUniqueID( prefixInput.value );
-	} ) ;
 </script>
 
 </body></html>
