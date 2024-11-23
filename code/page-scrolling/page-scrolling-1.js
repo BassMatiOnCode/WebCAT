@@ -17,18 +17,24 @@ const configuration = {
 *		Returns true if the link scrollTarget scrollTarget was found, or undefined otherwise.
 *
 */ export function scrollToElement( scrollTarget ) {
-	// Find the link scrollTarget scrollTarget
 	if ( ! scrollTarget ) return ;
+	// Find the scrollTarget by CSS selector
 	if ( typeof scrollTarget === "string" ) {
 		const target = document.querySelector( scrollTarget );
 		if ( target ) scrollTarget = target ;
-		else return console.error( `Scroll target element not found: ${scrollTarget}` );
+		else return console.error( `Selected scroll target not found: ${target}` );
 		}
 	// Determine the scroll margin top
 	const event = new CustomEvent( "query-scroll-margins", { detail : { } } ) ;
 	document.dispatchEvent( event ) ;
-	const scrollMargin = event.detail.marginTop || configuration.scrollMarginTop ;
-	document.scrollingElement.scroll( { top : scrollTarget.offsetTop - scrollMargin , behavior : "smooth"  } ) ;
+	let scrollY = -( event.detail.marginTop || configuration.scrollMarginTop );
+	// Collect scroll top offsets from parents
+	let element = scrollTarget ;
+	while ( element !== document.scrollingElement ) {
+		scrollY += element.offsetTop ;
+		element = element.parentElement ;
+		}
+	document.scrollingElement.scroll( { top : scrollY , behavior : "smooth"  } ) ;
 	// Restore original document URL only if requested.
 	function scrollEndHandler ( ) {
 		history.replaceState( null, null, document.location.href + (configuration.documentFragmentIdentifier || "" )) ;
