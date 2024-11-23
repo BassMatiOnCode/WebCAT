@@ -188,14 +188,16 @@ pre { tab-size : 20px ; margin : 5px 0 -20px -20px}
 		<p>Commit deleted from history. Lost changes merged into scroll-box-re-integration branch, then merged back into main.</p>
 		</div>
 	</dd>
-<dt class="open"><span class="date">2024-11-22-001</span> Jump to chapter: Scroll position not correct.</dt><dd>
+<dt class="closed fixed"><span class="date">2024-11-22-001</span> Jump to chapter: Scroll position not correct.</dt><dd>
 	<p class="affected components">page-scrolling</p>
-	<p class="close-info"><span class="date"></span></p>
+	<p class="close-info"><span class="date">2024-11-23</span> fixed, closed.</p>
 	<div class="description">
-		<p>Might be caused by switching toolbars to scroll-box, positioning of MAIN has changed.</p>
+		<p>Issue #2. Might be caused by switching toolbars to scroll-box, positioning of MAIN has changed.</p>
 		</div>
 	<div class="resolution">
-		<p></p>
+		<p>page-scrolling: Element.offsetTop values must be collected along the parent element up to document.scrollingElement.</p>
+		<p>page-scrolling: Bug fixed: Style.top used instead of element.top.</p>
+		<p>scroll-margin-provider: Module parameter added: additional-margin-top, additional-margin-bottom.</p>
 		</div>
 	</dd>
 
