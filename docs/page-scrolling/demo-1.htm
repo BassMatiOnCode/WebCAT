@@ -13,15 +13,8 @@
 <link rel="stylesheet" href="/inc/webcat/page-structure/demo-page-1.css" />
 <script type="module" src="/inc/webcat/page-structure/demo-page-1.js" ></script>
 
-<script type="module">
-	// Add query event listener to the document
-	document.addEventListener( "query-scroll-margins" , evt => {
-		evt.detail.marginTop = mainToolbar.scrollHeight ;
-		evt.detail.marginBottom = 0 ;
-		} ) ;
-</script>
-
-<script type="module" src="/inc/webcat/page-scrolling/page-scrolling-1.js?scroll-targets-selector=dt" ></script>
+<script type="module" src="../code/page-scrolling/page-scrolling-1.js?scroll-targets-selector=h1,h2,h3" ></script>
+<script type="module" src="../code/scroll-margin-provider/scroll-margin-provider-1.js?additional-margin-top=10" ></script>
 
 <script type="module">
 button1.addEventListener( "click" , ( ) => document.dispatchEvent( new CustomEvent( "scroll-page-request" , { detail : { scrollTarget : "topOfPage" } } ) ) );
@@ -32,59 +25,82 @@ button4.addEventListener( "click" , ( ) => document.dispatchEvent( new CustomEve
  
 <meta name="categorieas" content="Projects > Web > Content Authoring Toolbox" />
 <meta name="tags" content="web, content, authoring, toolbox, HTML, JavaScript, CSS, WebCAT, component, literature, reference, list" />
-<title>Demo 3(Web > Content Authoring Toolbox > Page Scrolling)</title>
-<meta name="description" content="" />
+<title>Demo 1(Web > Content Authoring Toolbox > Page Scrolling)</title>
+<meta name="description" content="Demonstrates the integration of components into a document." />
 </head><body>
 
 <div class="hide-if-hosted">
-<h1>Demo 3</h1><p class="subtitle">Scroll event interface</p>
+<h1>Demo 1</h1><p class="subtitle">Integration into a document</p>
 </div>
 
-<div id="mainToolbar" style="position:sticky ; top:-1px ; height:30px ; padding-top:5px ; border-top:1px solid silver ; border-bottom:1px solid silver ; background-color:white">Sticky toolbar <button id="button1">Top</button> <button id="button2">Previous</button> <button id="button3">Next</button> <button id="button4">Bottom</button></div>
 
-<p></p>
+<div class="toolbar" style="position:sticky ; top:-1px ; height:30px ; padding-top:5px ; border-top:1px solid silver ; border-bottom:1px solid silver ; background-color:white">Another sticky toolbar</div>
 
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
-<p>space</p>
+<div id="mainToolbar" class="toolbar" style="position:sticky ; top:36px ; height:30px ; padding-top:5px ; border-top:1px none silver ; border-bottom:1px solid silver ; background-color:white">Sticky toolbar <button id="button1">Top</button> <button id="button2">Previous</button> <button id="button3">Next</button> <button id="button4">Bottom</button></div>
+
+<p>The following paragraphs contain no meaingful text.</p>
+
 <p>space</p>
 <p>space</p>
 <p>space</p>
 
-<dl class="literature-reference-list">
-<dt id="ref-001">Author 1 Name, Document 1 Title</dt><dd>
-	<p>Document description</p>
-	</dd>
-<dt id="ref-002">Author 2 Name, Document 2 Title</dt><dd>
-	<p>Document description</p>
-	</dd>
-<dt id="ref-003">Author 3 Name, Document 3 Title</dt><dd>
-	<p>Document description</p>
-	</dd>
-</dl>
+<h2>Title Second Order</h2>
+
+<p>space</p>
+<p>space</p>
+<p>space</p>
+<p>space</p>
+
+<h2>Title Second Order</h2>
 
 <p>space</p>
 <p>space</p>
 <p>space</p>
 <p>space</p>
 <p>space</p>
+
+<h2>Title Second Order</h2>
+
+<p>space</p>
+
+<h4>Title Fourth Order</h4>
+
+<p>space</p>
+<p>space</p>
+
+<h4>Title Fourth Order</h4>
+
+<p>space</p>
+
+<h3>Title Third Order</h3>
+
+<p>space</p>
+<p>space</p>
+
+<h4>Title Fourth Order</h4>
+
 <p>space</p>
 <p>space</p>
 <p>space</p>
+
+<h4>Title Fourth Order</h4>
+
 <p>space</p>
 <p>space</p>
 <p>space</p>
+
+<h2>Title Second Order</h2>
+
 <p>space</p>
 <p>space</p>
+
+<h4>Title Fourth Order</h4>
+
 <p>space</p>
 <p>space</p>
-<p>space</p>
+
+<h3>Title Third Order</h3>
+
 <p>space</p>
 <p>space</p>
 

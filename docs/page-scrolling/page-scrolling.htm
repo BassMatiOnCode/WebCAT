@@ -6,23 +6,23 @@
 <meta name="author" content="USP" />
 <meta name="creation-date" content="2024-11-04" />
 <meta name="editor" content="USP" />
-<meta name="change-date" content="2024-11-04" />
-<meta name="version" content="1" />
+<meta name="change-date" content="2024-11-23" />
+<meta name="version" content="2" />
 <meta name="sectionTitle" content="../title.svg" />
 
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
-<link rel="stylesheet" href="/inc/webcat/page-structure/tutorial-page-1.css" />
-<script type="module" src="/inc/webcat/page-structure/tutorial-page-1.js" ></script>
+<link rel="stylesheet" href="../code/page-structure/tutorial-page-1.css" />
+<script type="module" src="../code/page-structure/tutorial-page-1.js" ></script>
  
 <meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
-<meta name="tags" content="web, content, authoring, toolbox, HTML, JavaScript, CSS, WebCAT, component, highlight, link, target, hash" />
+<meta name="tags" content="web, content, authoring, toolbox, HTML, JavaScript, CSS, WebCAT, component, highlight, link, target, hash, scroll, smooth" />
 <meta name="description" content="This component smoothly scrolls a the page up and down in order to get a specific part or element of the page into view. The scroll target element can be defined in several ways." />
 
 <title>Page Scrolling (Web > Content Authoring Toolbox)</title>
 
 </head><body>
 
-<h1>Page Scrolling</h1>
+<h1>Page Scrolling</h1><p class="subtitle">Managing Navigation Targets on a Page</p>
 
 <p id="pageAbstract"></p>
 
@@ -37,11 +37,9 @@
 
  <pre>path/to/document.htm#<hi>elementID</hi></pre>
 
- <p>The part after the hash sign is called <a href="https://en.wikipedia.org/wiki/URI_fragment">document fragment</a> or link target element identifier.</p>
+ <p>The part after the hash sign is called <a href="https://en.wikipedia.org/wiki/URI_fragment">document fragment</a> or link target element identifier. By default, the browser takes care of scrolling the page to the link target, so this component is not stricktly necessary. But the browser does not provide smooth scrolling, at least not at the time of writing. This is what this component is for.</p>
 
- <p>By default, the browser takes care of scrolling the page, so this component is not stricktly necessary. But the browser does not provide smooth scrolling, at least not at the time of writing. This is what this component is for.</p>
-
- <p>Another situation where the browser cannot serve out of the box occurs when a link target is located in an asynchronously loaded and document fragment. Deferring the component initialization after the "fragment-loading-complete" event solves this problem.</p>
+ <p>Another situation where the browser cannot serve out of the box occurs when a link target is located in a document fragment. Document fragments are loaded asynchronously and are not yet available when the document is rendered on the screen. This can be addressed by registering component initialization to the "fragment-loading-complete" event, which solves the problem.</p>
 
 <h2 cbc>Using the Component</h2><div>
 
@@ -50,6 +48,8 @@
 <ul>
 <li>page-scrolling.js</li>
 </ul>
+
+<p>It is recommended to also install the related component (<a href="#scroll-margin-provider">scroll-margin-provider</a>).</p>
 
 <p>For detailed notes on how to import this file into a document or aggregation file, refer to <a hef="../component-anatomy.htm#using">WebCAT Component Anatomy</a>.</p>
 
@@ -62,6 +62,8 @@
 </pre></figure>
 
 <p>A click on a link should carry you to the corresponding entry in the description list. The module script extracts the hash part from the URL, locates the related element in the document, and scrolls it smoothly into view.</p>
+
+<p>See also the <a href="#examples">examples</a> and <a href="#studies">studies</a> for detailed usage examples.</p>
 
 <!--h2--Using the Component--></div>
 
@@ -88,47 +90,69 @@
 
 <!--h2--Module Configuration--></div>
 
-<h2 cbc id="event-listeners">Event Listeners</h2><div>
+<h2 cbc>Events</h2><div>
 
-<p class="note">Note that you don't have to import the <tt>page-scrolling</tt> component into e. g. every button component in order to use this event interface. In is sufficient to have the <tt>page-scrolling</tt> component imported (as service provider) <em>somewhere</em> into the document.</p>
-
-<p>The component adds an <tt>scroll-page-request</tt> listener to the <tt>document</tt> element to provide page scrolling services to other components. The <tt>CustomEvent.detail</tt> object carries the following members:</p>
+<p class="note">To make this work, it is important to have the <tt>scroll-margin-provider</tt> component imported (as service provider) <em>somewhere</em> into the document.</p>
 
 <dl>
-<dt id="scroll-target">scrollTarget</dt><dd>
-	<p>Specifies the element which will be scrolled to the top of the window.</p>
-	<p>Possible values:</p>
+<dt>scroll-page-request</dt><dd>
+	<p>dispatched to: <tt>document</tt>.</p>
+	<p>Served by: <tt>scroll-margin-provider.js</tt></p>
+	<p>Event members:</p>
 	<dl>
-	<dt>nextTarget</dt><dd>
-		<p>Scrolls the the next scroll target on the page, usually a chapter or section heading.</p>
-		</dd>
-	<dt>previousTarget</dt><dd>
-		<p>Scrolls to the previous target.</p>
-		</dd>
-	<dt>topOfPage</dt><dd>
-		<p>Scrolls to the top of the page.</p>
-		</dd>
-	<dt>bottomOfPage</dt><dd>
-		<p>Scrolls to the bottom of the page.</p>
-		</dd>
-	<dt>Element selector</dt><dd>
-		<p>A valid CSS selector that selects an scroll target element. Usually the ID of an element (e. g. "#target-name").</p>
-		</dd>
-	<dt>Element reference</dt><dd>
-		<p>A binary reference to an element on the page.</p>
+	<dt>event.detail.marginTop<br/>event.detail.marginBottom</dt><dd>
+		<p>Returns the scroll margin top and bottom values for all scroll targets.</p>
 		</dd>
 	</dl>
 	</dd>
 </dl>
 
+<!--h2--Events--></div>
+
+<h2 cbc id="event-listeners">Event Listeners</h2><div>
+
+<p class="note">To make this work, it is important to have the <tt>page-scrolling</tt> component imported (as service provider) <em>somewhere</em> into the document.</p>
+
+<p>The component adds an <tt>scroll-page-request</tt> listener to the <tt>document</tt> element to provide page scrolling services to other components. The <tt>CustomEvent.detail</tt> object carries the following members:</p>
+
+<dl>
+<dt>scroll-page-request</dt><dd>
+	<p>Registered with: <tt>document</tt></p>
+	<p>Event Properties:</p>
+	<dl>
+	<dt id="scroll-target">event.detail.scrollTarget</dt><dd>
+		<p>{string | object} Specifies the element which will be scrolled to the top of the window. Possible values:</p>
+		<dl>
+		<dt>"nextTarget"</dt><dd>
+			<p>Scrolls the the next scroll target on the page, usually a chapter or section heading.</p>
+			</dd>
+		<dt>"previousTarget"</dt><dd>
+			<p>Scrolls to the previous target.</p>
+			</dd>
+		<dt>"topOfPage"</dt><dd>
+			<p>Scrolls to the top of the page.</p>
+			</dd>
+		<dt>"bottomOfPage"</dt><dd>
+			<p>Scrolls to the bottom of the page.</p>
+			</dd>
+		<dt>element-selector</dt><dd>
+			<p>{string} A valid CSS selector that selects a scroll target element. Usually the ID of an element (e. g. "#target-name").</p>
+			</dd>
+		<dt>element-reference</dt><dd>
+			<p>{object} A reference to an element on the page.</p>
+			</dd>
+		</dl></dl>
+	</dd>
+	</dl>
+
 <!--h2--Event Listeners--></div>
 
 <h2 cbc>Related Components</h2><div>
 
-<p>This component is related to other WebCAT components:</p>
+<p>This component is related to these other WebCAT components:</p>
 
 <dl>
-<dt><a href="../scroll-margin-provider/scroll-margin-provider.htm">scroll-margin-provider</a></dt><dd>
+<dt id="#scroll-margin-provider"><a href="../scroll-margin-provider/scroll-margin-provider.htm">scroll-margin-provider</a></dt><dd>
 	<p>Calculates the space at the top and bottom of the window that is occupied by sticky toolbars. The values must be included in the calculations for the scroll distance.</p>
 	</dd>
 <dt><a href="../tool-buttons/tool-buttons.htm">Tool Buttons</a></dt><dd>
@@ -138,74 +162,41 @@
 
 <!--h2--Related Components--></div>
 
-<h2 cbc>Examples</h2><div>
+<h2 cbc id="examples">Examples</h2><div>
 
-<h3 cbc>Demo 1a, Demo 1b</h3><div>
+<p>The module is imported with a module script. A scroll target selector strint is passed in the module URL, which selects headings of first to third order as possible scroll targets:</p>
 
-<p><a href="demo-1a.htm" target="_blank">Demo 1a</a> is a simple document that carries anchors that link to elements in <a href="demo-1b.htm" target="_blank"></a> The example demonstrates  solving a race condition in the browser at document load-time.</p>
+<figure class="listing"><figcaption></figcaption><pre>
+&lt;script type="module" src="path/to/page-scrolling.js?scroll-targets-selector=h1,h2,h3" &gt;&lt;/script&gt;
+&lt;script type="module" src="path/to/scroll-margin-provider.js?additional-margin-top=10" &gt;&lt;/script&gt;
+</pre></figure>
 
-<p class="note">Navigation to another document combined with scripted smooth scolling exposes problems in IFRAMEs: Not only the hosted document scrolls, but the host document also, which is an unwanted effect which cannot be prevented (at least at the time of writing). If you experience problems, open the demo documents in a separate window (e. g. by using the links above). The problems don't appear in top-level documents.</p>
+<p>Additionally, the <em>scroll margin provider</em> component is imported, which detects the two sticky toolbars at the top of the page. The URL contains a parameter for the additional top margin (10 pixels).</p>
 
-<p>The example below demonstrates the navigation from demo 1a to an element in demo 1b. Notice the target document scrolling down smoothly:</p>
-
-<figure class="demo" style="scroll-margin-top:40px"><figcaption>Smooth scrolling demo</figcaption>
-<iframe style="width:100% ; height:200px" src="demo-1a.htm"></iframe>
-</figure>
-
-<p>Demo 1b also has links at the top of the page. They demonstrate how clicks are intercepted and converted into smooth scrolling to the link target. This technique works well in an IFRAME window.</p>
-
-<p>You don't have to change your HTML code to use these features. Just import the module script into your document.</p>
-
-<!--h3--Demo 1a, Demo 1b--></div>
-
-<h3 cbc>Demo 2</h3><div>
-
-<p>Demo 2 demonstrates the use of the <em>scrolling event interface</em>. The page hosts buttons instead of anchors. The button click event handlers dispatch a <tt>scroll-page-request</tt> event to the document and specify the scroll target element:</p>
-
-<figure class="listing"><figcaption>Using the scroll event interface</figcaption>
-<pre>
+<figure class="listing"><figcaption></figcaption><pre>
 button1.addEventListener( "click" , ( ) => 
-	document.dispatchEvent( 
-	new CustomEvent( "<hi>scroll-page-request</hi>" , { detail : { 
-	<hi>scrollTarget</hi> : "#ref-001" } } ) ) );
+	<hi>document</hi>.<hi>dispatchEvent</hi>( new <hi>CustomEvent</hi>( "<hi>scroll-page-request</hi>" , { 
+	detail : { <hi>scrollTarget</hi> : "<hi>topOfPage</hi>" } } ) ) );
+button2.addEventListener( "click" , ( ) => 
+	document.dispatchEvent( new CustomEvent( "scroll-page-request" , { 
+	detail : { scrollTarget : "<hi>previousTarget</hi>" } } ) ) );
+button3.addEventListener( "click" , ( ) => 
+	document.dispatchEvent( new CustomEvent( "scroll-page-request" , { 
+	detail : { scrollTarget : "<hi>nextTarget</hi>" } } ) ) );
+button4.addEventListener( "click" , ( ) => 
+	document.dispatchEvent( new CustomEvent( "scroll-page-request" , { 
+	detail : { scrollTarget : "<hi>bottomOfPage</hi>" } } ) ) );
 </pre></figure>
 
-<p>Note that you can specify <em>any valid CSS selector</em> in the <tt>scrollTarget</tt> field.</p>
+<p>The HTML code contains a number of headings first to fourth order. Note that fourth order headings are not scroll targets, as defined in the URL selector string.</p>
 
-<p>A click on a button should scroll the document smoothly to the target element:</p>
+<p>Here is the demo:</p>
 
-<figure class="demo" style="scroll-margin-top:40px"><figcaption>Scroll event interface demo</figcaption>
-<iframe style="width:100% ; height:200px" src="demo-2.htm"></iframe>
-</figure>
-
-<!--h3--Demo 2--></div>
-
-<h3 cbc>Demo 3</h3><div>
-
-<p>This demo shows the use of scroll targets. A scroll target is an arbitrary element on the page which can be navigated to with the buttons. By default, the chapter headings H1...H5 are selected into the <tt>configuration.scrollTargets</tt> list. In this example, the three <tt>DT</tt> elements are selected:</p>
-
-<figure class="listing"><figcaption>Passing a scroll targets selector to the module</figcaption>
-<pre>
-&lt;script type="module" src="path/to/page-scrolling.js?scroll-targets-selector=dt" &gt;&lt;/script&gt;
+<figure class="demo"><figcaption>Integration demo (<a href="demo-1.htm" target="_blank">Demo 1</a>)</figcaption><pre>
+<iframe style="height:300px" src="demo-1.htm"></iframe>
 </pre></figure>
 
-<p>The button click event handlers look similar to demo 2, but this time, method names are passed in the <tt>detail.scrollTarget</tt> field:</p>
-
-<figure class="listing"><figcaption>Using the scroll event interface</figcaption>
-<pre>
-button1.addEventListener( "click" , ( ) => 
-	document.dispatchEvent( 
-	new CustomEvent( "<hi>scroll-page-request</hi>" , { detail : { 
-	<hi>scrollTarget</hi> : "topOfPage" } } ) ) );
-</pre></figure>
-
-<p>Other method names are <tt>bottomOfPage</tt>, <tt>nextTarget</tt> and <tt>previousTarget</tt>. Here is the demo:</p>
-
-<figure class="demo"><figcaption>Scrolling to targets (<a href="demo-3.htm" target="_blank">demo-3.htm</a>)</figcaption>
-<iframe style="width:100% ; height:200px" src="demo-3.htm"></iframe>
-</figure>
-
-<!--h3--Demo 3--></div>
+<p>Note that H4 headings are skipped.</p>
 
 <!--h2--Examples--></div>
 
@@ -242,6 +233,77 @@ initializer.initComponent( init, import.meta.url );
 <p>Note: <tt>element.style.scrollMarginTop</tt> prevents that the element is scrolled to the top of the window, leaving space sticky elements at the top of the window, like toolbars or menus.</p>
 
 <p class="note">Note: The <a href="https://developer.mozilla.org/en-US/docs/Web/API/View_Transitions_API">view transitions API</a> might be a better option for this purpose. Unfortunately, not all major browsers support this API.</p>
+
+<h3 cbc id="studies">Studies</h3><div>
+
+<h3 cbc>Study 1a and 1b</h3><div>
+
+<p><a href="study-1a.htm" target="_blank">Demo 1a</a> is a simple document that carries anchors that link to elements in <a href="study-1b.htm" target="_blank"></a> The example demonstrates  solving a race condition in the browser at document load-time.</p>
+
+<p class="note">The function <tt>element.scrollIntoView()</tt> works across IFRAMEs. An element in a nested IFRAME also scrolls IFRAME parents, which is by design, but may appear strange, depending on the context. For this reason, the document is scrolled with <tt>element.scroll()</tt>, which has no effect on IFRAME parents.</p>
+
+<p>The example below demonstrates the navigation from demo 1a to a target element in demo 1b. Notice the target document is scrolling down smoothly:</p>
+
+<figure class="demo" style="scroll-margin-top:40px"><figcaption>Smooth scrolling demo</figcaption>
+<iframe style="width:100% ; height:200px" src="study-1a.htm"></iframe>
+</figure>
+
+<p>Study 1b also has links at the top of the page. They demonstrate how anchor clicks are intercepted and converted into smooth scrolling to the link target. This technique works well in an IFRAME window.</p>
+
+<p>You don't have to change your HTML code to use these features. Just import the module script into your document.</p>
+
+<!--h3--Study 1a, Study 1b--></div>
+
+<h3 cbc>Study 2</h3><div>
+
+<p>Study 2 demonstrates the use of the <em>scrolling event interface</em>. The page hosts buttons instead of anchors. The button click event handlers dispatch a <tt>scroll-page-request</tt> event to the document and specify the scroll target element:</p>
+
+<figure class="listing"><figcaption>Using the scroll event interface</figcaption>
+<pre>
+button1.addEventListener( "click" , ( ) => 
+	document.dispatchEvent( 
+	new CustomEvent( "<hi>scroll-page-request</hi>" , { detail : { 
+	<hi>scrollTarget</hi> : "#ref-001" } } ) ) );
+</pre></figure>
+
+<p>Note that you can specify <em>any valid CSS selector</em> in the <tt>scrollTarget</tt> field.</p>
+
+<p>A click on a button should scroll the document smoothly to the target element:</p>
+
+<figure class="demo" style="scroll-margin-top:40px"><figcaption>Scroll event interface demo</figcaption>
+<iframe style="width:100% ; height:200px" src="demo-2.htm"></iframe>
+</figure>
+
+<!--h3--Study 2--></div>
+
+<h3 cbc>Study 3</h3><div>
+
+<p>This study shows the use of scroll targets. A scroll target is an arbitrary element on the page which can be navigated to with the buttons. By default, the chapter headings H1...H5 are selected into the <tt>configuration.scrollTargets</tt> list. In this example, the three <tt>DT</tt> elements are selected:</p>
+
+<figure class="listing"><figcaption>Passing a scroll targets selector to the module</figcaption>
+<pre>
+&lt;script type="module" src="path/to/page-scrolling.js?scroll-targets-selector=dt" &gt;&lt;/script&gt;
+</pre></figure>
+
+<p>The button click event handlers look similar to study 2, but this time, method names are passed in the <tt>detail.scrollTarget</tt> field:</p>
+
+<figure class="listing"><figcaption>Using the scroll event interface</figcaption>
+<pre>
+button1.addEventListener( "click" , ( ) => 
+	document.dispatchEvent( 
+	new CustomEvent( "<hi>scroll-page-request</hi>" , { detail : { 
+	<hi>scrollTarget</hi> : "topOfPage" } } ) ) );
+</pre></figure>
+
+<p>Other method names are <tt>bottomOfPage</tt>, <tt>nextTarget</tt> and <tt>previousTarget</tt>. Here is the demo:</p>
+
+<figure class="demo"><figcaption>Scrolling to targets (<a href="study-3.htm" target="_blank">study-3.htm</a>)</figcaption>
+<iframe style="width:100% ; height:200px" src="study-3.htm"></iframe>
+</figure>
+
+<!--h4--Study 3--></div>
+
+<!--h3--Studies--></div>
 
 <!--h2--Implementation Details--></div>
 

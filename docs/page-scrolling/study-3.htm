@@ -20,27 +20,29 @@
 		evt.detail.marginBottom = 0 ;
 		} ) ;
 </script>
-<script type="module" src="/inc/webcat/page-scrolling/page-scrolling-1.js" ></script>
-<script type="module">
-button1.addEventListener( "click" , ( ) => document.dispatchEvent( new CustomEvent( "scroll-page-request" , { detail : { scrollTarget : "#ref-001" } } ) ) );
-button2.addEventListener( "click" , ( ) => document.dispatchEvent( new CustomEvent( "scroll-page-request" , { detail : { scrollTarget : "#ref-002" } } ) ) );
-button3.addEventListener( "click" , ( ) => document.dispatchEvent( new CustomEvent( "scroll-page-request" , { detail : { scrollTarget : "#ref-003" } } ) ) );
 
+<script type="module" src="/inc/webcat/page-scrolling/page-scrolling-1.js?scroll-targets-selector=dt" ></script>
+
+<script type="module">
+button1.addEventListener( "click" , ( ) => document.dispatchEvent( new CustomEvent( "scroll-page-request" , { detail : { scrollTarget : "topOfPage" } } ) ) );
+button2.addEventListener( "click" , ( ) => document.dispatchEvent( new CustomEvent( "scroll-page-request" , { detail : { scrollTarget : "previousTarget" } } ) ) );
+button3.addEventListener( "click" , ( ) => document.dispatchEvent( new CustomEvent( "scroll-page-request" , { detail : { scrollTarget : "nextTarget" } } ) ) );
+button4.addEventListener( "click" , ( ) => document.dispatchEvent( new CustomEvent( "scroll-page-request" , { detail : { scrollTarget : "bottomOfPage" } } ) ) );
 </script>
  
-<meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
+<meta name="categorieas" content="Projects > Web > Content Authoring Toolbox" />
 <meta name="tags" content="web, content, authoring, toolbox, HTML, JavaScript, CSS, WebCAT, component, literature, reference, list" />
-<title>Demo 2(Web > Content Authoring Toolbox > Page Scrolling)</title>
+<title>Study 3(Web > Content Authoring Toolbox > Page Scrolling)</title>
 <meta name="description" content="" />
 </head><body>
 
 <div class="hide-if-hosted">
-<h1>Demo 2</h1><p class="subtitle">Scroll event interface test</p>
+<h1>Study 3</h1><p class="subtitle">Scroll event interface</p>
 </div>
 
-<div id="mainToolbar" style="position:sticky ; top:-1px ; height:20px ; border-top:1px solid silver ; border-bottom:1px solid silver ; background-color:white">A sticky toolbar</div>
+<div id="mainToolbar" style="position:sticky ; top:-1px ; height:30px ; padding-top:5px ; border-top:1px solid silver ; border-bottom:1px solid silver ; background-color:white">Sticky toolbar <button id="button1">Top</button> <button id="button2">Previous</button> <button id="button3">Next</button> <button id="button4">Bottom</button></div>
 
-<p><button id="button1">Entry 1</button> <button id="button2">Entry 2</button> <button id="button3">Entry 3</button></p>
+<p></p>
 
 <p>space</p>
 <p>space</p>
