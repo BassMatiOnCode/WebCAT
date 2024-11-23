@@ -20,7 +20,7 @@ import * as initializer from "../component-initializer/component-initializer-1.j
 	for ( const element of document.querySelectorAll( '.toolbar' )) {
 		const style = getComputedStyle( element ) ;
 		if ( style.position === "sticky" && style.top !== "auto" )  
-			marginTop = Math.max( marginTop, parseInt( style.top || 0 ) + element.scrollHeight );
+			marginTop = Math.max( marginTop, parseInt( style.top || 0 ) + element.offsetHeight );
 		else if ( style.position === "sticky" && style.bottom !== "auto" ) 
 			marginBottom = Math.max( marginBottom, parseInt( style.bottom || 0 ) + element.offsetHeight + 1 ) ;
 		}
@@ -44,8 +44,8 @@ import * as initializer from "../component-initializer/component-initializer-1.j
 *
 */ export function init ( searchparams = new URLSearchParams( )) {
 	configuration.recalculate = searchparams.get( "recalculate" ) !== "never" ;
-	configuration.additionalMarginTop = parseInt( searchparams.get( "additional-margin-top" ) || 20 ) ;
-	configuration.additionalMarginBottom = parseInt( searchparams.get( "additional-margin-bottom" ) || 20 ) ;
+	configuration.additionalMarginTop = parseInt( searchparams.get( "additional-margin-top" ) || 10 ) ;
+	configuration.additionalMarginBottom = parseInt( searchparams.get( "additional-margin-bottom" ) || 10 ) ;
 	initDocument( );
 	document.addEventListener( "query-scroll-margins" , evt => {
 		if ( configuration.recalculate || evt.detail.recalculate ) initDocument( );
