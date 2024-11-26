@@ -11,7 +11,7 @@ import { createElement } from "../utility/create-element/create-element-1.js" ;
 	const referenceElement = document.getElementById( searchparams.get( "reference-element" )) || document.querySelector( "MAIN" ); 
 	// Create and insert the navigation path bar
 	const e = document.createElement( "DIV" );
-	e.className = "page-pathbar horizontal scroll-box" ;
+	e.className = "toolbar page-pathbar horizontal scroll-box" ;
 	const a = document.createElement( "A" );
 	a.href = "/index.htm" ;
 	a.textContent = "Home" ;

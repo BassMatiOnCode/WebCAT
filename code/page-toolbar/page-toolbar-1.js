@@ -8,13 +8,11 @@
 */ export function init ( referenceElement = document.getElementById("mainContent" )) {	
 	// Create and insert the toolbar
 	const e = document.createElement( "DIV" );
-	e.className = "page-toolbar" ;
+	e.className = "toolbar page-toolbar" ;
 	e.id = "mainToolbar" ;
 	// e.textContent = "Toolbar" ;
 	document.body.insertBefore( e, referenceElement );
 	// Move margin bottom from previous sibling to path bar
-//	e.style.marginBottom = parseInt( window.getComputedStyle( e.previousElementSibling ).marginBottom ) - parseInt( e.scrollHeight ) + "px";
-//	e.previousElementSibling.style.marginBottom = "0" ;
 	const main = document.querySelector( "MAIN" );
 	if ( main ) main.style.marginTop = parseInt( main.style.marginTop || getComputedStyle( main ).marginTop ) - parseInt( e.scrollHeight ) + "px";
 	return; 
