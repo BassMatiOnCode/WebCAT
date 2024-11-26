@@ -1,77 +1,47 @@
-/*		math-1.css    2023-05-27    usp										*/
-/*		Documentation @ .../web-toolbox/css/math.htm		*/
-
-[h-padded] { 
-	padding-left: 10px ; 
-	padding-right: 10px ; 
+.equation-number {
+	font-family : "Cambria Math", "Asana Math", "STIX2 Math Regular" , "Times New Roman" ;
 	}
-
-[overline] {
-	text-decoration : overline from-font ;
+div.math-text {
+	margin-left : 10px ;
+	position : relative ;
+	padding-right : 40px ;
+	font-family : "Cambria Math", "Asana Math", "STIX2 Math Regular" , "Times New Roman" ; 
 	}
-
-[overline2] { 
-	border-top : 1px solid ; 
-	padding-top : 2px ; 
+div.math-text div.equation-number {
+	position : absolute ;
+	top : 2px ; 
+	width : 40px ;
+	text-align : right ;
+	right : 0px ;
+	border : 1px none silver;
 	}
-
-[padded] { 
-	padding: 8px 10px; 
+math {
+	display: block math ;
+    math-style: normal ;
+	font-family : "Cambria Math", "Asana Math", "STIX2 Math Regular" , "Times New Roman" ;
+	margin-top : 20px ;
+	margin-bottom : 20px ; 
 	}
-
-[symbol] {
-	font-family : "Cambria Math", "Times New Roman" ;
+mtable.left-aligned > mtr > mtd:first-child {
+	text-align : start ;
 	}
-
-[symbol][italic] {
-	font-style : italic ;
+mtable > mtr:first-child > mtd:first-child {
+	box-sizing : border-box ;
+	width : 100% ;
+	}
+mtd:has(mtext.equation-number) {
+	padding-right : 0 ;
+	}
+p math { 
+	display: math ; 
+	math-style : compact ;
+	margin-top : unset ;
+	margin-bottom : unset ;
+	}
+span.math-text {
+	font-family : "Cambria Math", "Asana Math", "STIX2 Math Regular" , "Times New Roman" ;
+	}
+span.math-text span.idf {
+	font-style: oblique 20deg;
 	padding-right : 3px ;
-	}
-
-[underline] { 
-	border-bottom : 1px solid ; 
-	padding-bottom : 2px ; 
-	}
-
-[underline2] { 
-	border-bottom : 1px solid ; 
-	padding-bottom : 2px ; 
-	}
-
-[v-padded] { 
-	padding-top: 10px ; 
-	padding-bottom: 10px ; 
-	}
-
-div.math {
-	padding-left : 20px ;
-	margin-top : 30px ; 
-	margin-bottom : 20px ;
-	}
-
-div.math > div {
-	display : inline-block ;
-	}
-
-div.math + div.math {
-	margin-top : 30px ;
-	}
-
-mtable[linebreaker] mtd {
-	padding-top : 10px ;
-	padding-bottom : 10px ;
-	text-align : left ;
-	}
-
-mtable[rows-separated] mtd {
-	padding-top : 15px ;
-	padding-bottom : 15px ;
-	}
-
-mtable[left-aligned] mtd {
-	text-align : left ;
-	}
-
-mtext[eq-label] {
-	margin-right : 30px ;
 	}
