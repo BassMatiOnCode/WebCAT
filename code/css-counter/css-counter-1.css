@@ -1,16 +1,26 @@
 /* Documentation: /webcat/css-counter/css-counter.htm */
 
-body { counter-reset : listing-counter figure-counter table-counter caption-counter example-counter definition-counter }
-figure.listing figcaption:before { counter-increment : listing-counter; content : "Listing " counter(listing-counter) ": " ; }
-figure.figure figcaption:before { counter-increment : figure-counter; content : "Figure " counter(figure-counter) ": " ; }
-figure.syntax figcaption:before { counter-increment : syntax-counter; content : "Syntax " counter(syntax-counter) ": " ; }
-figure.table figcaption:before { counter-increment : table-counter; content : "Table " counter(table-counter) ": " ; }
-figure.example figcaption:before { counter-increment : example-counter; content : "Example " counter(example-counter) ": " ; }
-figure.demo figcaption:before { counter-increment : demo-counter; content : "Demo " counter(demo-counter) ": " ; }
-table > caption.autonum:before { counter-increment : caption-counter ; content : "Table " counter(caption-counter) ": " ; }
-div.definition figcaption:before { counter-increment : definition-counter; content : "Definition " counter(definition-counter) ; }
+body { counter-reset : listing-counter figure-counter table-counter caption-counter example-counter definition-counter equation-counter }
+.equation-number::before { counter-increment : equation-counter; content : "("counter(equation-counter)")" ; }
+figure.listing figcaption::before { counter-increment : listing-counter; content : "Listing " counter(listing-counter) ": " ; }
+figure.listing figcaption:empty::before { counter-increment : listing-counter; content : "Listing " counter(listing-counter) ; }
+figure.definition figcaption::before { counter-increment : definition-counter; content : "Definition " counter(definition-counter) ": " ; }
+figure.definition figcaption:empty::before { counter-increment : definition-counter; content : "Definition " counter(definition-counter) ; }
+figure.demo figcaption::before { counter-increment : demo-counter; content : "Demo " counter(demo-counter) ": " ; }
+figure.demo figcaption:empty::before { counter-increment : demo-counter; content : "Demo " counter(demo-counter) ; }
+figure.example figcaption::before { counter-increment : example-counter; content : "Example " counter(example-counter) ": " ; }
+figure.example figcaption:empty::before { counter-increment : example-counter; content : "Example " counter(example-counter) ; }
+figure.figure figcaption::before { counter-increment : figure-counter; content : "Figure " counter(figure-counter) ": " ; }
+figure.figure figcaption:empty::before { counter-increment : figure-counter; content : "Figure " counter(figure-counter) ; }
+figure.syntax figcaption::before { counter-increment : syntax-counter; content : "Syntax " counter(syntax-counter) ": " ; }
+figure.syntax figcaption:empty::before { counter-increment : syntax-counter; content : "Syntax " counter(syntax-counter) ; }
+figure.table figcaption::before { counter-increment : table-counter; content : "Table " counter(table-counter) ": " ; }
+figure.table figcaption:empty::before { counter-increment : table-counter; content : "Table " counter(table-counter) ; }
+table > caption.autonum::before { counter-increment : caption-counter ; content : "Table " counter(caption-counter) ": " ; }
+table > caption.autonum:empty::before { counter-increment : caption-counter ; content : "Table " counter(caption-counter) ; }
+div.definition figcaption::before { counter-increment : definition-counter; content : "Definition " counter(definition-counter) ; }
 
 ol.instructions, ol.instructions ol { list-style-type : none ; counter-reset : instruction-counter ; padding-left : 20px }
 ol.continue { counter-reset : none }
-ol.instructions > li:before, ol.instructions ol > li:before{  counter-increment : instruction-counter; content : counters(instruction-counter, ".")  ". " ; }
+ol.instructions > li::before, ol.instructions ol > li::before{  counter-increment : instruction-counter; content : counters(instruction-counter, ".")  ". " ; }
 ol.instructions { padding-left : 0px }
