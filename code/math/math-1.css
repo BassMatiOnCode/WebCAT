@@ -9,7 +9,6 @@ div.math-text {
 	}
 figure.definition math {
 	margin : 10px 0 ; 
-	line-height : 30px ;
 	}
 math {
 	display: block math ;
@@ -17,6 +16,11 @@ math {
 	font-family : "Cambria Math", "Asana Math", "STIX2 Math Regular" , "Times New Roman" ;
 	margin-top : 20px ;
 	margin-bottom : 20px ; 
+	overflow : hidden ;
+	}
+math:hover {
+	overflow-x : auto ;
+	overflow-y : clip ;
 	}
 mtable > mtr:first-child > mtd:first-child {
 	box-sizing : border-box ;
