@@ -22,6 +22,7 @@
 @import url( ../literature-reference-list/literature-reference-list-1.css );
 @import url( ../link-target-highlighter/link-target-highlighter-1.css );
 @import url( ../math/math-1.css );
+@import url( ../math/math-text-1.css );
 @import url( ../page-colors/page-colors-1.css );
 
 @font-face { 
@@ -66,7 +67,7 @@
 		url(/inc/fonts/EncodeSansCondensed-Regular.ttf) format("truetype");
 	}
 @font-face {
-		/* for code listing blocks */
+		/* for code listing blocks */	
 	font-family: "inconsolata condensed"; 
 	font-style: normal; 
 	font-weight: 400;
@@ -77,16 +78,15 @@ body {
 	font-family : "Segoe UI" ;
 	margin : 0 20px 50px 20px ;
 	}
-figcaption { font-family : "Times New Roman", Constantia ; color : #888 ; font-size : 10pt ; border-bottom : 1px solid silver  }
+figcaption { font-family : "Times New Roman", Constantia ; font-style : italic ; font-size : 10pt ; border-bottom : 1px solid silver  }
 figure { margin-left : 0px ; margin-right : 0px }
 figure.demo iframe { border : 1px solid silver ; width : 100% }
 figure.demo figcaption { border-bottom-style : none ; margin-bottom : 5px }
-figure.listing > figcaption { font-style : italic ; padding-bottom : 5px }
-figure.listing > pre { background-color : #eee ; overflow-x : auto ; padding : 5px ; scrollbar-color : #aaa #ddd ; margin-top : 0px }
+figure.listing > figcaption { padding-bottom : 5px }
+figure.listing > pre { overflow-x : auto ; padding : 5px ; margin-top : 0px }
 h1, h2, h3, h4, h5 { font-family : "Times New Roman", "Arial Narrow" ; font-weight : normal ; margin-left : -20px }
 h1 { margin-left : 0 ; text-align : center }
 main { margin-left : 20px }
-html { scrollbar-color : #999 #eee }
 ol > li, ul > li { margin-top: 5px ; margin-bottom : 5px }
 ol.spaced-items li, ul.spaced-items li { margin-top: 20px ; margin-bottom : 20px }
 p { line-height : 25px }
@@ -104,13 +104,11 @@ span.keyword { font-family : "Palatino Linotype", "Times New Roman" }
 table > caption { 
 	text-align : left ;
 	font-family : "Times New Roman" ;
-	color : #888 ;
 	margin-bottom : 5px ;
 	}
 tt { 
 	font-family : "Segoe UI", "Times New Roman" ;
 	font-variant-numeric : lining-nums tabular-nums slashed-zero ; 
-	color : SteelBlue ;
 	}
 ul.no-bullets { list-style-type : none }
 
