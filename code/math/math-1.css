@@ -7,13 +7,9 @@ div.math-text {
 	padding-right : 40px ;
 	font-family : "Cambria Math", "Asana Math", "STIX2 Math Regular" , "Times New Roman" ; 
 	}
-div.math-text div.equation-number {
-	position : absolute ;
-	top : 2px ; 
-	width : 40px ;
-	text-align : right ;
-	right : 0px ;
-	border : 1px none silver;
+figure.definition math {
+	margin : 10px 0 ; 
+	line-height : 30px ;
 	}
 math {
 	display: block math ;
@@ -22,15 +18,41 @@ math {
 	margin-top : 20px ;
 	margin-bottom : 20px ; 
 	}
-mtable.left-aligned > mtr > mtd:first-child {
-	text-align : start ;
-	}
 mtable > mtr:first-child > mtd:first-child {
 	box-sizing : border-box ;
 	width : 100% ;
 	}
+mtable.left-aligned > mtr > mtd:first-child {
+	text-align : left ;
+	text-align : -webkit-left ;
+	}
+	/* vertical axis aligned */
+mtable.vaxis-aligned > mtd {
+	box-sizing : border-box ;
+	}
+mtable.vaxis-aligned > mtr > mtd:first-child {
+	text-align : right ;
+	text-align : -webkit-right ;
+	}
+mtable.vaxis-aligned > mtr:first-child > mtd:first-child {
+	width : 50% ;
+	}
+mtable.vaxis-aligned > mtr:first-child > mtd:nth-child( 2 ) {
+	width : auto ;
+	}
+mtable.vaxis-aligned > mtr > mtd:nth-child( 3 ) {
+	text-align : left ;
+	text-align : -webkit-left ;
+	}
+mtable.vaxis-aligned > mtr:first-child > mtd:nth-child( 3 ) {
+	width : 50% ;
+	}
 mtd:has(mtext.equation-number) {
 	padding-right : 0 ;
+	}
+mtd > mtext.equation-number {
+	background-color : white ;
+	position : relative ;  /* this enables z-index and makes bgcolor visible */
 	}
 p math { 
 	display: math ; 
@@ -41,6 +63,7 @@ p math {
 span.math-text {
 	font-family : "Cambria Math", "Asana Math", "STIX2 Math Regular" , "Times New Roman" ;
 	}
+span.math-text.idf ,
 span.math-text span.idf {
 	font-style: oblique 20deg;
 	padding-right : 3px ;

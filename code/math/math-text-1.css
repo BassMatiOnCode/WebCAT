@@ -1,0 +1,15 @@
+/* Documentation: .../webcat/math/math.htm */
+
+body.math main {
+	font-family : "Palatino Linotype", "Paladino", "Times New Roman" ;
+	}
+figure.definition {
+	border-bottom : 1px solid silver ;
+	background-color : #F8F8F8 ;
+	}
+figure > figcaption {
+	background-color : white ;
+	}
+figure.definition .equation-number {
+	background-color : #F8F8F8 ;
+	}
