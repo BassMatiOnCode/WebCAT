@@ -161,10 +161,6 @@
 
 <h2 cbc>Examples</h2><div>
 
-<h3 cbc>Demo 1</h3><div>
-
-<p></p>
-
 <h3 cbc>Example 1</h3><div>
 
 <p></p>
@@ -182,7 +178,57 @@
 
 <!--h3--Example 1--></div>
 
-<!--h2--Examples--></div>
+<h3 cbc>Additional Tips</h3><div>
+
+<dl>
+<dt>Multiple lines of equations</dt><dd>
+	<p>Multiple lines of equations in a <tt>MATH</tt> block require a table layout. Linebreak attributes currently work only with Firefox.</p>
+	<pre>
+&lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt;
+&lt;mtable&gt;&lt;mtr&gt;&lt;mtd&gt;
+	&lt;mi&gt;a&lt;/mi&gt;&lt;mo&gt;+&lt;/mo&gt;&lt;mi&gt;b&lt;/mi&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mn&gt;5&lt;/mn&gt;
+&lt;/mtd&gt;&lt;/mtr&gt;&lt;mtr&gt;&lt;mtd&gt;
+	&lt;mi&gt;a&lt;/mi&gt;&lt;mo&gt;&amp;minus;&lt;/mo&gt;&lt;mi&gt;b&lt;/mi&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;
+&lt;/mtd&gt;&lt;/mtr&gt;&lt;/mtable&gt;&lt;/math&gt;
+	</pre>
+	</dd>
+
+<dt>Equation numbers</dt><dd>
+	<p>Equation numbers require a two-column <tt>MTABLE</tt> layout with an additional column at the right side. A second column is automatically recognized by <tt>math.css</tt> and used for equation numbers. Column width style rules are applied by <tt>math.css</tt> on the first table row. If more than two columns are used, additional style rules must overwrite the default two&ndash;column layout rules.</p>
+	<pre>
+&lt;math xmlns="http://www.w3.org/1998/Math/MathML"&gt;
+&lt;mtable&gt;&lt;mtr&gt;&lt;mtd&gt;
+	&lt;mi&gt;a&lt;/mi&gt;&lt;mo&gt;+&lt;/mo&gt;&lt;mi&gt;b&lt;/mi&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mn&gt;5&lt;/mn&gt;
+&lt;/mtd&gt;&lt;mtd&gt;
+	&lt;mtext class="equation-number&gt;&lt;/mtext&gt;
+&lt;/mtd&gt;&lt;/mtr&gt;&lt;mtr&gt;&lt;mtd&gt;
+	&lt;mi&gt;a&lt;/mi&gt;&lt;mo&gt;&amp;minus;&lt;/mo&gt;&lt;mi&gt;b&lt;/mi&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;
+&lt;/mtd&gt;&lt;mtd&gt;
+	&lt;mtext class="equation-number&gt;&lt;/mtext&gt;
+&lt;/mtd&gt;;&lt;/mtr&gt;&lt;/mtable&gt;&lt;/math&gt;
+	</pre>
+	</dd>
+
+<dt>Vertical axis alignment</dt><dd>
+	<p>Sometimes it is necessary to align the equal sign of equations along a vertical axis. MathML Core has no attributes for such an alignment, therefore a four column table layout is needed: </p>
+	<ol>
+	<li>The left-hand side of the equations, with text aligned to the right side</li>
+	<li>A small column for the equal signs</li>
+	<li>The right-hand side of the equations, with text aligned to the left</li>
+	<li>Another small column for the equation numbers</li>
+	</ol>
+	<p>Simply decorate the layout table with the classname <tt>vaxis-aligned</tt> and make sure there are four columns. <tt>Math.css</tt> allocates a little space for the second and fourth columns, and grants 50% of the available width to the first and second columns.</p>
+	<p>If you want to balance the space for the right and left hand sides for the equations differently, add style attributes to the first and second <tt>MTD</tt> cells in the first <tt>MTR</tt> and supply <tt>width</tt> properties with different percentages.</p>
+	</dd>
+
+<dt>Vertical spacing</dt><dd>
+	<p>To add more vertical space to a line, add a style attribute to the <tt>MTR</tt> table row that contains the equation:</p>
+	<pre>&lt;mtr style="line-height : 30px"&gt;</pre>
+	</dd>
+</dl>
+
+<!--h3--Additional Tips--></div>
+
 
 <!--h2--Examples--></div>
 
