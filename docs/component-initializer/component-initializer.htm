@@ -6,8 +6,8 @@
 <meta name="author" content="USP" />
 <meta name="creation-date" content="2024-08-15" />
 <meta name="editor" content="USP" />
-<meta name="change-date" content="2024-09-14" />
-<meta name="version" content="1" />
+<meta name="change-date" content="2024-11-30" />
+<meta name="version" content="3" />
 <meta name="sectionTitle" content="../title.svg" />
 
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
@@ -21,11 +21,121 @@
 
 </head><body>
 
-<h1>WebCAT Component Initializer</h1>
+<h1>Component Initializer</h1><p class="subtitle">Sandard Init Interface for WebCAT Comonents</p>
 
 <p id="pageAbstract"></p>
 
 <h2 cbc>Introduction</h2><div>
+
+<p>WebCAT components must implement an <tt>init()</tt> method to implement a) the component and b) the page. The <tt>init()</tt> function can be called at module load time when the module-level code runs, or scheduled on an event, or called explicitly (manually) from another script.</p>
+
+<p>WebCAT components can be supplied with parameters over the module script <a href="https://en.wikipedia.org/wiki/Query_string">URL query string</a>. These parameters are passed to init() in the <tt>searchparams</tt> parameter. If called from an event handler, the event object is passed to init() in the second parameter.</p>
+
+<p>This component standardizes the calling of <tt>init()</tt> and parameter preparation.</p>
+
+<!--h2--Introduction--></div>
+
+<h2 cbc>Using the Component Initializer</h2><div>
+
+<p>Step 1: A WebCAT component imports the WebCAT initializer:</p>
+
+<figure class="listing"><figcaption>Importing the component initializer</figcaption>
+<pre>
+import * as <hi>initializer</hi> from "path/to/component-initializer/<hi>component-initializer.js</hi>" ;
+</pre></figure>
+
+<p>Step 2: An <tt>init()</tt> function with a specific signature must be provided:</p>
+
+<figure class="listing">
+<figcaption>Init function signature</figcaption>
+<pre>
+export function <hi>init</hi>( <hi>searchparams</hi> = new URLSearchParams( ), event = null ) {
+	const parameterValue = searchparams.get( "parameterName" ) || "default-value" ;
+	...
+	}
+</pre>
+</figure>
+
+<p>Arguments can be extracted from the searchparams object.</p>
+
+<p>Step 3: Call the standard initialization routine and pass the module URL:</p>
+
+<figure class="listing">
+<figcaption>Outline of init()</figcaption>
+<pre>
+initializer.initComponent( init, import.meta.url, additional, parameters, etc );
+</pre>
+</figure>
+
+<p>Step 4: Import the module into your HTML document:</p>
+
+<figure class="listing">
+<figcaption>Importing the WebCAT component</figcaption>
+<pre>
+&lt;script type="module" src="path/to/webcat-compontent.js?init-event=fragment-loading-complete";&gt;&lt;/script&gt;
+</pre>
+</figure>
+
+<p>Alternatively, import the component and call <tt>init()</tt> directly:</p>
+
+<figure class="listing">
+<figcaption>Calling init() directly</figcaption>
+<pre>
+import * as <hi>component</hi> from "path/to/webcat-component.js" ;
+	...
+const searchparams = new URLSearchParams();
+component.init( searchparams, null, additional, arguments, here );
+</pre>
+</figure>
+
+<p>For this use case, the component would have to import <tt>component-initializer.js</tt>, but as a component author, you never know how the user will actually use your component. So its best to keep this small overhead in.</p>
+
+<!--h2--Using the Component Initializer--></div>
+
+<h2 cbc>Programming Reference</h2><div>
+
+<dl>
+<dt>initComponent()</dt><dd>
+	<p>Initializes the component.</p>
+	<p>Parameters:</p>
+	<dl>
+	<dt>initFunction</dt><dd>
+		<p>{function} Reference to the module-specific init function.</p>
+		</dd>
+	<dt>modURL</dt><dd>
+		<p>{string} URL of the (calling) module. Containes parameters for initFunction() in the URL query string. The following query string keys are recognized:</p>
+		<dl>
+		<dt>no-default-init</dt><dd>
+			<p>Prevents the default initialization. An HTML document must implement a script to perform module initialization in a more specific manner.</p>
+			</dd>
+		<dt>init-event-name=name-string</dt><dd>
+			<!--TODO: Change to "init-event"-->
+			<p>The module init function is called when the specified event is dispatched to the init event target element.</p>
+			</dd>
+		<dt>event-target-id=id-string</dt><dd>
+			<!--TODO: Change to "init-event-target"-->
+			<p>This is the ID of the init event target element.</p>
+			</dd>
+		<dt>keep-init-event-handler</dt><dd>
+			<!--TODO: Change to "keep-init-handler"-->
+			<p>Specifies that the init event handler is not removed. All subsequent init events cause the component init function to be called.</p>
+			</dd>
+		<dt>parameter-name=value</dt><dd>
+			<p>User-defined parameters are passed unchanged to the component init function.</p>
+			</dd>
+		</dl>
+		</dd>
+	<dt>restParams</dt><dd>
+		<p>{array} Additional parameters for initFunction().</p>
+		</dd>
+	</dl>
+	</dd>
+</dl>
+
+<!--h2--Programming Reference--></div>
+
+
+<h2 cbc>Implementation Details</h2><div>
 
 <p>JavaScript modules are initialized and supplied with arguments in an HTML document:</p>
 
@@ -120,64 +230,8 @@ if ( ! searchparams.has( "no-default-init" ) {
 
 <p>This is essentially the entire logic that each WebCAT component module must provide.</p>
 
-<!--h2--Introduction--></div>
+<!--h2--Implementation Details--></div>
 
-<h2 cbc>Using the Component Initializer</h2><div>
-
-<p>Step 1: A WebCAT component imports the WebCAT initializer:</p>
-
-<figure class="listing"><figcaption>Importing the component initializer</figcaption>
-<pre>
-import * as <hi>initializer</hi> from "path/to/component-initializer/<hi>component-initializer.js</hi>" ;
-</pre></figure>
-
-<p>Step 2: An <tt>init()</tt> function with a specific signature must be provided:</p>
-
-<figure class="listing">
-<figcaption>Init function signature</figcaption>
-<pre>
-export function <hi>init</hi>( <hi>searchparams</hi> = new URLSearchParams( )) {
-	const parameterValue = searchparams.get( "parameterName" ) || "default-value" ;
-	...
-	}
-</pre>
-</figure>
-
-<p>Arguments can be extracted from the searchparams object.</p>
-
-<p>Step 3: Call the standard initialization routine and pass the module URL:</p>
-
-<figure class="listing">
-<figcaption>A typical WebCAT component structure</figcaption>
-<pre>
-initializer.initComponent( init, import.meta.url );
-</pre>
-</figure>
-
-<p>The implementation runs the algorithm as described in the previous chapter.</p>
-
-<!--h2--Using the Component Initializer--></div>
-
-<h2 cbc>Keywords</h2><div>
-
-<dl>
-<dt>no-default-init</dt><dd>
-	<p>Prevents the default initialization. An HTML document must implement a script to perform module initialization in a more specific manner.</p></dd>
-
-<dt>init-event-name=name-string</dt><dd>
-	<p>The module init function is called when the specified event is dispatched to the init event target element.</p></dd>
-
-<dt>event-target-id=id-string</dt><dd>
-	<p>This is the ID of the init event target element.</p></dd>
-
-<dt>keep-init-event-handler</dt><dd>
-	<p>Specifies that the init event handler is not removed. All subsequent init events cause the component init function to be called.</p></dd>
-
-<dt>parameter-name=value</dt><dd>
-	<p>User-defined parameters are passed unchanged to the component init function.</p></dd>
-</dl>
-
-<!--h2--Keywords--></div>
 
 <h2 cbc>Downloads</h2><div>
 
