@@ -4,18 +4,16 @@ import * as initializer from "../component-initializer/component-initializer-1.j
 import { createElement } from "../utility/create-element/create-element.js" ;
 
 /**
-*		getContent ( )
-*
-*/ export function getContent ( evt ) {
-	const current = evt && evt.detail.navigationInfo.current?.closest( "LI" );
-	return current?.querySelector( 'meta[name="abstract"]' )?.getAttribute( "content" )
-		|| document.head.querySelector( "meta[name='description']" )?.getAttribute( "content" );
-	}
-/**
 *		setAbstract ( )
 *
 */ export function setAbstract( evt ) {
-	pageAbstract.innerHTML = getContent( evt );
+	if ( pageAbstract.textContent ) return ;   // author has supplied abstract content directly 
+	const description = document.head.querySelector( "meta[name='description']" );
+	const current = evt && evt.detail.navigationInfo.current?.closest( "LI" );
+	pageAbstract.innerHTML = current?.querySelector( 'meta[name="abstract"]' )?.getAttribute( "content" ) || "" ;
+	if ( pageAbstract ) 
+		if ( ! description.getAttribute( "content" )) description.setAttribute( "content", pageAbstract.textContent );
+	else pageAbstract.innerHTML = description.getAttribute( "content" );
 	if ( ! pageAbstract.innerText ) pageAbstract.remove( );
 	}
 /**

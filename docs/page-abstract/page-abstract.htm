@@ -16,29 +16,45 @@
  
 <meta name="categories" content="Projects > WebCAT" />
 <meta name="tags" content="web, content, authoring, toolbox, HTML, JavaScript, CSS, WebCAT, component, page, abstract" />
-<meta name="description" content="Provides a short summary of the page content without having to load the page content." />
+<meta name="description" content="" />
 
 <title>Page Abstract (Project > WebCAT)</title>
 
 </head><body>
 
-<h1>Page Abstract</h1><p class="subtitle">Provides a Short Summary of the Page Content</p>
+<h1>Page Abstract</h1><p class="subtitle">Creates a page abstract on the page</p>
 
 <h2 cbc>Introduction</h2><div>
 
-<p>The page abstract is a concise summary of the page content, and can appear in several places:</p>
+<p>The page abstract is a concise summary of the page content. It can appear in several places:</p>
 
 <ul>
-<li>On the page near the page title</li>
+<li>On the page near the page title in a <tt>p id="pageAbstract"</tt> element.</li>
 <li>On the site navigation panel when the mouse pointer hovers over an entry</li>
-<li>On the website index page as for use in section summaries</li>
+<li>On the website index page as for use in section summaries in <tt>p class="page-abstract"</tt> elements</li>
 </ul>
 
-<p>On the page, it is shown in a paragraph element that is created automatically if not present.</p>
+<p>On the page, it is shown in a paragraph element that is created if it does not exist.</p>
 
-<p>A website author stores the page abstract in the sitemap tree in a <tt>META name="abstract"</tt> element or in a <tt>meta name="description"</tt> element in the <tt>document.head</tt>. Alternatively, a page author can place a <tt>p id="pageAbstract</tt> element manually on the page and provided with content.</p>
+<p>A website author has several options to store the page abstract content:</p>
 
-<p>Putting the page abstract text in the sitemap tree frees the <tt>META name="description"</tt> element for storing a text that is optimized for search engines, buf often the text will just duplicate the <tt>META name="abstract"</tt> content in the sitemap tree. This cannot be avoided without loosing the benefit of having access to page abstracts without having to load the documents.</p>
+<ul>
+<li>A separate file ("abstract.htm")</li>
+<li>A <tt>META name="abstract"</tt> element in the sitemap tree ("toc.htm")</li>
+<li>A <tt>META name="description"</tt> element in the <tt>document.head</tt> section of the page</li>
+</ul>
+
+<p>The following diagram illustrates the data flow:</p>
+
+<figure class="figure"><figcaption>Flow of page abstract content</figcaption>
+<a data-load-fragment href="fig-001.svg"></a>
+</figure>
+
+<p>Numbers represent inverse priority.</p>
+
+<p>If the <tt>meta name="abstract"</tt> in the sitemap has an <tt>href</tt> attribute, the referenced ressource in loaded into the <tt>content</tt> attribute. If the <tt>meta name="description"</tt> element in the <tt>document.head</tt> has an empty <tt>content</tt> attribute, it is set from the <tt>meta name="abstract</tt>'s <tt>content</tt>. If the abstract element on the page exists and has text content provided by the page author, it is left untouched. If the page abstract container contains an HTML fragment anchor <tt>a data-load-fragment href="path/to/abstract.htm"</tt>, then the abstract content is loaded from the referenced file. If the abstract container is empty, the content is loaded from the <tt>content</tt> attribute in the <tt>meta name="abstract"</tt> element in the sitemap tree, which is related to the current document. If that meta element is absent or the content is empty, then the content is loaded from the <tt>content</tt> attribute of the <tt>meta name="description"</tt> element in the <tt>document.head</tt>.</p>
+
+<p>The ability to have the abstract content defined in an external resource provides the possibility to load page abstracts into section overviews, such as the home page "index.htm" with HTML fragment anchors.</p>
 
 <!--h2--Introduction--></div>
 

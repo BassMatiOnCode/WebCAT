@@ -28,6 +28,25 @@ import * as collapsibleStructures from "../collapsible-structures/collapsible-st
  *		@property {NavigationInfoEntry} parentNodes
  */ let navigationInfo = { } ;
 
+/**
+*		getAbstract ( )
+*		@param {string|HTMLElement} pageSpecifier - Page URI or anchor that references the page
+*
+*/	export function getAbstract ( pageSpecifier ) {
+	if ( typeof pageSpecifier === "string" ) pageSpecifier = findCurrentAnchor( pageSpecifier );
+	else if ( pageSpecifier.tagName === "A" ) pageSpecifier = pageSpecifier.closest( "LI" );
+	return pageSpecifier?.querySelector( "meta[name='abstract']" )?.getAttribute( "description" );
+	}
+/**
+*		loadAbstracts( )
+*
+*/	function loadAbstracts( ) {
+	for ( const meta of sitemapRoot.querySelectorAll( "meta[name='abstract'][href]" )) ( function( meta ) { 
+		fetch ( meta.getAttribute( "href" ))
+		.then( response => response.ok ? response.text( ) : response.statusText )
+		.then( text => meta.setAttribute( "description", text )) ;
+		} ) ( meta ) ;
+	}
 /**		
  *		findCurrentAnchor()
  * 
@@ -135,6 +154,7 @@ import * as collapsibleStructures from "../collapsible-structures/collapsible-st
 	console.debug( "initializing sitemap navigator" );
 	configuration.homeIsFirstLink = ( searchparams.get( "home-is" ) || "first-link" ) === "first-link" ;
 	configuration.removeRedundants = ( searchparams.get( "remove-redundants" ) || "yes" ) === "yes" ;
+	loadAbstracts( );
 	highlightPath( );  // registering as listerner in not enough
 	document.addEventListener( "fragment-loading-complete" , ( ) => highlightPath( )) ;
 	if ( searchparams.has( "single-page-environment" )) {
@@ -155,7 +175,6 @@ import * as collapsibleStructures from "../collapsible-structures/collapsible-st
 			evt.preventDefault( );
 			} ) ;
 		}
-	// TODO: Collapse expired path should be moved from attribute to module configuration
 	if ( searchparams.has( "collapse-expired-path" )) document.getElementById( "sitemapRoot" ).toggleAttribute( "data-collapse-expired-path", "true" );
 	// Catch interactive sitemap fragment load clicks
 	document.getElementById( "sitemapRoot" ).addEventListener( "click" , evt => { 

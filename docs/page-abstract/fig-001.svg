@@ -1,0 +1,59 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="-150 -50 300 310" width="300" height="310" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="white" style="border: 1px none silver">
+<style>
+	text { paint-order : stroke ; stroke-width : 5 ; stroke : white ; fill : black ; text-anchor : middle ; alignment-baseline : middle ; font-size : 14px }
+	path { fill : none }
+	marker > path { fill : black }
+	</style>
+<defs>
+	<!-- A marker to be used as an arrowhead -->
+	<marker id="arrow" viewBox="-5 -5 10 10" refX="5" refY="0" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+		<path d="M 5 0 l -10 4 v -8 z" fill="black" stroke="none"/>
+	</marker>
+	</defs>
+
+<title>Flow of page abstract content</title>
+<g>
+	<ellipse rx="40" ry="30"></ellipse>
+	<text>content</text>
+	</g>
+<line x1="0" y1="30" x2="0" y2="70" marker-end="url(#arrow)" />
+<g transform="translate(100, 0)">
+	<ellipse rx="40" ry="30"></ellipse>
+	<text>content</text>
+	<path d="M 20 27 c 5 10 5 30 0 47" marker-end="url(#arrow)" />
+	</g>
+<g transform="translate(-100, 100)">
+	<ellipse rx="45" ry="30"></ellipse>
+	<text>abstract.htm</text>
+	<path d="M 20 -27 c 10 -20 45 -30 60 0" marker-end="url(#arrow)" />
+	<path d="M 20 28 c 10 30 30 20 50 50" marker-end="url(#arrow)" />
+	</g>
+<g transform="translate(0, 100)">
+	<ellipse rx="40" ry="30"></ellipse>
+	<text><tspan y="-5">meta</tspan><tspan x="0" dy="20">abstract</tspan></text>
+	<path d="M 20 -26 c 10 -20 45 -30 60 0" marker-end="url(#arrow)" />
+	<text x="10" y="-50">2</text>
+	<text x="-30" y="-50">1</text>
+	</g>
+<g transform="translate(100, 100)">
+	<ellipse rx="40" ry="30" fill="none"></ellipse>
+	<text><tspan y="-10">meta</tspan><tspan x="0" dy="20">description</tspan></text>
+	<path d="M 0 30 c 0 20 0 70 -60 70" marker-end="url(#arrow)" />
+	<text x="35	" y="-37">1</text>
+	<text x="-12	" y="-40">2</text>
+	</g>
+<line x1="0" y1="130" x2="0" y2="170" marker-end="url(#arrow)" />
+<g transform="translate(-100, 200)">
+	<ellipse rx="40" ry="30"></ellipse>
+	<text><tspan y="-5">text</tspan><tspan x="0" dy="20">content</tspan></text>
+	<path d="M 20 26 c 10 10 30 25 60 0" marker-end="url(#arrow)" />
+	</g>
+<g transform="translate(0, 200)">
+	<ellipse rx="40" ry="30"></ellipse>
+	<text><tspan y="-5">paragraph</tspan><tspan x="0" dy="20">abstract</tspan></text>
+	<text x="-35" y="50">2</text>
+	<text x="-35" y="-45">1</text>
+	<text x="10" y="-50">3</text>
+	<text x="60" y="-15">4</text>
+	</g>
+</svg>
