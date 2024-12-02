@@ -1,21 +1,42 @@
 // Documentation : /webcat/sitemap-navigator/sitemap-navigator.htm
 
 // TODO: Use the Navigation API instead of anchor click events when it is available in all browsers.
+// TODO: Decide whether LI elements go into navigation info or only A elements
 
 import * as initializer from "../component-initializer/component-initializer-1.js" ;
 import * as fragmentLoader from "../fragment-loader/fragment-loader-1.js" ;
 import * as collapsibleStructures from "../collapsible-structures/collapsible-structures-1.js" ;  // imports
 
-let navigationInfo = { } ;  // carries link anchors related to the current document
+/**	module configuration
+ *		@typedef {object} configuration
+ *		@property {boolean} homeIsFirstLink
+ *		@property {boolean} removeRedundants - Remove redundant nodes from navigation info
+ */ export const configuration = { } ;
+/**
+ *		@typedef {HTMLAnchorElement|HTMLLIElement} NavigationInfoEntry
+ *		Holds anchors or list items that are related to the current document.
+ *		@typedef {object} navigationInfo
+ *		@property {NavigationInfoEntry} home
+ *		@property {NavigationInfoEntry} firstSibling
+ *		@property {NavigationInfoEntry} previousSibling
+ *		@property {NavigationInfoEntry} backSequential
+ *		@property {NavigationInfoEntry} currentNode
+ *		@property {NavigationInfoEntry} forwardSequential
+ *		@property {NavigationInfoEntry} nextSibling
+ *		@property {NavigationInfoEntry} lastSibling
+ *		@property {NavigationInfoEntry} parent - Parent nodes, excluding root
+ *		@property {NavigationInfoEntry} parentNodes
+ */ let navigationInfo = { } ;
 
 /**		
- *		findCurrentEntry()
+ *		findCurrentAnchor()
  * 
- */ function findCurrentEntry( contentAddress ) {
+ */ function findCurrentAnchor( contentAddress ) {
 	const root = document.getElementById( "sitemapRoot" );
 	// Try pathname without query string and with and without hash
 	const anchor = root.querySelector( `a[href="${contentAddress.origin}${contentAddress.pathname}${contentAddress.hash}"]` ) || root.querySelector( `a[href="${contentAddress.origin}${contentAddress.pathname}"]` );
-	if ( anchor ) return anchor.closest( "LI" );
+	return anchor ;
+//	if ( anchor ) return anchor.closest( "LI" );
 	}
 /**		
  *		highlightPath()
@@ -26,27 +47,19 @@ let navigationInfo = { } ;  // carries link anchors related to the current docum
 	// Compute the content address without url query string
 	const url = new URL( document.getElementById( "mainContent" ).getAttribute( "data-content-address" ) || document.location.href ) ;
 	url.search = "" ;
-	let entry = findCurrentEntry( url );
-	if ( ! entry ) {
+	let anchor = findCurrentAnchor( url );
+	if ( ! anchor ) {
 		fragmentLoader.loadSitemapFragments ( url );
-		entry = findCurrentEntry( url );
-		if ( ! entry ) return console.error( "Cannot find entry for current document." );
+		anchor = findCurrentAnchor( url );
+		if ( ! anchor ) return console.error( "Cannot find anchor for current document." );
 		}
-	compileNavigationInfo( entry );
 	// Deactivate old path
 	const collapse = document.getElementById( "sitemapRoot" ).hasAttribute( "data-collapse-expired-path" );
 	for ( const listItem of document.getElementById( "sitemapRoot").querySelectorAll( ".active" )) {
 		listItem.classList.remove( "active" );
 		if ( collapse ) collapsibleStructures.collapse( listItem );
 		}
-	// Activate new path
-	while ( entry ) {
-		entry.classList.add( "active" );
-		if ( entry.hasAttribute( "data-collapsible-state" )) collapsibleStructures.expand( entry ) ;
-		entry = entry.closest( "UL" );
-		if ( entry.classList.contains( "sitemap-tree" )) break;
-		entry = entry.closest( "LI" );
-		}
+	compileNavigationInfo( anchor );
 	}
 /**
  *		findContentAnchor()
@@ -66,12 +79,15 @@ let navigationInfo = { } ;  // carries link anchors related to the current docum
 /**
  *		compileNaviationInfo( )
  *		Builds a map of page-related page links
- *		@param {HtmlListItemElement} currentNode
+ *		@param {HtmlAnchorElement} anchor
  *		References module.navigationInfo
  *
- */ function compileNavigationInfo( currentNode ) {
-	navigationInfo = { };
+ */ function compileNavigationInfo( anchor ) {
+	navigationInfo = { parentNodes : [ anchor ] };
 	// previous and next siblings
+	const currentNode = anchor.closest( "LI" );
+	currentNode.classList.add( "active" );
+	if ( currentNode.hasAttribute( "data-collapsible-state" )) collapsibleStructures.expand( currentNode ) ;
 	navigationInfo.previousSibling = findContentAnchor( currentNode.previousElementSibling );
 	navigationInfo.nextSibling = findContentAnchor( currentNode.nextElementSibling );
 	// First and last siblings
@@ -80,22 +96,33 @@ let navigationInfo = { } ;  // carries link anchors related to the current docum
 	navigationInfo.firstSibling = findContentAnchor( parent?.firstElementChild );
 	navigationInfo.lastSibling = findContentAnchor( parent?.lastElementChild );
 	// Compile chain of parents nodes
-	navigationInfo.parentNodes = [ ];
-	while ( parent ) {
+	while ( parent ) {  // UL
 		if ( parent.classList.contains( "sitemap-tree" )) break;  // sitemap root reached
 		parent = parent.parentElement ;  // LI
+		parent.classList.add( "active" );
+		if ( parent.hasAttribute( "data-collapsible-state" )) collapsibleStructures.expand( parent ) ;
 		navigationInfo.parentNodes.unshift( findContentAnchor( parent ) || parent );  // A or LI
 		parent = parent.parentElement ;  // UL
 		}
-	// Next parent
-	navigationInfo.parent = navigationInfo.parentNodes[ navigationInfo.parentNodes.length - 1 ];
 	// Previous andNext in sequence
 	const anchors = Array.from( document.getElementById( "sitemapRoot" ).querySelectorAll( "A" ));
 	const currentIndex = anchors.indexOf( findContentAnchor( currentNode ));
 	navigationInfo.backSequential = anchors[ currentIndex - 1 ];
 	navigationInfo.forwardSequential = anchors[ currentIndex + 1 ];
-	// Home
-	navigationInfo.home = anchors[ 0 ] ;
+	// Remove redundants
+	if ( configuration.removeRedundants ) {
+		if ( navigationInfo.firstSibling === navigationInfo.previousSibling ) delete navigationInfo.firstSibling ;
+		if ( navigationInfo.lastSibling === navigationInfo.nextSibling ) delete navigationInfo.lastSibling ;
+		if ( navigationInfo.previousSibling === navigationInfo.backSequential ) delete navigationInfo.previousSibling ;
+		if ( navigationInfo.nextSibling === navigationInfo.forwardSequential ) delete navigationInfo.nextSibling ;
+		}
+	// Add home to parent nodes
+	if ( configuration.homeIsFirstLink ) navigationInfo.parentNodes.unshift( anchors[ 0 ] );
+	// Provide members for specific parent nodes to allow buttons to address them with names
+	navigationInfo.home = navigationInfo.parentNodes[ 0 ];
+	navigationInfo.current = navigationInfo.parentNodes[ navigationInfo.parentNodes.length - 1 ]; 
+	navigationInfo.parent = navigationInfo.parentNodes[ navigationInfo.parentNodes.length - 2 ];
+	
 	// Dispatch navigation-info-change event
 	const event = new CustomEvent( "navigation-info-update" , { detail : { navigationInfo : navigationInfo } } ) ;
 	document.dispatchEvent( event );
@@ -105,7 +132,9 @@ let navigationInfo = { } ;  // carries link anchors related to the current docum
  *		Adds event handlers to find the current document and highlight its path.
  *
  */ export function init ( searchparams = new URLSearchParams( ) ) {
-	console.info( "initializing sitemap navigator" );
+	console.debug( "initializing sitemap navigator" );
+	configuration.homeIsFirstLink = ( searchparams.get( "home-is" ) || "first-link" ) === "first-link" ;
+	configuration.removeRedundants = ( searchparams.get( "remove-redundants" ) || "yes" ) === "yes" ;
 	highlightPath( );  // registering as listerner in not enough
 	document.addEventListener( "fragment-loading-complete" , ( ) => highlightPath( )) ;
 	if ( searchparams.has( "single-page-environment" )) {
@@ -126,6 +155,7 @@ let navigationInfo = { } ;  // carries link anchors related to the current docum
 			evt.preventDefault( );
 			} ) ;
 		}
+	// TODO: Collapse expired path should be moved from attribute to module configuration
 	if ( searchparams.has( "collapse-expired-path" )) document.getElementById( "sitemapRoot" ).toggleAttribute( "data-collapse-expired-path", "true" );
 	// Catch interactive sitemap fragment load clicks
 	document.getElementById( "sitemapRoot" ).addEventListener( "click" , evt => { 

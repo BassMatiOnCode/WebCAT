@@ -6,8 +6,8 @@
 <meta name="author" content="USP" />
 <meta name="creation-date" content="2024-09-03" />
 <meta name="editor" content="USP" />
-<meta name="change-date" content="2024-10-20" />
-<meta name="version" content="1" />
+<meta name="change-date" content="2024-12-01" />
+<meta name="version" content="2" />
 <meta name="sectionTitle" content="../title.svg" />
 
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
@@ -132,6 +132,32 @@
 
 
 <!--h2--Scenarios--></div>
+
+<h2 cbc>Module Configuration</h2><div>
+
+<p>Module script parameters are passed in the query string of the import URL, as described in <a href="../component-anatomy.htm#passing-parameters">Anatomy of a WebCAT Component</a>.</p>
+
+<p>If the sitemap depends on HTML fragments, i</p>
+
+<dl>
+<dt>home-is={first-link|root}</dt><dd>
+	<p>Default=first-link. Determines whether home is the single root node of the sitemap tree, or the first node of the first hierarchy level.</p>
+	</dd>
+<dt>remove-redundants={yes|no}</dt><dd>
+	<p>Default=yes. Removes redundant links from the <tt>NavigationInfo</tt> structure, such as first/last/previous/next siblings. Gives more space in the site navigation toolbar.</p>
+	</dd>
+<dt>single-page-environment</dt><dd>
+	<p>If this key is present, the content page, specified in the <tt>content-address</tt> parameter of the query string of the document is loaded. This enables external pages to link to specifig content pages in a single-page website.</p>
+	</dd>
+<dt>collapse-expired-path</dt><dd>
+	<p>If this key is present, the expired path in the sitemap is collapsed. This keeps the vertical size of the sitemap on the navigation panel at minimum.</p>
+	</dd>
+<dt></dt><dd>
+	<p></p>
+	</dd>
+</dl>
+
+<!--h2--Module Configuration--></div>
 
 <h2 cbc>Implementation Details</h2><div>
 
