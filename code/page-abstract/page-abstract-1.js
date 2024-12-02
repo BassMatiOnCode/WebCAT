@@ -4,14 +4,19 @@ import * as initializer from "../component-initializer/component-initializer-1.j
 import { createElement } from "../utility/create-element/create-element.js" ;
 
 /**
-*		setContent ( )
+*		getContent ( )
 *
-*/ export function setContent( evt ) {
+*/ export function getContent ( evt ) {
 	const current = evt && evt.detail.navigationInfo.current?.closest( "LI" );
-	const content = current?.querySelector( 'meta[name="abstract"]' )?.getAttribute( "content" )
+	return current?.querySelector( 'meta[name="abstract"]' )?.getAttribute( "content" )
 		|| document.head.querySelector( "meta[name='description']" )?.getAttribute( "content" );
-	if ( ! content ) pageAbstract.remove( );
-	else pageAbstract.innerHTML = content ;
+	}
+/**
+*		setAbstract ( )
+*
+*/ export function setAbstract( evt ) {
+	pageAbstract.innerHTML = getContent( evt );
+	if ( ! pageAbstract.innerText ) pageAbstract.remove( );
 	}
 /**
 *		init ( )
@@ -29,8 +34,8 @@ import { createElement } from "../utility/create-element/create-element.js" ;
 		}
 	if ( typeof( pageAbstract ) === "undefined" || pageAbstract.textContent ) return ;
 	// Find and set content
-	if ( searchparams.has( "use-description" )) setContent( null )
-	else document.addEventListener( "navigation-info-update" , setContent );
+	if ( searchparams.has( "use-description" )) setAbstract( null )
+	else document.addEventListener( "navigation-info-update" , setAbstract );
 	}
 
 // * * * Module init code * * * // 
