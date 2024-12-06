@@ -80,7 +80,7 @@ dt[ data-collapsible-state ] + dd > dl {
 	}
 
 	/* bottom and top margins cannot collapse because of the border around DIV */
-[data-collapsible-state] + div :first-child {
+[data-collapsible-state] + div > :first-child {
 	margin-top : 0px ;
 	}
 
