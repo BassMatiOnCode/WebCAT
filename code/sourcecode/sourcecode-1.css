@@ -1,3 +1,19 @@
 hb  { color : darkorange ; font-weight : bold }
-hi { color : darkorange }
+hi { color : #cc7000 }
 cc { color : green }
+
+figure.listing pre.mono {
+	font-family : "inconsolata condensed", "constantia", "droid sans mono" ;
+	}
+pre {	/* TODO: This rule must be qualified somehow */
+	font-family : "inconsolata condensed", "constantia", "droid sans mono" ;
+	font-stretch : 75% ;
+	font-weight : normal ;
+	font-variant-numeric : lining-nums tabular-nums slashed-zero ;
+	line-height : 18px ;
+	line-height : 1.4 ;
+	tab-size : 15px ;
+}
+pre.mono {
+	font-family : "inconsolata condensed", "constantia", "droid sans mono" ;
+	}

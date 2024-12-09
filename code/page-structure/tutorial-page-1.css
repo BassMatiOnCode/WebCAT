@@ -78,29 +78,22 @@ body {
 	font-family : "Segoe UI" ;
 	margin : 0 20px 50px 20px ;
 	}
-figcaption { font-family : "Times New Roman", Constantia ; font-style : italic ; font-size : 10pt ; border-bottom : 1px solid silver  }
+figcaption { font-family : "Times New Roman" ; font-style : italic ; font-size : 11pt ; border-bottom : 1px solid silver  }
 figure { margin-left : 0px ; margin-right : 0px }
 figure.demo iframe { border : 1px solid silver ; width : 100% }
 figure.demo figcaption { border-bottom-style : none ; margin-bottom : 5px }
 figure.listing > figcaption { padding-bottom : 5px }
-figure.listing > pre { overflow-x : auto ; padding : 5px ; margin-top : 0px }
+figure.listing > pre { overflow-x : auto ; padding : 5px ; margin-top : 0px ; font-family : "Times New Roman" }
+figure.table > figcaption { border-style : none }
+figure.table > table { margin-top : 5px }
 h1, h2, h3, h4, h5 { font-family : "Times New Roman", "Arial Narrow" ; font-weight : normal ; margin-left : -20px }
 h1 { margin-left : 0 ; text-align : center }
 main { margin-left : 20px }
 ol > li, ul > li { margin-top: 5px ; margin-bottom : 5px }
 ol.spaced-items li, ul.spaced-items li { margin-top: 20px ; margin-bottom : 20px }
-p { line-height : 25px }
-p.subtitle { text-align : center ; margin-top : 0 ; margin-bottom : 30px ; font-family : "palatino linotype", "times new roman" }
-pre { 
-	font-family: "inconsolata condensed", "constantia", "droid sans mono" ;
-	font-stretch: 75% ;
-	font-weight : normal ;
-	font-variant-numeric : lining-nums tabular-nums slashed-zero ; 
-	line-height : 18px ;
-	line-height: 1.4 ; 
-	tab-size : 15px ; 
-	}
-span.keyword { font-family : "Palatino Linotype", "Times New Roman" }
+p { line-height: 1.8 }
+p.subtitle { text-align : center ; margin-top : 0 ; margin-bottom : 30px ; font-family : "paladino", "palatino linotype", "times new roman" }
+span.keyword { font-family : "Paladino", "Palatino Linotype", "Times New Roman" }
 table > caption { 
 	text-align : left ;
 	font-family : "Times New Roman" ;
