@@ -200,6 +200,19 @@ pre { tab-size : 20px ; margin : 5px 0 -20px -20px}
 		<p>scroll-margin-provider: Module parameter added: additional-margin-top, additional-margin-bottom.</p>
 		</div>
 	</dd>
+<dt class="open"><span class="date">2024-12-04</span> collapsible-structures: Malformed CSS div :first</dt><dd>
+	<p class="affected components">collapsible-structures</p>
+	<p class="close-info"><span class="date"></span></p>
+	<div class="description">
+		<p>Margin-top is imposed on all first elements, which is wrong.</p>
+		<p>[data-collapsible-state] + div :first-child { margin-top : 0px ; }</p>
+		<p>Also, we could check the top margin on the DIV.</p>
+		</div>
+	<div class="resolution">
+		<p>Add a child element operator</p>
+		<p>[data-collapsible-state] + div > :first-child { margin-top : 0px ; }</p>
+		</div>
+	</dd>
 
 <!--
 <dt class="open"><span class="date"></span></dt><dd>
