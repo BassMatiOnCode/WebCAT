@@ -1,3 +1,6 @@
+:root {
+	--math-fonts : "Cambria Math", "Asana Math", "STIX2 Math Regular" , "Times New Roman" ;
+	}
 .equation-number {
 	font-family : "Cambria Math", "Asana Math", "STIX2 Math Regular" , "Times New Roman" ;
 	}
@@ -14,8 +17,8 @@ math {
 	display: block math ;
     math-style: normal ;
 	font-family : "Cambria Math", "Asana Math", "STIX2 Math Regular" , "Times New Roman" ;
-	margin-top : 20px ;
-	margin-bottom : 20px ; 
+	margin-top : 16px ;
+	margin-bottom : 16px ; 
 	overflow : hidden ;
 	}
 math:hover {
@@ -51,6 +54,11 @@ mtable.vaxis-aligned > mtr > mtd:nth-child( 3 ) {
 mtable.vaxis-aligned > mtr:first-child > mtd:nth-child( 3 ) {
 	width : 50% ;
 	}
+math mi,
+math mo {
+	/* The only way to enforce a uniform minimum line height */
+	min-height : 15px ;
+	}
 mtd:has(mtext.equation-number) {
 	padding-right : 0 ;
 	}
@@ -63,12 +71,4 @@ p math {
 	math-style : compact ;
 	margin-top : unset ;
 	margin-bottom : unset ;
-	}
-span.math-text {
-	font-family : "Cambria Math", "Asana Math", "STIX2 Math Regular" , "Times New Roman" ;
-	}
-span.math-text.idf ,
-span.math-text span.idf {
-	font-style: oblique 20deg;
-	padding-right : 3px ;
 	}

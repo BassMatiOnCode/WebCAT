@@ -1,15 +1,48 @@
 /* Documentation: .../webcat/math/math.htm */
 
+:root {
+	--math-fonts : "Asana", "Asana Math", "STIX2 Math Regular" , "Cambria Math", "Times New Roman" ;
+	}
 body.math main {
 	font-family : "Palatino Linotype", "Paladino", "Times New Roman" ;
 	}
-figure.definition {
+figure.axiom ,
+figure.definition ,
+figure.lemma ,
+figure.theorem {
 	border-bottom : 1px solid silver ;
 	background-color : #F8F8F8 ;
+	}
+figure.axiom > p ,
+figure.definition > p ,
+figure.lemma > p ,
+figure.theorem > p {
+	margin : 10px 5px ;
 	}
 figure > figcaption {
 	background-color : white ;
 	}
 figure.definition .equation-number {
 	background-color : #F8F8F8 ;
+	}
+mathtext {
+	/* We need a generic tag name to make nesting possible */
+	font-family : var( --math-fonts );
+	display : inline ;
+	}
+mathtext > mi {
+	font-style: oblique ;
+	xfont-style: italic;
+	padding-right : 3px ;
+	}
+mathtext sub {
+	font-size : 8px ; /* seems to have no effect... */
+	}
+span.math-text {
+	font-family : "Cambria Math", "Asana Math", "STIX2 Math Regular" , "Times New Roman" ;
+	}
+span.math-text.idf ,
+span.math-text span.idf {
+	font-style: oblique 20deg;
+	padding-right : 3px ;
 	}
