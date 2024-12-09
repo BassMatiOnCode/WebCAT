@@ -3,7 +3,8 @@ table.flat-borders {
 	border-collapse : collapse ;
 	}
 
-table.flat-borders  td, th { 
+table.flat-borders  td, 
+table.flat-borders  th { 
 	border : 1px solid silver ;
 	padding : 0 5px 0 5px ;
 	font-weight : normal ;
