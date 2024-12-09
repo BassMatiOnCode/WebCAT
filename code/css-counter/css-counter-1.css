@@ -1,24 +1,41 @@
 /* Documentation: /webcat/css-counter/css-counter.htm */
 
-body { counter-reset : listing-counter figure-counter table-counter caption-counter example-counter definition-counter equation-counter }
-.equation-number::before { counter-increment : equation-counter; content : "("counter(equation-counter)")" ; }
-figure.listing figcaption::before { counter-increment : listing-counter; content : "Listing " counter(listing-counter) ": " ; }
-figure.listing figcaption:empty::before { counter-increment : listing-counter; content : "Listing " counter(listing-counter) ; }
-figure.definition figcaption::before { counter-increment : definition-counter; content : "Definition " counter(definition-counter) ": " ; }
-figure.definition figcaption:empty::before { counter-increment : definition-counter; content : "Definition " counter(definition-counter) ; }
-figure.demo figcaption::before { counter-increment : demo-counter; content : "Demo " counter(demo-counter) ": " ; }
-figure.demo figcaption:empty::before { counter-increment : demo-counter; content : "Demo " counter(demo-counter) ; }
-figure.example figcaption::before { counter-increment : example-counter; content : "Example " counter(example-counter) ": " ; }
-figure.example figcaption:empty::before { counter-increment : example-counter; content : "Example " counter(example-counter) ; }
-figure.figure figcaption::before { counter-increment : figure-counter; content : "Figure " counter(figure-counter) ": " ; }
-figure.figure figcaption:empty::before { counter-increment : figure-counter; content : "Figure " counter(figure-counter) ; }
-figure.syntax figcaption::before { counter-increment : syntax-counter; content : "Syntax " counter(syntax-counter) ": " ; }
-figure.syntax figcaption:empty::before { counter-increment : syntax-counter; content : "Syntax " counter(syntax-counter) ; }
-figure.table figcaption::before { counter-increment : table-counter; content : "Table " counter(table-counter) ": " ; }
-figure.table figcaption:empty::before { counter-increment : table-counter; content : "Table " counter(table-counter) ; }
-table > caption.autonum::before { counter-increment : caption-counter ; content : "Table " counter(caption-counter) ": " ; }
-table > caption.autonum:empty::before { counter-increment : caption-counter ; content : "Table " counter(caption-counter) ; }
+body { counter-reset : axiom-counter caption-counter definition-counter equation-counter example-counter figure-counter lemma-counter listing-counter table-counter theorem-counter }
+
 div.definition figcaption::before { counter-increment : definition-counter; content : "Definition " counter(definition-counter) ; }
+
+figure.axiom figcaption::before { counter-increment : axiom-counter; content : "Axiom " counter(axiom-counter) ": " ; }
+figure.axiom figcaption:empty::before { content : "Axiom " counter(axiom-counter) ; }
+
+figure.definition figcaption::before { counter-increment : definition-counter; content : "Definition " counter(definition-counter) ": " ; }
+figure.definition figcaption:empty::before { content : "Definition " counter(definition-counter) ; }
+
+figure.demo figcaption::before { counter-increment : demo-counter; content : "Demo " counter(demo-counter) ": " ; }
+figure.demo figcaption:empty::before { content : "Demo " counter(demo-counter) ; }
+
+figure.example figcaption::before { counter-increment : example-counter; content : "Example " counter(example-counter) ": " ; }
+figure.example figcaption:empty::before { content : "Example " counter(example-counter) ; }
+
+figure.figure figcaption::before { counter-increment : figure-counter; content : "Figure " counter(figure-counter) ": " ; }
+figure.figure figcaption:empty::before { content : "Figure " counter(figure-counter) ; }
+
+figure.lemma figcaption::before { counter-increment : lemma-counter; content : "Lemma " counter(lemma-counter) ": " ; }
+figure.lemma figcaption:empty::before { content : "Lemma " counter(lemma-counter) ; }
+
+figure.listing figcaption::before { counter-increment : listing-counter; content : "Listing " counter(listing-counter) ": " ; }
+figure.listing figcaption:empty::before { content : "Listing " counter(listing-counter) ; }
+
+figure.syntax figcaption::before { counter-increment : syntax-counter; content : "Syntax " counter(syntax-counter) ": " ; }
+figure.syntax figcaption:empty::before { content : "Syntax " counter(syntax-counter) ; }
+
+figure.table figcaption::before { counter-increment : table-counter; content : "Table " counter(table-counter) ": " ; }
+figure.table figcaption:empty::before { content : "Table " counter(table-counter) ; }
+
+figure.theorem figcaption::before { counter-increment : theorem-counter; content : "Theorem " counter(theorem-counter) ": " ; }
+figure.theorem figcaption:empty::before { content : "Theorem " counter(theorem-counter) ; }
+
+table > caption.autonum::before { counter-increment : caption-counter ; content : "Table " counter(caption-counter) ": " ; }
+table > caption.autonum:empty::before { content : "Table " counter(caption-counter) ; }
 
 ol.instructions, ol.instructions ol { list-style-type : none ; counter-reset : instruction-counter ; padding-left : 20px }
 ol.continue { counter-reset : none }
