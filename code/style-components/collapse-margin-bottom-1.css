@@ -1,0 +1,8 @@
+/* Documentation: .../webcat/style-components/style-components.htm */
+
+.collapse-margin-bottom {
+	margin-bottom : 0 ;
+	}
+.collapse-margin-bottom + * {
+	margin-top : 0 ;
+	}
