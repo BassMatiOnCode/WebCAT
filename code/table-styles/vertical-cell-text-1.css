@@ -1,0 +1,28 @@
+/* Documentation: .../webcat/table-styles.htm#vertical-cell-text */
+
+tr.vertical > td { 
+	padding-top : 5px ;
+	padding-bottom : 5px ;
+	writing-mode : vertical-lr ;
+	}
+tr.vertical.bottom-up > td {
+	transform : rotate( 180deg );
+	}
+tr.vertical.td-left td {
+	text-align : left ;
+	}
+tr.vertical.td-center td {
+	text-align : center ;
+	}
+tr.vertical.td-right td {
+	text-align : right ;
+	}
+tr.vertical.th-bottom > th {
+	vertical-align : bottom ;
+	}
+tr.vertical.th-middle > th {
+	vertical-align : middle ;
+	}
+tr.vertical.th-top > th {
+	vertical-align : top ;
+	}

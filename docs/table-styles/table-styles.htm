@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-08-07" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-12-13" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-12-13" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="/inc/webcat/page-structure/tutorial-page-1.css" />
+<script type="module" src="/inc/webcat/page-structure/tutorial-page-1.js" ></script>
+ 
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox > Table Styles" />
+<meta name="tags" content="web, content, authoring, toolbox, HTML, CSS, WebCAT, component" />
+<meta name="description" content="" />
+
+<title>Table Styles (Web > Content Authoring Toolbox)</title>
+
+</head><body>
+
+<h1>Table Styles</h1><p class="subtitle">Stylesheet Collection for Tables</p>
+
+<h2 cbc id="vertical-cell-text">Vertical Cell Text</h2><div>
+
+<p>Vertical cell text is used in tables with tall but narrow columns, or if the number of columns is large:</p>
+
+<figure class="demo"><figcaption>Demo (<a href="demo-vertical-text-1.htm">Vertical Text Demo 1</a>)</figcaption>
+<iframe class="content-height-observed" src="demo-vertical-text-1.htm"></iframe>
+</figure>
+
+<p>The demo above demonstrates a number of options. For example you can change the text orientation and alignment. For this purpose, decorate the <tt>TR</tt> element with the class-name <tt>vertical</tt> and some optional ones:</p>
+
+<figure class="listing"><figcaption>Decorating the table row</figcaption><pre>
+&lt;table class="flat-borders td-centered"&gt;&lt;thead&gt;
+&lt;tr class="<hi>vertical bottom-up th-middle td-left</hi>"&gt;
+	&lt;th&gt;Name&lt;/th&gt;
+	&lt;td&gt;Apples&lt;/td&gt;
+	&lt;td&gt;Sweet Bananas&lt;/td&gt;
+	&lt;td&gt;Oranges&lt;/td&gt;
+&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;
+</pre></figure>
+
+<p><tt>TH</tt> elements are considered as row header cells. Their text orientation always remains horizontal. However, their vertical alignment can be changed with the class names <tt>th-top</tt>, <tt>th-middle</tt> and <tt>th-bottom</tt>.</p>
+
+<p>The alignment of data cells can be adjusted with the class names <tt>td-left</tt>, <tt>td-center</tt> or <tt>td-right</tt>.</p>
+
+<p>These classnames also works on any row in the table body, i. e. in the middle if the table:</p>
+
+<figure class="demo"><figcaption>Demo (<a href="demo-vertical-text-2.htm">Vertical Text Demo 2</a>)</figcaption>
+<iframe class="content-height-observed" src="demo-vertical-text-2.htm"></iframe>
+</figure>
+
+<h3 cbc>Using the Component</h3><div>
+
+<p>The component consists of a single file:</p>
+
+<ul>
+<li>vertical-cell-text.css</li>
+</ul>
+
+<p>For detailed notes on how to import these files into a document or aggregation script, refer to <a hef="../component-anatomy.htm#using">WebCAT Component Anatomy</a>.</p>
+
+<p>Decorate the <tt>TR</tt> element with the class name <tt>vertical</tt> to change the text orientation of <tt>TD</tt> cells in that row. Add additional class names, as defined in the CSS file, to obtain additional orientation and alignment effects.</p>
+
+<!--h3--Using the Component--></div>
+
+<!--h2--Vertical Cell Text--></div>
+
+</body></html>

@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html> 
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-09-15" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-12-12" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-12-12" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="/inc/webcat/page-structure/demo-page.css" />
+<script type="module" src="/inc/webcat/page-structure/demo-page.js" ></script>
+<link rel="stylesheet" href="/inc/webcat/table-styles/flat-borders.css" />
+
+<link rel="stylesheet" href="/inc/webcat/table-styles/vertical-cell-text.css" />
+
+<style>
+th { font-weight : normal ; text-align : left }
+table.td-centered tbody td { text-align : center }
+</style>
+ 
+<meta name="categories" content="Projects > WebCAT" />
+<meta name="tags" content="web, content, authoring, toolbox, WebCAT, HTML, JavaScript, CSS, component, demo" />
+<title>Vertical Cell Text (Projects > WebCAT > Table Styles)</title>
+<meta name="description" content="" />
+
+</head><body>
+
+<div class="hide-if-hosted">
+<h1>Vertical Cell Text</h1><p class="subtitle">Table Head Cells</p>
+</div>
+
+<table><tr>
+	<td>Text orientation:</td>
+	<td colspan="3"><input id="chk-bottom-up" type="checkbox" checked /><label for="chk-bottom-up">Bottom-up</label></td>
+</tr><tr id="alignment-options">
+	<td>Data cell alignment:</td>
+	<td><input id="radio-align-left" name="radio-align" type="radio" value="td-left" checked /><label for="radio-align-left">left</label></td>
+	<td><input id="radio-align-center" name="radio-align" type="radio" value="td-center" /><label for="radio-align-center">center</label></td>
+	<td><input id="radio-align-right" name="radio-align" type="radio" value="td-right" /><label for="radio-align-right">right</label></td>
+</tr><tr id="header-alignment">
+	<td>Header cell alignment:</td>
+	<td><input id="radio-valign-top" name="radio-valign" type="radio" value="th-top" checked /><label for="radio-valign-top">top</label></td>
+	<td><input id="radio-valign-middle" name="radio-valign" type="radio" value="th-midlle" /><label for="radio-valign-middle">middle</label></td>
+	<td><input id="radio-valign-bottom" name="radio-valign" type="radio" value="th-bottom" /><label for="radio-valign-bottom">bottom</label></td>
+</tr></table>
+
+<table class="flat-borders td-centered" style="margin-top:20px"><thead><tr class="vertical bottom-up th-top">
+	<th>Name</th>
+	<td>Apples</td>
+	<td>Sweet Bananas</td>
+	<td>Oranges</td>
+</tr></thead><tbody><tr>
+	<th>Green</th>
+	<td>Y</td>
+	<td>N</td>
+	<td>N</td>
+</tr><tr>
+	<th>Yellow</th>
+	<td>N</td>
+	<td>Y</td>
+	<td>N</td>
+</tr><tr>
+	<th>Orange</th>
+	<td>N</td>
+	<td>N</td>
+	<td>Y</td>
+</tr><tr>
+	<th>Sweet</th>
+	<td>Y</td>
+	<td>Y</td>
+	<td>Y</td>
+</tr><tr>
+	<th>Sour</th>
+	<td>Y</td>
+	<td>N</td>
+	<td>Y</td>
+</tr></tbody></table>
+
+<script type="module">
+const tr = document.querySelector( "tr.vertical" );
+document.getElementById( "chk-bottom-up" ).addEventListener( "click" , evt => {
+	evt.target.toggleAttribute( "checked" );
+	tr.classList.toggle( "bottom-up" );
+	} ) ;
+document.getElementById( "alignment-options" ).addEventListener( "click" , evt => {
+	const active = evt.currentTarget.querySelector( "[checked]" );
+	tr.classList.remove( active.value );
+	tr.classList.add( evt.target.value );
+	active.removeAttribute( "checked" );
+	evt.target.toggleAttribute( "checked" );
+	} ) ;
+document.getElementById( "header-alignment" ).addEventListener( "click" , evt => {
+	const active = evt.currentTarget.querySelector( "[checked]" );
+	tr.classList.remove( active.value );
+	tr.classList.add( evt.target.value );
+	active.removeAttribute( "checked" );
+	evt.target.toggleAttribute( "checked" );
+	} ) ;
+</script>
+</body></html>
