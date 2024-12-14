@@ -1,6 +1,6 @@
 /* Documentation: /webcat/css-counter/css-counter.htm */
 
-body { counter-reset : axiom-counter caption-counter definition-counter equation-counter example-counter figure-counter lemma-counter listing-counter table-counter theorem-counter }
+body { counter-reset : axiom-counter caption-counter definition-counter demo-counter equation-counter example-counter figure-counter lemma-counter listing-counter table-counter theorem-counter }
 
 div.definition figcaption::before { counter-increment : definition-counter; content : "Definition " counter(definition-counter) ; }
 
