@@ -1,0 +1,187 @@
+﻿<!DOCTYPE html>
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-08-07" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-12-13" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-12-13" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="/inc/webcat/page-structure/tutorial-page.css" />
+<script type="module" src="/inc/webcat/page-structure/tutorial-page.js" ></script>
+ 
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox > Table Cell Longtext" />
+<meta name="tags" content="web, content, authoring, toolbox, HTML, JavaScript, CSS, WebCAT, component, table, cell, title, longtext" />
+<meta name="description" content="" />
+
+<title>Table Cell Longtext (Web > Content Authoring Toolbox)</title>
+
+</head><body>
+
+<h1>Table Cell Longtext</h1><p class="subtitle">Longtext Alternative for Narrow Cells</p>
+
+<h2 cbc>Introduction</h2><div>
+
+<p>To squeeze much information into tables within limited space, columns must be kept as small as possible and cannot hold much information. Such cells should provide two forms of information, a short form, and a long form that is presented upon user request, such as mouse hover or finger tap on the cell.</p>
+
+<p>The <tt>table-cell-longtext</tt> component implements it.</p>
+
+<!--h2--Introduction--></div>
+
+<h2 cbc>Using the Component</h2><div>
+
+<p>The component consists of two files:</p>
+
+<ul>
+<li>table-cell-longtext.css</li>
+<li>table-cell-longtext.js</li>
+</ul>
+
+<p>For detailed notes on how to import these files into a document or aggregation script, refer to <a hef="../component-anatomy.htm#using">WebCAT Component Anatomy</a>.</p>
+
+<h3 cbc>Simple Use</h3><div>
+
+<p>Decorate the table with the class name <tt>longtext-cells</tt>, and provide the long text in the <tt>title</tt> attribute of the table data cells:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+&lt;table class="flat-borders <hi>longtext-cells</hi>"&gt;
+&lt;tbody&gt;&lt;tr&gt;
+	&lt;th&gt;Country&lt;/th&gt;
+	&lt;td <hi>title</hi>="Germany"&gt;DE&lt;/td&gt;
+	&lt;td title="France"&gt;FR&lt;/td&gt;
+	&lt;td title="United Kingdom"&gt;UK&lt;/td&gt;
+&lt;/tbody&gt;&lt;/table&gt;
+</pre></figure>
+
+<p>The <tt>title</tt> attribute is shown in a tool tip box when the mouse pointer hovers over the cell. This is standard HTML behavior. Additionally, the <tt>init()</tt> code in <tt>table-cell-longtext.js</tt> adds a click even handler to the cell for touchscreen support. If you click on the cell, the longtext is shown over the cell:</p>
+
+<figure class="demo"><figcaption>Longtext demonstration (<a href="demo-1.htm" target="_blank">Demo 1</a>)</figcaption>
+<iframe class="content-height-observed" src="demo-1.htm"></iframe>
+</figure>
+
+<p>If you don't want the hover event to show the long text, specifiy a different longtext attribute name with an attribute on the <tt>TABLE</tt> element:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+&lt;table class="flat-borders longtext-cells" data-longtext-attrib="<hi>longtext</hi>" &gt;
+&lt;tbody&gt;&lt;tr&gt;
+	&lt;th&gt;Country&lt;/th&gt;
+	&lt;td <hi>longtext</hi>="Germany"&gt;DE&lt;/td&gt;
+	&lt;td longtext="France"&gt;FR&lt;/td&gt;
+	&lt;td longtext="United Kingdom"&gt;UK&lt;/td&gt;
+&lt;/tbody&gt;&lt;/table&gt;
+</pre></figure>
+
+<p>Now you have to click or tap on the cell to show or hide the long text. Here is the demo:</p>
+
+<figure class="demo"><figcaption>Longtext demonstration (<a href="demo-2.htm" target="_blank">Demo 2</a>)</figcaption>
+<iframe class="content-height-observed" src="demo-2.htm"></iframe>
+</figure>
+
+<p>The name of the attribute can also be set in the module URL parameters:</p>
+
+<figure class="listing"><figcaption>Setting the longtext attribute name</figcaption><pre>
+&lt;script type="module" src="path/to/table-cell-longtext.js?<hi>longtext-attrib=longtext</hi>" &gt;&lt;/script&gt;
+</pre></figure>
+
+<p>Then you can omit the <tt>data-longtext-attrib</tt> attribute on the table:</p>
+
+<figure class="demo"><figcaption>Longtext demonstration (<a href="demo-3.htm" target="_blank">Demo 3</a>)</figcaption>
+<iframe class="content-height-observed" src="demo-3.htm"></iframe>
+</figure>
+
+<!--h3--Simple Use--></div>
+
+<h3 cbc>Advanced Use</h3><div>
+
+<p>There are situations where the cell text is set from code, for example, with a table data loader, and the source data contains both short <em>and</em> long text. A special characters separates them:</p>
+
+<figure class="listing"><figcaption>Cell text assignment string</figcaption><pre>
+DE<hb>|</hb>Germany
+</pre></figure>
+
+<p>By default, a vertical bar (|) is used as separator, but you can configure the character via module URL parameter, as shown in the following example.</p>
+
+<p>To use the cell assignment function, simply import <tt>setCellContent</tt> from <tt>table-cell-longtext.js</tt>. Then you can use that function to fill the three empty table data cells from the string data array:</p>
+
+<figure class="listing"><figcaption>Using setCellContex()</figcaption><pre>
+&lt;script type="module"&gt;
+import { <hi>setCellContent</hi> } from 	"path/to/<hi>table-cell-longtext.js</hi>?longtext-attrib=<hi>longtext</hi>&separator=<hi>§</hi>" ;
+const cellData = [ "DE§Germany" , "FR§France" , "UK§United Kingdom" ] ;
+for ( const cell of document.querySelectorAll( "TD" )) {
+	<hi>setCellContent</hi>( cell, cellData.shift( ));
+	}
+&lt;/script&gt;
+</pre></figure>
+
+<p>And here is the result:</p>
+
+<figure class="demo"><figcaption>Longtext demonstration (<a href="demo-4.htm" target="_blank">Demo 4</a>)</figcaption>
+<iframe class="content-height-observed" src="demo-4.htm"></iframe>
+</figure>
+
+<!--h3--Advanced Use--></div>
+
+<p>More information on how to use the module can be found in the <a href="#examples">examples section</a>.</p>
+
+<!--h2--Using the Component--></div>
+
+<h2 cbc>Module Configuration</h2><div>
+
+<p>Module script parameters are passed in the query string of the import URL, as described in <a href="../component-anatomy.htm#passing-parameters">Anatomy of a WebCAT Component</a>.</p>
+
+<dl>
+<dt id="separator-char">separator={string}</dt><dd>
+	<p>Defines the separator between short and long text. Default = "|".</p>
+	</dd>
+<dt>longtext-attrib={string}</dt><dd>
+	<p>Defines the attribute name for storing the long text value. Default = "title".</p>
+	</dd>
+</dl>
+
+<!--h2--Module Configuration--></div>
+
+<h2 cbc>Related Components</h2><div>
+
+<p>This component is related to other WebCAT components:</p>
+
+<dl>
+<dt><a href="../table-data-loader/table-data-loader.htm">Table Data Loader</a></dt><dd>
+	<p>Automates setting table content and can be configured to use <tt>table-cell-longtext:setCellContent()</tt>.</p>
+	</dd>
+</dl>
+
+<!--h2--Related Components--></div>
+
+<h2 cbc>Programming Reference</h2><div>
+
+<h3 cbc>setCellContent( cell, content )</h3><div>
+
+<p>Parameters:</p>
+
+<dl>
+<dt>cell</dt><dd>
+	<p>{HTMLTableCellElement} References the table cell that shall be filled.</p>
+	</dd>
+<dt>content</dt><dd>
+	<p>{string} The content will be assigned to <tt>cell.innerHTML</tt>. Short and long text must be separated with the configure <a href="#separator-char">separator</a> character.</p>
+	</dd>
+<dt>returns</dt><dd>
+	<p>{HTMLTableCellElement} The <tt>cell</tt> parameter.</p>
+	</dd>
+</dl>
+
+<!--h3----></div>
+
+<!--h2--Programming Reference--></div>
+
+<h2 cbc="collapsed">Implementation Details</h2><div>
+
+<p>For implementation details, refer to the <a href="https://github.com/BassMatiOnCode/WebCAT/blob/main/code/table-cell-longtext/table-cell-longtext-1.js">script</a> and <a href="https://github.com/BassMatiOnCode/WebCAT/blob/main/code/table-cell-longtext/table-cell-longtext-1.css">stylesheet</a> code of the module.</p>
+
+<!--h2--Implementation Details--></div>
+
+</body></html>

@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html> 
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-09-15" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-12-12" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-12-12" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="/inc/webcat/page-structure/demo-page.css" />
+<script type="module" src="/inc/webcat/page-structure/demo-page.js" ></script>
+<link rel="stylesheet" href="/inc/webcat/table-styles/flat-borders.css" />
+
+<link rel="stylesheet" href="../code/table-cell-longtext/table-cell-longtext.css" />
+
+<style>table th { text-align: left }</style>
+
+<meta name="categories" content="Projects > WebCAT > Table Data Loader" />
+<meta name="tags" content="web, content, authoring, toolbox, WebCAT, HTML, JavaScript, component, demo, table, data, loader" />
+<title>Demo 3 (Projects > WebCAT > Table Cell Longtext)</title>
+<meta name="description" content="" />
+
+</head><body>
+
+<div class="hide-if-hosted">
+<h1>Demo 3</h1><p class="subtitle">Document-wide Setting of the Longtext Attribute</p>
+</div>
+
+<table class="flat-borders longtext-cells">
+<tbody><tr>
+	<th>Country</th>
+	<td></td>
+	<td></td>
+	<td></td>
+</tbody></table>
+
+<script type="module">
+import { setCellContent } from "../code/table-cell-longtext/table-cell-longtext.js?longtext-attrib=longtext&separator=§" ;
+const cellData = [ "DE§Germany" , "FR§France" , "UK§United Kingdom" ] ;
+for ( const cell of document.querySelectorAll( "TD" )) {
+	setCellContent( cell, cellData.shift( ));
+	}
+</script>
+
+</body></html>

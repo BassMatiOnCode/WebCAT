@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html> 
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-09-15" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-12-12" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-12-12" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="/inc/webcat/page-structure/demo-page-1.css" />
+<script type="module" src="/inc/webcat/page-structure/demo-page-1.js" ></script>
+<link rel="stylesheet" href="/inc/webcat/table-styles/flat-borders.css" />
+
+<link rel="stylesheet" href="../code/table-cell-longtext/table-cell-longtext.css" />
+
+<style>table th { text-align: left }</style>
+
+<meta name="categories" content="Projects > WebCAT > Table Data Loader" />
+<meta name="tags" content="web, content, authoring, toolbox, WebCAT, HTML, JavaScript, component, demo, table, data, loader" />
+<title>Demo 4 (Projects > WebCAT > Table Cell Longtext)</title>
+<meta name="description" content="" />
+
+</head><body>
+
+<div class="hide-if-hosted">
+<h1>Demo 4</h1><p class="subtitle">setCellContent()</p>
+</div>
+
+<table class="flat-borders longtext-cells" data-source="products">
+<thead name="header"><tr>
+	<th name="productName">Name</th>
+</tr><tr>
+	<th name="manufacturer">Manufacturer</th>
+</tr>
+</thead><tbody name="display">
+<tr class="group-header">
+	<th colspan="1">Display</th>
+</tr><tr>
+	<th name="type">Type</th>
+</tr><tr>
+	<th name="size">Size (inch)</th>
+</tr>
+</tbody><tbody name="memory">
+<tr class="group-header">
+	<th colspan="1">Memory</th>
+</tr><tr>
+	<th name="ram">RAM (GB)</th>
+</tr><tr>
+	<th name="flash">Flash (GB)</th>
+</tr>
+</tbody></table>
+
+<script type="module">
+import { load, configuration as loaderConfiguration } from "../code/table-data-loader/table-data-loader.js?no-default-init" ;
+import { setCellContent as setLongtextCellContent } from "../code/table-cell-longtext/table-cell-longtext.js" ;
+
+loaderConfiguration.assignmentFunction = setLongtextCellContent ;
+
+const readomatA = { 
+	header : { 
+		productName : "Readomat A" ,
+		manufacturer : "RM|Readomat Inc."
+		} ,
+	display : {
+		type : "EC|E-Inc Carta" ,
+		size : 10.3 
+		} ,
+	memory : {
+		ram : 64 ,
+		flash : 128 
+		}
+	} ;
+const products = [	readomatA ] ;
+load( document.querySelector( "table[data-source='products']" ), products );
+</script>
+
+
+</body></html>
