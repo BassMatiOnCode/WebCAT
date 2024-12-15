@@ -80,8 +80,8 @@ body {
 	}
 figcaption { font-family : "Times New Roman" ; font-style : italic ; font-size : 11pt ; border-bottom : 1px solid silver  }
 figure { margin-left : 0px ; margin-right : 0px }
+figure > figcaption:has(+iframe) { border-bottom-style : none ; margin-bottom : 5px } 
 figure.demo iframe { border : 1px solid silver ; width : 100% }
-figure.demo figcaption { border-bottom-style : none ; margin-bottom : 5px }
 figure.listing > figcaption { padding-bottom : 5px }
 figure.listing > pre { overflow-x : auto ; padding : 5px ; margin-top : 0px ; font-family : "Times New Roman" }
 figure.table > figcaption { border-style : none }
