@@ -15,7 +15,7 @@
 <script type="module" src="/inc/webcat/page-structure/demo-page-1.js" ></script>
 <link rel="stylesheet" href="/inc/webcat/table-styles/flat-borders.css" />
 
-<link rel="stylesheet" href="../code/table-cell-longtext/table-cell-longtext.css" />
+<link rel="stylesheet" href="/inc/webcat/table-cell-longtext/table-cell-longtext.css" />
 
 <style>table th { text-align: left }</style>
 
@@ -55,8 +55,8 @@
 </tbody></table>
 
 <script type="module">
-import { load, configuration as loaderConfiguration } from "../code/table-data-loader/table-data-loader.js?no-default-init" ;
-import { setCellContent as setLongtextCellContent } from "../code/table-cell-longtext/table-cell-longtext.js" ;
+import { load, configuration as loaderConfiguration } from "/inc/webcat/table-data-loader/table-data-loader.js?no-default-init" ;
+import { setCellContent as setLongtextCellContent } from "/inc/webcat/table-cell-longtext/table-cell-longtext.js" ;
 
 loaderConfiguration.assignmentFunction = setLongtextCellContent ;
 
