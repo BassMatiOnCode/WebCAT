@@ -25,7 +25,7 @@ import { createElement } from "../utility/create-element/create-element.js" ;
 	configuration.separator = searchparams.get( "separator" ) || configuration.separator ;
 	configuration.longtextAttribute = searchparams.get( "longtext-attrib" ) || configuration.longtextAttribute ;
 	for ( const table of document.querySelectorAll( "table.longtext-cells" )) {
-		const longtextAttrib = table.getAttribute( "longtext-attrib" ) || configuration.longtextAttribute ;
+		const longtextAttrib = table.getAttribute( "data-longtext-attrib" ) || configuration.longtextAttribute ;
 		table.addEventListener( "click" , evt => { 
 			let longtext = evt.target.getAttribute( longtextAttrib );
 			if ( evt.target.tagName !== "TD" || ! longtext ) return ;  // cell has no longtext
