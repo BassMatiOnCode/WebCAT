@@ -1,0 +1,480 @@
+﻿<!DOCTYPE html>
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-08-07" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-12-11" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-12-11" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="/inc/webcat/page-structure/tutorial-page-1.css" />
+<script type="module" src="/inc/webcat/page-structure/tutorial-page-1.js" ></script>
+ 
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox > Table Column Loader" />
+<meta name="tags" content="web, content, authoring, toolbox, HTML, JavaScript, CSS, WebCAT, component, table, data, column, loader" />
+<meta name="description" content="" />
+
+<title>Table Data Loader (Web > Content Authoring Toolbox)</title>
+
+</head><body>
+
+<h1>Table Data Loader</h1><p class="subtitle">Fill Tables With Data</p>
+
+<h2 cbc>Introduction</h2><div>
+
+<p>The <i>table-data-loader</i> implements a one-way databinding pattern: A TABLE element is bound to a list-type data-source. Consider the following data object:</p>
+
+<figure class="listing"><figcaption>Data layout</figcaption><pre>
+const readomatA = { 
+		productName : "Readomat A" ,
+		manufacturer : "Readomat Inc."
+		displayManufacturer : "E-Ink" ,
+		type : "Carta" ,
+		size : 10.3 
+		ram : 64 ,
+		flash : 128 
+		}
+	} ;
+</pre></figure>
+
+<p>This is a single record. Multiple records are combined into a list-type data source, an array of data objects:</p>
+
+<figure class="listing"><figcaption>Table data source object</figcaption><pre>
+const <hi>products</hi> = [
+	readomatA,
+	simpleReader,
+	vizorBook7,
+	vizorBook10
+	] ;
+</pre></figure>
+
+<p>Effectively, the data source is a two-dimensional array of product properties.</p>
+
+<p>The <tt>TABLE</tt> orientation is either <i>horizontal</i> (with data record rows), or <i>vertical</i> (with data record columns).</p>
+
+<p>And here are two examples</p>
+
+<figure class="demo"><figcaption>Horizontal orientation (<a href="demo-1.htm" target="_blank">demo-1.htm</a>)</figcaption>
+<iframe class="content-height-observed" src="demo-1.htm"></iframe>
+</figure>
+
+<figure class="demo"><figcaption>Vertical orientation (<a href="demo-2.htm" target="_blank">demo-2.htm</a>)</figcaption>
+<iframe class="content-height-observed" src="demo-2.htm"></iframe>
+</figure>
+
+<p>Click on the <tt>Load</tt> button to load the data into the table. This is done with a single function call:</p>
+
+<figure class="listing"><figcaption>Loading data</figcaption><pre>
+<hi>loadRowData</hi>( productTable, { dataSource : products , rowTemplate : productRowTemplate );
+	or
+<hi>loadColumnData</hi>( productTable { dataSource : products } );
+</pre></figure>
+
+<p>Altenatively, the <tt>TABLE</tt> element can be decorated with configuration attributes so that no code is required to fill the table.</p>
+
+<!--h2--Introduction--></div>
+
+<h2 cbc>Using the Component</h2><div>
+
+<p>The component consists of a single file:</p>
+
+<ul>
+<li>table-data-loader.js</li>
+</ul>
+
+<p>For detailed notes on how to import these files into a document or aggregation script, refer to <a hef="../component-anatomy.htm#using">WebCAT Component Anatomy</a>.</p>
+
+<p>To use this module, follow these steps:</p>
+
+<ol>
+<li>Prepare a <tt>TABLE</tt> element</tt>.</li>
+<li>Decorate row or column header cells with data field <tt>name</tt> attributes.</li>
+<li>If a horizontal table layout is used, provide a <tt>TEMPLATE</tt> element for an empty table row.</li>
+<li>Create the data source as array of objects.</li>
+<li>Import the <tt>table-data-loader.js</tt> script module.</li>
+<li>Call <tt>loadRowData()</tt> or <tt>loadColumnData()</tt> to fill the table.</li>
+</ol>
+
+<p>More information on how to use the module can be found in the <a href="#examples">examples section</a>.</p>
+
+<!--h2--Using the Component--></div>
+
+<h2 cbc>Examples</h2><div>
+
+<p>The following examples assume that you have a script that defines the data source:</p>
+
+<figure class="listing"><figcaption>The data source</figcaption><pre>
+const readomatA = { productName : "Readomat A" , ...	 } ;
+const inkyPad = { productName : "Reader 7" , ... } ;
+const products = [	readomatA, inkyPad, ... ] ;
+</pre></figure>
+
+<h3 cbc style="margin-top: 40px">Example 1: Horizontal Row Layout</h3><div>
+
+<p>The <tt>TABLE</tt> element defines either rows, or columns, which reflect the structure of the data-source rows. <tt>TH</tt> header cells carry the property names, they match the property names in the data source. <tt>TH</tt> cells with a <tt>colspan</tt> or <tt>rowspan</tt> attribute are considered property group headers:</p>
+
+<figure class="listing"><figcaption>Data table layout</figcaption><pre>
+&lt;<hi>table</hi> id="productTable" class="flat-borders"&gt;
+&lt;thead&gt;&lt;tr class="column-groups"&gt;
+	&lt;td colspan="2"&gt;Designation&lt;/td&gt;
+	&lt;td colspan="3"&gt;Display&lt;/td&gt;
+	&lt;td colspan="2"&gt;Memory&lt;/td&gt;
+&lt;/tr&gt;&lt;tr class="<hi>column-headers</hi>"&gt;
+	&lt;th name="<hi>productName</hi>"&gt;Model&lt;/th&gt;
+	&lt;td name="<hi>productManufacturer</hi>"&gt;Manufacturer&lt;/td&gt;
+	&lt;td name="<hi>displayManufacturer</hi>"&gt;Manufacturer&lt;/td&gt;
+	&lt;td name="<hi>displayType</hi>"&gt;Type&lt;/td&gt;
+	&lt;td name="<hi>displaySize</hi>"&gt;Size&lt;br /&gt;(inch)&lt;/td&gt;
+	&lt;td name="<hi>ram</hi>"&gt;RAM&lt;br /&gt;(GB)&lt;/td&gt;
+	&lt;td name="<hi>flash</hi>"&gt;Flash&lt;br /&gt;(GB)&lt;/td&gt;
+&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;
+&lt;/tbody&gt;&lt;/table&gt;
+</pre></figure>
+
+<p>Note that the classname <tt>column-headers</tt> allows the script to find the column header cells automatically. They hold the data-source column names in <tt>name</tt> attributes.</p>
+
+<p>Then you need a row template element:</p>
+
+<figure class="listing"><figcaption>A template for an empty row</figcaption><pre>
+&lt;template id="<hi>productRowTemplate</hi>"&gt;&lt;tr&gt;
+	&lt;th&gt;&lt;/th&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/template&gt;
+</pre></figure>
+
+<p>Essentially, an empty cell for each column.</p>
+
+<p>Then you need to load the module script and import the import function, define the data source and call the loader function:</p>
+
+<figure class="listing"><figcaption>Loading columns</figcaption><pre>
+&lt;script type="module"&gt;
+import { <hi>loadRowData</hi> } from "path/to/<hi>table-data-loader.js</hi>" ;
+const readomatA = { ... } ;
+const inkyPad = { ... } ;
+const products = [	readomatA, inkyPad, ... ] ;
+buttonLoad.addEventListener( "click" , ( ) => {
+	<hi>loadRowData</hi>( productTable { dataSource : products , rowTemplate : productRowTemplate );
+	} ) ;
+&lt;/script&gt;
+</pre></figure>
+
+<p>And here is the live demo:</p>
+
+<figure class="example"><figcaption>Loading a horizontal data table (<a href="demo-1.htm" target="_blank">demo-1.htm</a>)</figcaption>
+<iframe class="content-height-observed" src="demo-1.htm"></iframe>
+</figure>
+
+<!--h3--Example 1: Horizontal Row Layout--></div>
+
+<h3 cbc>Example 2: Vertical Column Layout</h3><div>
+
+<p>In this example, the table structure is different:</p>
+
+<figure class="listing"><figcaption>HTML table structure</figcaption><pre>
+&lt;table id="productTable" class="flat-borders"&gt;
+&lt;thead&gt;&lt;tr&gt;
+	&lt;th name="<hi>productName</hi>"&gt;Name&lt;/th&gt;
+&lt;/tr&gt;&lt;tr&gt;
+	&lt;th name="<hi>productManufacturer</hi>"&gt;Manufacturer&lt;/th&gt;
+&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;
+	&lt;th colspan="1"&gt;Display&lt;/th&gt;
+&lt;/tr&gt;&lt;tr&gt;
+	&lt;th name="<hi>displayManufacturer</hi>"&gt;Manufacturer&lt;/th&gt;
+&lt;/tr&gt;&lt;tr&gt;
+	&lt;th name="<hi>displayType</hi>"&gt;Type&lt;/th&gt;
+&lt;/tr&gt;&lt;tr&gt;
+	&lt;th name="<hi>displaySize</hi>"&gt;Size (inch)&lt;/th&gt;
+&lt;/tr&gt;&lt;tr&gt;
+	&lt;th colspan="1"&gt;Memory&lt;/th&gt;
+&lt;/tr&gt;&lt;tr&gt;
+	&lt;th name="<hi>ram</hi>"&gt;RAM (GB)&lt;/th&gt;
+&lt;/tr&gt;&lt;tr&gt;
+	&lt;th name="<hi>flash</hi>"&gt;Flash (GB)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;&lt;/table&gt;
+</pre></figure>
+
+<p>Here the same properties are arranged in a row, the row header cell carries the data column name in the <tt>name</tt> attribute. Row header cells with a <tt>colspan</tt> attribute indicate a property group header.</p>
+
+<p>Note that this layout doesn't need a table row template.</p>
+
+<p>The script is still similar to the previous example, with the exeption of the loader function:</p>
+
+<figure class="listing"><figcaption>Loading data columns</figcaption><pre>
+&lt;script type="module"&gt;
+import { <hi>loadColumnData</hi> } from "path/to/<hi>table-data-loader.js</hi>" ;
+const readomatA = { ... } ;
+const inkyPad = { ... } ;
+const products = [	readomatA, inkyPad, ... ] ;
+buttonLoad.addEventListener( "click" , ( ) => {
+	<hi>loadColumnData</hi>( productTable , { dataSource : products } );
+	} ) ;
+&lt;/script&gt;
+</pre></figure>
+
+<p>Here is the demo:</p>
+
+<figure class="example"><figcaption>Loading column data (<a href="demo_2.htm" target="_blank">demo-2.htm</a>)</figcaption>
+<iframe class="content-height-observed" src="demo-2.htm"></iframe>
+</figure>
+
+<!--h3--Vertical Column Layout--></div>
+
+<h3 cbc>Example 3: Longtext Cells</h3><div>
+
+<p>Tall, narrow columns have a problem: They cannot show much text without inflating the column width. This is where the <tt>table-cell-longtext</tt> component comes in handy. It allows to store two values in a table cell, a short text for regular display, and a long text that is shown when the mouse pointer hovers over the cell or the user clicks or taps on the cell.</p>
+
+<figure class="listing"><figcaption>Importing the component</figcaption><pre>
+&lt;link rel="stylesheet" href="path/to/table-cell-longtext.css" /&gt;
+&lt;link rel="stylesheet" href="path/to/vertical-cell-text.css" /&gt;
+</pre></figure>
+
+<p>Then decorate the table with a classname:</p>
+
+<figure class="listing"><figcaption>Additional class name</figcaption><pre>
+&lt;table id="productsTable" class="flat-borders <hi>longtext-cells</hi>"&gt;
+</pre></figure>
+
+<p>In the module script, import the additional <tt>configuration</tt> object from the <tt>table-data-loader.js</tt>, and import the <tt>setCellContent</tt> function from the <tt>table-cell-longtext.js</tt> module. In the third instruction, change the loader configuration's <tt>assignmentFunction</tt>:</p>
+
+<figure class="listing"><figcaption>Changing the assigment function</figcaption><pre>
+import { loadColumnData, configuration as <hi>loaderConfiguration</hi> } from "path/to/<hi>table-data-loader.js</hi>" ;
+import { <hi>setCellContent</hi> } from "path/to/<hi>table-cell-longtext.js</hi>" ;
+loaderConfiguration.<hi>assignmentFunction</hi> = setCellContent ;
+</pre></figure>
+
+<p>The original assignment function simply assigned the datasource text to the <tt>cell.innerHTML</tt> property. The new assignment function searches for a vertical bar in the cell text, cuts off the long text and stores it in a cell attribute, and assigns the remaining short text to the <tt>innerHTML</tt> property.</p>
+
+<p>Then add short cell text versions to the data object properties:</p>
+
+<figure class="listing"><figcaption>Adding short texts</figcaption><pre>
+productManufacturer : "<hi>RM</hi>|Readomat Inc." ,
+displayManufacturer : "<hi>EI</hi>|E-Ink" ,
+</pre></figure>
+
+<p>Separate short and long texts with a vertical bar. Then call <tt>loadColumnData()</tt> as usual:</p>
+
+<figure class="listing"><figcaption>Fill the table</figcaption><pre>
+buttonLoad.addEventListener( "click" , ( ) => {
+	<hi>loadColumnData</hi>( products, productsTable );
+	} ) ;
+</pre></figure>
+
+<p>When you hover the mouse pointer over these cells, the longtext should appear in a tooltip. If you tap or click the cell, the longtext is shown in a box. Another click or tap hides it:</p>
+
+<figure class="example"><figcaption>Loading Longext Cells (<a href="demo-3.htm" target="_blank">demo-3.htm</a>)</figcaption>
+<iframe class="content-height-observed" src="demo-3.htm"></iframe>
+</figure>
+
+<!--h3--Example 3: Longtext Cells--></div>
+
+<h3 cbc>Example 4: Declarative Configuration (Horizontal)</h3><div>
+
+<p>The <tt>table-data-loader</tt> processes all <tt>TABLE</tt> elements with a <tt>data-source</tt> attribute. For horizontal table layouts, these attributes must be provided:</p>
+
+<figure class="listing"><figcaption>Attributes for loader configuration</figcaption><pre>
+&lt;table data-source="<hi>products</hi>" data-orientation="<hi>horizontal</hi>" data-row-template"="<hi>productRowTemplate</hi>"&gt;
+</pre></figure>
+
+<p>If data fields are layed out horizontally, a table row template ID must be provided. And, of course, the data source name.</p>
+
+<p>Then the data source definition script must be provided:</p>
+
+<figure class="listing"><figcaption>Data source definition script</figcaption><pre>
+&lt;script type="module"&gt;
+const readomatA = { ... } ;
+const inkyPad = { ...	} ;
+<hi>globalThis.products</hi> = [ readomatA, inkyPad, ... ] ;
+&lt;/script&gt;
+</pre></figure>
+
+<p>NOTE that the data source object (<tt>products</tt>) must be visible in the global namespace.</p>
+
+<p>The loader import script must be placed <em>after</em> the data source script, because the data source must exist when the module <tt>init()</tt> function runs:</p>
+
+<figure class="listing"><figcaption>Importing the data loader</figcaption><pre>
+&lt;script type="module" src="path/to/<hi>table-data-loader.js</hi>"&gt;&lt;/script&gt;
+</pre></figure>
+
+<p>Then the table will be filled with data from the source:</p>
+
+<figure class="example"><figcaption>Data source declaration (<a href="demo-4.htm" target="_blank">demo-4.htm</a>)</figcaption>
+<iframe class="content-height-observed" src="demo-4.htm"></iframe>
+</figure>
+
+<!--h3--Example 4: Declarative Configuration--></div>
+
+<h3 cbc>Example 5: Declarative Configuration (Vertical)</h3><div>
+
+<p>The <tt>table-data-loader</tt> processes all <tt>TABLE</tt> elements with a <tt>data-source</tt> attribute. For horizontal table layouts, these attributes must be provided:</p>
+
+<figure class="listing"><figcaption>Table configuration for the data loader</figcaption><pre>
+&lt;table data-source="<hi>products</hi>" data-orientation="<hi>vertical</hi>"&gt;
+</pre></figure>
+
+<p>Note that vertically oriented tables don't need a table row template.</p>
+
+<p>Then the data source definition script must be provided:</p>
+
+<figure class="listing"><figcaption>Data definition script</figcaption><pre>
+&lt;script type="module"&gt;
+const readomatA = { ... } ;
+const inkyPad = { ...	} ;
+<hi>globalThis.products</hi> = [ readomatA, inkyPad, ... ] ;
+&lt;/script&gt;
+</pre></figure>
+
+<p>NOTE that the data source must be visible in the global namespace!</p>
+
+<p>The loader import script must be placed <em>after</em> the data source script, because the data source must exist when the module <tt>init()</tt> function runs:</p>
+
+<figure class="listing"><figcaption>Importing the table data loader</figcaption><pre>
+&lt;script type="module" src="path/to/<hi>table-content-loader.js</hi>"&gt;&lt;/script&gt;
+</pre></figure>
+
+<p>Then the table will be filled with data from the source:</p>
+
+<figure class="example"><figcaption>Data source declaration (<a href="demo-5.htm" target="_blank">demo-5.htm</a>)</figcaption>
+<iframe class="content-height-observed" src="demo-5.htm"></iframe>
+</figure>
+
+<!--h3--Example 5: Declarative Configuration (Vertical)--></div>
+
+<!--h2--Examples--></div>
+
+<h2 cbc>Module Configuration</h2><div>
+
+<p>Module script parameters are passed in the query string of the import URL, as described in <a href="../component-anatomy.htm#passing-parameters">Anatomy of a WebCAT Component</a>.</p>
+
+<p>The component has no additional module configuration parameters.</p>
+
+<!--h2--Module Configuration--></div>
+
+<h2 cbc>Related Components</h2><div>
+
+<p>This component is related to other WebCAT components:</p>
+
+<dl>
+<dt><a href="../table-cell-longtext/table-cell-longtext.htm"></a>Table Cell Longtext</dt><dd>
+	<p>Provides short and long text alternatives for narrow table cells.</p>
+	</dd>
+<dt><a href="../table-styles/table-styles#vertical-cell-text.htm">Vertical Cell Text</a></dt><dd>
+	<p>A CSS component for vertical table cell text.</p>
+	</dd>
+</dl>
+
+<!--h2--Related Components--></div>
+
+<h2 cbc>Programming Reference</h2><div>
+
+<h3 cbc>Configuration</h3><div>
+
+<p>The module script exports a configuration object:</p>
+
+<pre>export const configuration = { ... } ;
+</pre>
+
+<p>Members:</p>
+<dl>
+<dt>assignmentFunction : parseHtmlText</dt><dd>
+	<p>{ function } A reference to the default text copy function.</p>
+	<p>Can be changed to a function that provides additional functionality, e. g. the <tt>table-cell-longtext:setCellText()</tt> function.</p>
+	</dd>
+</dl>
+
+<!--h3----></div>
+
+<h3 cbc>init( )</h3><div>
+
+<p><tt>init()</tt> searches for <tt>TABLE</tt> elements with a <tt>data-source</tt> attribute and copies field values into corresponding table data cells.</p>
+
+<pre>init( )</pre>
+
+<p>The function has no parameters.</p>
+
+<!--h3--init( )--></div>
+
+<h3 cbc>loadColumnData</h3><div>
+
+<p>Copies data from a data source into a table column. Syntax:</p>
+
+<pre>loadColumnData ( table, { 
+	dataSource = table.getAttribute( "data-source" ) 
+	} = { } )</pre>
+
+<p>Parameters:</p>
+<dl>
+<dt>table</dt><dd>
+	<p>{ HTMLTableElement } Reference to the table to be filled.</p>
+	</dd>
+<dt>dataSource</dt><dd>
+	<p>{ [object] } Array of object. The array provides the rows, the objects provide the fields.</p>
+	</dd>
+<dt>returns</dt><dd>
+	<p>{ undefined }</p>
+	</dd>
+</dl>
+
+<!--h3----></div>
+
+<h3 cbc>loadRowData()</h3><div>
+
+<p>Copies data from the data source into table rows. Signature:</p>
+
+<pre>loadRowData( table , { 
+		rowTemplate = table.getAttribute( "data-row-template" ) ,
+		columnHeaderRow = table.tHead.querySelector( "TR.column-headers" ) ,
+		dataSource = table.getAttribute( "data-source" )
+		} = { } )</pre>
+
+<p>Parameters:</p>
+<dl>
+<dt>rowTemplate</dt><dd>
+	<p>{ HTMLTemplateElement | string } A reference to the template for a new table row, or the ID string of that template element.</p>
+	</dd>
+<dt>columnHeaderRow</dt><dd>
+	<p>{ HTMLTableRowElement | string } A reference to the <tt>TR</tt> that contains the column headers with field names, or the string ID of it.</p>
+	</dd>
+<dt>dataSource</dt><dd>
+	<p>{ Array of object | string } A reference to the data-source array, or the ID string of it.</p>
+	</dd>
+<dt>returns</dt><dd>
+	<p>{ undefined }</p>
+	</dd>
+</dl>
+
+<!--h3--loadRowData()--></div>
+
+<h3 cbc>parseHtmlText()</h3><div>
+
+<p>Assigns the data source value to the <tt>innerHTML</tt> property of the table cell. Signature:</p>
+
+<pre>parseHtmlText( cell, content )</pre>
+
+<p>Parameters:</p>
+<dl>
+<dt>cell</dt><dd>
+	<p>{ HTMLTableCellElement } A reference to the table cell to be filled.</p>
+	</dd>
+<dt>content</dt><dd>
+	<p>{ string } The value that will be assigned to the <tt>innerHTML</tt> property of the cell.</p>
+	</dd>
+<dt>returns</dt><dd>
+	<p>{ undefined }</p>
+	</dd>
+</dl>
+
+<!--h3--parseHtmlText()--></div>
+
+<!--h2--Programming Reference--></div>
+
+<h2 cbc="collapsed">Implementation Details</h2><div>
+
+<p>For implementation details, refer to the <a href="https://github.com/BassMatiOnCode/webCAT/blob/main/code/table-data-loader/>sourcecode</a> of the module.</p>
+
+<!--h2--Implementation Details--></div>
+
+</body></html>

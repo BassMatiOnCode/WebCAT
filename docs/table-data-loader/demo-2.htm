@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html> 
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-09-15" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-12-12" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-12-12" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="/inc/webcat/page-structure/demo-page-1.css" />
+<script type="module" src="/inc/webcat/page-structure/demo-page-1.js" ></script>
+<link rel="stylesheet" href="/inc/webcat/table-styles/flat-borders.css" />
+
+<style>
+table th { text-align: left }
+table th[colspan] {
+	background-color : #eee ;
+	padding-left : 20px ;
+	}
+</style>
+
+<meta name="categories" content="Projects > WebCAT > Table Data Loader" />
+<meta name="tags" content="web, content, authoring, toolbox, WebCAT, HTML, JavaScript, component, demo, table, data, loader" />
+<title>Demo 2 (Projects > WebCAT > Table Column Loader)</title>
+<meta name="description" content="" />
+
+</head><body>
+
+<div class="hide-if-hosted">
+<h1>Demo 2</h1><p class="subtitle">Loading Column Data</p>
+</div>
+
+<p><button id="buttonLoad">Load</button></p>
+
+<table id="productTable" class="flat-borders">
+<thead><tr>
+	<th name="productName">Name</th>
+</tr><tr>
+	<th name="productManufacturer">Manufacturer</th>
+</tr></thead><tbody><tr>
+	<th colspan="1">Display</th>
+</tr><tr>
+	<th name="displayManufacturer">Manufacturer</th>
+</tr><tr>
+	<th name="displayType">Type</th>
+</tr><tr>
+	<th name="displaySize">Size (inch)</th>
+</tr><tr>
+	<th colspan="1">Memory</th>
+</tr><tr>
+	<th name="ram">RAM (GB)</th>
+</tr><tr>
+	<th name="flash">Flash (GB)</th>
+</tr>
+</tbody></table>
+
+<script type="module">
+import { loadColumnData } from "/inc/webcat/table-data-loader/table-data-loader.js" ;
+const readomatA = { 
+	productName : "Readomat A" ,
+	productManufacturer : "Readomat Inc." ,
+	displayManufacturer : "E-Ink" ,
+	displayType : "Carta" ,
+	displaySize : 10.3 ,
+	ram : 64 ,
+	flash : 128 
+	} ;
+const inkyPad = { 
+	productName : "Reader 7" ,
+	productManufacturer : "InkyPad" ,
+	displayManufacturer : "E-Ink" ,
+	displayType : "Carta" ,
+	displaySize : 10.3 ,
+	ram : 128 ,
+	flash : 128 
+	} ;
+const products = [	readomatA, inkyPad ] ;
+buttonLoad.addEventListener( "click" , ( ) => {
+	loadColumnData( productTable , { dataSource : products } );
+	} ) ;
+</script>
+
+</body></html>
