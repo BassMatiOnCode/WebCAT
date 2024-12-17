@@ -1,3 +1,3 @@
 /* Documentation : .../webcat/table-styles/table-styles.htm#data-centered */
 
-table > tbody > td { text-align : center }
+table.data-centered > tbody td { text-align : center  }
