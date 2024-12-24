@@ -36,7 +36,7 @@
 import { createUniqueID } from "/inc/webcat/utility/unique-id/unique-id-1.js" ;
 generateButton.addEventListener( "click" , ( ) => {
 	const paragraph = output.insertBefore( document.createElement( "P" ), null ) ;
-	paragraph.innerText = createUniqueID( prefixInput.value );
+	paragraph.innerText = createUniqueID( { prefix : prefixInput.value } );
 	} ) ;
 
 </script>

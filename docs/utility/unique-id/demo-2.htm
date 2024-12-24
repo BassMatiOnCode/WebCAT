@@ -37,7 +37,7 @@
 import { createUniqueID } from "/inc/webcat/utility/unique-id/unique-id-1.js" ;
 generateButton1.addEventListener( "click" , ( ) => {
 	const paragraph = output.insertBefore( document.createElement( "P" ), null ) ;
-	paragraph.innerText = createUniqueID( prefixInput.value );
+	paragraph.innerText = createUniqueID( { prefix : prefixInput.value } );
 	} ) ;
 </script>
 
@@ -45,7 +45,7 @@ generateButton1.addEventListener( "click" , ( ) => {
 import { createUniqueID } from "/inc/webcat/utility/unique-id/unique-id-1.js" ;
 generateButton2.addEventListener( "click" , ( ) => {
 	const paragraph = output.insertBefore( document.createElement( "P" ), null ) ;
-	paragraph.innerText = createUniqueID( prefixInput.value );
+	paragraph.innerText = createUniqueID( { prefix : prefixInput.value } );
 	} ) ;
 </script>
 
