@@ -11,35 +11,36 @@
 <meta name="sectionTitle" content="../title.svg" />
 
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
-<link rel="stylesheet" href="/inc/web-cat/page-structure/tutorial-page-1.css" />
-<script type="module" src="/inc/web-cat/page-structure/tutorial-page-1.js" ></script>
+<link rel="stylesheet" href="/inc/webcat/page-structure/tutorial-page.css" />
+<script type="module" src="/inc/webcat/page-structure/tutorial-page.js" ></script>
  
 <meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
-<meta name="tags" content="web, content, authoring, toolbox, HTML, JavaScript, CSS, WebCAT, component" />
+<meta name="tags" content="web, content, authoring, toolbox, HTML, JavaScript, CSS, WebCAT, component, utility, unique, ID" />
 <meta name="description" content="" />
 
-<title> (Web > Content Authoring Toolbox)</title>
+<title>Unique ID (Web > Content Authoring Toolbox > Utilities)</title>
 
 </head><body>
 
-<h1></h1><p class="subtitle"></p>
+<h1>Unique ID</h1><p class="subtitle">Helper component for building pages programmatically.</p>
 
 <p id="pageAbstract"></p>
 
 <h2 cbc>Introduction</h2><div>
 
-<p></p>
+<p>Unique element IDs are often needed for scripting. This module provides two functions that simplify programmatic ID string generation.</p>
 
 <!--h2--Introduction--></div>
 
 <h2 cbc>Using the Component</h2><div>
 
-<p>The component consists of two files:</p>
+<p>The component consists of a single file:</p>
 
 <ul>
-<li>name.css</li>
-<li>name.js</li>
+<li>unique-id.js</li>
 </ul>
+
+<p>Currently, the module does not provide an <tt>init( )</tt> function.</p>
 
 <p>For detailed notes on how to import these files into a document or aggregation script, refer to <a hef="../component-anatomy.htm#using">WebCAT Component Anatomy</a>.</p>
 
@@ -47,110 +48,29 @@
 
 <!--h2--Using the Component--></div>
 
-<h2 cbc>Module Configuration</h2><div>
-
-<p>Module script parameters are passed in the query string of the import URL, as described in <a href="../component-anatomy.htm#passing-parameters">Anatomy of a WebCAT Component</a>.</p>
-
-<dl>
-<dt></dt><dd>
-	<p></p>
-	</dd>
-</dl>
-
-<!--h2--Module Configuration--></div>
-
-<h2 cbc>Event Listeners</h2><div>
-
-<p>The component adds an <tt>event-name</tt> listener to the <tt>document</tt> element to provide services to other components. The <tt>CustomEvent.detail</tt> object carries the following members:</p>
-
-<dl>
-<dt></dt><dd>
-	<p>Registered on:</p>
-	<p></p>
-	<p>Event details:</p>
-	<dl>
-	<dt></dt><dd>
-		<p></p>
-		</dd>
-	</dl>
-	</dd>
-</dl>
-
-<!--h2--Event Listeners--></div>
-
-<h2 cbc>Events</h2><div>
-
-<p>The component dispatches the following events:</p>
-
-<dl>
-<dt></dt><dd>
-	<p>Dispatched to: </p>
-	<p>Event details:</p>
-	<dl>
-	<dt></dt><dd>
-		<p></p>
-		</dd>
-	</dl>
-	</dd>
-</dl>
-
-<!--h2--Events--></div>
-
-<h2 cbc>Related Components</h2><div>
-
-<p>This component is related to other WebCAT components:</p>
-
-<dl>
-<dt><a href="..//.htm"></a></dt><dd>
-	<p></p>
-	</dd>
-</dl>
-
-<!--h2--Related Components--></div>
-
-<h2 cbc>Programming Reference</h2><div>
-
-<p></p>
-
-<h3 cbc></h3><div>
-
-<p>Syntax:</p>
-
-<pre></pre>
-
-<p>Parameters:</p>
-<dl>
-<dt></dt><dd>
-	<p>{} </p>
-	</dd>
-<dt>returns</dt><dd>
-	<p>{} </p>
-	</dd>
-</dl>
-
-<p></p>
-
-<figure class="demo"><figcaption>A simple example (<a href="demo-1.htm" target="_blank">demo-1.htm</a>)</figcaption>
-<iframe class="content-height-observed" src="demo-1.htm"></iframe>
-</figure>
-
-<p></p>
-
-<!--h3----></div>
-
-<!--h2--Programming Reference--></div>
-
 <h2 cbc>Examples</h2><div>
-
-<h3 cbc>Demo 1</h3><div>
-
-<p></p>
 
 <h3 cbc>Example 1</h3><div>
 
-<p></p>
+<p>The first example shows how to generate unique IDs. A button</p>
 
 <figure class="listing"><figcaption></figcaption><pre>
+&lt;p&gt;
+	&lt;input id="prefixInput" type="text" value="banana" /&gt; 
+	&lt;button id="<hi>generateButton</hi>"&gt;Generate&lt;/button&gt;
+	&lt;/p&gt;
+</pre></figure>
+
+<p>A script attaches a click event handler to the button. The script calls <tt>createUniqueID()</tt> and appends the results to a paragraph element:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+&lt;script type="module"&gt;
+import { <hi>createUniqueID</hi> } from "path/to/<hi>unique-id.js</hi>" ;
+<hi>generateButton</hi>.addEventListener( "click" , ( ) =&gt; {
+	const paragraph = output.insertBefore( document.createElement( "P" ), null ) ;
+	paragraph.innerText = <hi>createUniqueID</hi>( { prefix : prefixInput.value } );
+	} ) ;
+&lt;/script&gt;
 </pre></figure>
 
 <p>And here is the live demo:</p>
@@ -159,27 +79,174 @@
 <iframe class="content-height-observed" src="demo-1.htm"></iframe>
 </figure>
 
-<p></p>
-
 <!--h3--Example 1--></div>
 
-<!--h2--Examples--></div>
+<h3 cbc>Example 2</h3><div>
+
+<p>This example has <em>two</em> buttons that create unique IDs:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+&lt;p&gt;
+	&lt;input id="prefixInput" type="text" value="banana" /&gt; 
+	&lt;button id="<hi>generateButton1</hi>"&gt;Generate&lt;/button&gt; 
+	&lt;button id="<hi>generateButton2</hi>"&gt;Generate&lt;/button&gt;
+	&lt;/p&gt;
+</pre></figure>
+
+<p>Each button is served in a different module script:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+&lt;script type="module"&gt;
+import { createUniqueID } from "/inc/webcat/utility/unique-id/unique-id-1.js" ;
+<hi>generateButton1</hi>.addEventListener( "click" , ( ) =&gt; {
+	const paragraph = output.insertBefore( document.createElement( "P" ), null ) ;
+	paragraph.innerText = createUniqueID( { prefix : prefixInput.value } );
+	} ) ;
+&lt;/script&gt;
+</pre></figure>
+
+<p>Here is the second module script:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+&lt;script type="module"&gt;
+import { createUniqueID } from "/inc/webcat/utility/unique-id/unique-id-1.js" ;
+<hi>generateButton2</hi>.addEventListener( "click" , ( ) =&gt; {
+	const paragraph = output.insertBefore( document.createElement( "P" ), null ) ;
+	paragraph.innerText = createUniqueID( { prefix : prefixInput.value } );
+	} ) ;
+&lt;/script&gt;
+</pre></figure>
+
+<p>The verifies that the <tt>counters</tt> object is shared between all imports and produces truly unique ID strings.</p>
+
+<p>And here is the live demo:</p>
+
+<figure class="demo"><figcaption> (<a href="demo-2.htm" target="_blank">demo-2.htm</a>)</figcaption>
+<iframe class="content-height-observed" src="demo-2.htm"></iframe>
+</figure>
+
+<p>No matter on which button you click, a new ID should be created.</p>
+
+<!--h3--Example 2--></div>
+
+<h3 cbc>Example 3</h3><div>
+
+<p>This example tests the function <tt>setUniqueID()</tt>, which creates a unique ID and set the ID attribute on the references element:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+&lt;div id="testContent"&gt;
+&lt;p&gt;Paragraph 1&lt;/p&gt;
+&lt;p&gt;Paragraph 2&lt;/p&gt;
+&lt;/div&gt;
+</pre></figure>
+
+<p>The two test paragraphs will get a unique ID:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+&lt;script type="module"&gt;
+import { <hi>setUniqueID</hi> } from "path/to/<hi>unique-id.js</hi>" ;
+import { createElement } from "/inc/webcat/utility/create-element/create-element.js" ; 
+for ( const p of testContent.querySelectorAll( "p" )) {
+	<hi>setUniqueID</hi>( p );
+	output.append( createElement( "P" , { properties : { innerText : p.id } } ) ) ;
+	console.debug( p.id );
+	}
+&lt;/script&gt;
+</pre></figure>
+
+<p>And here is the live demo:</p>
+
+<figure class="demo"><figcaption> (<a href="demo-3.htm" target="_blank">demo-3.htm</a>)</figcaption>
+<iframe class="content-height-observed" src="demo-3.htm"></iframe>
+</figure>
+
+<!--h3--Example 3--></div>
 
 <!--h2--Examples--></div>
 
-<h2 cbc="collapsed">Implementation Details</h2><div>
+<h2 cbc>Module Configuration</h2><div>
 
-<p>For implementation details, refer to the <a href="">sourcecode</a> of the module.</p>
+<p>Module script parameters are passed in the query string of the import URL, as described in <a href="../component-anatomy.htm#passing-parameters">Anatomy of a WebCAT Component</a>.</p>
 
-<p></p>
+<p>The module defines no additional configuration parameters.</p>
+
+<!--h2--Module Configuration--></div>
+
+<h2 cbc>Programming Reference</h2><div>
+
+<p>The script module exports two functions, <tt>createUniqueID()</tt> and <tt>setUniqueID( )</tt>.</p>
+
+<h3 cbc>createUniqueID()</h3><div>
+
+<p>Generates a formatted, unique ID in the form "prefix-001, prefix-002,...". Signature:</p>
+
+<pre>function createUniqueID( { 
+	prefix="element", 
+	padLength=3, 
+	padChar="0" 
+	} = { } )</pre>
+
+<p>Parameters:</p>
+<dl>
+<dt>prefix</dt><dd>
+	<p>{ string } The prefix of the ID, usually the element tag-name.</p>
+	</dd>
+<dt>padLength</dt><dd>
+	<p>{ number } Defines the lenght of the numeric part.</p>
+	</dd>
+<dt>padChar</dt><dd>
+	<p>{ string } Used to extend the numeric part to a uniform length.</p>
+	</dd>
+<dt>returns</dt><dd>
+	<p>{ string } The generated unique ID.</p>
+	</dd>
+</dl>
+
+<!--h3----></div>
+
+<h3 cbc>setUniqueID( )</h3><div>
+
+<p>Sets the ID attribute of an element to a generated, unique value. Signature:</p>
+
+<pre>function setUniqueID( element, { 
+	prefix=element.tagName, 
+	padLength=3, 
+	padChar="0" 
+	}={ } )</pre>
+
+<p>Parameters:</p>
+<dl>
+<dt>element</dt><dd>
+	<p>{ object } Reference to the element to be modified.</p>
+	</dd>
+<dt>prefix</dt><dd>
+	<p>{ string } The alpha-part of the ID.</p>
+	</dd>
+<dt>padLength</dt><dd>
+	<p>{ number } Defines the lenght of the numeric part.</p>
+	</dd>
+<dt>padChar</dt><dd>
+	<p>{ string } Used to extend the numeric part to a uniform length.</p>
+	</dd>
+<dt>returns</dt><dd>
+	<p>{ object } A reference to the object that is modified.</p>
+	</dd>
+</dl>
+
+<!--h3----></div>
+
+<!--h2--Programming Reference--></div>
+
+<h2 cbc>Implementation Details</h2><div>
+
+<p>ID values are stored in the <tt>counters</tt> object, which serves as associative array. The "prefix" strings serve as key into this array, the value is the last generated (numerical) ID:</p>
 
 <figure class="listing"><figcaption></figcaption>
 <pre>
-<cc>// Comment</cc> 
-function <hi>name</hi> ( ) {
-	...
-	}
+const counters = { } ;  <cc>// Hosts the named counters</cc>
 </pre></figure>
+
+<p>For the complete implementation details, refer to the <a href="https://github.com/BassMatiOnCode/WebCAT/blob/main/code/utility/unique-id/unique-id-1.js">sourcecode</a> of the module.</p>
 
 <!--h2--Implementation Details--></div>
 
