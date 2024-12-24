@@ -1,7 +1,7 @@
 // Documentation: .../web-toolbox/name/name.htm
 
 import * as initializer from "../component-initializer/component-initializer.js" ;
-import { createUniqueID } from "../utility/unique-id/unique-id.js" ;
+import { setUniqueID } from "../utility/unique-id/unique-id.js" ;
 
 /**
  *		documentClickHandler( )
