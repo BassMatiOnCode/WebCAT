@@ -1,6 +1,7 @@
 // Documentation: .../web-toolbox/name/name.htm
 
 import * as initializer from "../component-initializer/component-initializer.js" ;
+import { createUniqueID } from "../utility/unique-id/unique-id.js" ;
 
 /**
  *		documentClickHandler( )
@@ -52,22 +53,13 @@ import * as initializer from "../component-initializer/component-initializer.js"
 	document.addEventListener( "click" , documentClickHandler );
 	}
 /**
- *		provideUniqueId ( )
- *
- */ function provideUniqueId( opener ) {
-	if ( opener.id ) return ;
-	while ( document.getElementById( `dialog-opener-${++ provideUniqueId.prototype.counter}` )) ;
-	opener.id = `dialog-opener-${provideUniqueId.prototype.counter}` ;
-	}
-provideUniqueId.prototype.counter = 0;
-/**
 *		init ( )
 *		Initializes the WebCAT component.
 *
 */ export function init( ) {
 	// Process context dialog openers
 	for ( const opener of document.querySelectorAll( "[data-context-dialog-id]" )){
-		provideUniqueId( opener )	
+		opener.setAttribute( "id" , setUniqueID( opener ));
 		opener.addEventListener( "contextmenu" , openerContextmenuHandler );
 		}
 	// Process context dialogs

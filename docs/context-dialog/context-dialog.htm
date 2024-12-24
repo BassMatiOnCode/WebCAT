@@ -23,10 +23,9 @@
 
 </head><body>
 
-<h1>Context Dialog</h1>
-<p id="pageAbstract"></p>
+<h1>Context Dialog</h1><p class="subtitle">Context menus for HTML elements</p>
 
-<p>The bidirectional excation of information is based on element IDs and event handlers. The dialog opener element carries the dialog ID in the <tt>data-context-dialog-id</tt> attribute. The <tt>context-dialog</tt> component registers a standard <tt>contextmenu</tt> event handler on the dialog openers. The handler stores the opener's element ID in the dialog's <tt>data-opener-id</tt> attribute so that the dialog knows where to dispatch dialog-related events to.</p>
+<p>The bidirectional exchange of information is based on element IDs and event handlers. The dialog opener element carries the dialog ID in the <tt>data-context-dialog-id</tt> attribute. The <tt>context-dialog</tt> component registers a standard <tt>contextmenu</tt> event handler on the dialog openers. The handler stores the opener's element ID in the dialog's <tt>data-opener-id</tt> attribute so that the dialog knows where to dispatch dialog-related events to.</p>
 
 <p>The document author registers <tt>dialog-opening</tt> and <tt>dialog-closing</tt> event handler with the dialog opener in order to prepare, read and validate the dialog state.</p>
 
@@ -102,6 +101,16 @@
 <p>The example above demonstrates how to reject the option 1, simply by calling <tt>evt.preventDefault();</tt></p>
 
 <!--h2--Usage--></div>
+
+<h2 cbc>Events</h2><div>
+
+<h3 cbc><tt>contextmenu</tt> Event</h3><div>
+
+<p>This event is raised by elements that carry a <tt>class="context-dialog-id</tt> attribute. The event handler opens and positions the dialog, </p>
+
+<!--h3--contextmenu Event--></div>
+
+<!--h2--Events--></div>
 
 <h2 cbc>Demo</h2><div>
 
