@@ -30,9 +30,9 @@ const configuration = {
 	let scrollY = -( event.detail.marginTop || configuration.scrollMarginTop );
 	// Collect scroll top offsets from parents
 	let element = scrollTarget ;
-	while ( element !== document.scrollingElement ) {
+	while ( element ) { 
 		scrollY += element.offsetTop ;
-		element = element.parentElement ;
+		element = element.offsetParent ;
 		}
 	document.scrollingElement.scroll( { top : scrollY , behavior : "smooth"  } ) ;
 	// Restore original document URL only if requested.
@@ -70,9 +70,9 @@ const configuration = {
 	updateScrollMargins( );
 	if ( ! configuration.scrollTargets ) configuration.scrollTargets = document.querySelectorAll( configuration.scrollTargetsSelector );
 	for ( let i = configuration.scrollTargets.length - 1 ; i >= 0 ; i -= 1 ) {
-		const heading = configuration.scrollTargets[ i ];
-		if ( heading.getBoundingClientRect( ).top < 0  ) 
-			return scrollToElement( heading ) ;
+		const scrolltarget = configuration.scrollTargets[ i ];
+		if ( scrolltarget.getBoundingClientRect( ).top < 0  ) 
+			return scrollToElement( scrolltarget ) ;
 		}
 	}
 /**
