@@ -2,27 +2,27 @@
 <html lang="en-US"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="template-info" file-name="empty.htm" version="2024-12-20" editor="USP" />
+<meta name="template-info" file-name="empty.htm" version="2024-08-07" editor="USP" />
 <meta name="author" content="USP" />
-<meta name="creation-date" content="2024-12-30" />
+<meta name="creation-date" content="2024-12-19" />
 <meta name="editor" content="USP" />
-<meta name="change-date" content="2024-12-30" />
+<meta name="change-date" content="2024-12-19" />
 <meta name="version" content="1" />
-<meta name="sectionTitle" content="../title.svg" />
+<meta name="sectionTitle" content="../../title.svg" />
 
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
-<link rel="stylesheet" href="/inc/webcat/page-structure/tutorial-page.css" />
-<script type="module" src="/inc/webcat/page-structure/tutorial-page.js" ></script>
+<link rel="stylesheet" href="/inc/webcat/page-structure/tutorial-page-1.css" />
+<script type="module" src="/inc/webcat/page-structure/tutorial-page-1.js" ></script>
  
-<meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
-<meta name="tags" content="web, content, authoring, toolbox, HTML, JavaScript, CSS, WebCAT, component" />
+<meta name="categories" content="Projects > WebCAT > Math > Truth Table" />
+<meta name="tags" content="web, content, authoring, toolbox, HTML, JavaScript, CSS, WebCAT, component, math, truth, table" />
 <meta name="description" content="" />
 
-<title> (Web > Content Authoring Toolbox)</title>
+<title>Truth Table (Projects > WebCAT > Math)</title>
 
 </head><body>
 
-<h1></h1><p class="subtitle"></p>
+<h1>Truth Table</h1><p class="subtitle">Creating Interactive Truth Tables</p>
 
 <h2 cbc>Introduction</h2><div>
 
@@ -45,25 +45,6 @@
 
 <!--h2--Using the Component--></div>
 
-<h2 cbc>Examples</h2><div>
-
-<h3 cbc>Example 1</h3><div>
-
-<p></p>
-
-<figure class="listing"><figcaption></figcaption><pre>
-</pre></figure>
-
-<p>And here is the live demo:</p>
-
-<figure class="demo"><figcaption> (<a href="demo-1.htm" target="_blank">demo-1.htm</a>)</figcaption>
-<iframe class="content-height-observed" src="demo-1.htm"></iframe>
-</figure>
-
-<!--h3--Example 1--></div>
-
-<!--h2--Examples--></div>
-
 <h2 cbc>Module Configuration</h2><div>
 
 <p>Module script parameters are passed in the query string of the import URL, as described in <a href="../component-anatomy.htm#passing-parameters">Anatomy of a WebCAT Component</a>.</p>
@@ -75,18 +56,6 @@
 </dl>
 
 <!--h2--Module Configuration--></div>
-
-<h2 cbc>Element Attributes</h2><div>
-
-<p>Element attributes are evaluated by the component.</p>
-
-<dl>
-<dt></dt><dd>
-	<p></p>
-	</dd>
-</dl>
-
-<!--h2--Element Attributes--></div>
 
 <h2 cbc>Event Listeners</h2><div>
 
@@ -141,6 +110,38 @@
 
 <p></p>
 
+<h3 cbc>download()</h3><div>
+
+<p>Syntax:</p>
+
+<pre>download ( anchor, downloadElement, { filename = "truth-table.htm", contentType = "text/html" } = { } )</pre>
+
+<p>Parameters:</p>
+<dl>
+<dt>anchor</dt><dd>
+	<p>{ HTMLAnchorElement } References the download link anchor.</p>
+	</dd>
+<dt>downloadElement</dt><dd>
+	<p>{ HTMLElement } References the HTML element to be downloaded. This should be a truth table.</p>
+	</dd>
+<dt>filename</dt><dd>
+	<p></p>
+	</dd>
+<dt>returns</dt><dd>
+	<p>{} </p>
+	</dd>
+</dl>
+
+<p></p>
+
+<figure class="demo"><figcaption>A simple example (<a href="demo-1.htm" target="_blank">demo-1.htm</a>)</figcaption>
+<iframe class="content-height-observed" src="demo-1.htm"></iframe>
+</figure>
+
+<p></p>
+
+<!--h3--download()--></div>
+
 <h3 cbc></h3><div>
 
 <p>Syntax:</p>
@@ -169,9 +170,40 @@
 
 <!--h2--Programming Reference--></div>
 
+<h2 cbc>Examples</h2><div>
+
+<h3 cbc>Example 1</h3><div>
+
+<p></p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+</pre></figure>
+
+<p>And here is the live demo:</p>
+
+<figure class="demo"><figcaption> (<a href="demo-1.htm" target="_blank">demo-1.htm</a>)</figcaption>
+<iframe class="content-height-observed" src="demo-1.htm"></iframe>
+</figure>
+
+<p></p>
+
+<!--h3--Example 1--></div>
+
+<!--h2--Examples--></div>
+
 <h2 cbc="collapsed">Implementation Details</h2><div>
 
 <p>For implementation details, refer to the <a href="">sourcecode</a> of the module.</p>
+
+<h3 cbc>Architecture</h3><div>
+
+<p>A truth table has a context menu event handler attached. That handler attaches a click event handler to the document to catch click events inside and outside the context menu. </p>
+
+<p>The contextmenu event handler knows which truth table is going to be serviced. The document click event handler needs to know the truth table it is associated with. So we need to forward this information from the contextmenu handler to the document click handler.</p>
+
+<p>Init() searches for </p>
+
+<!--h3--Architecture--></div>
 
 <p></p>
 

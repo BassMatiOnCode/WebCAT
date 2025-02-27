@@ -15,14 +15,14 @@
 <script type="module" src="/inc/webcat/page-structure/tutorial-page.js" ></script>
  
 <meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
-<meta name="tags" content="web, content, authoring, toolbox, HTML, JavaScript, CSS, WebCAT, component" />
+<meta name="tags" content="web, content, authoring, toolbox, HTML, JavaScript, CSS, WebCAT, component, dialog, controller, base, class" />
 <meta name="description" content="" />
 
-<title> (Web > Content Authoring Toolbox)</title>
+<title>Dialog Controller (Web > Content Authoring Toolbox)</title>
 
 </head><body>
 
-<h1></h1><p class="subtitle"></p>
+<h1>Dialog Controller</h1><p class="subtitle">Simplifies building context dialogs</p>
 
 <h2 cbc>Introduction</h2><div>
 
@@ -170,6 +170,8 @@
 <!--h2--Programming Reference--></div>
 
 <h2 cbc="collapsed">Implementation Details</h2><div>
+
+<p>A context menu has appears over all other elements and can be dismissed with a pointer event outside its borders. This can be achieved with a <tt>DIALOG</tt> element, which comes with a <i>backdrop</i> behind that can be used to dim or blur the page content. An element with a <tt>popover</tt> attribute behaves similar.</p>
 
 <p>For implementation details, refer to the <a href="">sourcecode</a> of the module.</p>
 

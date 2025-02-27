@@ -1,0 +1,41 @@
+/* Documentation : .../webcat/style-components/style-components#figure-styles.htm */
+
+figcaption { 
+	font-family : "Times New Roman" ; 
+	font-style : italic ; 
+	font-size : 11pt ; 
+	border-bottom : 1px solid silver  
+	}
+figure { 
+	margin-left : 0 ; 
+	margin-right : 0 ; 
+	}
+figure.figure > figcaption:has( +img ) ,
+figure.demo > figcaption:has( +iframe ) ,
+figure.figure > figcaption:has( +object[ type="image/svg+xml" ] ) {
+	border-bottom-style : none ; 
+	margin-bottom : 5px 
+	} 
+	border-bottom-style : none ; 
+	margin-bottom : 5px 
+	} 
+figure.demo iframe { 
+	border : 1px solid silver ; 
+	width : 100% 
+	}
+figure.figure img { 
+	border : 1px solid silver ;
+	}
+figure.listing > figcaption { 
+	padding-bottom : 5px ;
+	}
+figure.listing > pre { 
+	overflow-x : auto ; 
+	padding : 5px ; 
+	margin-top : 0px ; 
+	font-family : "Times New Roman" 
+	}
+figure.table > figcaption { 
+	border-style : none ;
+	margin-bottom : 5px ;
+	}

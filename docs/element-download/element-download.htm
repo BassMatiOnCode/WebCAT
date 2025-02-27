@@ -1,0 +1,245 @@
+﻿<!DOCTYPE html>
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-12-20" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-12-20" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-12-20" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="/inc/webcat/page-structure/tutorial-page-1.css" />
+<script type="module" src="/inc/webcat/page-structure/tutorial-page-1.js" ></script>
+ 
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
+<meta name="tags" content="web, content, authoring, toolbox, HTML, JavaScript, CSS, WebCAT, component" />
+<meta name="description" content="" />
+
+<title>Download Element (Web > Content Authoring Toolbox)</title>
+
+</head><body>
+
+<h1>Download Element</h1><p class="subtitle">Prepares an anchor for downloading DOM objects</p>
+
+<h2 cbc>Introduction</h2><div>
+
+<p>To download the HTML code of an element on the page, the outer HTML must be converted to an object URL first, which is then assigned to the <tt>href</tt> property of an anchor element. When the user clicks on the anchor, the resource is saved if the host file system. Finally the object URL must be released.</p>
+
+<p>The <tt>element-download</tt> component encapsulates these steps and provides all necessary configuration options. The object URL is created at the time the user clicks on the link anchor, so the state of the object at that moment is captured and transfered.</p>
+
+<!--h2--Introduction--></div>
+
+<h2 cbc>Using the Component</h2><div>
+
+<p>The component consists of a single file:</p>
+
+<ul>
+<li>element-download.js</li>
+</ul>
+
+<p>For detailed notes on how to import these files into a document or aggregation script, refer to <a hef="../component-anatomy.htm#using">WebCAT Component Anatomy</a>.</p>
+
+<p>More information on how to use the module can be found in the <a href="#examples">examples section</a>.</p>
+
+<!--h2--Using the Component--></div>
+
+<h2 cbc>Examples</h2><div>
+
+<h3 cbc>Example 1</h3><div>
+
+<p>The first example demonstrates the declarative configuration of the component. The page hots a paragraph element which shall be downloadable by the user:</p>
+
+<figure class="listing"><figcaption>Importing the component</figcaption><pre>
+&lt;head&gt;
+&lt;link rel="stylesheet" href="path/to/<hi>link-button.css</hi>" /&gt;
+&lt;script type="module" src="path/to/<hi>element-download.js</hi>" &gt;&lt;/script&gt;
+&lt;/head&gt;&lt;body&gt;
+	...
+&lt;/body&gt;
+</pre></figure>
+
+<p>Import the module files in the document <tt>head</tt> as shown above. Then place the element to be downloaded in the document body: </p>
+
+<figure class="listing"><figcaption>The element to be downloaded</figcaption><pre>
+&lt;p id="<hi>element-001</hi>"&gt;This element ... download button below.&lt;/p&gt;
+</pre></figure>
+
+<p>Of course, it does not make sense to download a static paragraph, but in practice, the element will usually be much more complex and often dynamic or user-editable.</p>
+
+<p>Then place the download anchor on the page:</p>
+
+<figure class="listing"><figcaption>Importing the component</figcaption><pre>
+&lt;p&gt;&lt;a class="<hi>element-download link-button</hi>" data-element-id="<hi>element-001</hi>" &gt;Download&lt;/a&gt;&lt;/p&gt;
+</pre></figure>
+
+<p>Make sure to give it the classname <tt>element-download</tt> and point the <tt>data-element-id</tt> attribute to the download target element, the paragraph in this case. The component <tt>init()</tt> code finds the anchor element prepares it for the user-click.</p>
+
+<p>And here is the live demo:</p>
+
+<figure class="demo"><figcaption>Downloading an element (<a href="demo-1.htm" target="_blank">demo-1.htm</a>)</figcaption>
+<iframe class="content-height-observed" src="demo-1.htm"></iframe>
+</figure>
+
+<p>Click the button, download the file, and inspect the file in in an editor or in the browser.</p>
+
+<p>You can supply additional configuration attributes on the anchor element:</p>
+<ul>
+<li>Specify the file name:<pre>download="element.txt"</pre></li>
+<li>Specify the mime type:<pre>data-mimetype="text/plain"</pre></li>
+</ul>
+
+<p>See the demo-1 sourcecode for details.</p>
+
+<!--h3--Example 1--></div>
+
+<h3 cbc>Example 2: Scripted Configuration</h3><div>
+
+<p>Place the element and download anchor on the page:</p>
+
+<figure class="listing"><figcaption>Scripted configuration</figcaption><pre>
+&lt;p id="<hi>downloadElement</hi>"&gt;This element will be downloaded if you click the link below.&lt;/p&gt;
+&lt;p&gt;&lt;a class="link-button" id="<hi>downloadAnchor</hi>"&gt;Download&lt;/a&gt;&lt;/p&gt;
+</pre></figure>
+
+
+<p>To use a configuration script, use an <tt>import</tt> statement for the module script:</p>
+
+<figure class="listing"><figcaption>Scripted configuration</figcaption><pre>
+&lt;script type="module"&gt;
+import { prepareDownloadAnchor } from "path/to/<hi>element-download.js</hi>" ;
+<hi>prepareDownloadAnchor</hi>( downloadAnchor { element = downloadElement } );
+&lt;/script&gt;
+</pre></figure>
+
+<p>Then call <tt>prepareDownloadAnchor()</tt> and pass anchor and element reference or ID, and you're done.</p>
+
+<figure class="demo"><figcaption>Scripted download configuration (<a href="demo-2.htm" target="_blank">demo-2.htm</a>)</figcaption>
+<iframe class="content-height-observed" src="demo-2.htm"></iframe>
+</figure>
+
+<p>Note that the default download mimetype is "text/plain".</p>
+
+<p>See the <a href="#programming-reference">programming reference</a> for more details.</p>
+
+<!--h3--Scripted Configuration--></div>
+
+<!--h2--Examples--></div>
+
+<h2 cbc>Module Configuration</h2><div>
+
+<p>Module script parameters are passed in the query string of the import URL, as described in <a href="../component-anatomy.htm#passing-parameters">Anatomy of a WebCAT Component</a>.</p>
+
+<dl>
+<dt></dt><dd>
+	<p></p>
+	</dd>
+</dl>
+
+<!--h2--Module Configuration--></div>
+
+<h2 cbc>Related Components</h2><div>
+
+<p>This component is related to other WebCAT components:</p>
+
+<dl>
+<dt><a href="../style-components/link-button.htm">Link Button</a></dt><dd>
+	<p>Styles an anchor element like a button.</p>
+	</dd>
+</dl>
+
+<!--h2--Related Components--></div>
+
+<h2 cbc>Programming Reference</h2><div>
+
+<h3 cbc>prepareDynamicDownloadAnchor()</h3><div>
+
+<p>Signature:</p>
+
+<pre>function prepareDynamicDownloadAnchor ( 
+	anchor, 
+	{
+	element = anchor.getAttribute("data-element-id" ),  
+	fileName = anchor.getAttribute( "download" ) || "element.htm", 
+	contentType = anchor.getAttribute( "data-mimetype" ) || "text/html" 
+	} = { } )</pre>
+
+<p>Parameters:</p>
+<dl>
+<dt>anchor</dt><dd>
+	<p>{ HTMLAnchorElement | string } Reference to the anchor element, or it ID string.</p>
+	</dd>
+<dt>element</dt><dd>
+	<p>{ HTMLElement | string } Reference to the element to be downloaded, or its ID string.</p>
+	</dd>
+<dt>fileName</dt><dd>
+	<p>{ string } Suggested filename for the download.</p>
+	</dd>
+<dt>contentType</dt><dd>
+	<p>{ string } Mime type of the resource to be downloaded. Usually "text/plain" or "text/html".</p>
+	</dd>
+<dt>returns</dt><dd>
+	<p>{ undefined } </p>
+	</dd>
+</dl>
+
+<p>The function sets up a click event handler that creates an objectURL for the download right before the download starts. In the next available animation frame, after the download has started, the object URL is released to save resources.</p>
+
+<p>This ensures that the state of the object at the time of click transmitted.</p>
+
+<!--h3----></div>
+
+<h3 cbc>Init()</h3><div>
+
+<p>Initializes the document. Signature:</p>
+
+<pre>init( )</pre>
+
+<dl>
+<dt>returns</dt><dd>
+	<p>{ undefined }</p>
+	</dd>
+</dl>
+
+<p>The function searches for anchor elements with a <tt>element-download</tt> class name and runs <tt>prepareDynamicDownloadAnchor()</tt> on them.</p>
+
+<!--h3--Init()--></div>
+
+<!--h2--Programming Reference--></div>
+
+<h2 cbc>Element Attribute Reference</h2><div>
+
+<h3>Download Anchor</h3><div>
+
+<dl>
+<dt>data-element-id</dt><dd><p>The ID of the download target element.</p></dd>
+<dt>data-mimetype</dt><dd><p>The download resource mime type string.</p></dd>
+<dt>download</dt><dd><p>The suggested download file name.</p></dd>
+</dl>
+
+<!--h3--Download Anchor--></div>
+
+<!--h2--Element Attribute Reference--></div>
+
+<h2 cbc="collapsed">Implementation Details</h2><div>
+
+<p>For implementation details, refer to the <a href="https://github.com/BassMatiOnCode/WebCAT/blob/main/code/element-download/element-download-1.js">sourcecode</a> of the module.</p>
+
+<!--h2--Implementation Details--></div>
+
+<h2 cbc>References</h2><div>
+
+<dl>
+<dt><a href="https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Working_with_files">Work with files</a></dt><dd>
+	<p>MDN. Demonstrates how to use download funktionality of the browser.</p>
+	</dd>
+<dt><a href="https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/downloads">Downloads</a></dt><dd>
+	<p>On MDN. For browser extensions.</p></dd>
+</dl>
+
+
+<!--h2----></div>
+
+</body></html>

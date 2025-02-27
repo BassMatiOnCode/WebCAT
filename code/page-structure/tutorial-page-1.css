@@ -12,14 +12,14 @@
 @import url( ../table-styles/flat-borders-1.css );
 @import url( ../table-styles/data-centered-1.css );
 @import url( ../style-components/sourcecode.css );
-@import url( ../description-list/description-list-1.css );
+@import url( ../style-components/figure-styles.css );
+@import url( ../style-components/description-list.css );
 @import url( ../content-height-observer/content-height-observer-1.css );
 @import url( ../checked-items/checked-items-1.css );
 @import url( ../collapsible-structures/collapsible-structures-1.css );
 @import url( ../scroll-box/scroll-box-1.css );
 @import url( ../sitemap-navigator/sitemap-navigator-1.css );
 @import url( ../css-counter/css-counter-1.css );
-@import url( ../description-list/description-list-1.css );
 @import url( ../literature-reference-list/literature-reference-list-1.css );
 @import url( ../link-target-highlighter/link-target-highlighter-1.css );
 @import url( ../math/math-1.css );
@@ -79,21 +79,23 @@ body {
 	font-family : "Segoe UI" ;
 	margin : 0 20px 50px 20px ;
 	}
-figcaption { font-family : "Times New Roman" ; font-style : italic ; font-size : 11pt ; border-bottom : 1px solid silver  }
-figure { margin-left : 0px ; margin-right : 0px }
-figure > figcaption:has(+iframe) { border-bottom-style : none ; margin-bottom : 5px } 
-figure.demo iframe { border : 1px solid silver ; width : 100% }
-figure.listing > figcaption { padding-bottom : 5px }
-figure.listing > pre { overflow-x : auto ; padding : 5px ; margin-top : 0px ; font-family : "Times New Roman" }
-figure.table > figcaption { border-style : none }
-figure.table > table { margin-top : 5px }
+div.citation {
+	font-family : "Paladino", "Palatino Linotype", "Times New Roman" ;
+	font-style : normal ;
+	margin-left : 20px ;
+	}
 h1, h2, h3, h4, h5 { font-family : "Times New Roman", "Arial Narrow" ; font-weight : normal ; margin-left : -20px }
 h1 { margin-left : 0 ; text-align : center }
 main { margin-left : 20px }
 ol > li, ul > li { margin-top: 5px ; margin-bottom : 5px }
 ol.spaced-items li, ul.spaced-items li { margin-top: 20px ; margin-bottom : 20px }
 p { line-height: 1.8 }
-p.subtitle { text-align : center ; margin-top : 0 ; margin-bottom : 30px ; font-family : "paladino", "palatino linotype", "times new roman" }
+p.subtitle { 
+	text-align : center ; 
+	margin-top : 0 ; 
+	margin-bottom : 30px ; 
+	font-family : "paladino", "palatino linotype", "times new roman" ;
+	}
 span.keyword { font-family : "Paladino", "Palatino Linotype", "Times New Roman" }
 table > caption { 
 	text-align : left ;

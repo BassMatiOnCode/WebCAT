@@ -1,0 +1,21 @@
+dl { 
+	line-height: 1.8 ;
+	}
+dl.vertical-space dd { 
+	margin-bottom : 20px ;
+	}
+dd > p , 
+dd > pre { 
+	margin : 5px 0 ;
+	}
+dd > ul { 
+	padding-left : 10px ;
+	list-style-position : inside ;
+	}
+dd > ul > li::marker {
+	margin : 20px ;
+	padding : 0 ;
+	}
+dd > ul > li {
+	line-height : 1.0 ;
+	}
