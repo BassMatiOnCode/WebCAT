@@ -1,3 +1,4 @@
+	/* 2025-03-02 */
 :root {
 	--math-fonts : "Cambria Math", "Asana Math", "STIX2 Math Regular" , "Times New Roman" ;
 	}
@@ -25,7 +26,14 @@ math:hover {
 	overflow-x : auto ;
 	overflow-y : clip ;
 	}
-mtable > mtr:first-child > mtd:first-child {
+mtable.col-vector mtd:first-child {
+	padding-left : 0 ;
+	}
+mtable.col-vector mtd:last-child {
+	padding-right: 0;
+}
+	/* for layouts with numbered equations */
+mtable.layout > mtr:first-child > mtd:first-child {
 	box-sizing : border-box ;
 	width : 100% ;
 	}
