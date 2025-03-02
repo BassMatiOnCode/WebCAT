@@ -1,0 +1,3 @@
+2025-03-02 Merged branch context-dialog to main
+	[ ] context-dialog/context-dialog-1.js needs overhaul, the code is more or less obsolete.
+	
