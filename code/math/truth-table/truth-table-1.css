@@ -1,0 +1,21 @@
+/* Documentation : .../webcat/math/truth-table.htm */
+
+table.truth-table > tbody .column-selected {
+	background-color : navajowhite ;
+	}
+#truthTableContextMenu {
+	border : 1px solid grey ;
+	background-color : white ;
+	width : fit-content ;
+	position : absolute ;
+	}
+#truthTableContextMenu > div {
+	border-bottom : 1px solid silver ;
+	padding : 2px 5px ;
+	}
+#truthTableContextMenu > div:last-child {
+	border-bottom-style : none ;
+	}
+#truthTableContextMenu > div:hover {
+	background-color : #eee ;
+	}

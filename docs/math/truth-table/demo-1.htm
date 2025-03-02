@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html> 
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-09-15" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-12-19" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-12-19" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="/inc/webcat/page-structure/demo-page.css" />
+<script type="module" src="/inc/webcat/page-structure/demo-page.js" ></script>
+<link rel="stylesheet" href="/inc/webcat/table-styles/flat-borders.css" />
+<link rel="stylesheet" href="/inc/webcat/table-styles/data-centered.css" />
+
+<link rel="stylesheet" href="../../code/math/truth-table/truth-table.css" />
+<script type="module" src="../../code/math/truth-table/truth-table.js" ></script>
+ 
+<meta name="categories" content="Projects > WebCAT" />
+<meta name="tags" content="web, content, authoring, toolbox, WebCAT, HTML, JavaScript, CSS, component, demo, math, truth, table" />
+<title>Truth Table Demo (Projects > WebCAT > Math)</title>
+<meta name="description" content="" />
+
+</head><body>
+
+<div class="hide-if-hosted">
+<h1>Truth Table Demo</h1><p class="subtitle">Highlighting Columns</p>
+</div>
+
+<table id="theTruthTable" class="truth-table flat-borders data-centered" data-context-menu="context-menu-001"><thead><tr>
+	<td>A</td>
+	<td>B</td>
+	<td>A &wedge; B</td>
+	<td>&not; (A &wedge; B)</td>
+	<td>&not; A</td>
+	<td>&not; B</td>
+	<td>&not; A &vee; &not; B</td>
+</tr></thead><tbody><tr>
+	<td>T</td>
+	<td>T</td>
+	<td>T</td>
+	<td>F</td>
+	<td>F</td>
+	<td>F</td>
+	<td>F</td>
+</tr><tr>
+	<td>T</td>
+	<td>F</td>
+	<td>F</td>
+	<td>T</td>
+	<td>F</td>
+	<td>T</td>
+	<td>T</td>
+</tr><tr>
+	<td>F</td>
+	<td>T</td>
+	<td>F</td>
+	<td>T</td>
+	<td>T</td>
+	<td>F</td>
+	<td>T</td>
+</tr><tr>
+	<td>F</td>
+	<td>F</td>
+	<td>F</td>
+	<td>T</td>
+	<td>T</td>
+	<td>T</td>
+	<td>T</td>
+</tr></tbody></table>
+<div id="truthTableContextMenu" class="contextmenu" style="display: none">
+<div name="insert-column">Add column</div>
+<div name="append-column">Append column</div>
+<div name="delete-column">Delete column</div>
+<div name="insert-row">insert row</div>
+<div name="append-row">Append row</div>
+<div name="delete-row">Delete row</div>
+<div name="edit-table">Edit table</div>
+<div name="stop-editing" style="display: none">Stop editing</div>
+<div name="download-table"><a class="element-download" download="element.txt" style="text-decoration:none">Download</a></div>
+</div>
+
+</body></html>
