@@ -1,0 +1,190 @@
+﻿<!DOCTYPE html>
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-12-20" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-12-30" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-12-30" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="/inc/webcat/page-structure/tutorial-page.css" />
+<script type="module" src="/inc/webcat/page-structure/tutorial-page.js" ></script>
+ 
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
+<meta name="tags" content="web, content, authoring, toolbox, HTML, JavaScript, CSS, WebCAT, component, dialog, controller, base, class" />
+<meta name="description" content="" />
+
+<title>Dialog Controller (Web > Content Authoring Toolbox)</title>
+
+</head><body>
+
+<h1>Dialog Controller</h1><p class="subtitle">Simplifies building context dialogs</p>
+
+<h2 cbc>Introduction</h2><div>
+
+<p></p>
+
+<!--h2--Introduction--></div>
+
+<h2 cbc>Using the Component</h2><div>
+
+<p>The component consists of two files:</p>
+
+<ul>
+<li>name.css</li>
+<li>name.js</li>
+</ul>
+
+<p>For detailed notes on how to import these files into a document or aggregation script, refer to <a hef="../component-anatomy.htm#using">WebCAT Component Anatomy</a>.</p>
+
+<p>More information on how to use the module can be found in the <a href="#examples">examples section</a>.</p>
+
+<!--h2--Using the Component--></div>
+
+<h2 cbc>Examples</h2><div>
+
+<h3 cbc>Example 1</h3><div>
+
+<p></p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+</pre></figure>
+
+<p>And here is the live demo:</p>
+
+<figure class="demo"><figcaption> (<a href="demo-1.htm" target="_blank">demo-1.htm</a>)</figcaption>
+<iframe class="content-height-observed" src="demo-1.htm"></iframe>
+</figure>
+
+<!--h3--Example 1--></div>
+
+<!--h2--Examples--></div>
+
+<h2 cbc>Module Configuration</h2><div>
+
+<p>Module script parameters are passed in the query string of the import URL, as described in <a href="../component-anatomy.htm#passing-parameters">Anatomy of a WebCAT Component</a>.</p>
+
+<dl>
+<dt></dt><dd>
+	<p></p>
+	</dd>
+</dl>
+
+<!--h2--Module Configuration--></div>
+
+<h2 cbc>Element Attributes</h2><div>
+
+<p>Element attributes are evaluated by the component.</p>
+
+<dl>
+<dt></dt><dd>
+	<p></p>
+	</dd>
+</dl>
+
+<!--h2--Element Attributes--></div>
+
+<h2 cbc>Event Listeners</h2><div>
+
+<p>The component adds an <tt>event-name</tt> listener to the <tt>document</tt> element to provide services to other components. The <tt>CustomEvent.detail</tt> object carries the following members:</p>
+
+<dl>
+<dt></dt><dd>
+	<p>Registered on:</p>
+	<p></p>
+	<p>Event details:</p>
+	<dl>
+	<dt></dt><dd>
+		<p></p>
+		</dd>
+	</dl>
+	</dd>
+</dl>
+
+<!--h2--Event Listeners--></div>
+
+<h2 cbc>Events</h2><div>
+
+<p>The component dispatches the following events:</p>
+
+<dl>
+<dt></dt><dd>
+	<p>Dispatched to: </p>
+	<p>Event details:</p>
+	<dl>
+	<dt></dt><dd>
+		<p></p>
+		</dd>
+	</dl>
+	</dd>
+</dl>
+
+<!--h2--Events--></div>
+
+<h2 cbc>Related Components</h2><div>
+
+<p>This component is related to other WebCAT components:</p>
+
+<dl>
+<dt><a href="..//.htm"></a></dt><dd>
+	<p></p>
+	</dd>
+</dl>
+
+<!--h2--Related Components--></div>
+
+<h2 cbc>Programming Reference</h2><div>
+
+<p></p>
+
+<h3 cbc></h3><div>
+
+<p>Syntax:</p>
+
+<pre></pre>
+
+<p>Parameters:</p>
+<dl>
+<dt></dt><dd>
+	<p>{} </p>
+	</dd>
+<dt>returns</dt><dd>
+	<p>{} </p>
+	</dd>
+</dl>
+
+<p></p>
+
+<figure class="demo"><figcaption>A simple example (<a href="demo-1.htm" target="_blank">demo-1.htm</a>)</figcaption>
+<iframe class="content-height-observed" src="demo-1.htm"></iframe>
+</figure>
+
+<p></p>
+
+<!--h3----></div>
+
+<!--h2--Programming Reference--></div>
+
+<h2 cbc="collapsed">Implementation Details</h2><div>
+
+<p>A context menu has appears over all other elements and can be dismissed with a pointer event outside its borders. This can be achieved with a <tt>DIALOG</tt> element, which comes with a <i>backdrop</i> behind that can be used to dim or blur the page content. An element with a <tt>popover</tt> attribute behaves similar.</p>
+
+<p>For implementation details, refer to the <a href="">sourcecode</a> of the module.</p>
+
+<p></p>
+
+<figure class="listing"><figcaption></figcaption>
+<pre>
+<cc>// Comment</cc> 
+function <hi>name</hi> ( ) {
+	...
+	}
+</pre></figure>
+
+<!--h2--Implementation Details--></div>
+
+</body></html>
