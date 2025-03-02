@@ -16,7 +16,7 @@
 			list.shift();
 			sibling = null;
 			postponed = 0;
-		} else if ( ! sibling.className.contains( "continued" ) || sibling.hasAttribute( "start" ) ) {
+		} else if ( ! sibling.classList.contains( "continued" ) || sibling.hasAttribute( "start" ) ) {
 			list[ 0 ].setAttribute( "start", sibling.children.length + + ( sibling.getAttribute( "start" ) || 1 ) );
 			list.shift( );
 			postponed = 0;		
