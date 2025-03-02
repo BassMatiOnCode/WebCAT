@@ -1,0 +1,12 @@
+/* Documentation: .../webcat/download-element/download-element.htm */
+
+a.link-button {
+	border : 1px solid grey ;
+	padding : 1px 4px ;
+	text-decoration : none ;
+	color : inherit ;
+	border-radius : 4px ;
+	}
+a.link-button:hover {
+	border-color : darkorange ;
+	}
