@@ -1,11 +1,12 @@
 // Documentation: .../web-toolbox/name/name.htm
 
 import * as initializer from "../component-initializer/component-initializer.js" ;
+import { setUniqueID } from "../utility/unique-id/unique-id.js" ;
 
 /**
  *		documentClickHandler( )
  *
- */ function documentClickHandler ( evt ) {
+ */ function xdocumentClickHandler ( evt ) {
 	evt?.preventDefault( );
 	evt?.stopPropagation( );
 	for ( const dialog of document.querySelectorAll( ".context-dialog" )) {
@@ -15,13 +16,14 @@ import * as initializer from "../component-initializer/component-initializer.js"
 	document.removeEventListener( documentClickHandler , documentClickHandler );
 	}
 /**
- *		dialogClickHandler( )
+ *		documentClickHandler( )
  *
- */ function dialogClickHandler( evt ) {
+ */ function documentClickHandler( evt ) {
 	evt.stopPropagation( );
 	// Check dialog closing condition
 	if ( ! evt.currentTarget.classList.contains( "autoclose" ) && ! evt.target.classList.contains( "autoclose" )) return ;
 	// Dispatch dialog closing event to dialog opener
+	// THIS DOESN'T WORK...
 	const opener = document.getElementById( evt.currentTarget.getAttribute( "data-opener-id" ));
 	if ( opener.dispatchEvent( new CustomEvent( "context-dialog-closing", { cancelable : true , bubbles : false, detail : { dialog : evt.currentTarget , closer : evt.target } } ))) {
 		// The dialog may be closed now.
@@ -33,33 +35,26 @@ import * as initializer from "../component-initializer/component-initializer.js"
  *		openerContextmenuHandler( )
  *
  */ function openerContextmenuHandler( evt ) {
+	// notify opener, opener can abort.
+	if ( ! evt.currentTarget.dispatchEvent( new CustomEvent( "context-dialog-opening", { cancelable : true , bubbles : false, detail : { dialog : dialog , target : evt.target } } ))) return ;
 	evt.preventDefault( );
+	evt.stopPropagation( );
 	// close any open context dialogs
-	documentClickHandler( );
 	const dialog = document.getElementById( evt.currentTarget.getAttribute( "data-context-dialog-id" ));
-	if ( ! dialog ) return console.error( "Context dialog element not found." ) ;
+	if ( ! dialog ) return console.error( "Context dialog element not found:", evt.currentTarget.getAttribute( "data-context-dialog-id" ) ) ;
 	// store the opener id in the dialog
 	dialog.setAttribute( "data-opener-id" , evt.currentTarget.id );
 	// adjust position
 	const position = evt.target.getBoundingClientRect();
 	dialog.style.left = `${position.left}px` ;
 	dialog.style.top = `${position.top}px` ;
-	// notify opener 
-	if ( ! evt.currentTarget.dispatchEvent( new CustomEvent( "context-dialog-opening", { cancelable : true , bubbles : false, detail : { dialog : dialog } } ))) return dialog.removeAttribute( "data-opener-id" );
+	// Capture pointer events
+	dialog.setPointerCapture( evt.pointerId );
 	// show dialog
 	dialog.style.visibility = "visible" ;
 	// catch clicks outside of the document
 	document.addEventListener( "click" , documentClickHandler );
 	}
-/**
- *		provideUniqueId ( )
- *
- */ function provideUniqueId( opener ) {
-	if ( opener.id ) return ;
-	while ( document.getElementById( `dialog-opener-${++ provideUniqueId.prototype.counter}` )) ;
-	opener.id = `dialog-opener-${provideUniqueId.prototype.counter}` ;
-	}
-provideUniqueId.prototype.counter = 0;
 /**
 *		init ( )
 *		Initializes the WebCAT component.
@@ -67,7 +62,7 @@ provideUniqueId.prototype.counter = 0;
 */ export function init( ) {
 	// Process context dialog openers
 	for ( const opener of document.querySelectorAll( "[data-context-dialog-id]" )){
-		provideUniqueId( opener )	
+		opener.setAttribute( "id" , setUniqueID( opener ));
 		opener.addEventListener( "contextmenu" , openerContextmenuHandler );
 		}
 	// Process context dialogs
