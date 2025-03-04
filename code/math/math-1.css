@@ -1,4 +1,4 @@
-	/* 2025-03-02 */
+	/* 2025-03-03 */
 :root {
 	--math-fonts : "Cambria Math", "Asana Math", "STIX2 Math Regular" , "Times New Roman" ;
 	}
@@ -26,10 +26,14 @@ math:hover {
 	overflow-x : auto ;
 	overflow-y : clip ;
 	}
-mtable.col-vector mtd:first-child {
-	padding-left : 0 ;
-	}
-mtable.col-vector mtd:last-child {
+mtable.fenced mtd {
+	padding-left: 2px;
+	padding-right: 2px;
+}
+mtable.fenced mtd:first-child {
+	padding-left: 0;
+}
+mtable.fenced mtd:last-child {
 	padding-right: 0;
 }
 	/* for layouts with numbered equations */
@@ -62,9 +66,10 @@ mtable.vaxis-aligned > mtr > mtd:nth-child( 3 ) {
 mtable.vaxis-aligned > mtr:first-child > mtd:nth-child( 3 ) {
 	width : 50% ;
 	}
-math mi,
-math mo {
+xxx-math mi,
+xxx-math mo {
 	/* The only way to enforce a uniform minimum line height */
+	/* That doesn't work, spoils the position of subscripts! */
 	min-height : 15px ;
 	}
 mtd:has(mtext.equation-number) {
