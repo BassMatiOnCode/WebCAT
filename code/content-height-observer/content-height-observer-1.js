@@ -9,7 +9,7 @@
 		documentHost.addEventListener( "load" , evt => {
 			const hostedDocument = evt.target.contentDocument.documentElement ; // html element
 			hostedDocument.style.height = "fit-content" ;
-			if ( hostedDocument.tagName === "HTML" )evt.target.contentDocument.body.style.height = "fit-content" ;
+			if ( hostedDocument.tagName === "HTML" ) evt.target.contentDocument.body.style.height = "fit-content" ;
 			for ( const element of hostedDocument.querySelectorAll( ".hide-if-hosted" )) element.style.display = "none" ;
 			hostedDocument.style.overflowY = "hidden" ;  // prevents vertical scrollbar when a horizontal scrollbar is shown
 			const observer = new ResizeObserver(( entries ) => {

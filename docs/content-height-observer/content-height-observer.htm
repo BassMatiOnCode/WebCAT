@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-12-20" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2025-03-14" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2025-03-14" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="/inc/webcat/page-structure/tutorial-page.css" />
+<script type="module" src="/inc/webcat/page-structure/tutorial-page.js" ></script>
+ 
+<meta name="categories" content="Projects > WebCAT" />
+<meta name="tags" content="web, content, authoring, toolbox, HTML, JavaScript, CSS, WebCAT, component, content, height, observer" />
+<meta name="description" content="" />
+
+<title>Content Height Observer (Projects > WebCAT)</title>
+
+</head><body>
+
+<h1>Content Height Observer</h1><p class="subtitle">Fit OBJECT height to hosted content</p>
+
+<h2 cbc>Introduction</h2><div>
+
+<p>An <tt>OBJECT</tt> element, hosting image content, automatically adapts its size to fit the content. Unfortunately, non-image content such as <tt>text/html</tt> does not resize its host, instead, scrollbars are added. To behave like image content, an observer pattern is used.</p>
+
+<!--h2--Introduction--></div>
+
+<h2 cbc>Using the Component</h2><div>
+
+<p>The component consists of two files:</p>
+
+<ul>
+<li>content-height-observer.css</li>
+<li>content-height-observer.js</li>
+</ul>
+
+<p>Then decorate the <tt>OBJECT</tt> element with the classname:</p>
+
+<figure class="listing"><figcaption>Adding the classname</figcaption><pre>
+&lt;object class="<hi>content-height-observed</hi>" type="text/html" data="path-to.htm"&gt;&lt;/object&gt;
+</pre></figure>
+
+<p>For detailed notes on how to import these files into a document or an aggregation script, refer to <a hef="../component-anatomy.htm#using">WebCAT Component Anatomy</a>.</p>
+
+<p>More information on how to use the module can be found in the <a href="#examples">examples section</a>.</p>
+
+<!--h2--Using the Component--></div>
+
+<h2 cbc>Examples</h2><div>
+
+<p>TO DO</p>
+
+<!--h2--Examples--></div>
+
+<h2 cbc="collapsed">Implementation Details</h2><div>
+
+<p>For implementation details, refer to the <a href="../code/content-height-observer">sourcecode</a> of the module.</p>
+
+<p>The following excerpt illustrates how the module works:</p>
+
+<figure class="listing"><figcaption></figcaption>
+<pre>
+const observer = new ResizeObserver(( entries ) => {
+	documentHost.style.height = entries[ 0 ].target.offsetHeight + 0 +  "px" ;
+	} ) ;
+observer.observe( hostedDocument );
+</pre></figure>
+
+<p>If the size of the hosted document changes, the document host height is adjusted accordingly.</p>
+
+<!--h2--Implementation Details--></div>
+
+</body></html>
