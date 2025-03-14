@@ -22,8 +22,8 @@
 @import url( ../css-counter/css-counter-1.css );
 @import url( ../literature-reference-list/literature-reference-list-1.css );
 @import url( ../link-target-highlighter/link-target-highlighter-1.css );
-@import url( ../math/math-1.css );
-@import url( ../math/math-text-1.css );
+@import url( ../math/math.css );
+@import url( ../math/math-text.css );
 @import url( ../page-colors/page-colors-1.css );
 
 @font-face { 
@@ -74,6 +74,9 @@
 	font-weight: 400;
 	src: 	local("inconsolata condensed"), 
 		url(/inc/fonts/Inconsolata-variable-wdth-wght.ttf) format("truetype");
+	}
+.no-border {
+	border-style : none ;
 	}
 body { 
 	font-family : "Segoe UI" ;
