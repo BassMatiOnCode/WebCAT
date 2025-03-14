@@ -35,6 +35,17 @@ mrow.hspace mi {
 	padding-left : 1px ;
 	padding-right : 1px ;
 	}
+mrow.numbered {
+	padding-right : 50px ;
+	}
+mrow.numbered > mtext:last-child {
+	position : absolute ;
+	width : auto ;
+	right : 0px ;
+	background-color : white ;
+	padding-left: 3px;
+	}
+
 mtable.fenced mtd {
 	padding-left: 2px;
 	padding-right: 2px;
