@@ -1,9 +1,12 @@
-	/* 2025-03-03 */
+	/* 2025-03-23 */
 :root {
 	--math-fonts : "Cambria Math", "Asana Math", "STIX2 Math Regular" , "Times New Roman" ;
 	}
 .equation-number {
 	font-family : "Cambria Math", "Asana Math", "STIX2 Math Regular" , "Times New Roman" ;
+	}
+[data-collapsible-state="collapsed"] + .collapsible-element mrow.numbered > mtext:last-child {
+	display : none ;
 	}
 div.math-text {
 	margin-left : 10px ;
