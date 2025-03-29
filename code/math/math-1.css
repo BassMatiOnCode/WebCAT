@@ -1,4 +1,4 @@
-	/* 2025-03-23 */
+	/* 2025-03-29 USP */
 :root {
 	--math-fonts : "Cambria Math", "Asana Math", "STIX2 Math Regular" , "Times New Roman" ;
 	}
@@ -107,4 +107,20 @@ p math {
 	math-style : compact ;
 	margin-top : unset ;
 	margin-bottom : unset ;
+	}
+table.numbered-equation {
+	table-layout : fixed ; 
+	box-sizing : border-box ;
+	width : 100% ;
+	white-space: nowrap;
+	}
+table.numbered-equation td {
+ 	overflow-x : auto ; 
+	overflow-y : clip ;
+	}
+table.numbered-equation td.eqn-number {
+	min-width : fit-content ;
+	width : 5ch ;
+	xbackground-color : silver ;
+	text-align : right ;
 	}
