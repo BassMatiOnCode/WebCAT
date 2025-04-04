@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html>
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-12-20" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2025-04-04" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2025-04-04" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="/inc/webcat/page-structure/tutorial-page.css" />
+<script type="module" src="/inc/webcat/page-structure/tutorial-page.js" ></script>
+ 
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
+<meta name="tags" content="web, content, authoring, toolbox, HTML, JavaScript, CSS, WebCAT, component, math, equation, fragment" />
+<meta name="description" content="" />
+
+<title>Math Equation Fragment (Web > Content Authoring Toolbox)</title>
+
+</head><body>
+
+<h1>Math Equation Fragment</h1><p class="subtitle">Math equations as re-usable fragments</p>
+
+<h2 cbc>Introduction</h2><div>
+
+<p>This component supports re-usable math equation fragements and provides styles for math equations and shows a title string if the fragment is shown in its own window.</p>
+
+<!--h2--Introduction--></div>
+
+<h2 cbc>Using the Component</h2><div>
+
+<p>The component consists of two files:</p>
+
+<ul>
+<li>math-equation-fragment.css</li>
+<li>math-equation-fragment.js</li>
+</ul>
+
+<p>These files are used in the HTML fragment that contains the equation.</p>
+
+<p>In a host document, use an HTML <tt>OBJECT</tt> element to import the fragment:</p>
+
+<figure class="listing"><figcaption>Importing the equation fragment</figcaption><pre>
+&lt;object class="content-height-observed" type="text/html" data="path/to/equation-fragment.htm"&gt;&lt;/object&gt;
+</pre></figure>
+
+<p>For detailed notes on how to import these files into a document or aggregation script, refer to <a hef="../component-anatomy.htm#using">WebCAT Component Anatomy</a>.</p>
+
+<p>More information on how to use the module can be found in the <a href="#examples">examples section</a>.</p>
+
+<!--h2--Using the Component--></div>
+
+<h2 cbc>Examples</h2><div>
+
+<h3 cbc>Example 1</h3><div>
+
+<p>To import an equation fragment into a host document, use an OBJECT tag:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+&lt;object class="content-height-observed" 
+	type="<hi>text/html</hi>" 
+	data="<hi>equation-fragment-01.htm</hi>" &gt;
+	&lt;/object&gt;
+</pre></figure>
+
+<p>Make sure to set the type attribute correctly, this defines how the resource is processed in the browser. The <tt>data</tt> attribute points to the fragment location.</p>
+
+<p>The equation fragment itself need to import this component:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+&lt;link rel="stylesheet" href="path/to/<hi>math-equation-fragment.css</hi>" /&gt;
+&lt;script type="module" src="path/to/<hi>math-equation-fragment.js</hi>" &gt;&lt;/script&gt;
+</pre></figure>
+
+<p>The description should contain a meaningful text:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+&lt;meta name="description" content="<hi>Slope-Intercept Form 1 of a Line Equation</hi>" /&gt;
+</pre></figure>
+
+<p>The description content will be added to the document if the fragment is not hosted by another document:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+if ( window.parent === window ) {
+	const p = document.<hi>createElement</hi>( "P" );
+	p.innerHTML = document.querySelector( "meta[name='<hi>description</hi>']" ).getAttribute( "<hi>content</hi>" );
+	document.body.prepend( <hi>p</hi> );
+	}</pre></figure>
+
+<p>And here is the live demo:</p>
+
+<figure class="demo"><figcaption> (<a href="demo-01.htm" target="_blank">demo-01.htm</a>)</figcaption>
+<iframe class="content-height-observed" src="demo-01.htm"></iframe>
+</figure>
+
+<p>If you click on the equation number, the fragment is opened in a new window and should show the description content above the math content.</p>
+
+<!--h3--Example 1--></div>
+
+<!--h2--Examples--></div>
+
+<h2 cbc>Module Configuration</h2><div>
+
+<p>The module has no configuration parameters.</p>
+
+<!--h2--Module Configuration--></div>
+
+<h2 cbc>Related Components</h2><div>
+
+<p>This component is related to other WebCAT components:</p>
+
+<dl>
+<dt><a href="../math/math.htm">Math</a></dt>
+	<dd>Styles and functions for math equations.</dd>
+</dl>
+
+<!--h2--Related Components--></div>
+
+</body></html>
