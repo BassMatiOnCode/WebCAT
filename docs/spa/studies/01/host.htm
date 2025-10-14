@@ -1,0 +1,16 @@
+<html><head>
+<script type="module">
+navtigation.addEventListener( "navigate" , evt => {
+	debugger;
+	const url = new URL( evt.destination );
+	if ( ! evt.canIntercept || evt.formData || downloadRequest ) return ;
+	if ( evt.hashChange ) return ;
+	evt.intercept( { async handler ( ) {
+		contentContainer.src = url.href ;  // navigate the container
+		} } ) ;
+	} ) ;
+</script>
+</head><body>
+
+
+</body></html>

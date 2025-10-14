@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html lang="en-US"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-08-07" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2025-10-08" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2025-10-08" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="/inc/webcat/page-structure/tutorial-page-1.css" />
+<script type="module" src="/inc/webcat/page-structure/tutorial-page-1.js" ></script>
+ 
+<meta name="categories" content="Projects > WebCAT" />
+<meta name="tags" content="web, content, authoring, toolbox, HTML, JavaScript, CSS, WebCAT, component, page, header" />
+<meta name="description" content="" />
+
+<title>Page Header (Project > WebCAT)</title>
+
+</head><body>
+
+<h1>Page Header</h1><p class="subtitle">Creates a page header with logo and title images.</p>
+
+<p>The page header is one of the horizontal panels at the top of the document that are inserted into an existing DOM tree. Specifically, the page content below can be shifted down by injecting elements above. This is countermeasured by top or bottom margin of elements. Before injection, there must be sufficient margin to accommodate the injected panels. These margins are diminished by the height of the inserted panels, so that the elements below remain in their position (i. e. their <tt>offsetTop</tt> does not change).</p>
+
+<p>By default, <tt>document.body</tt> provied enough <tt>marginTop</tt> to accommodate the page header, toolbar and breadcrumbs panels. If their component scripts are imported in opposite order, no module parameters have to be supplied.</p>
+
+<p>NOTE that the body margin is defined in <tt>elements.css</tt>, which resides in the site root folder. This stylesheet link must be included <em>before</em> these panels.</p>
+
+<figure class="listing"><figcaption>Component init function</figcaption><pre>
+export function init ( searchparams, event , 
+	referenceElement = searchparams.get( "ref-element" ) || document.body , 
+	injectionMethod = searchparams.get( "injection-method" ) || "prepend" ,
+	occupySpace = searchparams.get( "occupySpace" ) !== "no" )
+	{
+	if ( typeof referenceElement === "string" ) referenceElement = document.getElementById( referenceElement );
+		<cc>// Create and insert the header element</cc>
+	const e = document.createElement( "HEADER" );
+		<cc>// Append section title image</cc>
+	const titleimg = document.head.querySelector( "meta[name='sectionTitle']" )?.getAttribute( "content" );
+	if ( titleimg ) e.style.backgroundImage= `${window.getComputedStyle( e )["backgroundImage"]}, url("${titleimg}")`;
+		<cc>// Inject the new header element</cc>
+	referenceElement[ injectionMethod ]( e );
+		<cc>// Subtract height from the next sibling in order to avoid content shifting</cc>
+	if ( occupySpace ) switch ( injectionMethod ) {
+	case "before" :
+	case "prepend" :
+		referenceElement.style.marginTop = parseInt( referenceElement.style.marginTop || getComputedStyle( referenceElement ).marginTop ) - parseInt( e.offsetHeight ) + "px";
+		break;
+	case "after" :
+	case "append" :
+		referenceElement.style.marginBottom = parseInt( referenceElement.style.marginBottom || getComputedStyle( referenceElement ).marginBottom ) - parseInt( e.offsetHeight ) + "px";
+		break;
+		}
+	return e ;
+	}
+initializer.initComponent ( init, import.meta.url );
+</pre></figure>
+
+<h2 cbc>Space Occupation</h2><div>
+
+<p></p>
+
+<!--h2--Space Occupation--></div>
+
+</body></html>

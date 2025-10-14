@@ -1,0 +1,38 @@
+@import url( ../../page-header/page-header-1.css );
+@import url( ../../page-colors/page-colors-1.css );
+
+@font-face { 
+	font-family: "arial narrow"; 
+	font-style: normal; 
+	font-weight: 400;
+	src: 	local("Arial Narrow"), 
+		local("ArialNarrow-Regular"), 
+		url(/inc/fonts/arial-narrow.woff) format("woff"), 
+		url(/inc/fonts/arial-narrow.ttf) format("truetype");
+	}
+body { 
+	font-family : "Segoe UI", Tahoma, Geneva, Verdana, sans-serif ;
+	margin : 0 20px 50px 20px ;
+	}
+h1, h2, h3, h4, h5 { 
+	font-family : "Times New Roman",'Times New Roman', Times, serif ; 
+	font-weight : normal ; 
+	margin-left : -20px ;
+	}
+h1 { 
+	margin-left : 0 ; 
+	text-align : center ;
+	}
+main { 
+	margin-left : 20px ;
+	}
+p { 
+	line-height: 1.8 ;
+	}
+
+	/* * * z-index management * * */
+
+body { position : relative ; z-index : -4 }
+main { z-index : -3 }
+#mainToolbar { z-index : -2 }
+.pagePathbar { z-index : -1 }

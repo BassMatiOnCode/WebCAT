@@ -1,0 +1,11 @@
+<html><head>
+</head><body>
+<ol>
+<li>The "navigated to ..." notification in the console only appears once when the host document was loaded.</li>
+<li>The content document must reset the IFrame height to a small initial height, otherwise the HTML element will adopt the entire available height. This cannot be done by the host document, because the content document init code does not yet see the change, the IFrame height appears to be unchanged.</li>
+<li>A hash in the URL does not scroll the document to the target element if the document has just been loaded. In this case, "hashChange===false". Thefore, the document init code must scroll manually to the target element.</li>
+<li>If the navigation event handler does not intercept navigation if "hashChange===true", then the document scrolls to the target element reliably. It has to be verified that the hash change is reflected in the browser's address box.</li>
+<li>Smooth scrolling to the target element needs navigation to be intercepted, with the option "scroll='manual'". The "navigateEvent.scroll( )" method should not be called then.</li>
+<li>When scrolling up, the CSS property "scrollMarginTop" must be set to "offsetTop" of the content IFrame element, otherwise it might be hidden by sticky elements that are docked to the top of the window.</li>
+</ol>
+</body></html>

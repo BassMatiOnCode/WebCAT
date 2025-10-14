@@ -1,0 +1,19 @@
+<hatml><head>
+
+<script>if ( ! window.frameElement ) {
+console.log( "Redirecting..." ); 
+navigation.navigate( `host.htm?goto=${ document.location.href }` );
+}
+</script>
+
+<base target="_top" />
+<link rel="stylesheet" href="/inc/webcat/spa-content/spa-iframe-content-1.css" />
+<script type="module" src="/inc/webcat/spa-content/spa-iframe-content-1.js"></script>
+
+</head><body>
+
+<h2>Content 1</h2>
+
+<p>Links: <a href="content-1.htm">Content 1</a> <a href="content-2.htm">Content 2</a> <a href="content-2.htm#bottom">Content 2#bottom</a> <a href="content-3.htm">Content 3</a></p>
+
+</body></hatml>

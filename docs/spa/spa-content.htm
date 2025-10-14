@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en-US"><head>
+<script>if ( ! window.frameElement ) navigation.navigate( `/index.htm?goto=${ document.location.href }` );</script>
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2025-10-06" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2025-10-06" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2025-10-06" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+<base target="_top" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="/inc/webcat/spa-content/spa-iframe-content.css" />
+<script type="module" src="/inc/webcat/spa-content/spa-iframe-content.js"></script>
+<link rel="stylesheet" href="/static/content-styles.css" />
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
+<meta name="tags" content="web, authoring, toolbox, HTML, JavaScript, CSS" />
+<title>Web > Content Authoring Toolbox > SPA</title>
+<meta name="description" content="This document describes how to create SPA content documents." />
+
+</head><body>
+
+<h1>SPA Content Component</h1>
+<hr/>
+<p class="subtitle">Creating Content Documents</p>
+
+<p>Use the SPA content component(s) to easily create SPA content documents.</p>
+
+<h2 cbc>Usage</h2><div>
+
+<h3 cbc>Using a Barebone Template</h3>
+
+<ol>
+<li>Copy a preconfigured template like <a href="../page-templates/spa-article-template.htm">path/to/spa-article-template.htm</a> to your website folder and rename it appropriatly.</li>
+<li>Add a corresponding entry in a suitable <tt>toc.htm</tt> file so that it is visible in the table of contents.</li>
+</ol>
+
+<!--h3--Using a Barebone Template-->
+
+<h3 cbc>Create a Content Document from Scratch</h3><div>
+
+<ol>
+<li>Create an empty HTML file with the usual META elements in the HEAD section.</li>
+<li>Add a <a href="spa.htm#redirection">redirection script</a> as first element in the head section. Make sure to reference the correct SPA host document, <tt>/index.htm</tt> or another appropriate host document.</li>
+<li>Add a <tt>BASE target="_top"</tt> element.</li>
+<li>Add a <tt>LINK rel="stylesheet" href="path/to/spa-iframe-content.css"</tt> element.</li>
+<li>Add a <tt>SCRIPT type="module" src="path/to/spa-iframe-content.js"</tt> element.</li>
+</ol>
+
+<p>If your SPA host document uses a different container such as a DIV or MAIN element, use <tt>spa-div-content.css</tt> and <tt>spa-div-content.js</tt> instead.</p>
+
+<!--h3--Create a Content Document from Scratch--></div>
+
+<!--h2--Usage--></div>
+
+</body></html>

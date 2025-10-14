@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en-US"><head>
+<script>if ( ! window.frameElement ) navigation.navigate( `/index.htm?goto=${ document.location.href }` );</script>
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2024-08-07" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2024-08-16" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2024-08-16" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+<base target="_top" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="/inc/webcat/spa-content/spa-iframe-content.css" />
+<script type="module" src="/inc/webcat/spa-content/spa-iframe-content.js"></script>
+<link rel="stylesheet" href="/static/content-styles.css" />
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
+<meta name="tags" content="web, authoring, toolbox, HTML, JavaScript, CSS" />
+<title>Web > Content Authoring Toolbox > SPA > SPA Host Component</title>
+<meta name="description" content="The SPA Host component simplifies the development of an SPA web application." />
+
+</head><body>
+
+<h1>SPA Host Component</h1>
+
+<h2 cbc>Usage</h2><div>
+
+<h3 cbc>Using a Preconfigured Demo Template</h3><div>
+
+<p>This template hosts content documents in an IFRAME element.</p>
+
+<ol>
+<li>Copy the <a href="../templates/spa-host-demo-template.htm">spa-host-demo-template.htm</a> to the root folder of your web site, and rename it to <tt>index.htm</tt>. Note that this filename must be referenced from redirection scripts in content documents.</li>
+<li>Add the following files to the site:
+	<ol>
+	<li><tt>logo.svg</tt></li>
+	<li><tt>title.svg</tt></li>
+	<li><tt>colors.css</tt></li>
+	<li><tt>elements.css</tt></li>
+	<li><tt>toc.htm</tt></li>
+	</ol></li>
+<li>Create content documents.</li>
+</ol>
+
+<!--h3--Using a Preconfigured Demo Template--></div>
+
+<h3 cbc>Using Barebone Template</h3><div>
+
+<p>This template also hosts content documents in an IFRAME element.</p>
+
+<ol>
+<li>Copy the <a href="../templates/spa-host-template.htm">spa-host-template.htm</a> to the root folder of your web site, and rename it to <tt>index.htm</tt>. Note that this filename must be referenced from redirection scripts in content documents.</li>
+<li>Edit the document meta information in the document HEAD.</li>
+<li>Add components for the static user interface to <tt>index.htm</tt>, such as <a href="../page-header/page-header.htm">page header,</a>, <a href="../page-toolbar/page-toolbar.htm">page toolbar</a>, <a href="../page-pathbar/page-pathbar.htm">page pathbar</a>, <a href="../navigation-panel/navigation-panel.htm">navigation panel</a>.</li>
+<li>Add the following files:
+	<ol>
+	<li><tt>logo.svg</tt></li>
+	<li><tt>title.svg</tt></li>
+	<li><tt>colors.css</tt></li>
+	<li><tt>elements.css</tt></li>
+	<li><tt>toc.htm</tt></li>
+	</ol></li>
+<li>Create content documents and add them to the site.</li>
+</ol>
+
+<!--h3--Using a Barebone Template--></div>
+
+<h3 cbc>Create from Scratch</h3><div>
+
+<p>This demonstrates how to build an SPA host document from scratch.</p>
+
+<ol>
+<li>Create an empty HTML file, and name it <tt>index.htm</tt>.</li>
+<li>Add the usual META elements in the HEAD section.</li>
+<li>Add a LINK element, rel="stylesheet", href="path/to/spa-iframe-host.css".</li>
+<li>Add a SCRIPT element, type="module", src="path/to/spa-iframe-host.js".</li>
+<li>Add components to create the static interface for page header, toolbar, breadcrumbs list, site navigation panel and others, as desired. The WebCAT project provides a bunch of ready-to-use components, but you can create your own, of course.</li>
+<li>Create content documents and add them to the site.</li>
+</ol>
+
+<p>If you want to use a different content document container, use <tt>spa-div-host.css</tt> and <tt>spa-div-host.js</tt> for the LINK and SCRIPT elements instead.</p>
+
+<!--h3--Create from Scratch--></div>
+
+<!--h2--Usage--></div>
+
+</body></html>

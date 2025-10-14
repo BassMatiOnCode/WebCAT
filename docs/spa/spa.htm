@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en-US"><head>
+
+<script>if ( ! window.frameElement ) navigation.navigate( `/index.htm?goto=${ document.location.href }` );</script>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2025-10-06" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2025-10-06" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2025-10-06" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+<base target="_top" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="/inc/webcat/spa-content/spa-iframe-content.css" />
+<script type="module" src="/inc/webcat/spa-content/spa-iframe-content.js"></script>
+<link rel="stylesheet" href="/static/content-styles.css" />
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
+<meta name="tags" content="web, authoring, toolbox, HTML, JavaScript, CSS" />
+<title>Web > Content Authoring Toolbox > SPA</title>
+<meta name="description" content="The structure and implementation of Single Page Web Applications." />
+
+</head><body>
+
+<h1>SPA</h1><hr/><p class="subtitle">Single Page Web Applications</p>
+
+<p>A multi-page web app (MPA) replaces the entire page with new content when the user navigates the browser to another page. A single-page web application only replaces the content that changes with XmlHttpRequest or fetch instructions. During the entire session, as long as the user stays on the website, the website homepage (index.htm) is not replaced or reloaded. This is the SPA host document, which provides the "static" portions, such as header, footer, menus and site navigation. Only the content portions, which correspond to the content of traditional web pages, is replaced when the user navigates within the website.</p>
+
+<p>The <tt>Navigation</tt> object, available in Edge and Chrome browsers at the time of writing, makes it possible. In browsers where the <tt>Navigation</tt> object is not available, it is harder to achieve similar results.</p>
+
+<p>Content documents are retrieved dynamically with the XMLHTTPRequest object or Promise-based <tt>fetch()</tt> instructions.</p>
+
+<p>The WebCAT <tt>spa-host</tt> and <tt>spa-content</tt> components encapsulate the <tt>Navigation</tt> object and provide necessary scripts and styles.</p>
+
+<p>WebCAT supports multiple SPA host documents in a website project, as well as a mixture of "traditional" non-SPA and SPA pages.</p>
+
+<h2 cbc>Content Containers</h2><div>
+
+<p>Several elements can be used for a content document container: DIV, MAIN, IFRAME or OBJECT, among others. While the simple container elements such as DIV and MAIN integrate the content as integral part of the host document, OBJECT and IFRAME provide some kind of isolation between content and host documents.</p>
+
+<p>If host and content documents have the same origin, the isolation barrier is not very high, code in the host document can easily access elements in the content document, and vice versa.</p>
+
+<p>Script elements in work as usual in OBJECT and IFRAME containers, but they need a "recreation treatment" if they are injected into one of the simple containers. Similarly, stylesheets must be recreated when injected into simple containers.</p>
+
+<p>Relative URLs in content documents pose a problem when they are injected into simple containers. The address base changes from the content documemt location to the host document location. This also requires some special treatment.</p>
+
+<p>The web component technology provides another option to inject content into the host document.</p>
+
+<!--h2--Content Containers--></div>
+
+<h2 cbc>Implementation Details</h2><div>
+
+<h3 cbc>A First Implementation</h3><div>
+
+<h4 cbc>Host Document</h4><div>
+
+<p>The host document implements a <tt>Navigate</tt> event handler that is called when the user navigates the browser:</p>
+
+<figure class="listing"><figcaption>Host document</figcaption><pre>
+&lt;html&gt;&lt;head&gt;
+&lt;script&gt;
+navigation.addEventListener( "navigate" , evt =&gt; {
+	if ( ! evt.canIntercept || evt.downloadRequest ||evt.formData || evt.hashChange ) 
+		return;   <cc>// Bail out if interception is not an option.</cc>
+	console.log( `Navigate event: url=${evt.destination.url}` );
+	evt.intercept( { async handler ( ) {
+		mainContent.src = evt.destination.url ;  <cc>// navigate the content container</cc>
+		} } ) ;	
+	} ) ;
+</pre></figure>
+
+<p>There are some situations where the navigation should not be intercepted. These are caught first, the code simply returns to the caller. Otherwise, the <tt>NavigateEvent.intercept()</tt> method is called and provided with an options object that has an async method named <tt>handler</tt>. This method returns a Promise that fulfills when the navigation procedure has completed. (In this case, the Promise fulfills immediately when the method returns.)</p>
+
+<p>The <tt>handler</tt> function simply navigates the IFrame to the <tt>NavigateEvent</tt> destination.</p>
+
+<p>The browser replaces the content of its address box with the URL of the content document &ndash; although the content host document remains in place. This feature gives the user the  expected navigation feedback.</p>
+
+<p>One last job remains: Navigation to the initial content when the SPA host document is loaded. This is done in the module init code with a simple <tt>navigate()</tt> method call:</p>
+
+<figure class="listing"><figcaption>Navigating to the initial content</figcaption><pre>
+navigation.navigate( `content-1.htm` );  <cc>// load the initial content</cc>
+&lt;/script&gt;
+</pre></figure>
+
+<p>The HTML code:</p>
+
+<figure class="listing"><figcaption>HTML code</figcaption><pre>
+&lt;/head&gt;&lt;body&gt;
+&lt;h1&gt;Host Document&lt;/h1&gt;
+&lt;p&gt;&lt;a href="content-1.htm"&gt;Content 1&lt;/a&gt; &lt;a href="content-2.htm"&gt;Content 2&lt;/a&gt; &lt;a href="content-3.htm"&gt;Content 3&lt;/a&gt;&lt;/p&gt;
+&lt;iframe id="mainContent"&gt;&lt;/iframe&gt;
+&lt;/body&gt;&lt;/html&gt;
+</pre></figure>
+
+<p>There is a heading line, followed by a "navigation line" which contains links to the three available documents in the application. At the bottom is the IFRAME element, which acts as the document host container.</p>
+
+<p>When the user clicks on these anchors, the event handler intercepts navigation and navigates the IFRAME instead.</p>
+
+<!--h4--Host Document--></div>
+
+<h4 cbc>Content Document</h4><div>
+
+<p>The configuration above sets the topmost frame element to be navigated (instead of the IFRAME) when the user clicks a link in the content document. This is necessary because the SPA host must keep control over events that navigate to content within the site.</p>
+
+<p>The next element determines the style of the content document's HTML element:</p>
+
+<figure class="listing"><figcaption>Styling</figcaption><pre>
+&lt;style&gt; html { 
+	height : fit-content ;
+	overflow-y : hidden ;  /* prevents vertical scrollbar when a horizontal scrollbar is shown */
+	}
+&lt;/style&gt;
+</pre></figure>
+
+<p>These instructions ensure that the content window is as short as possible. In combination with the following code, the IFRAME element in the host document is shrinked or expanded as necessary to show the content without vertical scroll bars:</p>
+
+<figure class="listing"><figcaption>IFRAME height control</figcaption><pre>
+&lt;script type="module"&gt;
+console.log( `Initializing ${ document.location.href }` );
+window.frameElement.style.height = "150px" ;
+const observer = new ResizeObserver(( entries ) =&gt; {
+	window.frameElement.style.height = entries[ 0 ].target.offsetHeight + "px" ;
+	} ) ;
+	observer.observe( document.documentElement );
+&lt;/script&gt;
+</pre></figure>
+
+<p>The IFrame is first shrinked to an initial height of 150 pixels. This is necessary because otherwise the content window expands itself to fill the entire available space provided by the IFRAME. The actually required height is then determined with the help of a <tt>ResizeObserver</tt>. The observer then continues to monitor the content window size and adjusts the IFRAME height as required.</p>
+
+<p>What follows is the HTML content:</p>
+
+<figure class="listing"><figcaption>The content</figcaption><pre>
+&lt;/head&gt;&lt;body&gt;
+&lt;h1&gt;Content Document 1&lt;/h1&gt;
+&lt;p&gt;Blah blah...&lt;/p&gt;
+&lt;/body&gt;&lt;/html&gt;
+</pre></figure>
+
+<p>That's it.</p>
+
+<!--h4--Content Document--></div>
+
+<!--h3--A First Implementation--></div>
+
+<h3 cbc>Landing Page Content</h3><div>
+
+<p>Without further measures, the IFRAME content container remains empty when the SPA host document was loaded. The document init script must navigate the IFRAME explicitly to the landing page:</p>
+
+<figure class="listing"><figcaption>Loading the landing page</figcaption><pre>
+navigation.navigate( "landing-page.htm" );
+</pre></figure>
+
+<p>This fires the <tt>NavigateEvent</tt>. Its handler then navigates the IFRAME to the landing page, as described above.</p>
+
+<!--h3--Landing Page Content--></div>
+
+<h3 cbc id="redirection">Redirection Script</h3><div>
+
+<p>SPA applications have a "problem": The browser's reload button loads the resource that is indicated in the browsers's address box &ndash; which is the address of the content document. The <tt>navigate</tt> event in the SPA host document is NOT fired, and the process cannot be aborted (for security reasons, of course).</p>
+
+<p>As a result, the content document is shown without the host environment. To countermeasure that, each content document must incluce a redirection script near the top of the file:</p>
+
+<figure class="listing"><figcaption>Redirection script</figcaption><pre>
+&lt;script&gt;
+if ( ! window.frameElement ) navigation.navigate( `/index.htm?goto=${ document.location.href }` );
+&lt;/script&gt;
+</pre></figure>
+
+<p>The script determines whether the current document is hosted by an SPA host document. If not, it immediately navigates the browser to that SPA host document and provides a load instruction ("goto=target-url") in the URL query string.</p>
+
+<p>The script above works for IFrame content host containers. If the content is hosted in a different type of container, the test must be written accordingly. An example:</p>
+
+<figure class="listing"><figcaption>Redirection script</figcaption><pre>
+if ( ! document.getElementById( "contentContainer" )) navigation.navigate( `/index.htm?goto=${ document.location.href }` );
+if ( ! contentContainer ) navigation.navigate( `/index.htm?goto=${ document.location.href }` );
+</pre></figure>
+
+<p>The redirection should barely be noticeable, because the content document is already in the browser cache.</p>
+
+<p>Additionally, the SPA host document should provide an "SPA Reload Button", which does the same job, but in a graceful and controlled manner.</p>
+
+<p>The redirection script is complemented with some init code in the SPA host document. The code looks for a <tt>goto</tt> keyword in the URL query string and extracts the target address:</p>
+
+<figure class="listing"><figcaption>Handling page load instruction</figcaption><pre>
+const sp = new URLSearchParams( document.location.search );
+let url = sp.get( "goto" ) ;
+if ( ! url ) url = "landing-page.htm" ;  <cc>// navigate to first content page</cc>
+else {   <cc>// was redirected to spa-host page</cc>
+	sp.delete( "goto" );
+	if ( sp.size > 0 ) url += `?${ sp.toString( ) }` ;
+	url += document.location.hash ;
+	history.replaceState( null, "", "index.htm" );
+	}
+navigation.navigate( url );
+</pre></figure>
+
+<p>If there is none, the code assumes the initial landing page address.</p>
+
+<p>Otherwise, the code completes the address with the remaining query string and hash. Lastly, the current navigation history entry straightened to eliminate the trace of the redirection. (This makes for a cleaner console log output.)</p>
+
+<p>Finally, the <tt>navigate</tt> method is called with the content document url, which will be intercepted as described above.</p>
+
+<p>REMEMBER to use the correct SPA host document URL in the redirection script whenever you create a new content document, because a website can contain <em>multiple SPA host documents</em>.</p>
+
+<!--h3--Redirection Script--></div>
+
+<h3 cbc>Links in the Content Document</h3><div>
+
+<p>A link anchor in an IFRAMEd document navigates the IFRAME. Unfortunately, this is not noticed by the SPA host, which compromises browsing history and navigation user feedback. The HTML BASE element provides a countermeasure. If placed in each content document, instead of the IFRAME, the host document is navigated:</p>
+
+<figure class="listing"><figcaption>Setting the navigation target</figcaption><pre>
+&lt;base target="_top" /&gt;
+</pre></figure>
+
+<p>With this element in place, a link in the hosted content document causes the SPA host to intercept navigation.</p>
+
+<!--h3--Links in the Content Document--></div>
+
+<h3 cbc>Scrolling to Target Elements</h3><div>
+
+<p>A hash in the URL should load the target document and then should scroll to the hash target element. Unfortunately, it doesn't work for the IFRAME in the SPA host document. The browser scrolls the host document to the hash target element as soon as <tt>handler()</tt> returns control to its caller, but at this point in time the content document has not yet been loaded.</p>
+
+<p>This shortcoming can be corrected if the content document's init code does it:</p>
+
+<figure class="listing"><figcaption>Scrolling to the hash target</figcaption><pre>
+import * as smp from "path/to/scroll-margin-provider.js" ;
+( function initialize( ) {
+	console.log( `Initializing ${ document.location.href }` );
+	...
+	requestAnimationFrame(( ) => 
+	requestAnimationFrame(( ) => {
+		const target = document.getElementById( document.location.hash.substring( 1 ));
+		if ( target ) {
+			const { marginTop, marginBottom } = smp.getScrollMargins( );
+			target.style.scrollMarginTop = marginTop + "px" ;
+			target.style.scrollMarginBottom = marginBottom + "px" ;
+			target.<hi>scrollIntoView</hi>( { behavior : "smooth" } ); 
+	} } ) ) } ) ( ) ;
+</pre></figure>
+
+<p>At the end of the document init code, the target is scrolled into view. Note that this is done in a <tt>requestAnimationFrame</tt> handler, because it takes some time to render the document to the screen. Two consecutive <tt>requestAnimationFrame()</tt> turned out to be reliable.</p>
+
+<p>A beneficial side effect is that scrolling is now "smooth".</p>
+
+<p>The scroll margins need to be set according to sticky toolbars at the top and/or bottom of the window. They prevent that sticky toolbars obscure the link target.</p>
+
+<p>Things are different when the content document is already loaded and the user navigates to a link target element on that page. In this case, <tt>NavigateEvent.hashChange===true</tt>. This means that the host document should NOT reload the content document (it's already there), and instead just scroll to the target element. This is the reason why the event handler returns if that condition is fulfilled.</p>
+
+<p>To implement smooth scrolling and take the space occupied by sticky toolbars into account, we need to handle a <tt>hashChange</tt> by ourselves:</p>
+
+<figure class="listing"><figcaption>Hash Change</figcaption><pre>
+...
+if ( ! evt.canIntercept || evt.downloadRequest ||evt.formData ) return ;
+...
+evt.intercept( { <hi>scroll</hi> : "<hi>manual</hi>" , async handler ( ) {
+	console.log( "Intercepting" );
+	if ( ! <hi>evt.hashChange</hi> ) mainContent.setAttribute( "src", evt.destination.url );
+	else {	<cc>// scroll smoothly to the target element</cc>
+		const target = mainContent.contentDocument.getElementById( url.hash.substring( 1 ));
+		if ( target ) {
+			const { marginTop, marginBottom } = smp.getScrollMargins( );
+			target.style.scrollMarginTop = marginTop + "px" ;
+			target.style.scrollMarginBottom = marginBottom + "px" ;
+			target.<hi>scrollIntoView</hi>( { behavior : "smooth" } ); 
+		}	}	
+} } ) ;
+</pre></figure>
+
+<p>The interception code navigates the IFRAME content container as usual if there is no <tt>hashChange</tt>. Otherwise, the page scrolls the target element into view, with scroll margins set to avoid the space for sticky toolbars at the top or bottom of the page.</p>
+
+<p>Note that the options object passed to the<tt>NavigateEvent.intercept()</tt> method got a new member, <tt>scroll=true</tt>. This causes the browser not to scroll the document automatically. The <tt>handler()</tt> code must call <tt>NavigateEvent.scroll()</tt>, or use some other means of scrolling (as we did above).</p>
+
+<!--h3--Scrolling to Target Elements--></div>
+
+<!--h2--Implementation Details--></div>
+
+</body></html>
