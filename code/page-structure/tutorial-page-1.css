@@ -75,12 +75,16 @@
 	src: 	local("inconsolata condensed"), 
 		url(/inc/fonts/Inconsolata-variable-wdth-wght.ttf) format("truetype");
 	}
+:root {
+	--body-margin-left : 0 ;
+	--body-margin-right : 0 ;
+	}
 .no-border {
 	border-style : none ;
 	}
 body { 
 	font-family : "Segoe UI" ;
-	margin : 0 20px 50px 20px ;
+	margin : 0 var(--body-margin-left) 50px var(--body-margin-right) ;
 	}
 div.citation {
 	font-family : "Paladino", "Palatino Linotype", "Times New Roman" ;

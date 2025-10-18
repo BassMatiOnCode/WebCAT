@@ -3,7 +3,7 @@
 div.page-pathbar.scroll-box { 
 	position : relative ;	
 	border-bottom : 1px none silver ;
-	margin : 0 -20px 0 -20px ;
+	margin : 0 calc( -var( --body-margin-left )) 0 calc( -var( --body-margin-right )) ;
 	height : 31px ;
 	}
 div.page-pathbar a {

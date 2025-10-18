@@ -7,7 +7,7 @@
 div.page-toolbar { 
 	position : sticky ;
 	border-bottom : 1px solid silver ;
-	margin : 0 -20px 0 -20px ;
+	margin : 0 calc( -var( --body-margin-left )) 0 calc( -var( --body-margin-right )) ;
 	padding : 4px 20px 4px 20px ;
 	top : 0px ;
 	background-color : white ;

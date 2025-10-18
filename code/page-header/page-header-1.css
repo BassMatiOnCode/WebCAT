@@ -1,12 +1,12 @@
 /*
- *		page-header-1.css    2023-10-18    usp
+ *		page-header-1.css    2025-10-18    usp
  */
 
 header {
 	position : relative ;
 	/* Compensation for body margins */
-	margin-left : -20px ;
-	margin-right : -20px ;
+	margin-left : calc( -var( --body-margin-left )) ;
+	margin-right : calc( -var( --body-margin-right )) ;
 	margin-top : 0px ;
 	/* Height is influenced by the logo image height */
 	height : 65px ;
