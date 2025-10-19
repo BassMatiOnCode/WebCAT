@@ -1,84 +1,56 @@
 //	Documentation: /webcat/page-toolbar/page-toolbar.htm
+//	2025-10-9-08 usp Overhaul. See page-header-1.js. Function processNavigationData() is no longer used.
 //	TODO: The toolbar must have a defined height and determine the height of buttons.
 
-/**
-*		init ( )
-*		Creates a page toolbar before the mainContent element
-*
-*/ export function init ( referenceElement = document.getElementById("mainContent" )) {	
-	// Create and insert the toolbar
+import * as initializer from "../component-initializer/component-initializer-1.js" ;
+
+export function init ( searchparams, event , 
+	referenceElement = searchparams.get( "ref-element" ) || document.body , 
+	injectionMethod = searchparams.get( "injection-method" ) || "prepend" ,
+	occupySpace = searchparams.get( "occupySpace" ) !== "no" )
+	// Creates a page header in the document.
+	//	searchparams : URLSearchParams object or null, contains parameters passed via script module URL.
+	//	event : Event object if called as event handler, or null if called directly.
+	//	referenceElement : ID or reference of the element to be used for injection.
+	//	injectionMethod : Method to be used on the referenceElement. Permitted values: "before", "after", "append", "prepend".
+	// occupySpace : If true, the height of the new header is subtracted from the margin below or above the header.
+	//	Returns : The header element.
+	{
+	if ( typeof referenceElement === "string" ) referenceElement = document.getElementById( referenceElement );
+		// Create and insert the toolbar
 	const e = document.createElement( "DIV" );
 	e.className = "toolbar page-toolbar" ;
 	e.id = "mainToolbar" ;
-	// e.textContent = "Toolbar" ;
-	document.body.insertBefore( e, referenceElement );
-	// Move margin bottom from previous sibling to path bar
-	const main = document.querySelector( "MAIN" );
-	if ( main ) main.style.marginTop = parseInt( main.style.marginTop || getComputedStyle( main ).marginTop ) - parseInt( e.scrollHeight ) + "px";
-	return; 
+		// Sample initial value for layout shift detection
+		// TODO: If everything works fine, remove the test code.
+	let testElement ; 
+	switch ( injectionMethod ) {
+	case "before" : testElement = referenceElement ; break ;
+	case "prepend" : testElement = referenceElement.firstElementChild ; break ;
+	case "after" : testElement = referenceElement.nextElementSibling ; break ;
+	case "append" : testElement = undefined ; break ;
+		}
+	const testBefore = testElement?.offsetTop || 0 ;
+		// Inject the new header element
+	referenceElement[ injectionMethod ]( e );
+		// Subtract height from the next sibling in order to avoid content shifting
+	if ( occupySpace ) {
+		switch ( injectionMethod ) {
+		case "prepend" :
+			referenceElement.style.paddingTop = Math.max( 0, parseInt( referenceElement.style.paddingTop || getComputedStyle( referenceElement ).paddingTop ) - parseInt( e.offsetHeight )) + "px";
+			break;
+		case "before" :
+			referenceElement.style.marginTop = Math.max( 0, parseInt( referenceElement.style.marginTop || getComputedStyle( referenceElement ).marginTop ) - parseInt( e.offsetHeight )) + "px";
+			break;
+		case "after" :
+			referenceElement.style.marginBottom = Math.max( 0, parseInt( referenceElement.style.marginBottom || getComputedStyle( referenceElement ).marginBottom ) - parseInt( e.offsetHeight )) + "px";
+			break;
+		case "append" :
+			// there cannot be a layout shift if elements are inserted at the very bottom
+			break;
+			}
+		if ( testBefore !== ( testElement?.offsetTop || 0 )) console.warn( "Layout shift detected." );
+		}
+	return e ;
 	}
-/**	
- *		processNavigationData ( )
- *		Handles the NavigationDataPublication event
- * 
- */ function processNavigationData ( evt ) {
-	if ( evt.detail.up ) {
-		const e = evt.detail.toolbar.insertBefore( document.createElement( "A" ));
-		e.setAttribte( "href" , evt.detail.up );
-		e.textContent = "Up" ;
-		evt.detail.toolbar.insertBefore( e, evt.detail.before );
-		}
-	if ( evt.detail.first ) {
-		const e = evt.detail.toolbar.insertBefore( document.createElement( "A" ));
-		e.setAttribte( "href" , evt.detail.first );
-		e.textContent = "First" ;
-		evt.detail.toolbar.insertBefore( e, evt.detail.before );
-		}
-	if ( evt.detail.previous ) {
-		const e = evt.detail.toolbar.insertBefore( document.createElement( "A" ));
-		e.setAttribte( "href" , evt.detail.previous );
-		e.textContent = "Previous" ;
-		evt.detail.toolbar.insertBefore( e, evt.detail.before );
-		}
-	if ( evt.detail.down ) {
-		const e = evt.detail.toolbar.insertBefore( document.createElement( "A" ));
-		e.setAttribte( "href" , evt.detail.down );
-		e.textContent = "Down" ;
-		evt.detail.toolbar.insertBefore( e, evt.detail.before );
-		}
-	if ( evt.detail.next ) {
-		const e = evt.detail.toolbar.insertBefore( document.createElement( "A" ));
-		e.setAttribte( "href" , evt.detail.next );
-		e.textContent = "Next" ;
-		evt.detail.toolbar.insertBefore( e, evt.detail.before );
-		}
-	if ( evt.detail.last ) {
-		const e = evt.detail.toolbar.insertBefore( document.createElement( "A" ));
-		e.setAttribte( "href" , evt.detail.last );
-		e.textContent = "Last" ;
-		evt.detail.toolbar.insertBefore( e, evt.detail.before );
-		}
-	if ( document.querySelector( "[cbc]" )) {
-		const e = evt.detail.toolbar.insertBefore( document.createElement( "BUTTON" ));
-		e.textContent = "Collapse Elements" ;
-		evt.detail.toolbar.insertBefore( e, evt.detail.before );
-		}
-	}
-
-//
-// Module init code
-const searchparams = new URL( import.meta.url ).searchParams ;
-// Extract parameters from module URL
-const root = searchparams.get( "root" ) || undefined ;
-const buttons = searchparams.get( "buttons" ) || undefined ;
-const initEventName = searchparams.get( "init-event-name" );
-// Schedule init() function call
-if ( ! initEventName ) init ( root ) ;
-else if ( initEventName != "no-default-init" ) {
-	// Set up event handler to call init() later
-	const eventTarget = document.getElementById( searchparams.get( "event-target-id" )) || document ;
-	eventTarget.addEventListener( initEventName, { 
-		root : root ,
-		buttons : buttons ,
-		handleEvent : ( ) => init( root ) 
-	} ) }
+initializer.initComponent ( init, import.meta.url );

@@ -1,0 +1,4 @@
+div.test { 
+	margin-left : var( --margin-left ) ;
+	margin-right : var( --margin-right ) ;
+	}

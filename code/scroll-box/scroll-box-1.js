@@ -1,4 +1,4 @@
-// Documentation: .../web-toolbox/scroll-box/scroll-box.htm
+// Documentation: .../webcat/scroll-box/scroll-box.htm
 
 import * as initializer from "../component-initializer/component-initializer-1.js" ;
 import * as dynamcStyles from "../dynamic-styles/dynamic-styles-1.js" ;
