@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en-US"><head>
+<script>if ( ! window.frameElement && document.location.search.search("\\host=no\\b") < 0) navigation.navigate( `/index-spa.htm?goto=${ document.location.href }` );</script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2025-10-20" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2025-11-13" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2025-11-13" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+<base target="_top" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<link rel="stylesheet" href="/spa-iframe-content.css" />
+<script type="module" src="/spa-iframe-content.js"></script>
+<meta name="categories" content="Projects > Software > WebCAT > HTML Fragment Loader" />
+<meta name="tags" content="project, programming, web, library, toolbox, HTML, JavaScript, WebCAT, fragment, loader" />
+<title>HTML Fragment Loader (Projects > WebCAT)</title>
+<meta name="description" content="The HTML fragment loader is a WebCAT component that processes HTML fragment anchors, loads the references resources and injects their content into the host document." />
+
+</head><body>
+
+<h1>HTML Fragment Loader</h1>
+
+<p id="page-abstract" data-from="description"></p>
+
+<h2 cbc>Events</h2><div>
+
+<p>The fragment loader raises the following events:</p>
+
+<dl>
+<dt>fragment-loader-root-containers-finished</dt><dd>
+	<p>Dispatched to the <tt>document</tt> element, raised in <tt>processRootContainers()</tt>. Announces that the fragment loader has processed <em>all</em> <tt>rootContainers</tt> passed in the <tt>event.details</tt>.</p>
+	</dd>
+<dt>fragment-loader-root-container-finished</dt><dd>
+	<p>Dispatched to each element passed in <tt>rootContainers</tt>  to <tt>processRootContainers()</tt>. The <tt>event.details</tt> provide a reference to the <tt>rootContainer</tt> that has been processed.</p>
+	</dd>
+<dt>fragment-loader-container-finished</dt><dd>
+	<p>Dispatched to the <tt>container</tt> element passed to <tt>loadFragments()</tt>. NOTE that this event is raised on each root container passed to <tt>processRootContainers()</tt>, as well as the containers of all <em>nested</em> HTML fragments, because fragment loading is a recursive procedure, and each HTML fragment can be the root node of an entire tree of fragments.</p>
+	<p>The  <tt>event.detail</tt> object provides a reference to the <tt>container</tt> element and an array of all HTML fragment <tt>anchors</tt> that have been processed.</p>
+	</dd>
+<dt>fragment-loader-selecting-content</dt><dd>
+	<p>Dispatched to <tt>anchor</tt> element passed to <tt>loadFragment()</tt> if the HTML fragment <tt>anchor</tt> has a <tt>data-select</tt> attribute. Announces that the fragment content has been loaded into a <tt>buffer</tt>, and a portion of that content is about to be selected for injection into the host document. This event is used to grab additional information from the fragment content that will be inaccessible afterwards.</p>
+	</dd>
+<dt>fragment-loader-injecting-content</dt><dd>
+	<p>Dispatched to the HTML fragment <tt>anchor</tt> passed to <tt>injectContent()</tt>. Announces that the <tt>buffer</tt> content is about to be injected into the host document. The <tt>anchor</tt> element is still a member of the host document, but might be replaced and thereby removed from the document. This is the last chance to tweak the content that is about to be injected.</p>
+	</dd>
+<dt>fragment-loader-content-injected</dt><dd>
+	<p>Dispatched to the HTML fragment <tt>anchor</tt> passed to <tt>injectContent()</tt>,  <em>after</em> the content has been injected into the host document. The anchor element might be no longer be a member of the host document, for example if the injected content has replaced the <tt>anchor</tt>.</p>
+	</dd>
+</dl>
+
+<!--h2--Events--></div>
+
+</body></html>

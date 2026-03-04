@@ -1,0 +1,62 @@
+<html><head>
+
+<link rel="stylesheet" href="/inc/webcat/page-structure/study-page.css" />
+<script> // This html code will be inserted into the document
+const s = `<img src='fig-001.png' width='300'/><style>img { border : 1px solid blue }</style><script>console.log('hello test 1')<\/script>` ;
+const s2 = "" ;
+</script>
+
+<script id="test-1" type="module">
+container1.innerHTML= s;
+</script>
+
+<script id="test-2" type="module">
+const parser = new DOMParser( );
+const doc = parser.parseFromString( s , "text/html" );
+container2.append( ...doc.body.children );
+</script>
+
+<script id="test-3" type="module">
+const range = document.createRange();
+range.selectNode( container3 );
+const fragment = range.createContextualFragment( s );
+console.log( "Fragment created." );
+container3.appendChild( fragment );
+console.log( "test-3 finished" );
+</script>
+
+</head><body>
+
+<div class="hide-if-hosted">
+<h1>Ways to Inject HTML</h1>
+<p>This study examines the ways to inject HTML code into a host document.</p>
+
+<h2 cbc>InnerHTML</h2><div>
+<p>Assigning an HTML string to <tt>element.innerHTML</tt> parses the text and creates DOM objects, which <em>replace</em> the entire element's content.</p>
+<p>Scripts are not executed. Styles are evaluated and applied.</p>
+
+<div class="test" id="container1"></div>
+
+</div><!--h2--InnerHTML-->
+
+<h2 cbc>Using DOMParser</h2><div>
+
+<p>This container uses a DOMParser to create an <em>inert</em> HTML document object. Scripts are not executed, images are not loaded, events are not fired. Its BODY containts the resulting DOM tree, which is then moved to the target container.</p>
+
+<p>The input string can include declarative shadow roots.</p>
+
+<div id="container2"></div>
+
+</div><!--h2--DOMParser-->
+
+<h2 cbc>range.createContextualFragment( )</h2><div>
+
+<p>This method uses <tt>range.createContextualFragment( )</tt> to create a document fragment object. This method <em>does</em> parse JavaScript elements in the input string correctly. The script is executed when the fragement is injected into the target container in the host document.</p>
+
+<div id="container3"></div>
+
+</div><!--h2--range.createContextualFragment( )-->
+
+</div><!--div--hide-if-hosted-->
+
+</body></html>

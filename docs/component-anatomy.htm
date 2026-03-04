@@ -21,9 +21,27 @@
 
 </head><body>
 
-<h1>WebCAT Component Initializer</h1>
+<h1>WebCAT Components</h1>
 
 <p id="pageAbstract"></p>
+
+<h2 cbc>JavaScript Component Concepts</h2><div>
+
+<p>A component is understood here as a combination of HTML, JavaScript and CSS that form an entity, somehow. We have a number of options:</p>
+
+<ul>
+<li>Non-module script with associated stylesheet (component.js, component.css).</li>
+<li>Module script with associated stylesheet (component.js, component.css)</li>
+<li>Web-component (component.js, component.css)</li>
+</ul>
+
+<p>Non-module scripts must be chosen when they must be imported into SVG documents, because SVG does not yet (2025) support JavaScript modules. On the other hand, you can always embed SVG into an HTML document.</p>
+
+<p></p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_components"><em>web components</em></a> are encapsulated. Elements in the shadow DOM tree of the web component are not affected by CSS rules in the host document. Similarly, they are "invisisble" to <tt>querySelector()</tt> and <tt>querySelectorAll()</tt> in a script in the host document. On the other hand, event can still bubble from the children of shadow root.</p>
+
+<!--h2--JavaScript Component Concepts--></div>
 
 <p>In contrast to <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_components"><em>web components</em></a>, which are encapsulated and self-containing HTML elements, WebCAT components usually just <em>complement</em> standard HTML elements. Which not necessarily an inferior concept.</p>
 

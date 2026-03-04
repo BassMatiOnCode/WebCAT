@@ -1,0 +1,17 @@
+<html><head>
+
+<script type="module">console.log("starting");</script>
+<script type="module" src="/inc/webcat/fragment-loader/fragment-loader-2.js?awaitCompletion&containers=container2,container1"></script>
+<script type="module">console.log("done");</script>
+
+</head><body>
+
+<h1>Fragment Loader 2</h1><p class="subtitle">Container=Body</p>
+
+<div id="container1"><a data-load-fragment href="text-01.txt"></a></div>
+<div id="container2"><a data-load-fragment href="text-02.txt"></a></div>
+
+<h2>Findings</h2>
+<p>1. await does not stop other modules from loading.
+
+</body></html>

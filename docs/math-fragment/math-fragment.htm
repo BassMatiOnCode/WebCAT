@@ -1,0 +1,250 @@
+﻿<!doctype html><html lang="en-US"><head>
+<script>if ( ! window.frameElement && document.location.search.search("\\host=no\\b") < 0) navigation.navigate( `/index-spa.htm?goto=${ document.location.href }` );</script>
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="template-info" file-name="empty.htm" version="2025-10-20" editor="USP" />
+<meta name="author" content="USP" />
+<meta name="creation-date" content="2025-11-04" />
+<meta name="editor" content="USP" />
+<meta name="change-date" content="2025-11-05" />
+<meta name="version" content="1" />
+<meta name="sectionTitle" content="../title.svg" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
+<base target="_top" />
+<link rel="stylesheet" href="/inc/webcat/math-fragment/math-fragment-embedded.css" />
+<script type="module" src="/inc/webcat/math-fragment/math-fragment-numerator.js?strip-zeroes=no"></script>
+<link rel="stylesheet" href="/inc/webcat/math/math.css" />
+<link rel="stylesheet" href="/spa-iframe-content.css" />
+<script type="module" src="/spa-iframe-content.js"></script>
+<style>
+body { 
+	font-family : "Times New Roman", "Palatino Linotype" ;
+	line-height : 1.6 ;
+	}
+li {
+	margin-top : 20px ;
+	margin-bottom : 20px ;
+	}
+</style>
+ 
+<meta name="categories" content="Projects > Web > Content Authoring Toolbox" />
+<meta name="tags" content="web, content, authoring, toolbox, HTML, JavaScript, CSS, WebCAT, component, math, equation, fragment" />
+<meta name="description" content="" />
+
+<title>Math Equation Fragment (Web > Content Authoring Toolbox)</title>
+
+</head><body>
+
+<h1>Math Fragment</h1><hr class="subtitle-separator-line" /><p class="subtitle">Additional features for math content fragments</p>
+
+<h2 cbc>Considerations</h2><div>
+
+<p>Firstly, some definitions:</p>
+
+<dl>
+<dt>math fragment loader anchor</dt><dd>
+	<p>Located in a fragment host document, processed by the <tt>fragment-loader</tt>, and is replaced with a portion of the math fragment document.</p>
+	</dd>
+<dt>math fragment document</dt><dd>
+	<p>A is a self-contained, complete HTML document with HEAD and BODY elements, not just some bare HTML code fragment. Contains an element decorated with the class-name <tt>math-fragment-content</tt>, which will replace the math fragment loader anchor.</p>
+	</dd>
+<dt>math fragment popup anchor</dt><dd>
+	<p>References a math fragment document and opens it in a separate popup window.</p>
+	</dd>
+<dt>host document link anchor</dt><dd>
+	<p>Resides in the math fragment document and points to the math-fragment-content element in the host document. </p>
+	</dd>
+</dl>
+
+<p>The following code shows a math fragment template document. The author provides the URL where the math fragement (for example, a definition, theorem, lemma,...):</p>
+
+<figure class="listing"><figcaption>Math fragment document</figcaption><pre>
+&lt;html&gt;&lt;head&gt;
+	...
+&lt;title&gt;<hi>Binomial Theorem</hi>&lt;/title&gt;
+&lt;/head&gt;&lt;body&gt;
+	...
+&lt;figure class="math-fragment-content"&gt;
+	&lt;figcaption&gt;
+		&lt;a id="hostDocument" target="_blank" href="<hi>path/to/host-document.htm#prefix-</hi>"&gt;
+			&lt;span id="mathFragmentId"&gt;
+			&lt;span id="mathFragmentType"&gt;&lt;/span&gt;
+			&lt;span id="mathFragmentNumber"&gt;&lt;/span&gt;
+			&lt;/span&gt;
+			&lt;/a&gt;
+		&lt;span data-selector="title"&gt;&lt;/span&gt;
+		&lt;/figcaption&gt;
+		<cc>&lt;!-- Math content goes here --&gt;</cc>
+	&lt;/figure&gt;
+	...
+&lt;/body&gt;&lt;/html&gt;
+</pre></figure>
+
+<p>The math fragment template serves a dual purpose: a) as stand-alone HTML document to be shown side-by-side to a math page, and b) as HTML fragment content provider. In this case, the FIGURE element with the <tt>math-fragment-content</tt> class name will be extracted and embedded in a host document.</p>
+
+<p>The math fragment filename must follow a pattern: a lowercase letter (fragment type), followed by a small horizontal bar, a numerical digit sequence (fragment number) and the file type extension (.htm). The filename is used to complete fragment type and number elements the fragment content.</p>
+
+<p>When shown as stand-alone HTML document, the module init code runs over the content and fulfills the following tasks:</p>
+
+<ol>
+<li>Completes the target element ID in the host documemt URL</li>
+<li>Fill <tt>mathFragmentId</tt> and <tt>mathFragmentNumber</tt> fields</li>
+<li>Copy content into elements with a <tt>data-select</tt> attribute (e. g. the fragment title)</li>
+</ol>
+
+<p>The following code shows the modified math fragment document t-003.htm after initialization:</p>
+
+<figure class="listing"><figcaption>Math fragment document</figcaption><pre>
+&lt;html&gt;&lt;head&gt;
+	...
+&lt;title&gt;Binomial Theorem&lt;/title&gt;
+&lt;/head&gt;&lt;body&gt;
+	...
+&lt;figure class="math-fragment-content"&gt;
+	&lt;figcaption&gt;
+		&lt;a id="hostDocument" href="path/to/host-document.htm#prefix-<hi>t-003</hi>"&gt;
+			&lt;span id="mathFragmentId"&gt;
+			&lt;span id="mathFragmentType"&gt;<hi>T</hi>&lt;/span&gt;
+			&lt;span id="mathFragmentNumber"&gt;<hi>3</hi>&lt;/span&gt;
+			&lt;/span&gt;
+			&lt;/a&gt;
+		&lt;span data-source-selector="title" &gt;<hi>Binomial Theorem</hi>&lt;/span&gt;
+		&lt;/figcaption&gt;
+	...
+	&lt;/figure&gt;
+	...
+&lt;/body&gt;&lt;/html&gt;
+</pre></figure>
+
+<p>In a stand-alone HTML document, the <tt>hostDocument</tt> points to the host document where the math fragment is embedded. This information cannot be generated at runtime, and therefore must be hard-coded into the document. On the contrary, the link target id "t-003" can derived from the math fragment document URL ("t-003.htm") and therefore will be generated at runtime. This makes it possible to rename the math fragment document without having to modify the content.</p>
+
+<p>A math fragment anchor in a host document will cause the <a href="../fragment-loader/fragment-loader-2.htm"><tt>fragment-loader</tt></a> to inject the content part of the math fragment document:</p>
+
+<figure class="listing"><figcaption>Math fragment anchor</figcaption><pre>
+&lt;a data-load-fragment href="path/to/t-003.htm" select=".math-fragment-content" data-id-prefix="prefix"&gt;&lt;/a&gt;
+</pre></figure>
+
+<p>When the math fragment content is injected into a host document, the ID of the FIGURE element must be generated from <tt>href</tt> (minus .htm suffix) and the optional <tt>data-id-prefix</tt> attribute in the math fragment loader anchor:</p>
+
+<figure class="listing"><figcaption>Injected math fragment</figcaption><pre>
+&lt;figure class="math-fragment-content" <hi>id="prefix-t-003"</hi>&gt;
+	&lt;figcaption&gt;
+		&lt;a <hi>class="math-fragment-link</hi> href="path/to/<hi>t-003.htm</hi>"&gt;
+			&lt;span id="mathFragmentId"&gt;
+			&lt;span id="mathFragmentType"&gt;<hi>T</hi>&lt;/span&gt;
+			&lt;span id="mathFragmentNumber"&gt;<hi>3</hi>&lt;/span&gt;
+			&lt;/span&gt;
+			&lt;/a&gt;
+		&lt;span data-selector="title"&gt;<hi>Binomial Theorem</hi>&lt;/span&gt;
+		&lt;/figcaption&gt;
+	...
+	&lt;/figure&gt;
+</pre></figure>
+
+<p>Additionally, the <tt>hostDocument</tt> anchor must be converted from a host document link to a math fragment link anchor. The ID attribute is removed, and its <tt>href</tt> must be changed to point to the math fragment document (t-003.htm). A click on this anchor will open the stand-alone math fragment document in a new floating popup window.</p>
+
+<p>In every case, all math fragment loader anchors must listen to the <tt>fragment-loader-selecting-content</tt> event in order to a) create a math fragment link anchor in the fragment that links to the stand-alone math fragment document, and b) set the <tt>id</tt> of the math fragment element (usually a FIGURE element).</p>
+
+<p>The fragment container (usually a <tt>document.body</tt>) must listen to the <tt>fragment-loader-root-container-finished</tt> event in order to process math fragment link anchors </p>
+<p>setup a math fragment link anchor in the math fragment that links to that (stand-alone) math fragment document.</p>
+
+
+<!--h2--Considerations--></div>
+
+<h2 cbc>Introduction</h2><div>
+
+<p>This component supports re-usable math equation fragements and provides styles for math equations and shows a title string if the fragment is shown in its own window.</p>
+
+<!--h2--Introduction--></div>
+
+<h2 cbc>Using the Component</h2><div>
+
+<p>The component consists of two files:</p>
+
+<ul>
+<li>math-equation-fragment.css</li>
+<li>math-equation-fragment.js</li>
+</ul>
+
+<p>These files are used in the HTML fragment that contains the equation.</p>
+
+<p>In a host document, use an HTML <tt>OBJECT</tt> element to import the fragment:</p>
+
+<figure class="listing"><figcaption>Importing the equation fragment</figcaption><pre>
+&lt;object class="content-height-observed" type="text/html" data="path/to/equation-fragment.htm"&gt;&lt;/object&gt;
+</pre></figure>
+
+<p>For detailed notes on how to import these files into a document or aggregation script, refer to <a hef="../component-anatomy.htm#using">WebCAT Component Anatomy</a>.</p>
+
+<p>More information on how to use the module can be found in the <a href="#examples">examples section</a>.</p>
+
+<!--h2--Using the Component--></div>
+
+<h2 cbc>Examples</h2><div>
+
+<h3 cbc>Example 1</h3><div>
+
+<p>To import an equation fragment into a host document, use an OBJECT tag:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+&lt;object class="content-height-observed" 
+	type="<hi>text/html</hi>" 
+	data="<hi>equation-fragment-01.htm</hi>" &gt;
+	&lt;/object&gt;
+</pre></figure>
+
+<p>Make sure to set the type attribute correctly, this defines how the resource is processed in the browser. The <tt>data</tt> attribute points to the fragment location.</p>
+
+<p>The equation fragment itself need to import this component:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+&lt;link rel="stylesheet" href="path/to/<hi>math-equation-fragment.css</hi>" /&gt;
+&lt;script type="module" src="path/to/<hi>math-equation-fragment.js</hi>" &gt;&lt;/script&gt;
+</pre></figure>
+
+<p>The description should contain a meaningful text:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+&lt;meta name="description" content="<hi>Slope-Intercept Form 1 of a Line Equation</hi>" /&gt;
+</pre></figure>
+
+<p>The description content will be added to the document if the fragment is not hosted by another document:</p>
+
+<figure class="listing"><figcaption></figcaption><pre>
+if ( window.parent === window ) {
+	const p = document.<hi>createElement</hi>( "P" );
+	p.innerHTML = document.querySelector( "meta[name='<hi>description</hi>']" ).getAttribute( "<hi>content</hi>" );
+	document.body.prepend( <hi>p</hi> );
+	}</pre></figure>
+
+<p>And here is the live demo:</p>
+
+<figure class="demo"><figcaption> (<a href="demo-01.htm" target="_blank">demo-01.htm</a>)</figcaption>
+<iframe class="content-height-observed" src="demo-01.htm"></iframe>
+</figure>
+
+<p>If you click on the equation number, the fragment is opened in a new window and should show the description content above the math content.</p>
+
+<!--h3--Example 1--></div>
+
+<!--h2--Examples--></div>
+
+<h2 cbc>Module Configuration</h2><div>
+
+<p>The module has no configuration parameters.</p>
+
+<!--h2--Module Configuration--></div>
+
+<h2 cbc>Related Components</h2><div>
+
+<p>This component is related to other WebCAT components:</p>
+
+<dl>
+<dt><a href="../math/math.htm">Math</a></dt>
+	<dd>Styles and functions for math equations.</dd>
+</dl>
+
+<!--h2--Related Components--></div>
+
+</body></html>

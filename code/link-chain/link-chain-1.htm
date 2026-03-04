@@ -1,0 +1,31 @@
+<style>
+:host {
+	display : flex ;
+	gap : 10px ;
+	align-items : center ;
+	border-top : 1px solid silver ;
+	border-bottom : 1px solid silver ;
+	padding-top : 5px ;
+	padding-bottom : 5px ;
+	}
+a {
+	text-decoration : none ;
+	}
+a:hover {
+	text-decoration : underline ;
+	}
+[ part="left" ] , [ part="right" ] {
+	flex-grow : 0 ;
+	white-space : nowrap ;
+	}
+[ part="center" ] {
+	flex-grow : 1 ;
+	text-align : center ;
+	}
+</style>
+<span part="left"><a id="previous-document" part="anchor" href=""></a></span>
+<span part="center">
+	<a id="parent-folder" part="anchor" href="../"></a>
+	<a id="current-folder" part="anchor" href="./"></a>
+	</span>
+<span part="right"><a id="following-document" part="anchor" href=""></a></span>

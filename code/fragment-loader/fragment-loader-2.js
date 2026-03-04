@@ -3,7 +3,7 @@
 import { namespaces } from "../utility/xml-namespaces/xml-namespaces-1.js" ;
 import * as initializer from "../component-initializer/component-initializer.js" ;
 
-export async function loadFragments( root = document.body ) {
+export async function loadFragments ( root = document.body ) {
 	// Loads all HTML fragments and injects them into the root container.
 	//	root : The HTML container element that contains fragments to load.
 	//	Returns a Promise that settles when all load jobs have settled.
@@ -11,9 +11,10 @@ export async function loadFragments( root = document.body ) {
 	root.querySelectorAll( "A[data-load-fragment]" ).forEach( anchor => {
 		jobs.push( loadFragment( anchor ));
 		} ) ;
-	return Promise.allSettled( jobs );
+	const p = Promise.allSettled( jobs );
+	p.then( result => root.dispatchEvent( new CustomEvent( "fragments-loaded", { bubbles: true, cancelable : true } ) ) );
 	}
-export async function loadFragment( anchor ) {
+export async function loadFragment ( anchor ) {
 	//	Loads the HTML fragment referenced by the anchor element.
 	//	Includes nested fragments.
 	//	anchor : An HTML A element with a data-load-fragment attribute
@@ -35,10 +36,12 @@ export async function loadFragment( anchor ) {
 		rebaseUrls( buffer, achor.href );
 		for ( const element of content.children ) element.setAttribute( "data-load-origin", url );
 		await loadFragments( buffer );
+		anchor.dispatchEvent( new CustomEvent( "fragment-loading", { bubbles: true, cancelable : true , detail: { content : content } } ) ) ;
 		anchor.replaceWith( ...buffer.childNodes );
+		anchor.dispatchEvent( new CustomEvent( "fragment-loaded", { detail: { content : buffer.childNodes } } ) ) ;
 		} );
 	}
-export function createBuffer( text, origin ) {
+export function createBuffer ( text, origin ) {
 	//	Creates a buffer with a suitable type (G, MROW or TEMPLATE element
 	//	according to the filename extension) and fills the text in. 
 	//	Returns a buffer (G, MROW or DocumentFragment with an HTML object structure.

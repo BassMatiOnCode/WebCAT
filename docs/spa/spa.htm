@@ -35,7 +35,13 @@
 
 <p>The WebCAT <tt>spa-host</tt> and <tt>spa-content</tt> components encapsulate the <tt>Navigation</tt> object and provide necessary scripts and styles.</p>
 
-<p>WebCAT supports multiple SPA host documents in a website project, as well as a mixture of "traditional" non-SPA and SPA pages.</p>
+<h2 cbc>MPA/SPA Coexistence</h2><div>
+
+<p>WebCAT supports multiple SPA host documents in a website project, as well as a mixture of "traditional" MPA and SPA pages.</p>
+
+<p>Transition from an MPA to an SPA page works seamlessly. The redirection script in the SPA page redirects the browser to the SPA host page and provides the content document address in the URL search parameters (in the GOTO parameter). Similarly, a link from an SPA page to an MPA document navigates the browser to the MPA document. Since the MPA documents are self-contained, everything is fine.</p>
+
+<!--h2--MPA/SPA Coexistence--></div>
 
 <h2 cbc>Content Containers</h2><div>
 

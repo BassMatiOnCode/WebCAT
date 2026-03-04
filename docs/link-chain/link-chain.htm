@@ -1,0 +1,124 @@
+<html><head>
+<link rel="stylesheet" href="\inc\webcat\page-structure\
+<script type="module" src="\inc\webcat\link-chain\link-chain.js"></script>
+</head><body>
+
+<h1>Link Chain Bar</h1>
+
+<p>The <tt>link-chain</tt> web component is a horizontally stretching panel that carries links to the previous and following sibling documents, the current folder and the parent folder. It can be used to provide a simple navigation aid for documents on the same level of a tree structure, for instance, pages of a chapter, demos or studies related to a certain topic. The filenames should have a numerical part with increments of one, and identical prefixes and suffixes. Example: "study-01.htm", "study-02.htm", and so on. If the author follows this naming pattern, the <tt>link-chain</tt> component can extract all the necessary information from the <tt>document.location.path</tt>.</p>
+
+<h2 cbc>Demo</h2><div>
+
+<p>See <a href="study-01.htm" target="_blank">study-01.htm</a>, a chain of three documents that demonstrates use and styling.</p>
+
+</div><!--h2-Demo-->
+
+<h2 cbc>Usage</h2><div>
+
+<p>Include the component script in the document head:</p>
+
+<pre>
+&lt;script type="module" src="\path\to\link-chain.js"&gt;&lt;/script&gt;
+</pre>
+
+<p>Then use the component in the document body:</p>
+
+<pre>
+&lt;link-chain&gt;&lt;/link-chain&gt;
+</pre>
+
+<p>To indicate that a document is the last one in the sequence, add the <tt>no-following</tt> attribute:</p>
+
+<pre>
+&lt;link-chain no-following&gt;&lt;/link-chain&gt;
+</pre>
+
+<p>The first document is automatically recognized if the document number equals one. Otherwise, you can add the <tt>no-previous</tt> attribute instead:</p>
+
+<pre>
+&lt;link-chain no-previous&gt;&lt;/link-chain&gt;
+</pre>
+
+<p>Styling: The component publishes the <tt>left</tt>, <tt>center</tt>, <tt>right</tt> and <tt>anchor</tt> parts so that they can be styled from the host document, as demonstrated in <a href="study-01.htm">study-01.htm</a> and <a href="study-02.htm">study-02.htm</a>:</p>
+
+<pre>
+link-chain { font-family : "arial" ; border : 2px solid blue }
+link-chain::part( anchor ) { color : red }
+</pre>
+
+</div><!--h2-Usage-->
+
+<h2 cbc>Implementation Details</h2><div>
+
+<p>The component constructor checks for the existence of a shadow root. If it exists, the user has supplied a TEMPLATE child element with a <tt>shadowrootmode</tt> attribute and HTML content. Otherwise, the HTML code is loaded from <tt>.../webcat/link-chain/link-chain.htm</tt>. The code contains a STYLE element that defines the initial appearance. Some aspects can be tuned with CSS from outside.</p>
+
+<figure class="listing"><figcaption>HTML structure of the component (<a href="\inc\webcat\link-chain\link-chain.htm">link-chain.htm</a></figcaption><pre>
+&lt;style&gt;
+:host {
+	display : flex ;
+	gap : 10px ;
+	align-items : center ;
+	border-top : 1px solid silver ;
+	border-bottom : 1px solid silver ;
+	padding-top : 5px ;
+	padding-bottom : 5px ;
+	}
+a {
+	text-decoration : none ;
+	}
+a:hover {
+	text-decoration : underline ;
+	}
+[ part="left" ] , [ part="right" ] {
+	flex-grow : 0 ;
+	white-space : nowrap ;
+	}
+[ part="center" ] {
+	flex-grow : 1 ;
+	text-align : center ;
+	}
+&lt;/style&gt;
+&lt;span part="left"&gt;&lt;a id="previous-document" part="anchor" href=""&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span part="center"&gt;
+	&lt;a id="parent-folder" part="anchor" href="../"&gt;&lt;/a&gt;
+	&lt;a id="current-folder" part="anchor" href="./"&gt;&lt;/a&gt;
+	&lt;/span&gt;
+&lt;span part="right"&gt;&lt;a id="following-document" part="anchor" href=""&gt;&lt;/a&gt;&lt;/span&gt;
+</pre></figure>
+
+<h3 cbc>Script Code</h3><div>
+
+<p>The HTML code for the component is fetched and parsed with <tt>template.setHTMLUnsafe( text )</tt> in the <tt>static contentRequest</tt> promise fulfillment chain. In the conctructor, the template content is then cloned and imported into the shadow tree:</p>
+
+<pre>
+this.attachShadow( { mode : "open" } );
+LinkChain.contentRequest.then ( template => {
+	this.shadowRoot.appendChild( document.importNode( template.content, true ) );
+	this.initializeInstance( );
+</pre>
+
+<p><tt>initializeInstance()</tt> configures and completes the generic HTML structures. The necessary information is extracted from the document URL:</p>
+
+<figure class="listing"><figcaption>Initializing the component instance</figcaption><pre>
+initializeInstance ( ) {
+	const path = document.location.pathname.split( "/" );
+	const match = /^(?<prefix>[a-zA-Z._-]+)(?<number>\d+)(?<postfix>[a-zA-Z._-]+)?$/.exec( path.pop( ));
+	const { prefix, number, postfix } = match ? match.groups : [  ] ;
+	const numLength = number.length ;
+	const currentFolder = path.pop( ) || "" ;
+	const parentFolder = path.pop( ) || "" ;
+	let anchor = this.shadowRoot.getElementById( "previous-document" );
+	anchor.textContent = anchor.href = +number === 1 || this.hasAttribute( "no-previous" ) ? "" : `${ prefix }${ (number - 1).toString( ).padStart( numLength, "0" ) }${ postfix }` ;
+	anchor = this.shadowRoot.getElementById( "following-document" )
+	anchor.textContent = anchor.href = this.hasAttribute( "no-following" ) ? "" : `${ prefix }${ (+ number + 1).toString( ).padStart( numLength, "0" )}${ postfix }` ;
+	this.shadowRoot.getElementById( "parent-folder" ).textContent = parentFolder ;
+	this.shadowRoot.getElementById( "current-folder" ).textContent = currentFolder ;
+	}
+</pre></figure>
+
+</div><!--h3--Script Code-->
+
+</div><!--h2-Implementation Details-->
+
+
+</body></html>
