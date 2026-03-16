@@ -45,9 +45,8 @@ export function processContainer (
 	container ,  // the container elements to be processed in this document 
 	url ,  // the math fragment document href if a host document is processed, or null if a math fragment document is processed.
 	createAnchor ,  // true if 
-	stripZeroes, standAlone ) 
-	
-	{
+    stripZeroes, standAlone
+    )   {
 	const { fragmentType, fragmentNumber } = createFragmentNumber ( new URL( url ).pathname, stripZeroes ) 
 	setMathFragmentNumber( container, fragmentType, fragmentNumber, stripZeroes );
 	if ( ! standAlone ) {

@@ -1,0 +1,9 @@
+:host {
+	display : block ;
+	border : 1px solid silver ;
+	border-radius : 10px ;
+	padding-left : 20px ;
+	padding-right : 20px ;
+	}
+a { text-decoration : none ; }
+a:hover { text-decoration : underline }

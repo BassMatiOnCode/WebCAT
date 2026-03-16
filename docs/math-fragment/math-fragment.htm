@@ -7,14 +7,12 @@
 <meta name="author" content="USP" />
 <meta name="creation-date" content="2025-11-04" />
 <meta name="editor" content="USP" />
-<meta name="change-date" content="2025-11-05" />
+<meta name="change-date" content="2026-03-15" />
 <meta name="version" content="1" />
 <meta name="sectionTitle" content="../title.svg" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="all" />
 <base target="_top" />
-<link rel="stylesheet" href="/inc/webcat/math-fragment/math-fragment-embedded.css" />
-<script type="module" src="/inc/webcat/math-fragment/math-fragment-numerator.js?strip-zeroes=no"></script>
-<link rel="stylesheet" href="/inc/webcat/math/math.css" />
+<script type="module" src="/inc/webcat/math-fragment/math-fragment.js"></script>
 <link rel="stylesheet" href="/spa-iframe-content.css" />
 <script type="module" src="/spa-iframe-content.js"></script>
 <style>
@@ -32,11 +30,139 @@ li {
 <meta name="tags" content="web, content, authoring, toolbox, HTML, JavaScript, CSS, WebCAT, component, math, equation, fragment" />
 <meta name="description" content="" />
 
-<title>Math Equation Fragment (Web > Content Authoring Toolbox)</title>
+<title>Math Fragments (Web > Content Authoring Toolbox)</title>
 
 </head><body>
 
-<h1>Math Fragment</h1><hr class="subtitle-separator-line" /><p class="subtitle">Additional features for math content fragments</p>
+<h1>Math-Fragment Component</h1>
+<hr />
+<p class="subtitle">A Custom HTML Element for Reusable Math Content Fragments</p>
+
+<p>Definitions, axioms, theorems, corollaries and lemmas frequently appear in mathematical textbooks, and the are often references from multiple locations in that text. The <tt>&lt;math-fragment&gt;</tt> is a custom HTML element that supports this concept by providing a container for such kinds of mathematical content fragments. These math fragments are stored sepearately in their own files, the <tt>&lt;math-fragment&gt;</tt>component loads the text, enriches, formats and embeds them in the host document(s).</p>
+
+<p>To integrate the math fragment, add a <tt>&lt;math-fragment&gt;</tt> element to the host document. Attributes provide the necessary information to build the URL of the math fragment:</p>
+
+<figure class="listing"><figcaption>Adding a <tt>math-fragment</tt> element</figcaption><pre>
+&lt;<hi>math-fragment</hi> path="studies/03" id="D 12.3"&gt;&lt;/<hi>math-fragment</hi>&gt;
+</pre></figure>
+
+<p>The specified math HTML fragment then appears in the host document:</p>
+
+<math-fragment id="D 12.3" path="studies/03" name="trigonometric-relations"></math-fragment>
+
+<p>The definition title has been placed in a link anchor element that opens the math content fragment in a separate browser tab or window. This allows a reader to have a definition or theorem on the screen while reading through the main text.</p>
+
+<h2 cbc>Using the Component</h2><div>
+
+<p>1. Add the component script to the main document:</p>
+
+<pre>&lt;<hi>script</hi> type="module" src="path/to/<hi>math-fragment.js</hi>"&gt &lt;/script&gt;</pre>
+
+<p>2. Make sure that the associated files are installed in the same directory:</p>
+
+<ul>
+<li><tt>math-fragment.css</tt></li>
+<li><tt>math-fragment-host.htm</tt></li>
+<li><tt>math-fragment-host.css</tt></li>
+<li><tt>math-fragment-host.js</tt></li>
+</ul>
+
+<p>3. Make sure that the <a href="../numbered-equation/numbered-equation.htm">numbered-equation</a> component (.js and .css files) is installed in the proper include folder.</p>
+
+<p>4. Write the HTML fragment that represents the content. Example:</p>
+
+<pre>
+&lt;<hi>h1</hi>&gt;Pythagorean Theorem&lt;/<hi>h1</hi>&gt;
+&lt;<hi>div class="content"</hi>&gt;
+&lt;math&gt;
+&lt;msup&gt;&lt;mi&gt;a&lt;/mi&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/msup&gt;
+&lt;mo&gt;+&lt;/mo&gt;&lt;msup&gt;&lt;mi&gt;b&lt;/mi&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/msup&gt;
+&lt;mo&gt;=&lt;/mo&gt;&lt;msup&gt;&lt;mi&gt;c&lt;/mi&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/msup&gt;
+&lt;/math&gt;
+&lt;/div>
+</pre>
+
+<p>The fragment must have an H1 heading for the title string, and a DIV element with a classname "<tt>content</tt>". You don't have to provide a complete HTML document, just the bare content is enough, becaus the fragment will be injected into a host document.</p>
+
+<p>5. Save the fragement and supply a filename in the form</p>
+
+<pre>
+fragement-id.htm
+fragment-id=descriptive-string.htm
+</pre>
+
+<p>The fragment-id is mandatory and should be unique. It can have its own structure that suffices your needs. A good example is</p>
+
+<pre>fragment-type chapter-number.sequence-number</pre>
+
+<p>Example:</p>
+
+<pre>T1.1=pythagorean-theorem.htm</pre>
+
+<p>NOTE that the fragment-id must match the id attribute of the <tt>&lt;math-fragement&gt;</tt> element. If a descriptive title ("pythagorean-theorem") is included in the filename, that string must appear in the <tt>name</tt> attribute:</p>
+
+<pre>&lt;math-fragment id="T1.1" name="pythagorean-theorem"&gt;&lt;/math-fragment&gt;</pre>
+
+</div><!--h2--Using the Component-->
+
+<hr />
+
+<p>These pieces result in the URL</p>
+
+<pre>studies/03/D 12.3=binomial theorem.htm</pre>
+
+<p>The ID attribute is presented as link that opens the math fragment in a separate window. This is useful to keep definitions and theorems open side by side while reading through the main text.</p>
+
+<p>The benefit of storing such content fragments in separate files is that they can be used in multiple chapters, wherever the context recommends it. Another benefit is that the math fragment can be opened in a dedicated, separate window and kept open for reference while reading through the main text. The reader can eliminates the necessity for scrolling back and forth in the text to gain understanding.</p>
+
+<p>The <tt>math-fragment</tt> custom element is a container for HTML fragments with math content. The element provides the border, styles and code.</p>
+
+<p>The math fragment URL is compiled from the <tt>path</tt>, <tt>id</tt> and <tt>name</tt> attributes, in this order. The <tt>path</tt> attribute is optional and can be omitted if the fragment document is in the same directory as the host document. If necessary, a forward slash "/" is appended to the path.</p>
+
+<p>The <tt>id</tt> attribute uniqely identifies the math-fragment. The structure of that string is in the responsibility of the author, but the sequence is commonly found in the literature. A letter stands for the fragement type (D=definition, A=axiom, T=theorem, C=corollary, L=lemma, ...), followed by a chapter number and the sequence number.</p>
+
+<p>The <tt>id</tt> serves a double purpose: Firstly, it serves as part of the math fragment filename, and secondly, it serves as link target (URL hash).</p>
+
+<p>The <tt>name</tt> attribute is optional, and is a part of the fragment URL if present, separated by an equal sign "=" from the <tt>id</tt>. The string ".htm" is appended if the filename doesn't end with ".htm" or ".html".</p>
+
+<p>The example above generates the URL "studies/03/D 12.3=binomial theorem.htm". The <tt>math-fragment</tt> custom element loads that document and injects it into its shadow tree. </p>
+
+<!--
+	
+
+<figure class="webcat math-fragment definition" id="t-1.23">
+<figcaption><a href="t-1.23"><span class="type">T</span> <span class="prefix">1.</span><span class="sequence-number">23</span></a> <span class="title">Binomial Formula</span></figcaption>
+<p>In a rectangular triangle, where <math><mi>c</mi></math> is the hypothenuse opposite to the right angle <math><mi>&gamma;</mi></math>, and <math><mi>a</mi></math> and <math><mi>b</mi></math> are the legs adjacent to <math><mi>&gamma;</mi></math>, the square of the hypothenuse equals the sum of the squares of the legs:</p>
+<math display="block">
+<msup><mi>c</mi><mn>2</mn></msup><mo>=</mo><msup><mi>a</mi><mn>2</mn></msup><mo>+</mo><msup><mi>b</mi><mn>2</mn></msup>
+</math>
+</figure>
+
+<h2 cbc>Using Math Fragments</h2><div>
+
+<p>Math fragments are definitions, theorems, axioms, corollaries, etc. They shall be embedded in one or more documents. It should be possible to open an embedded math fragment as stand-alone document in a separate window, e. g. for reference while reading through a text. Perhaps which additional information that will be hidden in the embedded form. Additionally, it should be possible to easily compile a document with an overview (list) of fragments, either in condensed or expanded form.</p>
+	
+<p>A single math fragment may appear in several forms:</p>
+
+<ul>
+<li>embedded (condensed)</li>
+<li>stand-alone (condensed, expanded)</li>
+<li>overview list entry (title, equation, condensed, expanded</li>
+</ul>
+
+<p>A math fragment shall have a <em>backlink</em> to the primary document that introduces that fragment.</p>
+
+<p>Fragments must have a unique ID (at least within a certain area), a combination of type letter and sequence number. The filename shall be derived from the ID. The ID will be parsed and used in several places:</p>
+
+<ul>
+<li>the fragment title</li>
+<li>the backlink to the primary host document</li>
+<li>the link that opens the fragment in stand-alone mode in a separate window/browser tab. </li>
+</ul>
+
+<p>A math fragment shall have a <em>backlink</em> to the primary host document that introduces that fragment. The author shall supply the URL of the host document, the hash part will be completed by the script from the fragment ID.</p>
+
+</div>
 
 <h2 cbc>Considerations</h2><div>
 
@@ -149,6 +275,7 @@ li {
 <p>The fragment container (usually a <tt>document.body</tt>) must listen to the <tt>fragment-loader-root-container-finished</tt> event in order to process math fragment link anchors </p>
 <p>setup a math fragment link anchor in the math fragment that links to that (stand-alone) math fragment document.</p>
 
+-->
 
 <!--h2--Considerations--></div>
 
@@ -159,6 +286,9 @@ li {
 <!--h2--Introduction--></div>
 
 <h2 cbc>Using the Component</h2><div>
+
+<!--
+	
 
 <p>The component consists of two files:</p>
 
@@ -179,12 +309,15 @@ li {
 
 <p>More information on how to use the module can be found in the <a href="#examples">examples section</a>.</p>
 
+-->
+
 <!--h2--Using the Component--></div>
 
 <h2 cbc>Examples</h2><div>
 
 <h3 cbc>Example 1</h3><div>
-
+<!--
+	
 <p>To import an equation fragment into a host document, use an OBJECT tag:</p>
 
 <figure class="listing"><figcaption></figcaption><pre>
@@ -225,6 +358,8 @@ if ( window.parent === window ) {
 </figure>
 
 <p>If you click on the equation number, the fragment is opened in a new window and should show the description content above the math content.</p>
+
+-->
 
 <!--h3--Example 1--></div>
 
