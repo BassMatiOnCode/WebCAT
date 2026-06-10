@@ -29,11 +29,6 @@ math:hover {
 	overflow-x : auto ;
 	overflow-y : clip ;
 	}
-mi.overline,
-mtext.overline {
-	border-top: 0.7px solid black;
-	padding-top: 2px
-}
 mrow.hspace mi {
 	padding-left : 1px ;
 	padding-right : 1px ;
@@ -48,7 +43,13 @@ mrow.numbered > mtext:last-child {
 	background-color : white ;
 	padding-left: 3px;
 	}
-
+math. overline {
+	text-decoration : overline ;
+	}
+math .overlinebox {
+	border-top: 0.7px solid black;
+	padding-top: 2px
+	}
 mtable.fenced mtd {
 	padding-left: 2px;
 	padding-right: 2px;

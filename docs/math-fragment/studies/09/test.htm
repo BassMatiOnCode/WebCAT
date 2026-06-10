@@ -1,0 +1,11 @@
+﻿<html><head>
+<script type="module">
+import { makeRelative } from "./url-tools.js" ;
+// moving ./test.htm to ../10/test.htm
+console.log( makeRelative( "test.htm" , "../10/study-10.htm" ));
+console.log( makeRelative( "test.htm" , "../10/subfolder/study-10.htm" ));
+console.log( makeRelative( "../08/test.htm" , "../10/study-10.htm" ));
+console.log( makeRelative( "../08/subfolder/test.htm" , "../10/study-10.htm" ));
+console.log( makeRelative( "../08/subfolder/test.htm" , "../10/other/study-10.htm" ));
+</script>
+</head></html>

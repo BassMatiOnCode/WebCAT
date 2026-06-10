@@ -1,6 +1,6 @@
 // Loads the math fragment passed in the module URL into the BODY
 
-import { prepareNumberedEquations } from "/inc/webcat/numbered-equation/numbered-equation.js"
+import { prepareNumberedEquations } from "/inc/webcat/numbered-equation/numbered-equation-2.js"
 
 const searchParams = ( new URL ( document.location.href )).searchParams ;
 

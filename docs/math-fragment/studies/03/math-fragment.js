@@ -1,6 +1,6 @@
-import numberedEquationStyles from "/inc/webcat/numbered-equation/numbered-equation.css" with { type: "css" } ;
+import numberedEquationStyles from "/inc/webcat/numbered-equation/numbered-equation-2.css" with { type: "css" } ;
+import { initDocument as initNumberedEquations } from "/inc/webcat/numbered-equation/numbered-equation-2.js"
 import mathFragmentStyles from "math-fragment.css" with { type: "css" } ;
-import { prepareNumberedEquations } from "/inc/webcat/numbered-equation/numbered-equation.js"
 
 const searchParams = ( new URL ( import.meta.url )).searchParams ;
 const mathFragmentHostUrl = searchParams.get( "fragment-host" ) || "/inc/webcat/math-fragment/math-fragment-host.htm" ;  // URL for the stand-alone fragment host document 
@@ -45,7 +45,7 @@ constructor ( ) {
 	.then ( text => { 
 		const template = document.createElement( "TEMPLATE" );
 		template.innerHTML = text ;
-		prepareNumberedEquations( template.content );
+		initializeNumberedEquations( template.content );
 		shadow.appendChild( template.content.querySelector( ".content" ));
 		// Fragment title
 		span = document.createElement( "SPAN" );

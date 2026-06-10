@@ -1,0 +1,9 @@
+:host {
+	position : fixed ;
+	top : 100px ;
+	left : 100px ;
+	border : 1px solid silver ;
+	border-radius : 10px ;
+	padding : 20px ;
+	cursor : grab ;
+	}

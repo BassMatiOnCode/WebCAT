@@ -1,0 +1,14 @@
+<html><head>
+<script type="module">
+// window.postMessage( "receiver started" , document.location.origin ); 
+window.addEventListener( "message" , evt => {
+	const s = `${ evt.origin }\t${ evt.data }` ;
+	const p = document.createElement( "P" );
+	p.textContent = s ;
+	document.body.appendChild( p );
+	} ) ; 
+</script>
+</head><body>
+<h1>Study 5 Receiver</h1>
+
+</body></html>

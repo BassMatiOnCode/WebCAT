@@ -1,0 +1,90 @@
+<html><head>
+<style>
+a.button {
+	border : 1px solid grey ;
+	border-radius : 5px ;
+	padding : 3px 5px 3px 5px ;
+	text-decoration : none ;
+	background-color : #eee ;
+	color : inherit ;
+	}
+input {
+	border : 1px solid grey ;
+	border-radius : 5px ;
+	padding : 6px 5px 3px 5px ;
+	margin-right : 10px ;
+	}
+</style>
+<script type="module">
+const mchannel = new BroadcastChannel( "study-07-channel" );
+window.mchannel = mchannel;
+mchannel.addEventListener( "message", evt => console.log( `Received ${ Object.keys( evt.data )[ 0 ] }: ${ Object.values( evt.data )[ 0 ] }` ));
+async function sendMessage( text ) {
+	new Promise( (resolve, reject) => {
+		mchannel.onmessage = evt => {
+			if ( evt.data.message === "What's up?" ) {
+				console.log( "Receiver is listening." );
+				mchannel.onmessage = null ;
+				clearTimeout( timeoutA );
+				resolve( "connected" );
+				}
+			} ;
+		// Setup timeout for the "What's up?" message
+		const timeoutA = setTimeout( ( ) => {
+			// Receiver is not listening, (re)open the receiver window.
+			console.log( "Receiver response timeout" );
+			// Setup receiver startup listener.
+			mchannel.onmessage = evt => {
+				if ( evt.data.message === "Good morning!" )
+				console.log( "Good morning message received" );
+				mchannel.onmessage = null;
+				clearTimeout( timeoutB );
+				resolve( "Receiver connected" );
+				} ;
+			// Setup 1000 ms receiver startup timeout.
+			const timeoutB = setTimeout( ( ) => {
+				// Receiver did not send the "Good morning!" startup message
+				mchannel.onmessage = null ;
+				console.log( "Timeout: Failed to open receiver." );
+				reject( "Failed to open receiver" );
+				} , 1000 );	
+			// Open receiver window
+			console.log( "opening receiver" );
+			window.open( "receiver.htm", "study-07-receiver" );
+			} , 1000 );
+		// Ask the recevier whether he is listening
+		mchannel.postMessage( { message : "Hello?" } ); 
+		} )
+	.then ( status => {
+		// The receiver is listening
+		console.log( `Status = ${ status }, posting message.` );
+		mchannel.postMessage( { loadFragment : text } );
+		console.log( "Message posted." );
+		} ) 
+	.catch ( result => {
+		console.log( result );
+		} ) ;
+	}
+
+let count = 1 ;
+document.getElementsByTagName( "A" )[ 0 ].addEventListener( "click" , ( evt ) => {
+	evt.preventDefault( );
+	evt.stopPropagation( );
+	sendMessage( msgtxt.value );
+	} ) ;
+</script>
+</head><body>
+
+<h1>Study 7 Sender</h1><p>Communication With Promises</p><hr />
+
+<p><input id="msgtxt" type="text" value="message" /><a class="button" href="receiver.htm">Send</a></p>
+
+<hr />
+
+<p>This study examines messaging to a receiver window via <tt>BroadcastChannel</tt>. The sender pings the receiver with a "Hello?" message. If the receiver answers with "What's up?", the sender knows that the receiver is up and listening.</p>
+
+<p>If the response does is not received within a second, the receiver is considered to be down and its window is (re)opened. The receiver window sets up its BroadcastChannel and sends "Good morning!" to indicate readyness. When the sender receives this message, the actual message is sent.</p>
+
+<p>If the receiver window is closed, the message are lost.</p>
+
+</body></html>

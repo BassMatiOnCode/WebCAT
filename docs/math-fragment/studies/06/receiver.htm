@@ -1,0 +1,23 @@
+<html><head>
+<script type="module">
+const mchannel = new BroadcastChannel( "study-06-channel" );
+
+mchannel.onmessage = evt => {
+	if ( evt.data.message === "hello" ) {
+		console.log( "hello received" );
+		mchannel.postMessage( { message : "What's up?" } ) ;
+		}
+	else if ( evt.data.fragment ) {
+		console.log( "fragment received" );
+		/// load the fragment
+		const p = document.createElement( "P" );
+		p.textContent = evt.data.fragment ;
+		document.body.append( p );
+		}
+	} ;
+</script>
+</head><body>
+
+<h1>Study 6 Receiver</h1>
+
+</body></html>

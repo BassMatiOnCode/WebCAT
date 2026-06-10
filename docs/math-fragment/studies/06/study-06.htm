@@ -1,0 +1,40 @@
+<html><head>
+<script type="module">
+const mchannel = new BroadcastChannel( "study-06-channel" );
+let connected = false ;
+mchannel.onmessage = evt => {
+	if ( evt.data.message === "What's up?" ) connected = true ;
+	console.log( "connected" );
+	} ;
+async function sendMessage( text ) {
+	connected = false ;
+	mchannel.postMessage( { message : "hello" } );
+	await new Promise( resolve => setTimeout( resolve, 1000 ));
+	if ( ! connected ) {
+		console.log( "opening receiver" );
+		window.open( "receiver.htm", "study-06-receiver" );
+		await new Promise( resolve => setTimeout( resolve, 500 ));	
+		}
+	mchannel.postMessage( { fragment : text } )
+	console.log( "message posted" );
+	}
+let count = 1 ;
+document.getElementsByTagName( "BUTTON" )[ 0 ].addEventListener( "click" , ( ) => {
+	sendMessage( count ++ );
+	} ) ;
+</script>
+</head><body>
+
+<h1>Study 6</h1><p>Comminication via Broadcast Channel</p><hr />
+
+<p><button>Send</button></p>
+
+<hr />
+
+<p>This study examines messaging to a receiver window via <tt>BroadcastChannel</tt>. The sender (this window) opens the receiver window on the first send request and sends the message after a small delay (to give the receiver window time for starting).</p>
+
+<p>The following send requests ping the receiver window with a "hello" message. If the receiver answers with a "What's up" message, the sender knows that the receiver is up and running, and sends the message. If that message times out, then the receiver window is not (yet) open, therefore the receiver is (re)opened.</p>
+
+<p>If the receiver window is closed, the message are lost.</p>
+
+</body></html>

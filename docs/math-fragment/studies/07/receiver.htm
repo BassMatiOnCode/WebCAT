@@ -1,0 +1,29 @@
+<html><head>
+<script type="module">
+const mchannel = new BroadcastChannel( "study-07-channel" );
+window.mchannel = mchannel ;
+// Monitor messages on the channel
+mchannel.addEventListener( "message", evt => console.log( `Received ${ Object.keys( evt.data )[ 0 ] }: ${ Object.values( evt.data )[ 0 ] }` ));
+// Setup message handler
+mchannel.onmessage = evt => {
+	if ( evt.data.message === "Hello?" ) {
+		console.log( "hello received" );
+		mchannel.postMessage( { message : "What's up?" } ) ;
+		}
+	else if ( evt.data.loadFragment ) {
+		console.log( "Loading fragment " + evt.data.loadFragment );
+		/// load the fragment
+		const p = document.createElement( "P" );
+		p.textContent = evt.data.loadFragment ;
+		document.body.append( p );
+		}
+	} ;
+// The receiver is ready
+console.log( "Sending good morning message" );
+mchannel.postMessage( { message : "Good morning!" } ) ;
+</script>
+</head><body>
+
+<h1>Study 7 Receiver</h1>
+
+</body></html>

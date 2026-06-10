@@ -1,0 +1,24 @@
+
+<svg viewBox="-50 -50 100 100" width="25" stroke-linecap="round" xmlns="http://www.w3.org/2000/svg">
+<defs>
+	<filter id="white-outline" x="-50%" y="-50%" width="200%" height="200%">
+		<feMorphology in="SourceAlpha" result="dilated" operator="dilate" radius="2" />  
+		<feFlood flood-color="white" result="white-area" />
+		<feComposite in="white-area" in2="dilated" operator="in" result="outline" />
+		<feMerge>
+			<feMergeNode in="outline" />
+			<feMergeNode in="SourceGraphic" />
+			</feMerge>
+		</filter>
+	<marker id="arrow" viewBox="-13 -13 26 26" refX="10" refY="0" markerWidth="5" markerHeight="5" orient="auto-start-reverse" stroke="context-stroke" fill="none">
+		<path d="M 0 -10 L 10 0 0 10" fill="none" stroke-width="5"></path>
+		</marker>
+	</defs>
+<circle r="48" stroke-width="5" stroke="grey" fill="white"></circle>
+<rect x="-20" y="-15" width="35" height="35" stroke-width="5" stroke="grey" fill="none"></rect>
+<line x1="-10" y1="+10" x2="25" y2="-25" stroke-width="5" stroke="red" marker-end="url(#arrow)" filter="url(#white-outline)"></line>
+<g style="display:none">
+<line x1="-50" x2="+50" y1="0" y2="0" stroke="black"></line>
+<line x1="0" x2="0" y1="-50" y2="+50" stroke="black"></line>
+</g>
+</svg>

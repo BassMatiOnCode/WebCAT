@@ -1,0 +1,26 @@
+﻿<html><head>
+</head><body>
+<h1>Studies</h1>
+
+<dl>
+<dt>Study 6</dt><dd>
+<p>Demonstrates the basic use of a <tt>BroadcastChannel</tt> between sender and receiver window.</p>
+</dd>
+
+<dt>Study 7</dt><dd>
+<p>Demonstrates reliable <tt>BroadcastChannel</tt> communication between sender and receiver, based on <tt>Promises</tt> in the sender.</p>
+<p>Before the sender adds a new item to the list, it makes sure that the receiver window is open and listens to messages from the sender. This is different to study 8.</p>
+<p>To persist the items in the list, the receiver will have to use local storage. This is explored in study 8.</p>
+</dd>
+
+<dt>Study 8</dt><dd>
+<p>Demonstrates saving a list of items in local storage in the receiver. Every time the receiver is opened or reloaded, the list of items is restored from local storage. If the sender appends a new item to the list, the receiver is notified via <tt>storage</tt> events, and can then update the list of items in its window, thereby eliminating the need for a communication channel between sender and receiver.</p>
+<p>The sender even can successfully append new items when the receiver window is closed, they will appear the next time the receiver window is opened.</p>
+</dd>
+
+<dt>Study 9</dt><dd>
+<p>Integrates the previous studies into a working solution. The local storage stores a list of math-fragement URLs. The receiver window </p>
+</dd>
+</dl>
+
+</body></html>

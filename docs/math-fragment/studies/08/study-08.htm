@@ -1,0 +1,53 @@
+<html><head>
+<style>
+#buttons > a {
+	border : 1px solid grey ;
+	border-radius : 5px ;
+	padding : 3px 5px 3px 5px ;
+	text-decoration : none ;
+	background-color : #eee ;
+	color : inherit ;
+	}
+input#textInput {
+	border : 1px solid grey ;
+	border-radius : 5px ;
+	padding : 6px 5px 3px 5px ;
+	margin-right : 10px ;
+	}
+</style>
+<script type="module">
+const studyStorageKey = "/webcat/math-fragment/studies/08" ;
+sendButton.addEventListener( "click" , ( evt ) => {
+	if ( textInput.value.length === 0 ) return ;
+	let content = window.localStorage.getItem( studyStorageKey ) || "" ;
+	content += textInput.value + "\n"  ;
+	window.localStorage.setItem( studyStorageKey, content );
+	if ( ! ( evt.shiftKey || evt.ctrlKey ) ) {
+		evt.preventDefault( );
+		evt.stopPropagation( );
+		}
+	} ) ;
+textInput.addEventListener( "keydown" , evt => {
+	if ( evt.key === "Enter" ) sendButton.click( );
+	} ) ;
+openReceiverButton.addEventListener( "click" , evt => {
+	window.open( "receiver.htm", "receiver-window" );
+	} ) ;
+</script>
+</head><body>
+
+<h1>Study 8 Sender</h1><p>Using Local Storage</p><hr />
+
+<p id="buttons"><input id="textInput" type="text" placeholder="Type your message here" /><a id="sendButton" href="receiver.htm" target="receiver-window">Send</a> <a id="openReceiverButton" href="receiver.htm" target="receiver-window">Open Receiver</a></p>
+
+<hr />
+
+<p>This study examines how to persist and relay messages with the LocalStorage API. If a window changes the local storage, other windows can receive storage events and react accordingly. This mechanism is exploited in the math fragment list window (receiver.htm). </p>
+
+<p>Usage: Enter some text in into the input box and press Enter or press the "Send" button. The input will be stored in the local storage, and appear in the receiver window at the bottom, if it is open.</p>
+
+<p>Press the "Open Receiver" button to open the receiver window.</p>
+
+<p>Shift-click the "Send" button to open the reveiver in a new window. Ctrl-click the "Send" button to open the receiver in a new browser tab.</p>
+
+</body></html>

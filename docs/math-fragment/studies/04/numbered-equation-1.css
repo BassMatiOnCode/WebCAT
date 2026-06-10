@@ -1,0 +1,22 @@
+div.webcat.numbered-equation {
+	display : flex ;
+	justify-content : center ;  /* center the math block */
+	align-items : center ;
+	position : relative ;
+	margin-top : 20px ;
+	margin-bottom : 20px ;
+	}
+div.webcat.numbered-equation > span:first-child {
+	flex : 1 ;  /* pushes math to the center */
+	}
+div.webcat.numbered-equation > span:last-child {
+	margin-left : 1em ;
+	flex : 1 ;
+	text-align : right ;
+	}
+div.webcat.numbered-equation > span:last-child::before {
+	content : "(" ;
+	}
+div.webcat.numbered-equation > span:last-child::after {
+	content : ")" ;
+	}

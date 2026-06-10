@@ -1,0 +1,32 @@
+<html><head>
+<script type = "module">
+const receiver = window.open( "receiver.htm", "receiver", "popup" );
+requestAnimationFrame( ( ) => { 
+requestAnimationFrame( ( ) => { 
+requestAnimationFrame( ( ) => { 
+	receiver.postMessage( "Good Morning 5!" , document.location.origin ); 
+	} ) ;
+	} ) ;
+	} ) ;
+const sendButton = document.getElementsByTagName( "BUTTON" )[ 0 ];
+sendButton.addEventListener( "click" , ( ) => { 
+	receiver.postMessage( "Message" , document.location.origin );
+	} ) ;
+</script>
+</head><body>
+
+<h1>Study 5 Sender</h1>
+<p>Sending messages to other windows</p>
+<hr />
+
+<p><button>Send</button></p>
+
+<p>Notes:</p>
+<p>1. The first message can be sent after a delay of at least 3 animation frame requests.</p>
+<p>2. If the receiver window is opened in a new tab, the first message is not displayed before some user interaction takes place, for example, switching back and forth between sender and receiver tab, or tearing off the receiver tab from its parent window.</p>
+<p>If the receiver is opened as a popup window, the first message is shown immediately without the need for any user interaction.</p>
+<p>This might not happen in other browsers, so the sender window should evaluate the URL search parameters for a flag like "receiver=popup".</p>
+<p>3. A refresh of the sender window reloads the receiver document, all messages are lost.</p>
+<p>Therefore, the receiver document must maintain a database to keep track of the content.</p>
+
+</body></html>
